@@ -4,7 +4,7 @@
 [target.game]
   runnable = true
 
-  exclude_files = ["third_party", "**/.*"]
+  exclude_files = ["**/.*", "addons/gut"]
 
   pack_files = [
     {include = ["icon.svg", "core", "maps"], embed = true, encrypt = true},
