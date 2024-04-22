@@ -2,3 +2,8 @@
 path = addons/gut
 url = https://github.com/coffeebeats/gut
 branch = v4.2
+
+[submodule "addons/godotsteam"]
+path = addons/godotsteam
+url = https://github.com/coffeebeats/GodotSteam
+branch = v4.2
