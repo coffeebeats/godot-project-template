@@ -1,4 +1,4 @@
 [submodule "addons/gut"]
-	path = addons/gut
-	url = https://github.com/coffeebeats/gut
-	branch = v4
+path = addons/gut
+url = https://github.com/coffeebeats/gut
+branch = v4.2
