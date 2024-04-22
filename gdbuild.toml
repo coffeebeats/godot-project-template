@@ -1,41 +1,23 @@
+config.extends = "gdbuild.ci.toml"
+
 [godot]
   version_file = ".godot-version"
 
-[target.game]
+[target.client]
   runnable = true
-
-  exclude_files = ["**/.*", "addons/gut"]
 
   pack_files = [
     {include = ["icon.svg", "core", "maps"], embed = true, encrypt = true},
-    {include = ["addons"], exclude = ["addons/Gut"], embed = true, encrypt = true},
   ]
 
-[target.game.profile.release]
-  # NOTE: Set the encryption key via the 'SCRIPT_AES256_ENCRYPTION_KEY' variable.
-  encrypt = true
+[target.client.feature.steam]
+  pack_files = [{include = ["addons/steam"], embed = true, encrypt = true}]
+
+[target.client.profile.release]
+  encrypt = true # Specify via 'SCRIPT_AES256_ENCRYPTION_KEY' environment variable.
 
 [target.client.platform.macos]
-  bundle_identifier = "com.coffeebeats.game"
+  bundle_identifier = "com.coffeebeats.MY_GAME_NAME"
 
 [template]
   custom_py_path = "custom.py"
-
-# NOTE: The following settings provide support for 'godot-infra' CI workflows.
-# See https://github.com/coffeebeats/godot-infra/blob/main/gdbuild.toml.
-[template.scons]
-  command = ["python3", "-m", "SCons"]
-
-[template.platform.windows]
-  use_mingw = true
-
-[template.platform.macos]
-  env    = {OSXCROSS_ROOT = "/usr/local/lib/osxcross"}
-  vulkan = {sdk_path = "/usr/local/lib/vulkan-sdk/macOS/lib/MoltenVK.xcframework/macos-arm64_x86_64", use_volk = false}
-
-[template.platform.macos.scons]
-  # NOTE: As of Godot 4.0.3, the 'SCons' configuration does not correctly
-  # detect clang usage via 'OSXCross'. Add in the missing "common
-  # warnings" here (see https://github.com/godotengine/godot/blob/2267646bf4c29acf1342951d8726626817c742bd/SConstruct#L727-L730).
-  ccflags    = ["-Wno-ordered-compare-function-pointers"]
-  extra_args = ["osxcross_sdk=darwin23"]
