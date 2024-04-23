@@ -30,3 +30,8 @@ config.extends = "gdbuild.ci.toml"
 
 [template]
   custom_py_path = "custom.py"
+
+[template.platform.windows]
+  # Generate a Windows file icon and use the result as the template's icon.
+  hook      = {run_before = ["convert icon.svg -define icon:auto-resize=256,128,64,48,32,16 icon.ico"]}
+  icon_path = "icon.ico"
