@@ -10,14 +10,23 @@ config.extends = "gdbuild.ci.toml"
     {include = ["icon.svg", "core", "maps"], embed = true, encrypt = true},
   ]
 
-[target.client.feature.steam]
-  pack_files = [{include = ["addons/steam"], embed = true, encrypt = true}]
-
 [target.client.profile.release]
   encrypt = true # Specify via 'SCRIPT_AES256_ENCRYPTION_KEY' environment variable.
 
 [target.client.platform.macos]
   bundle_identifier = "com.coffeebeats.MY_GAME_NAME"
+
+[[target.client.platform.macos.feature.steam.pack_files]]
+  include = ["addons/godotsteam"]
+  exclude = ["addons/godotsteam/linux*/", "addons/godotsteam/win*/"]
+  embed   = true
+  encrypt = true
+
+[[target.client.platform.windows.feature.steam.pack_files]]
+  include = ["addons/godotsteam"]
+  exclude = ["addons/godotsteam/linux*/", "addons/godotsteam/osx"]
+  embed   = true
+  encrypt = true
 
 [template]
   custom_py_path = "custom.py"
