@@ -9,7 +9,7 @@
   "changelog-type": "github",
   "pull-request-title-pattern": "chore: release v${version}",
 
-  "versioning": "simple",
+  "versioning": "default",
   "prerelease": true,
 
   "packages": {
