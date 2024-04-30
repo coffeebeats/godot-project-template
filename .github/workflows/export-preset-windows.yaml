@@ -75,11 +75,9 @@ jobs:
           platform: windows
 
           custompy-path: ./custom.py
+          icon-path: ./platform/icon/icon.svg
           profile: ${{ inputs.profile }}
           use-double-precision: false
-
-          # Windows-specific inputs.
-          icon-path: ./icon.svg
 
           # FIXME: Set secrets for the project.
           encryption-key: ""
