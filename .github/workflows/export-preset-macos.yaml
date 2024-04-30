@@ -1,4 +1,4 @@
-name: "🧪 godot-infra: Placeholder workflow for testing"
+name: "🍎 Export: Godot project preset (MacOS)"
 
 on:
   workflow_call:
