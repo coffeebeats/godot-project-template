@@ -75,7 +75,7 @@ jobs:
           platform: macos
 
           custompy-path: ./custom.py
-          icon-path: "./icon.svg"
+          icon-path: "./platform/icon/icon.svg"
           profile: ${{ inputs.profile }}
           use-double-precision: false
 
