@@ -7,3 +7,8 @@ branch = v4.2
 path = addons/godotsteam
 url = https://github.com/coffeebeats/GodotSteam
 branch = v4.2
+
+[submodule "addons/phantom_camera"]
+path = addons/phantom_camera
+url = https://github.com/coffeebeats/phantom-camera.git
+branch = v4.2
