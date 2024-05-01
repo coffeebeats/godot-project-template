@@ -6,7 +6,7 @@
   "include-component-in-tag": false,
   "include-v-in-tag": true,
 
-  "changelog-type": "github",
+  "changelog-type": "default",
   "pull-request-title-pattern": "chore: release v${version}",
 
   "versioning": "default",
