@@ -90,7 +90,7 @@ jobs:
           pck-only: ${{ inputs.pck-only }}
 
           godot-editor-version: ${{ steps.version.outputs.semantic }}
-          export-template-artifact-name: ${{ steps.export-template.outputs.name }}
+          export-template-path: ${{ steps.export-template.outputs.path }}
 
           profile: ${{ inputs.profile }}
 
