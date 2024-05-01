@@ -69,6 +69,8 @@ jobs:
       - uses: "coffeebeats/godot-infra/compile-godot-export-template@main"
         id: export-template
         with:
+          publish: true
+
           godot-src-rev: ${{ steps.version.outputs.semantic }}
 
           arch: x86_64
@@ -85,6 +87,8 @@ jobs:
       # TODO: Once testing completes, pin this to 'v0'.
       - uses: "coffeebeats/godot-infra/export-godot-project-preset@main"
         with:
+          publish: true
+
           preset-name: ${{ inputs.preset-name }}
           preset-output-name: ${{ inputs.preset-output-name }}
           pck-only: ${{ inputs.pck-only }}
