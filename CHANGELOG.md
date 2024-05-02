@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/coffeebeats/godot-project-template/compare/v0.1.2...v0.1.3) (2024-05-02)
+
+
+### Bug Fixes
+
+* disable encryption by default ([#24](https://github.com/coffeebeats/godot-project-template/issues/24)) ([2fe8b90](https://github.com/coffeebeats/godot-project-template/commit/2fe8b9051ab1c5752aad46ab098ea87f72b59495))
+
 ## [0.1.2](https://github.com/coffeebeats/godot-project-template/compare/v0.1.1...v0.1.2) (2024-05-02)
 
 
