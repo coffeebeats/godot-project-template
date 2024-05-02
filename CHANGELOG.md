@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.5](https://github.com/coffeebeats/godot-project-template/compare/v0.1.4...v0.1.5) (2024-05-02)
+
+
+### Features
+
+* **ci:** add `release-please` output logging ([#32](https://github.com/coffeebeats/godot-project-template/issues/32)) ([d354266](https://github.com/coffeebeats/godot-project-template/commit/d3542667ad5dcaa7e18933ec9179ec479cb0fc6f))
+
+
+### Bug Fixes
+
+* **ci:** correctly log step outputs ([#34](https://github.com/coffeebeats/godot-project-template/issues/34)) ([d20098b](https://github.com/coffeebeats/godot-project-template/commit/d20098b085afcd312f92842da3c29bd57a6781c0))
+
 ## [0.1.4](https://github.com/coffeebeats/godot-project-template/compare/v0.1.3...v0.1.4) (2024-05-02)
 
 
