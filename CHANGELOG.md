@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6-dev](https://github.com/coffeebeats/godot-project-template/compare/v0.1.5...v0.1.6-dev) (2024-05-02)
+
+
+### Features
+
+* test prelease versioning ([#35](https://github.com/coffeebeats/godot-project-template/issues/35)) ([9daec42](https://github.com/coffeebeats/godot-project-template/commit/9daec42068abd99b5b6c981777cbecb86d7d0db3))
+
 ## [0.1.5](https://github.com/coffeebeats/godot-project-template/compare/v0.1.4...v0.1.5) (2024-05-02)
 
 
