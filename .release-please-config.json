@@ -9,12 +9,13 @@
   "changelog-type": "default",
   "pull-request-title-pattern": "chore: release v${version}",
 
-  "versioning": "default",
+  "versioning": "prerelease",
   "prerelease": true,
 
   "packages": {
     ".": {
       "release-type": "simple",
+      "prerelease-type": "dev",
 
       "changelog-path": "CHANGELOG.md",
 
