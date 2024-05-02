@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="game"
-config/version="v0.1.4" ; x-release-please-version
+config/version="v0.1.5" ; x-release-please-version
 run/main_scene="res://core/framework/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://platform/icon/icon.svg"
