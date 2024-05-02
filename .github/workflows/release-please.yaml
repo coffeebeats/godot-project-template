@@ -28,3 +28,7 @@ jobs:
           # NOTE: To handle releases on specific branches (e.g. a '1.X' release branch),
           # simply change the "branches" filter in the workflow's on-"push" trigger.
           target-branch: ${{ github.ref_name }}
+
+      - name: Log release-please action output
+        shell: bash
+        run: echo "${{ toJson(steps.release.outputs) }}"
