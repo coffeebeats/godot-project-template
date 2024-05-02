@@ -5,9 +5,6 @@
 
 extends Node
 
-# TODO: Remove this line once testing completes.
-# TODO: Remove this line once testing completes.
-
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
@@ -22,8 +19,9 @@ extends Node
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
-#func _enter_tree() -> void:
-#	pass
+
+func _enter_tree() -> void:
+	pass
 
 #func _exit_tree() -> void:
 #	pass
