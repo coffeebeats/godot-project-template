@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.6-dev.3](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev.2...v0.1.6-dev.3) (2024-05-03)
+
+
+### Features
+
+* test versioning changes ([#47](https://github.com/coffeebeats/godot-project-template/issues/47)) ([807eb58](https://github.com/coffeebeats/godot-project-template/commit/807eb584e145bcb733aa374f7c048a6e13a58b9e))
+
+
+### Bug Fixes
+
+* **ci:** commit temporary release configuration changes ([#50](https://github.com/coffeebeats/godot-project-template/issues/50)) ([76328e9](https://github.com/coffeebeats/godot-project-template/commit/76328e9942d4493f124062fa9f0192da452b0783))
+* **ci:** correct syntax error ([#52](https://github.com/coffeebeats/godot-project-template/issues/52)) ([880b1ae](https://github.com/coffeebeats/godot-project-template/commit/880b1ae8d07222627053ad2d928a78bdd78a2327))
+* **ci:** exclude CI-related files from `release-please` commit parsing ([#49](https://github.com/coffeebeats/godot-project-template/issues/49)) ([0a932d0](https://github.com/coffeebeats/godot-project-template/commit/0a932d09650770beec9285efed3871f8754bb6e6))
+* **ci:** update path to application icon ([#51](https://github.com/coffeebeats/godot-project-template/issues/51)) ([c0cc950](https://github.com/coffeebeats/godot-project-template/commit/c0cc95081e82cc7b900111b966c55abfabe74549))
+
 ## [0.1.6-dev.2](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev.1...v0.1.6-dev.2) (2024-05-03)
 
 
