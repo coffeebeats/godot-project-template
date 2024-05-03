@@ -25,7 +25,7 @@ jobs:
           cat <<EOM >>update.py
           from json import dump,load
 
-          with open('.release-please-config.json', 'w') as f:
+          with open('.release-please-config.json') as f:
               data = load(f)
               data["versioning"] = "default"
               data["prerelease"] = False
