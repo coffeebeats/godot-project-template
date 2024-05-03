@@ -36,9 +36,9 @@ jobs:
               dump(data, f)
           EOM
 
-          cat .release-please-config.json (test)
+          cat .release-please-config.json
 
-      - name: Commit changes
+      - name: Commit changes (test)
         run: |
           if [[ "$(git status --porcelain)" == "" ]]; then
             echo "No changes found; exiting without committing."
