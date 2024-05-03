@@ -12,6 +12,12 @@
   "versioning": "prerelease",
   "prerelease": true,
 
+  "exclude-paths": [
+    "./.github",
+    "./.release-please-config.json",
+    "./.release-please-manifest.json"
+  ],
+
   "packages": {
     ".": {
       "release-type": "simple",
