@@ -11,10 +11,10 @@ config_version=5
 [application]
 
 config/name="game"
-config/version="0.1.6" ; x-release-please-major x-release-please-minor x-release-please-patch
+config/version="0.1.6"
 run/main_scene="res://core/framework/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://platform/icon/icon.svg"
+config/icon="res://icon.svg"
 
 [editor_plugins]
 
