@@ -77,7 +77,7 @@ jobs:
           platform: windows
 
           custompy-path: ./custom.py
-          icon-path: ./platform/icon/icon.svg
+          icon-path: ./icon.svg
           profile: ${{ inputs.profile }}
           use-double-precision: false
 
