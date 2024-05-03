@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.6-dev.2](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev.1...v0.1.6-dev.2) (2024-05-03)
+
+
+### Features
+
+* **ci:** test changing release-please configuration ([#43](https://github.com/coffeebeats/godot-project-template/issues/43)) ([4183720](https://github.com/coffeebeats/godot-project-template/commit/4183720f78dff569dfa254b7a069fa9b702a3374))
+
+
+### Bug Fixes
+
+* add missing resources to export filter ([#41](https://github.com/coffeebeats/godot-project-template/issues/41)) ([565d23c](https://github.com/coffeebeats/godot-project-template/commit/565d23c3e6ef132471fdb4c7fd7dd58e3c6107e8))
+* **ci:** add trigger filter so workflow only runs when PNG files are modified ([#45](https://github.com/coffeebeats/godot-project-template/issues/45)) ([78b6cc2](https://github.com/coffeebeats/godot-project-template/commit/78b6cc2b2b8c1f9db569e037da2d8dd49a800732))
+* **ci:** checkout repository before modifying configuration ([#46](https://github.com/coffeebeats/godot-project-template/issues/46)) ([7d943a8](https://github.com/coffeebeats/godot-project-template/commit/7d943a82873d630425506a1bcdf4a9d5bf2f43e8))
+* **ci:** checkout repository first ([7d943a8](https://github.com/coffeebeats/godot-project-template/commit/7d943a82873d630425506a1bcdf4a9d5bf2f43e8))
+* **ci:** fix file mode error in update script ([#44](https://github.com/coffeebeats/godot-project-template/issues/44)) ([c1972fd](https://github.com/coffeebeats/godot-project-template/commit/c1972fdf4b6034c642f7d8db10693cfd0aaed18a))
+* eliminate unsupported project version elements ([#39](https://github.com/coffeebeats/godot-project-template/issues/39)) ([72ac68c](https://github.com/coffeebeats/godot-project-template/commit/72ac68c29cf22461ec8e1e10fe00db52d3b85fe0))
+
 ## [0.1.6-dev.1](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev...v0.1.6-dev.1) (2024-05-02)
 
 
