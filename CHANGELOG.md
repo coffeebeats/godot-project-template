@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.6-dev.3](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev.2...v0.1.6-dev.3) (2024-05-03)
+
+
+### Features
+
+* test versioning changes ([#47](https://github.com/coffeebeats/godot-project-template/issues/47)) ([807eb58](https://github.com/coffeebeats/godot-project-template/commit/807eb584e145bcb733aa374f7c048a6e13a58b9e))
+
+
+### Bug Fixes
+
+* **ci:** exclude CI-related files from `release-please` commit parsing ([#49](https://github.com/coffeebeats/godot-project-template/issues/49)) ([0a932d0](https://github.com/coffeebeats/godot-project-template/commit/0a932d09650770beec9285efed3871f8754bb6e6))
+
 ## [0.1.6-dev.2](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev.1...v0.1.6-dev.2) (2024-05-03)
 
 
