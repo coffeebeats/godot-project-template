@@ -19,6 +19,25 @@ jobs:
       release-tag: ${{ steps.release.outputs.tag_name }}
 
     steps:
+      - name: Update 'release-please' configuration (test)
+        shell: bash
+        run: |
+          cat <<EOM >>update.py
+          from json import dump,load
+
+          with open('.release-please-config.json', 'w') as f:
+              data = load(f)
+              data["versioning"] = "default"
+              data["prerelease"] = False
+
+          with open('.release-please-config.json', 'w') as f:
+              dump(data, f)
+          EOM
+
+          cat update.py
+
+          python3 update.py
+
       - uses: google-github-actions/release-please-action@v4
         id: release
         with:
