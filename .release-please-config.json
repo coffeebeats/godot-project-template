@@ -19,7 +19,7 @@
 
       "changelog-path": "CHANGELOG.md",
 
-      "extra-files": ["project.godot"]
+      "extra-files": []
     }
   }
 }
