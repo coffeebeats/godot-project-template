@@ -36,9 +36,21 @@ jobs:
               dump(data, f)
           EOM
 
-          cat update.py
+          cat .release-please-config.json (test)
 
-          python3 update.py
+      - name: Commit changes
+        run: |
+          if [[ "$(git status --porcelain)" == "" ]]; then
+            echo "No changes found; exiting without committing."
+            exit 0
+          fi
+
+          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3531273
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          git add --all .
+          git commit -m "chore: temporarily modifying release configuration (on behalf of '${{ github.triggering_actor }}')"
 
       - uses: google-github-actions/release-please-action@v4
         id: release
