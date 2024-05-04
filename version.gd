@@ -20,20 +20,20 @@ extends Object
 # get_build_metadata returns the build metadata, if present.
 func get_build_metadata() -> String:
 	var version := get_semantic_version()
-	if "-" not in version:
+	if "+" not in version:
 		return ""
 
-	var label := version.split("-", true, 1)[1]
-	return label.split("+")[0]
+	return version.split("+", true, 1)[1]
 
 
 # get_label returns the pre-release label for the semantic version, if present.
 func get_label() -> String:
 	var version := get_semantic_version()
-	if "+" not in version:
+	if "-" not in version:
 		return ""
 
-	return version.split("+", true, 1)[1]
+	var label := version.split("-", true, 1)[1]
+	return label.split("+", true, 1)[0]
 
 
 # get_major_version returns the major version component.
