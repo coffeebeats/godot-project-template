@@ -9,9 +9,6 @@
   "changelog-type": "default",
   "pull-request-title-pattern": "chore: release v${version}",
 
-  "versioning": "prerelease",
-  "prerelease": true,
-
   "exclude-paths": [
     "./.github",
     "./.release-please-config.json",
