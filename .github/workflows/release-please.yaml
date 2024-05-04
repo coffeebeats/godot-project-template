@@ -21,37 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Update 'release-please' configuration (test)
-        shell: bash
-        run: |
-          cat <<EOM >>update.py
-          from json import dump,load
-
-          with open('.release-please-config.json') as f:
-              data = load(f)
-              data["versioning"] = "default"
-              data["prerelease"] = False
-
-          with open('.release-please-config.json', 'w') as f:
-              dump(data, f)
-          EOM
-
-          cat .release-please-config.json
-
-      - name: Commit changes (test)
-        run: |
-          if [[ "$(git status --porcelain)" == "" ]]; then
-            echo "No changes found; exiting without committing."
-            exit 0
-          fi
-
-          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3531273
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-
-          git add --all .
-          git commit -m "chore: temporarily modifying release configuration (on behalf of '${{ github.triggering_actor }}')"
-
       - uses: google-github-actions/release-please-action@v4
         id: release
         with:

@@ -36,11 +36,10 @@ When submitting code for review, ensure the following requirements are met:
     godot \
         --quit \
         --headless \
-        --verbose \
         -s addons/gut/gut_cmdln.gd \
         -gdir=res:// \
         -ginclude_subdirs \
-        -gsuffix=_test.gd
+        -gsuffix=_test.gd \
         -gexit
     ```
 
