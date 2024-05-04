@@ -58,6 +58,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       # TODO: Once testing completes, pin this to 'v0'.
       - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main"
