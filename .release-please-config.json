@@ -25,7 +25,7 @@
 
       "changelog-path": "CHANGELOG.md",
 
-      "extra-files": []
+      "extra-files": ["version.py"]
     }
   }
 }
