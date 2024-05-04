@@ -96,12 +96,20 @@ jobs:
         with:
           version: ${{ steps.version.outputs.semantic }}
 
+      - name: Initialize project imports
+        run: >-
+          godot
+          --verbose
+          --headless
+          --quit
+          --import
+
       - name: Test source code
         run: >-
           godot
-          --quit
-          --headless
           --verbose
+          --headless
+          --quit
           -s addons/gut/gut_cmdln.gd
           -gdir=res://
           -ginclude_subdirs
