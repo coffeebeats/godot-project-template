@@ -1,0 +1,189 @@
+name: "🤖 Export: Godot project"
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        type: string
+        required: true
+      storefront:
+        type: string
+        required: true
+      profile:
+        type: string
+        required: true
+    outputs:
+      name:
+        description: "The name of the artifact containing all exported presets."
+        value: "game-${{ inputs.platform }}-${{ jobs.config.outputs.arch }}"
+  workflow_dispatch:
+    inputs:
+      platform:
+        type: choice
+        description: "The platform to target."
+        required: true
+        default: windows
+        options:
+          - macos
+          - windows
+      storefront:
+        type: choice
+        description: "The distribution storefront to target."
+        required: true
+        default: unknown
+        options:
+          - unknown
+          - steam
+      profile:
+        type: choice
+        description: "The optimization profile of the compiled export template."
+        required: false
+        default: release
+        options:
+          - release
+          - release_debug
+          - debug
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    outputs:
+      arch: ${{ steps.set-arch.outputs.value }}
+      matrix: ${{ steps.set-matrix.outputs.value }}
+      godot-version: "${{ steps.version.outputs.semantic }}"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main" # TODO: Pin to 'v0'.
+        id: version
+        with:
+          gdenv-pin-path: .godot-version
+
+      - name: Evaluate release architecture
+        id: set-arch
+        shell: bash
+        run: |-
+          ARCH=$(python3 -c "from json import load;f = open('.release-matrix.json');print(load(f)['${{ inputs.platform }}']['arch'])")
+          echo "value=$ARCH" >> $GITHUB_OUTPUT
+
+      - name: Evaluate release matrix
+        id: set-matrix
+        shell: bash
+        run: |-
+          MATRIX=$(python3 -c "from json import load;f = open('.release-matrix.json');print(load(f)['${{ inputs.platform }}']['presets'])")
+          echo "value={\"include\":$(echo $MATRIX | sed s/\'/\"/g)}" >> $GITHUB_OUTPUT
+
+  compile:
+    needs: ["config"]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+
+    outputs:
+      name: ${{ steps.export-template.outputs.name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: "coffeebeats/godot-infra/compile-godot-export-template@main" # TODO: Pin to 'v0'.
+        id: compile
+        with:
+          publish: true
+          artifact-name: "godot-${{ inputs.platform }}-${{ needs.config.outputs.arch }}"
+
+          godot-src-rev: ${{ needs.config.outputs.godot-version }}
+
+          arch: ${{ needs.config.outputs.arch }}
+          platform: ${{ inputs.platform }}
+
+          custompy-path: ./custom.py
+          icon-path: ./icon.svg
+          profile: ${{ inputs.profile }}
+          use-double-precision: false
+
+          # FIXME: Set secrets for the project.
+          encryption-key: ""
+
+      - name: Set export template filename output
+        id: export-template
+        shell: bash
+        run: echo "name=$(basename ${{ steps.compile.outputs.path }})" >> $GITHUB_OUTPUT
+
+  export:
+    needs: ["config", "compile"]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      fail-fast: true
+
+      matrix: ${{ fromJson(needs.config.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: "godot-${{ inputs.platform }}-${{ needs.config.outputs.arch }}"
+          path: ${{ runner.temp }}/build
+
+      # ---------------------- Export required presets --------------------- #
+
+      # Main executable
+      - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
+        with:
+          publish: true
+          artifact-name: "export-${{ matrix.name }}"
+
+          preset-name: "${{ matrix.component }}-${{ needs.config.outputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
+          preset-output-name: ${{ matrix.name }}
+
+          godot-editor-version: ${{ needs.config.outputs.godot-version }}
+          export-template-path: ${{ runner.temp }}/build/${{ needs.compile.outputs.name }}
+
+          profile: ${{ inputs.profile }}
+
+          # FIXME: Set secrets for the project.
+          encryption-key: ""
+
+          # Windows
+          codesign-identity-type: ""
+          codesign-identity: ""
+          codesign-password: ""
+
+          # MacOS
+          codesign-certificate-file: ""
+          codesign-certificate-password: ""
+          codesign-provisioning-profile: ""
+          notarization-api-uuid: ""
+          notarization-api-key: ""
+          notarization-api-key-id: ""
+          notarization-apple-id-name: ""
+          notarization-apple-id-password: ""
+
+  assemble:
+    needs: ["config", "export"]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ runner.temp }}/dist
+          pattern: export-*
+          merge-multiple: true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "game-${{ inputs.platform }}-${{ needs.config.outputs.arch }}"
+          path: "${{ runner.temp }}/dist"
