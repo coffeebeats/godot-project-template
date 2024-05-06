@@ -37,3 +37,54 @@ jobs:
           # See https://github.com/actions/runner/issues/1656#issuecomment-1030077729.
           RELEASE_INFO: ${{ toJson(steps.release.outputs) }}
         run: echo $RELEASE_INFO
+
+  export:
+    needs: ["release-please"]
+    if: needs.release-please.outputs.release-created == 'true'
+
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+
+      matrix:
+        include:
+          - arch: universal
+            platform: macos
+            storefront: unknown
+
+          - arch: x86_64
+            platform: windows
+            storefront: unknown
+
+    uses: "./.github/workflows/export-project.yaml"
+    with:
+      arch:
+      platform: ${{ matrix.platform }}
+      storefront: ${{ matrix.storefront }}
+      profile: "release"
+
+  upload:
+    needs: ["release-please"]
+    if: needs.release-please.outputs.release-created == 'true'
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+
+      matrix:
+        include:
+          - arch: universal
+            platform: macos
+            storefront: unknown
+
+          - arch: x86_64
+            platform: windows
+            storefront: unknown
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: "game-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.storefront }}-release"
