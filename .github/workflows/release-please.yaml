@@ -64,7 +64,7 @@ jobs:
       profile: "release"
 
   upload:
-    needs: ["release-please"]
+    needs: ["release-please", "export"]
     if: needs.release-please.outputs.release-created == 'true'
 
     runs-on: ubuntu-latest
