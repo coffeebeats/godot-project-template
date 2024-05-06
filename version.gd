@@ -64,7 +64,10 @@ func get_semantic_version(strip_v_prefix: bool = true) -> String:
 
 
 func _init() -> void:
-	assert(not OS.is_debug_build(), "Invalid config; this 'Object' should not be instantiated!")
+	assert(
+		not OS.is_debug_build(),
+		"Invalid config; this 'Object' should not be instantiated!"
+	)
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
