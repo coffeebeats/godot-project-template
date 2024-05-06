@@ -58,7 +58,7 @@ jobs:
 
     uses: "./.github/workflows/export-project.yaml"
     with:
-      arch:
+      arch: ${{ matrix.arch }}
       platform: ${{ matrix.platform }}
       storefront: ${{ matrix.storefront }}
       profile: "release"
