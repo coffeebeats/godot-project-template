@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.1.6](https://github.com/coffeebeats/godot-project-template/compare/v0.1.5...v0.1.6) (2024-05-06)
+
+
+### Features
+
+* add a `version.gd` file to access version in game ([#54](https://github.com/coffeebeats/godot-project-template/issues/54)) ([dec4515](https://github.com/coffeebeats/godot-project-template/commit/dec451584ce3cfe4c6e8f5d5a5fcc87fa72fdaff))
+* add Dependabot support for GitHub actions and addon dependencies ([#59](https://github.com/coffeebeats/godot-project-template/issues/59)) ([ae96502](https://github.com/coffeebeats/godot-project-template/commit/ae965027dab5fa390a6b116a27934b7b53c9ce7e))
+* **ci:** create workflow to test project changes ([#56](https://github.com/coffeebeats/godot-project-template/issues/56)) ([bfb755d](https://github.com/coffeebeats/godot-project-template/commit/bfb755d901a2647c924b1890106a746d344c9553))
+* **ci:** refactor project exporting; build game on release ([#61](https://github.com/coffeebeats/godot-project-template/issues/61)) ([8ff506a](https://github.com/coffeebeats/godot-project-template/commit/8ff506a3797a45cfa2ccb7c1800b8b3f6093b049))
+* **ci:** test changing release-please configuration ([#43](https://github.com/coffeebeats/godot-project-template/issues/43)) ([4183720](https://github.com/coffeebeats/godot-project-template/commit/4183720f78dff569dfa254b7a069fa9b702a3374))
+* test change to trigger release ([#37](https://github.com/coffeebeats/godot-project-template/issues/37)) ([c4d08f9](https://github.com/coffeebeats/godot-project-template/commit/c4d08f9521a78d485e33849319aff4afb8f7d2cc))
+* test prelease versioning ([#35](https://github.com/coffeebeats/godot-project-template/issues/35)) ([9daec42](https://github.com/coffeebeats/godot-project-template/commit/9daec42068abd99b5b6c981777cbecb86d7d0db3))
+* test versioning changes ([#47](https://github.com/coffeebeats/godot-project-template/issues/47)) ([807eb58](https://github.com/coffeebeats/godot-project-template/commit/807eb584e145bcb733aa374f7c048a6e13a58b9e))
+
+
+### Bug Fixes
+
+* add missing resources to export filter ([#41](https://github.com/coffeebeats/godot-project-template/issues/41)) ([565d23c](https://github.com/coffeebeats/godot-project-template/commit/565d23c3e6ef132471fdb4c7fd7dd58e3c6107e8))
+* **ci:** add trigger filter so workflow only runs when PNG files are modified ([#45](https://github.com/coffeebeats/godot-project-template/issues/45)) ([78b6cc2](https://github.com/coffeebeats/godot-project-template/commit/78b6cc2b2b8c1f9db569e037da2d8dd49a800732))
+* **ci:** checkout repository before modifying configuration ([#46](https://github.com/coffeebeats/godot-project-template/issues/46)) ([7d943a8](https://github.com/coffeebeats/godot-project-template/commit/7d943a82873d630425506a1bcdf4a9d5bf2f43e8))
+* **ci:** checkout repository first ([7d943a8](https://github.com/coffeebeats/godot-project-template/commit/7d943a82873d630425506a1bcdf4a9d5bf2f43e8))
+* **ci:** commit temporary release configuration changes ([#50](https://github.com/coffeebeats/godot-project-template/issues/50)) ([76328e9](https://github.com/coffeebeats/godot-project-template/commit/76328e9942d4493f124062fa9f0192da452b0783))
+* **ci:** correct errors in `export-project` workflow ([#65](https://github.com/coffeebeats/godot-project-template/issues/65)) ([c8b1388](https://github.com/coffeebeats/godot-project-template/commit/c8b1388c02c77b347b33b0cbbe5da940f71cb51d))
+* **ci:** correct syntax error ([#52](https://github.com/coffeebeats/godot-project-template/issues/52)) ([880b1ae](https://github.com/coffeebeats/godot-project-template/commit/880b1ae8d07222627053ad2d928a78bdd78a2327))
+* **ci:** exclude CI-related files from `release-please` commit parsing ([#49](https://github.com/coffeebeats/godot-project-template/issues/49)) ([0a932d0](https://github.com/coffeebeats/godot-project-template/commit/0a932d09650770beec9285efed3871f8754bb6e6))
+* **ci:** fix file mode error in update script ([#44](https://github.com/coffeebeats/godot-project-template/issues/44)) ([c1972fd](https://github.com/coffeebeats/godot-project-template/commit/c1972fdf4b6034c642f7d8db10693cfd0aaed18a))
+* **ci:** remove extra brace causing syntax error ([c8b1388](https://github.com/coffeebeats/godot-project-template/commit/c8b1388c02c77b347b33b0cbbe5da940f71cb51d))
+* **ci:** update path to application icon ([#51](https://github.com/coffeebeats/godot-project-template/issues/51)) ([c0cc950](https://github.com/coffeebeats/godot-project-template/commit/c0cc95081e82cc7b900111b966c55abfabe74549))
+* eliminate unsupported project version elements ([#39](https://github.com/coffeebeats/godot-project-template/issues/39)) ([72ac68c](https://github.com/coffeebeats/godot-project-template/commit/72ac68c29cf22461ec8e1e10fe00db52d3b85fe0))
+
 ## [0.1.6-dev.2](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6-dev.1...v0.1.6-dev.2) (2024-05-03)
 
 
