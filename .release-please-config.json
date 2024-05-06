@@ -10,7 +10,6 @@
   "pull-request-title-pattern": "chore: release v${version}",
 
   "exclude-paths": [
-    "./.github",
     "./.release-please-config.json",
     "./.release-please-manifest.json"
   ],
