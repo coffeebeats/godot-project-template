@@ -88,3 +88,23 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: "game-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.storefront }}-release"
+          path: ${{ runner.temp }}/dist
+
+      - name: Attach assets to release
+        shell: bash
+        run: |-
+          # Set options to enable more extensive globbing.
+          shopt -s extglob
+          shopt -s globstar
+
+          ASSETS=(${{ runner.temp }}/dist/*)
+          TAG="${{ needs.release-please.outputs.release-tag }}"
+
+          for ASSET in "${ASSETS[@]}"; do
+            echo "Attaching asset to release '$TAG': $ASSET"
+
+            gh release upload \
+              --clobber \
+              ${{ needs.release-please.outputs.release-tag }} \
+              $ASSET
+          done
