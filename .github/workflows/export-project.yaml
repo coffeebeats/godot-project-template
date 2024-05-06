@@ -76,7 +76,7 @@ jobs:
         id: set-presets
         shell: bash
         run: |-
-          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep ${{ inputs.storefront }} | grep ${{ inputs.arch }}}))
+          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep ${{ inputs.storefront }} | grep ${{ inputs.arch }}))
           echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
 
   compile:
