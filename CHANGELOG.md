@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.8](https://github.com/coffeebeats/godot-project-template/compare/v0.1.7...v0.1.8) (2024-05-06)
+
+
+### Bug Fixes
+
+* **ci:** attach built game assets to release ([#70](https://github.com/coffeebeats/godot-project-template/issues/70)) ([47cdc0a](https://github.com/coffeebeats/godot-project-template/commit/47cdc0ae80494e05ebb180bc2d0ee25103c7cd47))
+* format `version.gd` file ([#68](https://github.com/coffeebeats/godot-project-template/issues/68)) ([fc62610](https://github.com/coffeebeats/godot-project-template/commit/fc62610245d235c235f670089d2587ffccd94c7e))
+
 ## [0.1.7](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6...v0.1.7) (2024-05-06)
 
 
