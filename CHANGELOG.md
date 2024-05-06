@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.9](https://github.com/coffeebeats/godot-project-template/compare/v0.1.8...v0.1.9) (2024-05-06)
+
+
+### Bug Fixes
+
+* **ci:** correctly set release job dependencies ([#71](https://github.com/coffeebeats/godot-project-template/issues/71)) ([a2547c1](https://github.com/coffeebeats/godot-project-template/commit/a2547c1c5d44db3e165aa413517e6d869ca578b5))
+* **ci:** only downloaded own workflow's exported artifacts ([#73](https://github.com/coffeebeats/godot-project-template/issues/73)) ([76c7505](https://github.com/coffeebeats/godot-project-template/commit/76c7505fc6b659e38e3bdfae2bab31c1828816f0))
+
 ## [0.1.8](https://github.com/coffeebeats/godot-project-template/compare/v0.1.7...v0.1.8) (2024-05-06)
 
 
