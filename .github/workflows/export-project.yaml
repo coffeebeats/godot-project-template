@@ -16,9 +16,9 @@ on:
         type: string
         required: true
     outputs:
-      path:
-        description: "The path to the directory containing release artifacts."
-        value: ${{ jobs.package.outputs.path }}
+      name:
+        description: "The name of the artifact containing the exported game."
+        value: ${{ jobs.package.outputs.artifact-name }}
   workflow_dispatch:
     inputs:
       platform:
@@ -221,7 +221,8 @@ jobs:
 
       - uses: actions/cache/restore@v3
         with:
-          key: export-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
+          # NOTE: This should match the values set in the 'cache' step.
+          key: export-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
           path: ${{ runner.temp }}/dist
 
       - name: Move the exported artifact to the cache directory
@@ -247,19 +248,19 @@ jobs:
           ls $TARGET_DIR
 
           echo path="${{ runner.temp }}/dist" >> $GITHUB_OUTPUT
-          echo key='export-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
+          echo key='export-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
 
       - name: Cache the exported artifacts to pass between jobs
         uses: actions/cache/save@v3
         with:
-          key: export-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
-          path: ${{ runner.temp }}/dist
+          key: ${{ steps.cache.outputs.key }}
+          path: ${{ steps.cache.outputs.path }}
 
   package:
     needs: ["export"]
 
     outputs:
-      path: ${{ needs.export.outputs.path }}
+      artifact-name: ${{ steps.artifact.outputs.label }}
 
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -270,8 +271,27 @@ jobs:
           key: ${{ needs.export.outputs.key }}
           path: ${{ needs.export.outputs.path }}
 
+      - name: Assemble the final game artifact
+        id: artifact
+        shell: bash
+        run: |-
+          # Set options to enable more extensive globbing.
+          shopt -s extglob
+          shopt -s globstar
+
+          LABEL="game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+
+          (
+            cd ${{ needs.export.outputs.path }} && \
+            tar \
+              -czf "${{ runner.temp }}/${LABEL}.tar.gz" \
+              *
+          )
+
+          echo "label=$LABEL" >> $GITHUB_OUTPUT
+          echo "path=${{ runner.temp }}/${LABEL}.tar.gz" >> $GITHUB_OUTPUT
+
       - uses: actions/upload-artifact@v4
-        if: github.event_name == 'workflow_dispatch'
         with:
-          name: "game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
-          path: ${{ needs.export.outputs.path }}
+          name: ${{ steps.artifact.outputs.label }}
+          path: ${{ steps.artifact.outputs.path }}
