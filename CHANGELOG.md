@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/coffeebeats/godot-project-template/compare/v0.1.6...v0.1.7) (2024-05-06)
+
+
+### Bug Fixes
+
+* **ci:** pass `arch` input to export workflow ([#66](https://github.com/coffeebeats/godot-project-template/issues/66)) ([4150af8](https://github.com/coffeebeats/godot-project-template/commit/4150af865bc9f0e1eb3e38d7d4e6644e701769b3))
+
 ## [0.1.6](https://github.com/coffeebeats/godot-project-template/compare/v0.1.5...v0.1.6) (2024-05-06)
 
 
