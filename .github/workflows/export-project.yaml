@@ -1,0 +1,200 @@
+name: "🤖 Export: Godot project"
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        type: string
+        required: true
+      arch:
+        type: string
+        required: true
+      storefront:
+        type: string
+        required: true
+      profile:
+        type: string
+        required: true
+    outputs:
+      name:
+        description: "The name of the artifact containing all exported presets."
+        value: ${{ jobs.package.outputs.artifact-name }}
+  workflow_dispatch:
+    inputs:
+      platform:
+        type: choice
+        description: "The platform to target."
+        required: true
+        default: windows
+        options:
+          - macos
+          - windows
+      arch:
+        type: choice
+        description: "The CPU architecture to target."
+        required: true
+        default: x86_64
+        options:
+          - x86_64
+          - universal
+      storefront:
+        type: choice
+        description: "The distribution storefront to target."
+        required: true
+        default: unknown
+        options:
+          - unknown
+          - steam
+      profile:
+        type: choice
+        description: "The optimization profile of the compiled export template."
+        required: false
+        default: release
+        options:
+          - release
+          - release_debug
+          - debug
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    outputs:
+      presets: ${{ steps.set-presets.outputs.value }}
+      godot-version: "${{ steps.version.outputs.semantic }}"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main" # TODO: Pin to 'v0'.
+        id: version
+        with:
+          gdenv-pin-path: .godot-version
+
+      - name: Evaluate presets
+        id: set-presets
+        shell: bash
+        run: |-
+          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep ${{ inputs.storefront }} | grep ${{ inputs.arch }}}))
+          echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
+
+  compile:
+    needs: ["config"]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+
+    env:
+      ARTIFACT_NAME: "godot-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.profile }}"
+
+    outputs:
+      artifact-name: ${{ env.ARTIFACT_NAME }}
+      export-template-name: ${{ steps.export-template.outputs.name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: "coffeebeats/godot-infra/compile-godot-export-template@main" # TODO: Pin to 'v0'.
+        id: compile
+        with:
+          publish: true
+          artifact-name: ${{ env.ARTIFACT_NAME }}
+
+          godot-src-rev: ${{ needs.config.outputs.godot-version }}
+
+          platform: ${{ inputs.platform }}
+          arch: ${{ inputs.arch }}
+
+          custompy-path: ./custom.py
+          icon-path: ./icon.svg
+          profile: ${{ inputs.profile }}
+          use-double-precision: false
+
+          # FIXME: Set secrets for the project.
+          encryption-key: ""
+
+      - name: Set export template filename output
+        id: export-template
+        shell: bash
+        run: echo "name=$(basename ${{ steps.compile.outputs.path }})" >> $GITHUB_OUTPUT
+
+  export:
+    needs: ["config", "compile"]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: true
+
+      matrix:
+        preset: ${{ fromJson(needs.config.outputs.presets) }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.compile.outputs.artifact-name }}
+          path: ${{ runner.temp }}/build
+
+      # ---------------------- Export required presets --------------------- #
+
+      # Main executable
+      - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
+        with:
+          publish: true
+          artifact-name: "export-${{ matrix.preset }}"
+
+          preset-name: "${{ matrix.preset }}"
+
+          godot-editor-version: ${{ needs.config.outputs.godot-version }}
+          export-template-path: ${{ runner.temp }}/build/${{ needs.compile.outputs.export-template-name }}
+
+          profile: ${{ inputs.profile }}
+
+          # FIXME: Set secrets for the project.
+          encryption-key: ""
+
+          # Windows
+          codesign-identity-type: ""
+          codesign-identity: ""
+          codesign-password: ""
+
+          # MacOS
+          codesign-certificate-file: ""
+          codesign-certificate-password: ""
+          codesign-provisioning-profile: ""
+          notarization-api-uuid: ""
+          notarization-api-key: ""
+          notarization-api-key-id: ""
+          notarization-apple-id-name: ""
+          notarization-apple-id-password: ""
+
+  package:
+    needs: ["export"]
+
+    outputs:
+      artifact-name: ${{ env.ARTIFACT_NAME }}
+
+    env:
+      ARTIFACT_NAME: "game-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ runner.temp }}/dist
+          pattern: export-*
+          merge-multiple: true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: "${{ runner.temp }}/dist"

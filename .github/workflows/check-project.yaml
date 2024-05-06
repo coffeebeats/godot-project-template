@@ -78,8 +78,7 @@ jobs:
       - name: Set up 'gdtoolkit'
         run: pip install "gdtoolkit==4.*"
 
-        # TODO: Once testing completes, pin this to 'v0'.
-      - uses: "coffeebeats/godot-infra/check-godot-project@main"
+      - uses: "coffeebeats/godot-infra/check-godot-project@main" # TODO: Pin to 'v0'.
 
   optimize-png:
     needs:
@@ -101,14 +100,12 @@ jobs:
           # for more details.
           ref: ${{ github.head_ref }}
 
-      # TODO: Once testing completes, pin this to 'v0'.
-      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main"
+      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main" # TODO: Pin to 'v0'.
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      # TODO: Once testing completes, pin this to 'v0'.
-      - uses: "coffeebeats/godot-infra/.github/actions/setup-godot@main"
+      - uses: "coffeebeats/godot-infra/.github/actions/setup-godot@main" # TODO: Pin to 'v0'.
         with:
           version: ${{ steps.version.outputs.semantic }}
 
@@ -127,8 +124,7 @@ jobs:
       - name: Import optimized images
         run: godot --verbose --headless --quit --import
 
-      # TODO: Once testing completes, pin this to 'v0'.
-      - uses: coffeebeats/godot-infra/commit-changes@main
+      - uses: coffeebeats/godot-infra/commit-changes@main # TODO: Pin to 'v0'.
         with:
           description: "optimizing PNG images"
 
@@ -144,14 +140,12 @@ jobs:
         with:
           submodules: true
 
-      # TODO: Once testing completes, pin this to 'v0'.
-      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main"
+      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main" # TODO: Pin to 'v0'.
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      # TODO: Once testing completes, pin this to 'v0'.
-      - uses: "coffeebeats/godot-infra/.github/actions/setup-godot@main"
+      - uses: "coffeebeats/godot-infra/.github/actions/setup-godot@main" # TODO: Pin to 'v0'.
         with:
           version: ${{ steps.version.outputs.semantic }}
 
