@@ -284,6 +284,7 @@ jobs:
           (
             cd ${{ needs.export.outputs.path }} && \
             tar \
+              --strip-components 1 \
               -czf "${{ runner.temp }}/${LABEL}.tar.gz" \
               *
           )
