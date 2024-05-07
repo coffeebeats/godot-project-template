@@ -218,23 +218,23 @@ jobs:
       - name: Identify the exported artifact file name
         id: export-preset
         shell: bash
-        run: echo path="$(realpath --relative-to ${{ github.workspace }}/dist ${{ steps.export.outputs.path }})" >> $GITHUB_OUTPUT
+        run: echo path="$(realpath --relative-to ${{ steps.export.outputs.root }} ${{ steps.export.outputs.path }})" >> $GITHUB_OUTPUT
 
       - uses: actions/cache/restore@v3
         with:
           # NOTE: This should match the values set in the 'cache' step.
-          key: export-${{ github.run_id }}-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
-          path: ${{ runner.temp }}/dist
+          key: preset-${{ github.run_id }}-${{ hashFiles('{0}/presets', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
+          path: ${{ runner.temp }}/presets
 
       - name: Move the exported artifact to the cache directory
         id: cache
         shell: bash
         run: |-
-          TARGET="${{ runner.temp }}/dist/${{ steps.export-preset.outputs.path }}"
+          TARGET="${{ runner.temp }}/presets/${{ steps.export-preset.outputs.path }}"
 
           echo "Moving exported artifact to inter-job cache."
           echo "Source file: ${{ steps.export.outputs.path }}"
-          echo "Destination file: ${{ runner.temp }}/dist/${{ steps.export-preset.outputs.path }}"
+          echo "Destination file: $TARGET"
 
           if [[ -f "$TARGET" ]] || [[ -d "$TARGET" ]]; then
             echo "Unexpectedly found target file: $TARGET"
@@ -248,8 +248,8 @@ jobs:
 
           ls $TARGET_DIR
 
-          echo path="${{ runner.temp }}/dist" >> $GITHUB_OUTPUT
-          echo key='export-${{ github.run_id }}-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
+          echo path="${{ runner.temp }}/presets" >> $GITHUB_OUTPUT
+          echo key='preset-${{ github.run_id }}-${{ hashFiles('{0}/presets', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
 
       # ---------------------- Upload exported artifacts --------------------- #
 
