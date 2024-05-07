@@ -137,7 +137,7 @@ jobs:
           ls ${{ runner.temp }}/build
 
           echo path="$TARGET" >> $GITHUB_OUTPUT
-          echo key='compile-${{ hashFiles(format('{0}/build/{1}', runner.temp, steps.export-template.outputs.name)) }}' >> $GITHUB_OUTPUT
+          echo key='compile-${{ github.run_id }}-${{ hashFiles(format('{0}/build/{1}', runner.temp, steps.export-template.outputs.name)) }}' >> $GITHUB_OUTPUT
 
       - name: Cache the export template to pass between jobs
         uses: actions/cache/save@v3
@@ -222,7 +222,7 @@ jobs:
       - uses: actions/cache/restore@v3
         with:
           # NOTE: This should match the values set in the 'cache' step.
-          key: export-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
+          key: export-${{ github.run_id }}-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
           path: ${{ runner.temp }}/dist
 
       - name: Move the exported artifact to the cache directory
@@ -248,7 +248,7 @@ jobs:
           ls $TARGET_DIR
 
           echo path="${{ runner.temp }}/dist" >> $GITHUB_OUTPUT
-          echo key='export-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
+          echo key='export-${{ github.run_id }}-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
 
       - name: Cache the exported artifacts to pass between jobs
         uses: actions/cache/save@v3
