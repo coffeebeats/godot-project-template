@@ -181,7 +181,7 @@ jobs:
       # ---------------------- Export required presets --------------------- #
 
       # Main executable
-      - uses: "coffeebeats/godot-infra/export-godot-project-preset@feat/export-root" # TODO: Pin to 'v0'.
+      - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
         id: export
         with:
           publish: true
