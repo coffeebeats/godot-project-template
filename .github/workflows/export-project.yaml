@@ -269,6 +269,8 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      # NOTE: This works because all presets in the preceding step output the
+      # same properties.
       - uses: actions/cache/restore@v3
         with:
           key: ${{ needs.export.outputs.key }}
@@ -283,6 +285,10 @@ jobs:
           shopt -s globstar
 
           LABEL="game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+
+          # NOTE: Create a permission-preserving archive for the game. This is
+          # critical to ensuring MacOS-targeted application bundles work when
+          # downloaded.
 
           (
             cd ${{ needs.export.outputs.path }} && \
