@@ -181,9 +181,10 @@ jobs:
       # ---------------------- Export required presets --------------------- #
 
       # Main executable
-      - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
+      - uses: "coffeebeats/godot-infra/export-godot-project-preset@feat/export-root" # TODO: Pin to 'v0'.
         id: export
         with:
+          publish: true
           preset-name: "${{ matrix.preset }}"
 
           godot-editor-version: ${{ needs.config.outputs.godot-version }}
@@ -217,7 +218,7 @@ jobs:
       - name: Identify the exported artifact file name
         id: export-preset
         shell: bash
-        run: echo path="$(realpath --relative-to $PWD ${{ steps.export.outputs.path }})" >> $GITHUB_OUTPUT
+        run: echo path="$(realpath --relative-to ${{ github.workspace }}/dist ${{ steps.export.outputs.path }})" >> $GITHUB_OUTPUT
 
       - uses: actions/cache/restore@v3
         with:
@@ -233,7 +234,7 @@ jobs:
 
           echo "Moving exported artifact to inter-job cache."
           echo "Source file: ${{ steps.export.outputs.path }}"
-          echo "Destination file: ${{ runner.temp }}/${{ steps.export-preset.outputs.path }}"
+          echo "Destination file: ${{ runner.temp }}/dist/${{ steps.export-preset.outputs.path }}"
 
           if [[ -f "$TARGET" ]] || [[ -d "$TARGET" ]]; then
             echo "Unexpectedly found target file: $TARGET"
@@ -249,6 +250,8 @@ jobs:
 
           echo path="${{ runner.temp }}/dist" >> $GITHUB_OUTPUT
           echo key='export-${{ github.run_id }}-${{ hashFiles('{0}/dist', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
+
+      # ---------------------- Upload exported artifacts --------------------- #
 
       - name: Cache the exported artifacts to pass between jobs
         uses: actions/cache/save@v3
