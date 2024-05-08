@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.12](https://github.com/coffeebeats/godot-project-template/compare/v0.1.11...v0.1.12) (2024-05-08)
+
+
+### Bug Fixes
+
+* **ci:** restrict downloaded artifacts to correct set ([#80](https://github.com/coffeebeats/godot-project-template/issues/80)) ([ba547bb](https://github.com/coffeebeats/godot-project-template/commit/ba547bb8ca5793ab4a7aaf0e0b766ac311548026))
+
 ## [0.1.11](https://github.com/coffeebeats/godot-project-template/compare/v0.1.10...v0.1.11) (2024-05-08)
 
 
