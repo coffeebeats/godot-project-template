@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.10](https://github.com/coffeebeats/godot-project-template/compare/v0.1.9...v0.1.10) (2024-05-08)
+
+
+### Features
+
+* **export:** use caches to transfer artifacts between jobs ([#77](https://github.com/coffeebeats/godot-project-template/issues/77)) ([eb1911e](https://github.com/coffeebeats/godot-project-template/commit/eb1911eca9c2273c52d863222cae3de28d4924ad))
+
+
+### Bug Fixes
+
+* correct case of exported files ([#75](https://github.com/coffeebeats/godot-project-template/issues/75)) ([8566547](https://github.com/coffeebeats/godot-project-template/commit/8566547dbb82bbecb89775587b257f5fae9b6aa0))
+
 ## [0.1.9](https://github.com/coffeebeats/godot-project-template/compare/v0.1.8...v0.1.9) (2024-05-06)
 
 
