@@ -162,22 +162,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
-    env:
-      CACHE_KEY: "preset-${{ github.run_id }}"
-
-    outputs:
-      key: ${{ env.CACHE_KEY }}
-      path: ${{ steps.cache.outputs.path }}
-
     strategy:
       fail-fast: true
-
-      # NOTE: Using artifacts for exported binaries will cause them to lose
-      # permissions. To avoid this, use a cache action to pass files. However,
-      # there's no easy way to assemble the set of cache keys and paths. The
-      # easiest solution is to limit concurrency so that each matrix element
-      # can sequentially build up a directory of files.
-      max-parallel: 1
 
       matrix:
         preset: ${{ fromJson(needs.config.outputs.presets) }}
@@ -196,8 +182,10 @@ jobs:
 
       # Main executable
       - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
-        id: export
         with:
+          publish: true
+          artifact-name: "export-${{ github.run_id }}-${{ matrix.preset }}"
+
           preset-name: "${{ matrix.preset }}"
 
           godot-editor-version: ${{ needs.config.outputs.godot-version }}
@@ -224,77 +212,25 @@ jobs:
           notarization-apple-id-name: ""
           notarization-apple-id-password: ""
 
-      # ----------------------- Save exported artifacts ---------------------- #
-
-      # NOTE: Rather than pass the exported files between jobs as an artifact,
-      # use the 'actions/cache' action, which is faster for small files. The key
-      # needs to be unique to each run but shared by all exports.
-
-      - name: Identify the exported artifact file name
-        id: export-preset
-        shell: bash
-        run: |-
-          PRESET_PATH=$(
-            realpath \
-              --relative-to ${{ steps.export.outputs.root }} \
-              ${{ steps.export.outputs.path }}
-          )
-
-          echo path="$PRESET_PATH" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache/restore@v3
-        with:
-          key: ${{ env.CACHE_KEY }}
-          path: ${{ runner.temp }}/presets
-
-      - name: Move the exported artifact to the cache directory
-        id: cache
-        shell: bash
-        run: |-
-          TARGET="${{ runner.temp }}/presets/${{ steps.export-preset.outputs.path }}"
-
-          echo "Moving exported artifact to inter-job cache."
-          echo "Source file: ${{ steps.export.outputs.path }}"
-          echo "Destination file: $TARGET"
-
-          if [[ -f "$TARGET" ]] || [[ -d "$TARGET" ]]; then
-            echo "Unexpectedly found target file: $TARGET"
-            exit 1
-          fi
-
-          TARGET_DIR="$(dirname "$TARGET")"
-
-          mkdir -p $TARGET_DIR
-          sudo mv ${{ steps.export.outputs.path }} $TARGET_DIR
-
-          ls $TARGET_DIR
-
-          echo path="${{ runner.temp }}/presets" >> $GITHUB_OUTPUT
-
-      # ---------------------- Upload exported artifacts --------------------- #
-
-      - name: Cache the exported artifacts to pass between jobs
-        uses: actions/cache/save@v3
-        with:
-          key: ${{ env.CACHE_KEY }}
-          path: ${{ steps.cache.outputs.path }}
-
   package:
     needs: ["export"]
 
     outputs:
-      artifact-name: ${{ steps.artifact.outputs.label }}
+      artifact-name: ${{ env.ARTIFACT_NAME }}
+
+    env:
+      ARTIFACT_NAME: "game-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}"
 
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      # NOTE: This works because all presets in the preceding step output the
-      # same properties.
-      - uses: actions/cache/restore@v3
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
-          key: ${{ needs.export.outputs.key }}
-          path: ${{ needs.export.outputs.path }}
+          path: ${{ runner.temp }}/presets
+          pattern: export-${{ github.run_id }}-*
+          merge-multiple: true
 
       - name: Assemble the final game artifact
         id: artifact
@@ -304,13 +240,13 @@ jobs:
           shopt -s extglob
           shopt -s globstar
 
-          LABEL="game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+          LABEL="${{ env.ARTIFACT_NAME }}"
 
           # NOTE: Create a permission-preserving archive for the game. This is
           # critical to ensuring MacOS-targeted application bundles work when
           # downloaded.
 
-          cd ${{ needs.export.outputs.path }}
+          cd ${{ runner.temp }}/presets
 
           ls -ls
 
