@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.13](https://github.com/coffeebeats/godot-project-template/compare/v0.1.12...v0.1.13) (2024-05-08)
+
+
+### Features
+
+* add support for targeting the `web` platform ([#82](https://github.com/coffeebeats/godot-project-template/issues/82)) ([a742199](https://github.com/coffeebeats/godot-project-template/commit/a7421996f11b328538cb59ad9c13771a5c5cb372))
+
 ## [0.1.12](https://github.com/coffeebeats/godot-project-template/compare/v0.1.11...v0.1.12) (2024-05-08)
 
 
