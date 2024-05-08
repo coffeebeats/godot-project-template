@@ -70,25 +70,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-
-      matrix:
-        include:
-          - arch: universal
-            platform: macos
-            storefront: unknown
-
-          - arch: x86_64
-            platform: windows
-            storefront: unknown
+    env:
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: "game-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.storefront }}-release"
+          pattern: "game-*" # NOTE: This pattern must match the prior workflow.
           path: ${{ runner.temp }}/dist
+          merge-multiple: true
 
       - name: Attach assets to release
         shell: bash

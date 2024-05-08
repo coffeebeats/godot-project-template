@@ -15,9 +15,13 @@ on:
       profile:
         type: string
         required: true
+      publish-export-template:
+        type: boolean
+        required: false
+        default: false
     outputs:
       name:
-        description: "The name of the artifact containing all exported presets."
+        description: "The name of the artifact containing the exported game."
         value: ${{ jobs.package.outputs.artifact-name }}
   workflow_dispatch:
     inputs:
@@ -54,6 +58,11 @@ on:
           - release
           - release_debug
           - debug
+      publish-export-template:
+        type: boolean
+        description: "Whether to publish the export template as an artifact."
+        required: false
+        default: false
 
 jobs:
   config:
@@ -85,12 +94,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 75
 
-    env:
-      ARTIFACT_NAME: "godot-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.profile }}"
-
     outputs:
-      artifact-name: ${{ env.ARTIFACT_NAME }}
-      export-template-name: ${{ steps.export-template.outputs.name }}
+      key: ${{ steps.cache.outputs.key }}
+      path: ${{ steps.cache.outputs.path }}
 
     steps:
       - uses: actions/checkout@v4
@@ -98,8 +104,7 @@ jobs:
       - uses: "coffeebeats/godot-infra/compile-godot-export-template@main" # TODO: Pin to 'v0'.
         id: compile
         with:
-          publish: true
-          artifact-name: ${{ env.ARTIFACT_NAME }}
+          publish: ${{ inputs.publish-export-template }}
 
           godot-src-rev: ${{ needs.config.outputs.godot-version }}
 
@@ -114,10 +119,42 @@ jobs:
           # FIXME: Set secrets for the project.
           encryption-key: ""
 
-      - name: Set export template filename output
+      # -------------------- Save export template artifact ------------------- #
+
+      # NOTE: Rather than pass the export template between jobs as an artifact,
+      # use the 'actions/cache' action, which is faster for small files.
+
+      - name: Identify the export template file name
         id: export-template
         shell: bash
-        run: echo "name=$(basename ${{ steps.compile.outputs.path }})" >> $GITHUB_OUTPUT
+        run: |-
+          TEMPLATE_NAME="$(basename ${{ steps.compile.outputs.path }})"
+
+          echo name="$TEMPLATE_NAME" >> $GITHUB_OUTPUT
+
+      - name: Move the export template to the cache directory
+        id: cache
+        shell: bash
+        run: |-
+          TARGET="${{ runner.temp }}/build/${{ steps.export-template.outputs.name }}"
+
+          echo "Moving compiled export template to inter-job cache."
+          echo "Source file: ${{ steps.compile.outputs.path }}"
+          echo "Destination file: $TARGET"
+
+          mkdir -p ${{ runner.temp }}/build
+          sudo mv ${{ steps.compile.outputs.path }} ${{ runner.temp }}/build
+
+          ls ${{ runner.temp }}/build
+
+          echo path="$TARGET" >> $GITHUB_OUTPUT
+          echo key='compile-${{ github.run_id }}-${{ hashFiles(format('{0}/build/{1}', runner.temp, steps.export-template.outputs.name)) }}' >> $GITHUB_OUTPUT
+
+      - name: Cache the export template to pass between jobs
+        uses: actions/cache/save@v3
+        with:
+          key: ${{ steps.cache.outputs.key }}
+          path: ${{ steps.cache.outputs.path }}
 
   export:
     needs: ["config", "compile"]
@@ -136,10 +173,10 @@ jobs:
         with:
           submodules: true
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/cache/restore@v3
         with:
-          name: ${{ needs.compile.outputs.artifact-name }}
-          path: ${{ runner.temp }}/build
+          key: ${{ needs.compile.outputs.key }}
+          path: ${{ needs.compile.outputs.path }}
 
       # ---------------------- Export required presets --------------------- #
 
@@ -152,7 +189,7 @@ jobs:
           preset-name: "${{ matrix.preset }}"
 
           godot-editor-version: ${{ needs.config.outputs.godot-version }}
-          export-template-path: ${{ runner.temp }}/build/${{ needs.compile.outputs.export-template-name }}
+          export-template-path: ${{ needs.compile.outputs.path }}
 
           profile: ${{ inputs.profile }}
 
@@ -190,15 +227,41 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ${{ runner.temp }}/dist
-          # NOTE: This needs to match the 'export' job's artifact names because
-          # there's no easy way to reference the names exactly. If we don't do
-          # this then this step can accidentally download artifacts from other
-          # jobs with different inputs.
-          pattern: export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}
+          path: ${{ runner.temp }}/presets
+          pattern: export-*
           merge-multiple: true
+
+      - name: Assemble the final game artifact
+        id: artifact
+        shell: bash
+        run: |-
+          # Set options to enable more extensive globbing.
+          shopt -s extglob
+          shopt -s globstar
+
+          LABEL="${{ env.ARTIFACT_NAME }}"
+
+          # NOTE: Create a permission-preserving archive for the game. This is
+          # critical to ensuring MacOS-targeted application bundles work when
+          # downloaded.
+
+          cd ${{ runner.temp }}/presets
+
+          ls -ls
+
+          ARCHIVE_PATH="${{ runner.temp }}/${LABEL}.tar.gz"
+          tar \
+            --strip-components 1 \
+            -czf $ARCHIVE_PATH \
+            *
+
+          echo "Packaged export game artifacts into archive: $ARCHIVE_PATH"
+          ls -ls $ARCHIVE_PATH
+
+          echo "label=$LABEL" >> $GITHUB_OUTPUT
+          echo "path=$ARCHIVE_PATH" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: "${{ runner.temp }}/dist"
+          name: ${{ steps.artifact.outputs.label }}
+          path: ${{ steps.artifact.outputs.path }}
