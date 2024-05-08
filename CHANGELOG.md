@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.11](https://github.com/coffeebeats/godot-project-template/compare/v0.1.10...v0.1.11) (2024-05-08)
+
+
+### Bug Fixes
+
+* **ci:** check out repository before attaching assets to release ([#78](https://github.com/coffeebeats/godot-project-template/issues/78)) ([f8513c9](https://github.com/coffeebeats/godot-project-template/commit/f8513c9a22099829ea43cd69ea49d528eaeb2268))
+
 ## [0.1.10](https://github.com/coffeebeats/godot-project-template/compare/v0.1.9...v0.1.10) (2024-05-08)
 
 
