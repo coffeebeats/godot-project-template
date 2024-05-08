@@ -33,6 +33,7 @@ on:
         options:
           - macos
           - windows
+          - web
       arch:
         type: choice
         description: "The CPU architecture to target."
@@ -41,6 +42,7 @@ on:
         options:
           - x86_64
           - universal
+          - wasm32
       storefront:
         type: choice
         description: "The distribution storefront to target."
