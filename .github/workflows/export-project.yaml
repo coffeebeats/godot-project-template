@@ -195,7 +195,6 @@ jobs:
       - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
         id: export
         with:
-          publish: true
           preset-name: "${{ matrix.preset }}"
 
           godot-editor-version: ${{ needs.config.outputs.godot-version }}
@@ -302,16 +301,21 @@ jobs:
           # critical to ensuring MacOS-targeted application bundles work when
           # downloaded.
 
-          (
-            cd ${{ needs.export.outputs.path }} && \
-            tar \
-              --strip-components 1 \
-              -czf "${{ runner.temp }}/${LABEL}.tar.gz" \
-              *
-          )
+          cd ${{ needs.export.outputs.path }}
+
+          ls -ls
+
+          ARCHIVE_PATH="${{ runner.temp }}/${LABEL}.tar.gz"
+          tar \
+            --strip-components 1 \
+            -czf $ARCHIVE_PATH \
+            *
+
+          echo "Packaged export game artifacts into archive: $ARCHIVE_PATH"
+          ls -ls $ARCHIVE_PATH
 
           echo "label=$LABEL" >> $GITHUB_OUTPUT
-          echo "path=${{ runner.temp }}/${LABEL}.tar.gz" >> $GITHUB_OUTPUT
+          echo "path=$ARCHIVE_PATH" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v4
         with:
