@@ -162,8 +162,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    env:
+      CACHE_KEY: "preset-${{ github.run_id }}"
+
     outputs:
-      key: ${{ steps.cache.outputs.key }}
+      key: ${{ env.CACHE_KEY }}
       path: ${{ steps.cache.outputs.path }}
 
     strategy:
@@ -230,12 +233,18 @@ jobs:
       - name: Identify the exported artifact file name
         id: export-preset
         shell: bash
-        run: echo path="$(realpath --relative-to ${{ steps.export.outputs.root }} ${{ steps.export.outputs.path }})" >> $GITHUB_OUTPUT
+        run: |-
+          PRESET_PATH=$(
+            realpath \
+              --relative-to ${{ steps.export.outputs.root }} \
+              ${{ steps.export.outputs.path }}
+          )
+
+          echo path="$PRESET_PATH" >> $GITHUB_OUTPUT
 
       - uses: actions/cache/restore@v3
         with:
-          # NOTE: This should match the values set in the 'cache' step.
-          key: preset-${{ github.run_id }}
+          key: ${{ env.CACHE_KEY }}
           path: ${{ runner.temp }}/presets
 
       - name: Move the exported artifact to the cache directory
@@ -267,7 +276,7 @@ jobs:
       - name: Cache the exported artifacts to pass between jobs
         uses: actions/cache/save@v3
         with:
-          key: preset-${{ github.run_id }}
+          key: ${{ env.CACHE_KEY }}
           path: ${{ steps.cache.outputs.path }}
 
   package:
