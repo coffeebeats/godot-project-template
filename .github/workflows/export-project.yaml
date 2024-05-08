@@ -224,7 +224,8 @@ jobs:
       # ----------------------- Save exported artifacts ---------------------- #
 
       # NOTE: Rather than pass the exported files between jobs as an artifact,
-      # use the 'actions/cache' action, which is faster for small files.
+      # use the 'actions/cache' action, which is faster for small files. The key
+      # needs to be unique to each run but shared by all exports.
 
       - name: Identify the exported artifact file name
         id: export-preset
@@ -234,7 +235,7 @@ jobs:
       - uses: actions/cache/restore@v3
         with:
           # NOTE: This should match the values set in the 'cache' step.
-          key: preset-${{ github.run_id }}-${{ hashFiles('{0}/presets', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}
+          key: preset-${{ github.run_id }}
           path: ${{ runner.temp }}/presets
 
       - name: Move the exported artifact to the cache directory
@@ -260,14 +261,13 @@ jobs:
           ls $TARGET_DIR
 
           echo path="${{ runner.temp }}/presets" >> $GITHUB_OUTPUT
-          echo key='preset-${{ github.run_id }}-${{ hashFiles('{0}/presets', runner.temp) }}-${{ hashFiles(format('{0}', steps.export.outputs.path)) }}' >> $GITHUB_OUTPUT
 
       # ---------------------- Upload exported artifacts --------------------- #
 
       - name: Cache the exported artifacts to pass between jobs
         uses: actions/cache/save@v3
         with:
-          key: ${{ steps.cache.outputs.key }}
+          key: preset-${{ github.run_id }}
           path: ${{ steps.cache.outputs.path }}
 
   package:
