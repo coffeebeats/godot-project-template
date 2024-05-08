@@ -184,7 +184,7 @@ jobs:
       - uses: "coffeebeats/godot-infra/export-godot-project-preset@main" # TODO: Pin to 'v0'.
         with:
           publish: true
-          artifact-name: "export-${{ github.run_id }}-${{ matrix.preset }}"
+          artifact-name: "export-${{ matrix.preset }}"
 
           preset-name: "${{ matrix.preset }}"
 
@@ -228,7 +228,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ${{ runner.temp }}/presets
-          pattern: export-${{ github.run_id }}-*
+          pattern: export-*
           merge-multiple: true
 
       - name: Assemble the final game artifact
