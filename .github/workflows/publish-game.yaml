@@ -123,11 +123,11 @@ jobs:
           fi
 
       - name: Publish to 'itch.io'
-        if: fromJson(inputs.publish-to-itchio) == 'true'
+        if: fromJson(inputs.publish-to-itchio)
         uses: "coffeebeats/godot-infra/publish-project-itchio@main" # TODO: Pin to 'v0'.
         with:
           path: "./"
           version: ${{ inputs.release-tag }}
-          itchio-project: ${{ inputs.itchio-project }}
+          itchio-project: ${{ contains(inputs.itchio-project, '/') && inputs.itchio-project || format('{0}/{1}', github.actor, inputs.itchio-project) }}
           itchio-channel: ${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.itchio-label }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
