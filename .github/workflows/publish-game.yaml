@@ -1,6 +1,38 @@
 name: "🎮 Publish: Godot game"
 
 on:
+  workflow_call:
+    inputs:
+      name:
+        type: string
+        required: true
+      release-tag:
+        type: string
+        required: true
+      platform:
+        type: string
+        required: true
+      arch:
+        type: string
+        required: true
+      storefront:
+        type: string
+        required: true
+      profile:
+        type: string
+        required: true
+
+      # itch.io inputs
+      publish-to-itchio:
+        type: boolean
+        required: false
+        default: false
+      itchio-project:
+        type: string
+        required: false
+      itchio-channel:
+        type: string
+        required: false
   workflow_dispatch:
     inputs:
       name:
@@ -11,6 +43,7 @@ on:
         type: string
         description: "The release tag from which to download release assets."
         required: true
+        default: "v0.1.14" # x-release-please-version
       platform:
         type: choice
         description: "The platform of the exported game."
@@ -57,11 +90,11 @@ on:
         type: string
         description: "The name of the itch.io project (required when publishing)."
         required: false
-      itchio-channel:
+      itchio-label:
         type: string
-        description: "The project channel to release to on itch.io (e.g. 'beta')."
+        description: "The channel label to release the game to (e.g. 'beta')."
         required: false
-        default: release
+        default: "release"
 
 env:
   # This is required to use the 'gh' CLI in actions.
@@ -104,5 +137,5 @@ jobs:
           path: "./"
           version: ${{ inputs.release-tag }}
           itch-project: ${{ inputs.itchio-project }}
-          itch-channel: ${{ inputs.itchio-channel }}
+          itch-channel: ${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.itchio-label }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
