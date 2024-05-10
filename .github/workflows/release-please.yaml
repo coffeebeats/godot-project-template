@@ -104,3 +104,20 @@ jobs:
               ${{ needs.release-please.outputs.release-tag }} \
               $ASSET
           done
+
+  publish-itchio:
+    needs: ["release-please", "upload"]
+    if: needs.release-please.outputs.release-created == 'true'
+
+    uses: "./.github/workflows/publish-game.yaml"
+    with:
+      release-tag: "${{ needs.release-please.outputs.release-tag }}"
+      platform: "web"
+      arch: "wasm32"
+      storefront: "unknown"
+      profile: "release"
+
+      # itch.io inputs
+      publish-to-itchio: true
+      itchio-project: "Example" # FIXME: Change to current project name.
+      itchio-channel: "release"
