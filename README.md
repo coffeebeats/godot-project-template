@@ -51,8 +51,7 @@ When submitting code for review, ensure the following requirements are met:
 
 The default GitHub actions and workflows require the following repository secrets to be set:
 
-- `BUTLER_API_KEY` - Used to authenticate the `bulter` CLI tool with `itch.io`; required when publishing to `itch.io`.
-- `RELEASE_PLEASE_TOKEN` - Used by the `release-please` workflow to update `extra-files`; should be granted permission to write `contents` and `pull-requests`.
+- `BUTLER_API_KEY` - Used to authenticate the `butler` CLI tool with `itch.io`; required when publishing to `itch.io`.
 
 ## **Version history**
 
