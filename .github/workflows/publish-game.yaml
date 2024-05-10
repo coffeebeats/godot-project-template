@@ -36,7 +36,6 @@ on:
         type: string
         description: "The release tag from which to download release assets."
         required: true
-        default: "v0.1.14" # x-release-please-version
       platform:
         type: choice
         description: "The platform of the exported game."

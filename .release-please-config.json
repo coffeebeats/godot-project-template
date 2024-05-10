@@ -21,7 +21,7 @@
 
       "changelog-path": "CHANGELOG.md",
 
-      "extra-files": [".github/workflows/publish-game.yaml", "version.gd"]
+      "extra-files": ["version.gd"]
     }
   }
 }
