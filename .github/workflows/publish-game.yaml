@@ -123,7 +123,7 @@ jobs:
           fi
 
       - name: Publish to 'itch.io'
-        if: inputs.publish-to-itchio == 'true'
+        if: fromJson(inputs.publish-to-itchio) == 'true'
         uses: "coffeebeats/godot-infra/publish-project-itchio@main" # TODO: Pin to 'v0'.
         with:
           path: "./"
