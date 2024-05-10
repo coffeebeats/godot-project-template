@@ -105,3 +105,4 @@ jobs:
           version: ${{ inputs.release-tag }}
           itch-project: ${{ inputs.itchio-project }}
           itch-channel: ${{ inputs.itchio-channel }}
+          api-key: ${{ secrets.BUTLER_API_KEY }}
