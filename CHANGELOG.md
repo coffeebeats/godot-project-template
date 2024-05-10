@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.15](https://github.com/coffeebeats/godot-project-template/compare/v0.1.14...v0.1.15) (2024-05-10)
+
+
+### Bug Fixes
+
+* **ci:** correct syntax errors,input names for `itch.io` publish action ([7b0633f](https://github.com/coffeebeats/godot-project-template/commit/7b0633f7c5f192f252033b37e846bd5486f95a02))
+* **ci:** correct syntax errors+input names for `itch.io` publish action ([#88](https://github.com/coffeebeats/godot-project-template/issues/88)) ([7b0633f](https://github.com/coffeebeats/godot-project-template/commit/7b0633f7c5f192f252033b37e846bd5486f95a02))
+* **ci:** correctly check if workflow should publish to `itch.io` ([#92](https://github.com/coffeebeats/godot-project-template/issues/92)) ([3da9cd8](https://github.com/coffeebeats/godot-project-template/commit/3da9cd87b97cace8bf08e553791318eeec147424))
+* **ci:** remove unused `name` input ([#87](https://github.com/coffeebeats/godot-project-template/issues/87)) ([abc2bd2](https://github.com/coffeebeats/godot-project-template/commit/abc2bd28982b260ed55b6098dfb3a8e6052d680d))
+* **ci:** revert use of PAT for releasing ([#90](https://github.com/coffeebeats/godot-project-template/issues/90)) ([d357c6e](https://github.com/coffeebeats/godot-project-template/commit/d357c6ed6daf90b3f7694810bffa0e7f2321e1a8))
+* **ci:** use a PAT for `release-please` action ([#89](https://github.com/coffeebeats/godot-project-template/issues/89)) ([1383ae9](https://github.com/coffeebeats/godot-project-template/commit/1383ae946572a8dc5022961414d922e56ce095d6))
+
 ## [0.1.14](https://github.com/coffeebeats/godot-project-template/compare/v0.1.13...v0.1.14) (2024-05-10)
 
 
