@@ -47,6 +47,13 @@ When submitting code for review, ensure the following requirements are met:
 
 [Semantic Versioning](http://semver.org/) is used for versioning and [Conventional Commits](https://www.conventionalcommits.org/) is used for commit messages. A [release-please](https://github.com/googleapis/release-please) integration via [GitHub Actions](https://github.com/google-github-actions/release-please-action) automates releases.
 
+### Secrets
+
+The default GitHub actions and workflows require the following repository secrets to be set:
+
+- `BUTLER_API_KEY` - Used to authenticate the `bulter` CLI tool with `itch.io`; required when publishing to `itch.io`.
+- `RELEASE_PLEASE_TOKEN` - Used by the `release-please` workflow to update `extra-files`; should be granted permission to write `contents` and `pull-requests`.
+
 ## **Version history**
 
 See [CHANGELOG.md](https://github.com/coffeebeats/godot-infra/blob/main/CHANGELOG.md).

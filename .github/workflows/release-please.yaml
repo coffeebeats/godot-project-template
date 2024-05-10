@@ -31,6 +31,13 @@ jobs:
           # simply change the "branches" filter in the workflow's on-"push" trigger.
           target-branch: ${{ github.ref_name }}
 
+          # NOTE: A PAT is used so that workflows can run on the new, automatically
+          # created pull requests. This circumvents GitHub's recursive workflow
+          # protections, which block automated pull requests from triggering workflows
+          # under the same default GitHub Actions token. It also allows 'extra-files'
+          # to containg GitHub actions and workflow files.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+
       - name: Log release-please action output
         shell: bash
         env:
