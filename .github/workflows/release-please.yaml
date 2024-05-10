@@ -110,6 +110,7 @@ jobs:
     if: needs.release-please.outputs.release-created == 'true'
 
     uses: "./.github/workflows/publish-game.yaml"
+    secrets: "inherit"
     with:
       release-tag: "${{ needs.release-please.outputs.release-tag }}"
       platform: "web"
