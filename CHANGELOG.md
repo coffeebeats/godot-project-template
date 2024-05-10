@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.14](https://github.com/coffeebeats/godot-project-template/compare/v0.1.13...v0.1.14) (2024-05-10)
+
+
+### Features
+
+* **ci:** create workflow to publish games to `itch.io` ([#84](https://github.com/coffeebeats/godot-project-template/issues/84)) ([b8bea35](https://github.com/coffeebeats/godot-project-template/commit/b8bea35a6ff15010a38e908a167547011ac8f88c))
+
 ## [0.1.13](https://github.com/coffeebeats/godot-project-template/compare/v0.1.12...v0.1.13) (2024-05-08)
 
 
