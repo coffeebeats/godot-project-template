@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.17](https://github.com/coffeebeats/godot-project-template/compare/v0.1.16...v0.1.17) (2024-05-10)
+
+
+### Features
+
+* **ci:** publish to `itch.io` upon release ([#95](https://github.com/coffeebeats/godot-project-template/issues/95)) ([3a12e99](https://github.com/coffeebeats/godot-project-template/commit/3a12e99f9bf41c8f93c3c195f2c3ba51df61d1ae))
+
 ## [0.1.16](https://github.com/coffeebeats/godot-project-template/compare/v0.1.15...v0.1.16) (2024-05-10)
 
 
