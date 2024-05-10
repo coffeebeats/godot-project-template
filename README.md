@@ -49,9 +49,19 @@ When submitting code for review, ensure the following requirements are met:
 
 ### Secrets
 
-The default GitHub actions and workflows require the following repository secrets to be set:
+After instantiating a project from this template repository, the default GitHub actions and workflows require the following repository secrets to be set:
 
 - `BUTLER_API_KEY` - Used to authenticate the `butler` CLI tool with `itch.io`; required when publishing to `itch.io`.
+- `GODOT_SCRIPT_ENCRYPTION_KEY` - Used to encrypt the export Game artifacts; recommended to create one per platform,channel pair.
+- Various - Update code-signing and notarization secrets once the project is ready for release.
+
+### Customization
+
+In addition to [Secrets](#secrets), the following files should be customized for the instantiated repository:
+
+- [.github/workflows/release-please.yaml](.github/workflows/release-please.yaml) - set the current project title when publishing.
+- [.github/workflows/publish-game.yaml](.github/workflows/publish-game.yaml) - update the default project title and channel when publishing.
+- [.github/workflows/export-project.yaml](.github/workflows/export-project.yaml) - update the `encryption-key` input when compiling and exporting.
 
 ## **Version history**
 
