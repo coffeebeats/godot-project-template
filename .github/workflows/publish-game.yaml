@@ -3,9 +3,6 @@ name: "🎮 Publish: Godot game"
 on:
   workflow_call:
     inputs:
-      name:
-        type: string
-        required: true
       release-tag:
         type: string
         required: true
@@ -35,10 +32,6 @@ on:
         required: false
   workflow_dispatch:
     inputs:
-      name:
-        type: string
-        description: "The release tag from which to download release assets."
-        required: true
       release-tag:
         type: string
         description: "The release tag from which to download release assets."
