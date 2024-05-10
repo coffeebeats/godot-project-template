@@ -119,7 +119,7 @@ jobs:
           # The '-p' flag does not reliably restore permissions, so as a
           # workaround, restore the executable bit.
           if [[ "${{ inputs.platform }}" == macos ]]; then
-            chmod +x *.app/Contents/MacOS/*;
+            chmod +x *.app/Contents/MacOS/*
           fi
 
       - name: Publish to 'itch.io'
