@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.18](https://github.com/coffeebeats/godot-project-template/compare/v0.1.17...v0.1.18) (2024-05-10)
+
+
+### Bug Fixes
+
+* **ci:** inherit secrets when publishing a game after release ([#97](https://github.com/coffeebeats/godot-project-template/issues/97)) ([bdc2140](https://github.com/coffeebeats/godot-project-template/commit/bdc2140eece565ababaf21d16a7e0b623d4bb3b4))
+
 ## [0.1.17](https://github.com/coffeebeats/godot-project-template/compare/v0.1.16...v0.1.17) (2024-05-10)
 
 
