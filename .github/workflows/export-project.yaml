@@ -220,7 +220,7 @@ jobs:
       artifact-name: ${{ env.ARTIFACT_NAME }}
 
     env:
-      ARTIFACT_NAME: "game-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+      ARTIFACT_NAME: "game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
 
     runs-on: ubuntu-latest
     timeout-minutes: 10
