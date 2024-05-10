@@ -1,0 +1,108 @@
+name: "🎮 Publish: Godot game"
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+        description: "The release tag from which to download release assets."
+        required: true
+      release-tag:
+        type: string
+        description: "The release tag from which to download release assets."
+        required: true
+      platform:
+        type: choice
+        description: "The platform of the exported game."
+        required: true
+        default: windows
+        options:
+          - macos
+          - windows
+          - web
+      arch:
+        type: choice
+        description: "The CPU architecture of the exported game."
+        required: true
+        default: x86_64
+        options:
+          - x86_64
+          - universal
+          - wasm32
+      storefront:
+        type: choice
+        description: "The distribution storefront targeted by the game."
+        required: true
+        default: unknown
+        options:
+          - unknown
+          - steam
+      profile:
+        type: choice
+        description: "The optimization profile of the exported game."
+        required: false
+        default: release
+        options:
+          - release
+          - release_debug
+          - debug
+
+      # itch.io inputs
+      publish-to-itchio:
+        type: boolean
+        description: "Whether to publish the game to itch.io."
+        required: false
+        default: false
+      itchio-project:
+        type: string
+        description: "The name of the itch.io project (required when publishing)."
+        required: false
+      itchio-channel:
+        type: string
+        description: "The project channel to release to on itch.io (e.g. 'beta')."
+        required: false
+        default: release
+
+env:
+  # This is required to use the 'gh' CLI in actions.
+  GH_TOKEN: ${{ github.token }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download game artifact
+        run: |-
+          gh release download \
+            --pattern game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}.tar.gz
+
+          tar \
+            -p \
+            -xzvf \
+            game-*.tar.gz
+
+          rm *.tar.gz
+
+          # The '-p' flag does not reliably restore permissions, so as a
+          # workaround, restore the executable bit.
+          if [[ "${{ inputs.platform }}" == macos ]]; then
+            chmod +x *.app/Contents/MacOS/*;
+          fi
+
+      - name: Publish to 'itch.io'
+        if: inputs.publish-to-itchio == 'true'
+        uses: coffeebeats/godot-infra/publish-project-itchio
+        with:
+          path: "./"
+          version: ${{ inputs.release-tag }}
+          itch-project: ${{ inputs.itchio-project }}
+          itch-channel: ${{ inputs.itchio-channel }}
+          api-key: ${{ secrets.BUTLER_API_KEY }}
