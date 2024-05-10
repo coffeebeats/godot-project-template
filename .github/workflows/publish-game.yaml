@@ -125,10 +125,10 @@ jobs:
 
       - name: Publish to 'itch.io'
         if: inputs.publish-to-itchio == 'true'
-        uses: coffeebeats/godot-infra/publish-project-itchio
+        uses: "coffeebeats/godot-infra/publish-project-itchio@main" # TODO: Pin to 'v0'.
         with:
           path: "./"
           version: ${{ inputs.release-tag }}
-          itch-project: ${{ inputs.itchio-project }}
-          itch-channel: ${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.itchio-label }}
+          itchio-project: ${{ inputs.itchio-project }}
+          itchio-channel: ${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.itchio-label }}
           api-key: ${{ secrets.BUTLER_API_KEY }}
