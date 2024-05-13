@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.19](https://github.com/coffeebeats/godot-project-template/compare/v0.1.18...v0.1.19) (2024-05-13)
+
+
+### Bug Fixes
+
+* update project configuration; update workflows ([#100](https://github.com/coffeebeats/godot-project-template/issues/100)) ([7ae0a84](https://github.com/coffeebeats/godot-project-template/commit/7ae0a84ac510ae321cc455e652e6e98e8d009848))
+
 ## [0.1.18](https://github.com/coffeebeats/godot-project-template/compare/v0.1.17...v0.1.18) (2024-05-10)
 
 
