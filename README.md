@@ -65,11 +65,11 @@ In addition to [Secrets](#secrets), the following files should be customized for
 
 ## **Version history**
 
-See [CHANGELOG.md](https://github.com/coffeebeats/godot-infra/blob/main/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/coffeebeats/godot-project-template/blob/main/CHANGELOG.md).
 
 ## **License**
 
 > [!IMPORTANT]
 > After instantiating this repository, consider removing this license if the project isn't intended to be open source.
 
-[MIT License](https://github.com/coffeebeats/godot-infra/blob/main/LICENSE)
+[MIT License](https://github.com/coffeebeats/godot-project-template/blob/main/LICENSE)

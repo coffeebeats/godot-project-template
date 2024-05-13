@@ -17,7 +17,6 @@
   "packages": {
     ".": {
       "release-type": "simple",
-      "prerelease-type": "dev",
 
       "changelog-path": "CHANGELOG.md",
 

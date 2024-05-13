@@ -174,11 +174,18 @@ jobs:
     timeout-minutes: 1
 
     steps:
-      - name: Verify 'format' status
+      - name: Verify 'format-and-lint' status
         if: |
           always() &&
           needs.format-and-lint.result == 'failure' ||
           needs.format-and-lint.result == 'cancelled'
+        run: exit 1
+
+      - name: Verify 'optimize-png' status
+        if: |
+          always() &&
+          needs.optimize-png.result == 'failure' ||
+          needs.optimize-png.result == 'cancelled'
         run: exit 1
 
       - name: Verify 'test' status
