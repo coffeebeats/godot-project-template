@@ -6,12 +6,12 @@
   "include-component-in-tag": false,
   "include-v-in-tag": true,
 
-  "changelog-type": "default",
+  "changelog-type": "github",
   "pull-request-title-pattern": "chore: release v${version}",
 
   "exclude-paths": [
-    "./.release-please-config.json",
-    "./.release-please-manifest.json"
+    "./.release-please/config.json",
+    "./.release-please/manifest.json"
   ],
 
   "packages": {
