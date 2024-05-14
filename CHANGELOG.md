@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.20 (2024-05-14)
+
+## What's Changed
+* chore(addons): update addons by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/103
+* chore: migrate `release-please` to new repository by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/104
+* fix(ci): update release configuration for new `.release-please` directory by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/105
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v0.1.19...v0.1.20
+
 ## [0.1.19](https://github.com/coffeebeats/godot-project-template/compare/v0.1.18...v0.1.19) (2024-05-13)
 
 
