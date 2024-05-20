@@ -7,8 +7,8 @@
 ## "static" library that can be imported at compile-time using 'preload'.
 ##
 
-extends Object
 class_name Feature
+extends Object
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
