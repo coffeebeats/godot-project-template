@@ -7,8 +7,8 @@
 ## "static" library that can be imported at compile-time using 'preload'.
 ##
 
-extends Object
 class_name Feature
+extends Object
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
@@ -50,10 +50,7 @@ static func is_gog_storefront_enabled() -> bool:
 
 
 func _init() -> void:
-	assert(
-		not OS.is_debug_build(),
-		"Invalid config; this 'Object' should not be instantiated!"
-	)
+	assert(not OS.is_debug_build(), "Invalid config; this 'Object' should not be instantiated!")
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
