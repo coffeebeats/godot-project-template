@@ -1,11 +1,8 @@
 ##
-## Class 'Main' is the top-level 'Node', responsible for orchestrating all
-## systems and scenes.
+## Insert class description here.
 ##
 
 extends Node
-
-# TODO: Remove this line once testing completes.
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
@@ -21,8 +18,8 @@ extends Node
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
-# func _enter_tree() -> void:
-# 	pass
+#func _enter_tree() -> void:
+#	pass
 
 #func _exit_tree() -> void:
 #	pass
