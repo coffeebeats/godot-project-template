@@ -17,7 +17,7 @@ defaults:
 
 env:
   # NOTE: Switch to repository secret to have new commit run workflows.
-  ACTIONS_BOT_TOKEN: ${{ github.token }}
+  ACTIONS_BOT_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
 
 jobs:
   changes:
