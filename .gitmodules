@@ -12,3 +12,8 @@ branch = godot-v4.2
 path = addons/phantom_camera
 url = https://github.com/coffeebeats/phantom-camera.git
 branch = godot-v4.2
+
+[submodule "addons/std"]
+path = addons/std
+url = git@github.com:coffeebeats/godot-plugin-std.git
+branch = godot-v4.2
