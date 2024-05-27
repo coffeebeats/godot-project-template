@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://dhyjkxpbfsy81"]
+
+[ext_resource type="Script" path="res://addons/std/scene/loader.gd" id="1_5p3u0"]
+[ext_resource type="Script" path="res://addons/std/scene/switcher/switcher.gd" id="2_4th36"]
+[ext_resource type="Script" path="res://addons/std/scene/runner/runner.gd" id="3_41h5k"]
+[ext_resource type="Script" path="res://project/main/splash/screen.gd" id="4_hcvh0"]
+[ext_resource type="PackedScene" uid="uid://bejdcvh3u0mmn" path="res://addons/std/scene/switcher/transition/fade.tscn" id="5_gs3px"]
+[ext_resource type="Script" path="res://addons/std/scene/runner/state.gd" id="5_pl6wt"]
+[ext_resource type="Script" path="res://debug_view.gd" id="6_7lsbp"]
+
+[node name="Kernel" type="Node"]
+
+[node name="Game" type="Node" parent="."]
+
+[node name="Loader" type="Node" parent="."]
+script = ExtResource("1_5p3u0")
+
+[node name="Switcher" type="Node" parent="."]
+script = ExtResource("2_4th36")
+
+[node name="Fade" type="Node" parent="."]
+
+[node name="Runner" type="Node" parent="."]
+script = ExtResource("3_41h5k")
+loader = NodePath("../Loader")
+switcher = NodePath("../Switcher")
+root = NodePath("../Game")
+initial = NodePath("StudioSplash")
+compact = false
+
+[node name="StudioSplash" type="Node" parent="Runner"]
+script = ExtResource("4_hcvh0")
+duration = 3.0
+target = NodePath("../GodotSplash")
+scene = "res://project/main/splash/studio.tscn"
+transition = ExtResource("5_gs3px")
+dependencies = Array[NodePath]([NodePath("../MainMenu"), NodePath("../GodotSplash")])
+
+[node name="GodotSplash" type="Node" parent="Runner"]
+script = ExtResource("4_hcvh0")
+duration = 3.0
+target = NodePath("../MainMenu")
+scene = "res://project/main/splash/godot.tscn"
+transition = ExtResource("5_gs3px")
+
+[node name="MainMenu" type="Node" parent="Runner"]
+script = ExtResource("5_pl6wt")
+scene = "res://project/main/menu/menu.tscn"
+transition = ExtResource("5_gs3px")
+
+[node name="DebugView" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_7lsbp")
+runner = NodePath("../Runner")
+
+[node name="Runner" type="Label" parent="DebugView"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 27.0
+offset_right = 76.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
