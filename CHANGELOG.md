@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.21 (2024-06-03)
+
+## What's Changed
+* feat: create `platform` and `system` directory scaffolding by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/107
+* feat: add a `Feature` library for querying the targeted `Storefront` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/109
+* chore(ci): create and use a secret token for GitHub actions by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/110
+* chore(ci): remove redundant steps in `format-and-lint` job by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/111
+* chore: scaffold `statistic` system by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/112
+* feat(addons): add dependency on `coffeebeats/godot-plugin-std` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/113
+* fix(script_templates): reorder sections to match `gdlint` expectations by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/114
+* chore(addons): update `godot-plugin-std` to latest `godot-v4.2` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/115
+* fix: correct test command to unset default test prefix by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/116
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v0.1.20...v0.1.21
+
 ## 0.1.20 (2024-05-14)
 
 ## What's Changed
