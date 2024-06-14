@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.22 (2024-06-14)
+
+## What's Changed
+* feat(main): create a main scene with splash screens by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/117
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v0.1.21...v0.1.22
+
 ## 0.1.21 (2024-06-03)
 
 ## What's Changed
