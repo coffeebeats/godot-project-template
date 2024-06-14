@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="game"
-run/main_scene="res://project/main.tscn"
+run/main_scene="res://project/main/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
