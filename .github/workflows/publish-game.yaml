@@ -124,7 +124,7 @@ jobs:
 
       - name: Publish to 'itch.io'
         if: fromJson(inputs.publish-to-itchio)
-        uses: "coffeebeats/godot-infra/publish-project-itchio@main" # TODO: Pin to 'v0'.
+        uses: "coffeebeats/godot-infra/publish-project-itchio@v0"
         with:
           path: "./"
           version: ${{ inputs.release-tag }}
