@@ -38,22 +38,22 @@ func get_label() -> String:
 
 # get_major_version returns the major version component.
 func get_major_version() -> String:
-	return "0"  # x-release-please-major
+	return "1"  # x-release-please-major
 
 
 # get_minor_version returns the minor version component.
 func get_minor_version() -> String:
-	return "1"  # x-release-please-minor
+	return "0"  # x-release-please-minor
 
 
 # get_patch_version returns the patch version component.
 func get_patch_version() -> String:
-	return "22"  # x-release-please-patch
+	return "0"  # x-release-please-patch
 
 
 # get_semantic_version returns the full semantic version.
 func get_semantic_version(strip_v_prefix: bool = true) -> String:
-	var version := "v0.1.22"  # x-release-please-version
+	var version := "v1.0.0"  # x-release-please-version
 	if strip_v_prefix:
 		return version.trim_prefix("v")
 

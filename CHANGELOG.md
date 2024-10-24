@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0 (2024-10-24)
+
+## What's Changed
+* feat: upgrade to `Godot` version `v4.3-stable` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/121
+* chore!: release version `1.0.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/123
+* feat!: release 1.0.0 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/124
+* chore(ci): release as 1.0.0 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/125
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v0.1.22...v1.0.0
+
 ## 0.1.22 (2024-10-24)
 
 ## What's Changed
