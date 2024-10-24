@@ -78,7 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@v0"
+      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@v1"
         id: version
         with:
           gdenv-pin-path: .godot-version
@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: "coffeebeats/godot-infra/compile-godot-export-template@v0"
+      - uses: "coffeebeats/godot-infra/compile-godot-export-template@v1"
         id: compile
         with:
           publish: ${{ inputs.publish-export-template }}
@@ -183,7 +183,7 @@ jobs:
       # ---------------------- Export required presets --------------------- #
 
       # Main executable
-      - uses: "coffeebeats/godot-infra/export-godot-project-preset@v0"
+      - uses: "coffeebeats/godot-infra/export-godot-project-preset@v1"
         with:
           publish: true
           artifact-name: "export-${{ matrix.preset }}"
