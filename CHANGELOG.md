@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.22 (2024-10-24)
+
+## What's Changed
+* feat(main): create a main scene with splash screens by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/117
+* chore(deps): bump tj-actions/changed-files from 44 to 45 by @dependabot in https://github.com/coffeebeats/godot-project-template/pull/119
+* chore(ci): pin `godot-infra` actions to `v0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/120
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v0.1.21...v0.1.22
+
 ## 0.1.21 (2024-06-03)
 
 ## What's Changed
