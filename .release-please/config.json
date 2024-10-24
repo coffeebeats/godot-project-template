@@ -16,6 +16,8 @@
 
   "packages": {
     ".": {
+      "release-as": "1.0.0",
+
       "release-type": "simple",
 
       "changelog-path": "CHANGELOG.md",
