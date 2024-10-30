@@ -36,7 +36,7 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 [gui]
 
 theme/custom="res://project/main/theme.tres"
-theme/custom_font="res://project/main/mina-bold.ttf"
+theme/custom_font="res://project/main/mina-regular.ttf"
 
 [rendering]
 

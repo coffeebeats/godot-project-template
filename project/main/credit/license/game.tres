@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://co3cor33uots2"]
+
+[ext_resource type="Script" path="res://project/main/credit/license.gd" id="1_4m6ni"]
+
+[resource]
+script = ExtResource("1_4m6ni")
+title = "Game title"
+content = "Created by @coffeebeats."

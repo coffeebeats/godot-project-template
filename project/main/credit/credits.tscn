@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://bf20ftpryfaqx"]
+
+[ext_resource type="Theme" uid="uid://b7vthn0wf53ne" path="res://project/main/credit/theme.tres" id="1_44gi1"]
+[ext_resource type="Script" path="res://project/main/credit/credits.gd" id="1_h4pwk"]
+[ext_resource type="Script" path="res://project/main/credit/license.gd" id="2_vh60i"]
+[ext_resource type="Resource" uid="uid://co3cor33uots2" path="res://project/main/credit/license/game.tres" id="3_blpv7"]
+
+[node name="Credits" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_44gi1")
+script = ExtResource("1_h4pwk")
+licenses = Array[ExtResource("2_vh60i")]([ExtResource("3_blpv7")])
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+disable_3d = true
+title = ""
+initial_position = 2
+size = Vector2i(1440, 810)
+exclusive = false
+unresizable = true
+borderless = true
+always_on_top = true
+popup_window = true
+max_size = Vector2i(1920, 1080)
+keep_title_visible = false
+content_scale_mode = 1
+content_scale_aspect = 1
+theme_override_constants/buttons_separation = 16
+ok_button_text = "Close"
+
+[node name="ColorRect" type="ColorRect" parent="AcceptDialog"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1424.0
+offset_bottom = 731.0
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="AcceptDialog"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1424.0
+offset_bottom = 731.0
+follow_focus = true
+
+[node name="Contents" type="VBoxContainer" parent="AcceptDialog/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 64
