@@ -8,6 +8,9 @@ extends Node
 
 # -- SIGNALS ------------------------------------------------------------------------- #
 
+## shutdown_requested is emitted when the application was requested to be shut down,
+## either by the game itself or the window manager. Listeners can use this signal to
+## perform shot, *synchronous* clean up actions.
 signal shutdown_requested(exit_code: int)
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
@@ -51,9 +54,16 @@ func shutdown(exit_code: int = 0) -> void:
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+func _enter_tree() -> void:
+	# Prevent the game from automatically exiting when requested by the OS. Instead,
+	# first propagate a quit signal to all nodes, allowing for a graceful shutdown. For
+	# reference, see https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#handling-the-notification. # gdlint:ignore=max-line-length
+	get_tree().set_auto_accept_quit(false)
 
-func _init():
-	assert(
-		not OS.is_debug_build(),
-		"Invalid config; this 'Object' should not be instantiated!"
-	)
+func _notification(what):
+	# Prior to quitting, propagate the quit request to all nodes in the scene tree. This
+	# allows for graceful shutdown. See
+	#   https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#handling-the-notification. # gdlint:ignore=max-line-length
+	match what:
+		NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_WM_GO_BACK_REQUEST:
+			shutdown()
