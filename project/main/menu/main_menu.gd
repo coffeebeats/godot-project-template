@@ -13,11 +13,32 @@ func _ready() -> void:
 	var err: int = %Quit.pressed.connect(_on_Quit_pressed)
 	assert(err == OK, "failed to connect to signal")
 
-	%Play.grab_focus()
+	err = %Options.pressed.connect(_on_Options_pressed)
+	assert(err == OK, "failed to connect to signal")
 
+	err = $Settings.closed.connect(_on_Settings_changed)
+	assert(err == OK, "failed to connect to signal")
+
+	err = $Settings.opened.connect(_on_Settings_changed)
+	assert(err == OK, "failed to connect to signal")
+
+	_set_initial_focus()
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+func _set_initial_focus() -> void:
+	%Play.grab_focus()
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
+func _on_Options_pressed() -> void:
+	$Settings.visible = true
 
-func _on_Quit_pressed():
+func _on_Quit_pressed() -> void:
 	Lifecycle.shutdown()
+
+func _on_Settings_changed() -> void:
+	if $Settings.visible:
+		get_viewport().gui_release_focus()
+	else:
+		_set_initial_focus()
