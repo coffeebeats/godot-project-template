@@ -10,5 +10,6 @@ const Version := preload("res://version.gd")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _ready():
 	$Label.text = Version.get_semantic_version(false)
