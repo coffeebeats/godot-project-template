@@ -27,6 +27,10 @@ window/vsync/vsync_mode=0
 
 enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
+[gui]
+
+theme/custom_font="res://project/main/mina-bold.ttf"
+
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
