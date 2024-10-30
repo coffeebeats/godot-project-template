@@ -41,7 +41,7 @@ static func shutdown(node: Node, exit_code: int = 0) -> void:
 		return
 
 	# Propagate the quit request to all nodes in the scene, then exit. See
-	# https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#sending-your-own-quit-notification.
+	# https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#sending-your-own-quit-notification. # gdlint:ignore=max-line-length
 	node.get_tree().root.propagate_notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
 	node.get_tree().quit(exit_code)
 
