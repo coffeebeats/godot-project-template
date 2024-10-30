@@ -86,15 +86,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -115.5
+offset_left = -72.0
+offset_top = -40.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
 script = ExtResource("3_svp4n")
 
 [node name="Label" type="Label" parent="Version"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.877616, 0.877616, 0.877616, 1)
+theme_override_colors/font_color = Color(0.87451, 0.87451, 0.87451, 1)
 theme_override_font_sizes/font_size = 24
+text = "v0.0.0"
