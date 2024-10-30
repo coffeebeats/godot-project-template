@@ -24,18 +24,24 @@ func _ready() -> void:
 
 	_set_initial_focus()
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _set_initial_focus() -> void:
 	%Play.grab_focus()
 
+
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
 
 func _on_Options_pressed() -> void:
 	$Settings.visible = true
 
+
 func _on_Quit_pressed() -> void:
 	Lifecycle.shutdown()
+
 
 func _on_Settings_changed() -> void:
 	if $Settings.visible:
