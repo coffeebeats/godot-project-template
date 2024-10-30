@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=4 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
+[ext_resource type="Theme" uid="uid://cogf7w75p6jrt" path="res://project/main/menu/theme.tres" id="1_o380n"]
+[ext_resource type="Script" path="res://project/main/menu/version.gd" id="3_svp4n"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -9,4 +11,90 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_o380n")
 script = ExtResource("1_8stub")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[node name="Buttons" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -62.0
+offset_right = 149.0
+offset_bottom = 62.0
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 32
+
+[node name="Label" type="Label" parent="Buttons/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.401239, 0.456438, 1)
+theme_override_font_sizes/font_size = 72
+text = "Game Title
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Options")
+text = "Play"
+alignment = 0
+
+[node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Play")
+focus_neighbor_bottom = NodePath("../Credits")
+text = "Options"
+alignment = 0
+
+[node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_bottom = NodePath("../Quit")
+text = "Credits"
+alignment = 0
+
+[node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../Credits")
+text = "Quit"
+alignment = 0
+
+[node name="Version" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -115.5
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+script = ExtResource("3_svp4n")
+
+[node name="Label" type="Label" parent="Version"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.877616, 0.877616, 0.877616, 1)
+theme_override_font_sizes/font_size = 24
