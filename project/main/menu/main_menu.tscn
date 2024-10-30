@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="Theme" uid="uid://cogf7w75p6jrt" path="res://project/main/menu/theme.tres" id="1_o380n"]
-[ext_resource type="Script" path="res://project/main/menu/version.gd" id="3_svp4n"]
+[ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
 [ext_resource type="Script" path="res://ui/modal/modal.gd" id="4_y3h4b"]
 
 [node name="MainMenu" type="Control"]
@@ -81,26 +81,10 @@ focus_neighbor_top = NodePath("../Credits")
 text = "Quit"
 alignment = 0
 
-[node name="Version" type="MarginContainer" parent="."]
+[node name="Version" parent="." instance=ExtResource("3_b6tfj")]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -72.0
-offset_top = -40.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-script = ExtResource("3_svp4n")
-
-[node name="Label" type="Label" parent="Version"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.87451, 0.87451, 0.87451, 1)
-theme_override_font_sizes/font_size = 24
-text = "v0.0.0"
+offset_left = -96.0
+offset_top = -63.0
 
 [node name="Settings" type="Control" parent="."]
 visible = false
