@@ -5,10 +5,6 @@
 
 extends Node
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const Lifecycle := preload("res://project/main/lifecycle.gd")
-
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -18,7 +14,7 @@ func _notification(what):
 	#   https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#handling-the-notification. # gdlint:ignore=max-line-length
 	match what:
 		NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_WM_GO_BACK_REQUEST:
-			Lifecycle.shutdown(self)
+			Lifecycle.shutdown()
 
 
 func _enter_tree() -> void:
