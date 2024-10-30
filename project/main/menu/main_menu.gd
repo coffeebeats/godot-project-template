@@ -6,10 +6,6 @@
 
 extends Control
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const Lifecycle := preload("res://project/main/lifecycle.gd")
-
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -24,4 +20,4 @@ func _ready() -> void:
 
 
 func _on_Quit_pressed():
-	Lifecycle.shutdown(self)
+	Lifecycle.shutdown()
