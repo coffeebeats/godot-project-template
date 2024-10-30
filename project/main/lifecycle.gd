@@ -31,6 +31,12 @@ var _lifecycle_mu: Mutex = Mutex.new()
 func shutdown(exit_code: int = 0) -> void:
 	assert(exit_code >= 0, "invalid argument: must be >= 0")
 
+	print(
+		"project/main/lifecycle.gd[",
+		get_instance_id(),
+		"]: shutdown requested; exit code: %d" % exit_code,
+	)
+
 	_lifecycle_mu.lock()
 
 	var should_exit: bool = true
@@ -41,7 +47,19 @@ func shutdown(exit_code: int = 0) -> void:
 	_lifecycle_mu.unlock()
 
 	if should_exit:
+		print(
+			"project/main/lifecycle.gd[",
+			get_instance_id(),
+			"]: shutdown already in progress; exiting",
+		)
+
 		return
+
+	print(
+		"project/main/lifecycle.gd[",
+		get_instance_id(),
+		"]: shutdown started",
+	)
 
 	# First, emit the shutdown signal so any listeners can gracefully handle it.
 	shutdown_requested.emit(exit_code)
