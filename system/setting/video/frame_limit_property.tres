@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyFloatRange" load_steps=2 format=3 uid="uid://bohv6x4sod6oh"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_float_range.gd" id="1_r4x2l"]
+
+[resource]
+script = ExtResource("1_r4x2l")
+minimum = 60.0
+maximum = 240.0
+step = 1.0
+default = 120.0
+category = &"video"
+name = &"frame_limit"
+readonly = false
