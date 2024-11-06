@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://tusikeeyjycn"]
+
+[ext_resource type="Script" path="res://system/setting/audio/device/output_options_property.gd" id="1_do1ec"]
+
+[resource]
+script = ExtResource("1_do1ec")
+include_input_devices = false
+include_output_devices = true
+default = PackedStringArray()
+category = &"audio"
+name = &"device/output_options"
+readonly = true
