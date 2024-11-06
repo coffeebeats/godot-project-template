@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://b4gapmq2h1teh"]
+
+[ext_resource type="Script" path="res://system/setting/video/resolution_options_property.gd" id="1_0ocgd"]
+
+[resource]
+script = ExtResource("1_0ocgd")
+default = PackedVector2Array()
+category = &"video"
+name = &"resolution_options"
+readonly = true

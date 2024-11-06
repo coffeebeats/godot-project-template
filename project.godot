@@ -12,15 +12,18 @@ config_version=5
 
 config/name="game"
 run/main_scene="res://project/main/main.tscn"
+config/project_settings_override="user://settings.cfg"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 boot_splash/use_filter=false
 config/icon="res://icon.svg"
+config/project_settings_override.editor="res://settings.cfg"
 
 [autoload]
 
 Lifecycle="*res://project/main/lifecycle.gd"
+Settings="*res://system/setting/settings.tscn"
 
 [display]
 

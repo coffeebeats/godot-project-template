@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjb8nitks0be0"]
+
+[ext_resource type="Script" path="res://system/setting/settings.gd" id="1_u6e61"]
+[ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="3_q5d07"]
+[ext_resource type="Script" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
+
+[sub_resource type="Resource" id="Resource_6ix3w"]
+script = ExtResource("4_v73tc")
+
+[node name="Settings" type="Node"]
+script = ExtResource("1_u6e61")
+
+[node name="Repository" type="Node" parent="."]
+script = ExtResource("2_0mjau")
+scope = ExtResource("3_q5d07")
+sync_target = SubResource("Resource_6ix3w")

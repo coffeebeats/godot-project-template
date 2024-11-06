@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyVector2" load_steps=2 format=3 uid="uid://cww41jobbf8mm"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_vector2.gd" id="1_p3awd"]
+
+[resource]
+script = ExtResource("1_p3awd")
+default = Vector2(1920, 1080)
+category = &"video"
+name = &"resolution"
+readonly = false

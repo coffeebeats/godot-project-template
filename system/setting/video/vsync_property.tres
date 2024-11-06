@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyBool" load_steps=2 format=3 uid="uid://cfoust4ehw0d1"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_bool.gd" id="1_dmnn7"]
+
+[resource]
+script = ExtResource("1_dmnn7")
+default = false
+category = &"video"
+name = &"vsync"
+readonly = false
