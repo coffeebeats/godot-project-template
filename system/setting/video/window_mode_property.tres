@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyInt" load_steps=2 format=3 uid="uid://csnkwoxt7d086"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_int.gd" id="1_qv1f1"]
+
+[resource]
+script = ExtResource("1_qv1f1")
+default = 0
+category = &"video"
+name = &"window_mode"
+readonly = false
