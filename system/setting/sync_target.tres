@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="StdSettingsSyncTargetProjectSettings" load_steps=2 format=3 uid="uid://cjcs086alxlpd"]
+
+[ext_resource type="Script" path="res://addons/std/setting/sync_target_project_settings.gd" id="1_ywk6h"]
+
+[resource]
+script = ExtResource("1_ywk6h")
