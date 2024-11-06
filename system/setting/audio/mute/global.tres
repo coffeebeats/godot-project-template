@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyBool" load_steps=2 format=3 uid="uid://cg5lexk11pl7g"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_bool.gd" id="1_or2rp"]
+
+[resource]
+script = ExtResource("1_or2rp")
+default = false
+category = &"audio"
+name = &"mute/global"
+readonly = false
