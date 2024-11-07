@@ -91,6 +91,7 @@ anchors_preset = 0
 script = ExtResource("3_2fhwa")
 
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Quit")

@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b7vthn0wf53ne"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4grvk"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.172549, 0.172549, 0.172549, 1)
+
+[resource]
+AcceptDialog/styles/panel = SubResource("StyleBoxFlat_4grvk")
+Button/font_sizes/font_size = 24
