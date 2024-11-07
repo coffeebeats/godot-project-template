@@ -1,25 +1,18 @@
 ##
-## Insert class description here.
+## project/settings/menu.gd
+##
+## SettingsMenu is a full settings menu with the ability to read and write user/game
+## preferences. This is intended to be opened in a separate `Modal` or `Container`.
 ##
 
 extends PanelContainer
 
-# -- SIGNALS ------------------------------------------------------------------------- #
-
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-# -- DEFINITIONS --------------------------------------------------------------------- #
-
-# -- CONFIGURATION ------------------------------------------------------------------- #
-
 # -- INITIALIZATION ------------------------------------------------------------------ #
-
-@onready var _tab_bar: TabBar = %TabBar
-@onready var _tab_contents: Control = %TabContents
 
 var _active: Control = null
 
-# -- PUBLIC METHODS ------------------------------------------------------------------ #
+@onready var _tab_bar: TabBar = %TabBar
+@onready var _tab_contents: Control = %TabContents
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
@@ -35,8 +28,6 @@ func _ready():
 
 	_set_active_index(_tab_bar.current_tab)
 
-
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
@@ -61,5 +52,3 @@ func _set_active_index(index: int) -> void:
 
 func _on_TabBar_tab_changed(index: int) -> void:
 	_set_active_index(index)
-
-# -- SETTERS/GETTERS ----------------------------------------------------------------- #
