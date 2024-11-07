@@ -1,0 +1,14 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://crh1721xu8goc"]
+
+[ext_resource type="FontFile" uid="uid://cr5y3dy5yghp1" path="res://project/main/mina-regular.ttf" id="1_7vmnx"]
+
+[resource]
+Body/base_type = &"HBoxContainer"
+Body/constants/separation = 64
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("1_7vmnx")
+OptionButton/font_sizes/font_size = 24
+OptionButton/fonts/font = ExtResource("1_7vmnx")
+PopupMenu/font_sizes/font_size = 24
+PopupMenu/fonts/font = ExtResource("1_7vmnx")
+TabBar/font_sizes/font_size = 42
