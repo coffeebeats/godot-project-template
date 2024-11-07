@@ -1,15 +1,12 @@
 ##
-## Insert class description here.
+## project/settings/group.gd
+##
+## SettingsGroup is a grouping of related settings items within a menu page. A name for
+## the group can be set, which will be displayed above the elements.
 ##
 
 @tool
 extends VBoxContainer
-
-# -- SIGNALS ------------------------------------------------------------------------- #
-
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-# -- DEFINITIONS --------------------------------------------------------------------- #
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -25,8 +22,6 @@ extends VBoxContainer
 
 @onready var _label: Label = $Label
 
-# -- PUBLIC METHODS ------------------------------------------------------------------ #
-
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -41,11 +36,3 @@ func _get_configuration_warnings() -> PackedStringArray:
 		out.append("Invalid config; missing label")
 
 	return out
-
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-# -- SIGNAL HANDLERS ----------------------------------------------------------------- #
-
-# -- SETTERS/GETTERS ----------------------------------------------------------------- #

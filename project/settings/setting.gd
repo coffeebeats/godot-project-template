@@ -1,15 +1,12 @@
 ##
-## Insert class description here.
+## project/settings/setting.gd
+##
+## Setting is a single entry in the settings menu. This consists of a `Label` and an
+## input `Control` for updating the setting value.
 ##
 
 @tool
 extends HBoxContainer
-
-# -- SIGNALS ------------------------------------------------------------------------- #
-
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-# -- DEFINITIONS --------------------------------------------------------------------- #
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -25,8 +22,6 @@ extends HBoxContainer
 
 @onready var _label: Label = $Label
 
-# -- PUBLIC METHODS ------------------------------------------------------------------ #
-
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -41,11 +36,3 @@ func _get_configuration_warnings() -> PackedStringArray:
 		out.append("Invalid config; missing label")
 
 	return out
-
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-# -- SIGNAL HANDLERS ----------------------------------------------------------------- #
-
-# -- SETTERS/GETTERS ----------------------------------------------------------------- #
