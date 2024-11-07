@@ -1,9 +1,8 @@
 ##
-## project/settings/input/option_button_resolution.gd
+## project/settings/input/option_button_vector2.gd
 ##
 ## `OptionButtonResolution` is an `OptionButton` node which is driven by a
-## `StdSettingsPropertyVector2` and `StdSettingsPropertyVector2List`. This is meant for
-## selecting a display resolution.
+## `StdSettingsPropertyVector2` and `StdSettingsPropertyVector2List`.
 ##
 
 @tool
@@ -43,9 +42,3 @@ func _get_configuration_warnings() -> PackedStringArray:
 func _ready() -> void:
 	$StdSettingsControllerOptionButtonVector2.property = property
 	$StdSettingsControllerOptionButtonVector2.options_property = options_property
-
-	var popup_menu := get_popup()
-
-	for i in popup_menu.get_item_count():
-		popup_menu.set_item_as_checkable(i, true)
-		popup_menu.set_item_as_radio_checkable(i, false)
