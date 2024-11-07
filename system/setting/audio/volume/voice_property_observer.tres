@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://uyj2sm7m7xlt"]
+
+[ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="1_7g6hs"]
+[ext_resource type="Script" path="res://system/setting/audio/volume/observer.gd" id="2_rj7xm"]
+
+[resource]
+script = ExtResource("2_rj7xm")
+bus = &"voice"
+property = ExtResource("1_7g6hs")
+should_call_on_value_loaded = true
