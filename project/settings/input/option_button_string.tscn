@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://my1g01p1bj4u"]
+
+[ext_resource type="Script" path="res://project/settings/input/option_button_string.gd" id="1_ikfqc"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_option_button_string.gd" id="2_psbjg"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="3_o7k4b"]
+[ext_resource type="Resource" uid="uid://tusikeeyjycn" path="res://system/setting/audio/device/output_options_property.tres" id="3_sovvm"]
+[ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="4_dvw4f"]
+
+[node name="OptionButtonString" type="OptionButton"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+clip_text = true
+allow_reselect = true
+script = ExtResource("1_ikfqc")
+
+[node name="StdSettingsControllerOptionButtonString" type="Node" parent="."]
+script = ExtResource("2_psbjg")
+options_property = ExtResource("3_sovvm")
+property = ExtResource("4_dvw4f")
+scope = ExtResource("3_o7k4b")

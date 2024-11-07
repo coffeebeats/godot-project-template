@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm78v0k217qei"]
+
+[ext_resource type="Script" path="res://project/settings/input/checkbox.gd" id="1_4u2su"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="1_yf1gd"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="2_jgp4v"]
+
+[node name="Checkbox" type="CheckBox"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+script = ExtResource("1_4u2su")
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="."]
+script = ExtResource("1_yf1gd")
+scope = ExtResource("2_jgp4v")
