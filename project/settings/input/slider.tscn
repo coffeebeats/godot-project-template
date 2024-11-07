@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://utcvvr2uv6jr"]
+
+[ext_resource type="Script" path="res://project/settings/input/slider.gd" id="1_7861e"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="2_uc1gs"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="3_07m5k"]
+
+[node name="Slider" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("1_7861e")
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 9.0
+
+[node name="StdSettingsControllerRange" type="Node" parent="HSlider"]
+script = ExtResource("2_uc1gs")
+scope = ExtResource("3_07m5k")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
