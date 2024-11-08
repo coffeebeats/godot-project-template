@@ -1,13 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://cjb8nitks0be0"]
+[gd_scene load_steps=13 format=3 uid="uid://cjb8nitks0be0"]
 
 [ext_resource type="Script" path="res://system/setting/settings.gd" id="1_u6e61"]
 [ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="3_q5d07"]
 [ext_resource type="Script" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
 [ext_resource type="Script" path="res://addons/std/setting/observer.gd" id="5_8mb1f"]
-[ext_resource type="Resource" uid="uid://gmkgv32umqjc" path="res://system/setting/audio/volume/master_property_observer.tres" id="6_633sj"]
-[ext_resource type="Resource" uid="uid://dp6t2l6ye2jnn" path="res://system/setting/audio/volume/music_property_observer.tres" id="7_bn2ap"]
-[ext_resource type="Resource" uid="uid://cd5nxja5sp8hu" path="res://system/setting/audio/volume/sound_effects_property_observer.tres" id="8_8oeei"]
+[ext_resource type="Resource" uid="uid://gmkgv32umqjc" path="res://system/setting/audio/volume/master_observer.tres" id="6_633sj"]
+[ext_resource type="Resource" uid="uid://dp6t2l6ye2jnn" path="res://system/setting/audio/volume/music_observer.tres" id="7_bn2ap"]
+[ext_resource type="Resource" uid="uid://cd5nxja5sp8hu" path="res://system/setting/audio/volume/sound_effects_observer.tres" id="8_8oeei"]
+[ext_resource type="Resource" uid="uid://uyj2sm7m7xlt" path="res://system/setting/audio/volume/voice_observer.tres" id="9_odi6p"]
+[ext_resource type="Resource" uid="uid://i4p6wiw21lyg" path="res://system/setting/audio/mute/background_observer.tres" id="10_wsn7t"]
+[ext_resource type="Resource" uid="uid://b8pu7l5hu1oau" path="res://system/setting/audio/device/observer.tres" id="11_w3kvj"]
 
 [sub_resource type="Resource" id="Resource_6ix3w"]
 script = ExtResource("4_v73tc")
@@ -19,4 +22,4 @@ script = ExtResource("1_u6e61")
 script = ExtResource("2_0mjau")
 scope = ExtResource("3_q5d07")
 sync_target = SubResource("Resource_6ix3w")
-observers = Array[ExtResource("5_8mb1f")]([ExtResource("6_633sj"), ExtResource("7_bn2ap"), ExtResource("8_8oeei")])
+observers = Array[ExtResource("5_8mb1f")]([ExtResource("6_633sj"), ExtResource("8_8oeei"), ExtResource("7_bn2ap"), ExtResource("9_odi6p"), ExtResource("10_wsn7t"), ExtResource("11_w3kvj")])
