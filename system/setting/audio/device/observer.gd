@@ -7,7 +7,6 @@
 
 extends StdSettingsObserver
 
-
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## input_device is a `StdSettingsProperty` corresponding to the preferred input audio

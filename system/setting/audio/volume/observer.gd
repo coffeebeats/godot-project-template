@@ -7,12 +7,6 @@
 
 extends StdSettingsObserver
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const PropertyVolumeMaster := preload("master_property.tres")
-const PropertyVolumeMusic := preload("music_property.tres")
-const PropertyVolumeSoundEffects := preload("sound_effects_property.tres")
-
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## bus is the name of the audio bus to modify. This should correspond to the property
@@ -31,10 +25,12 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 
 
 func _handle_value_change(_property: StdSettingsProperty, value: float) -> void:
+	assert(_property == property, "invalid argument: wrong property")
+
 	var bus_index := AudioServer.get_bus_index(bus)
 	assert(bus_index != -1, "invalid config: missing audio bus")
 	if bus_index == -1:
-		return  # Nothing to do in this case.
+		return  # Bus is not added; nothing to do.
 
 	var volume := linear_to_db(
 		clampf((value - property.minimum) / (property.maximum - property.minimum), 0, 1)
