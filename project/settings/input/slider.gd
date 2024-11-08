@@ -14,6 +14,7 @@ extends HBoxContainer
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _ready():
 	var err := _slider.value_changed.connect(_on_HSlider_value_changed)
 	assert(err == OK, "failed to connect to signal")
