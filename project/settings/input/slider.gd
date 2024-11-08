@@ -1,21 +1,11 @@
 ##
 ## project/settings/input/slider.gd
 ##
-## Slider is an `HSlider` node, along with a label, which is driven by a
-## `StdSettingsPropertyFloatRange`.
+## Slider is an `HSlider` node, along with a label.
 ##
 
 @tool
 extends HBoxContainer
-
-# -- CONFIGURATION ------------------------------------------------------------------- #
-
-## property is a `StdSettingsProperty` used to drive the control's value.
-@export var property: StdSettingsPropertyFloatRange = null:
-	set(value):
-		property = value
-		$HSlider/StdSettingsControllerRange.property = value
-		update_configuration_warnings()
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -23,11 +13,6 @@ extends HBoxContainer
 @onready var _slider: HSlider = $HSlider
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
-
-
-func _get_configuration_warnings() -> PackedStringArray:
-	return $HSlider/StdSettingsControllerRange._get_configuration_warnings()
-
 
 func _ready():
 	var err := _slider.value_changed.connect(_on_HSlider_value_changed)
