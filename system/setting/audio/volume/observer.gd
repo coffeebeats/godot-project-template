@@ -34,10 +34,11 @@ func _handle_value_change(_property: StdSettingsProperty, value: float) -> void:
 	var bus_index := AudioServer.get_bus_index(bus)
 	assert(bus_index != -1, "invalid config: missing audio bus")
 	if bus_index == -1:
-		return # Nothing to do in this case.
+		return  # Nothing to do in this case.
 
 	var volume := linear_to_db(
-		clampf((value - property.minimum) / (property.maximum - property.minimum), 0, 1))
+		clampf((value - property.minimum) / (property.maximum - property.minimum), 0, 1)
+	)
 
 	AudioServer.set_bus_volume_db(bus_index, volume)
 
