@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=27 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bm78v0k217qei" path="res://project/settings/input/checkbox.tscn" id="6_uu16a"]
 [ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
 [ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="8_vr8i3"]
+[ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="9_ili1s"]
 [ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="10_qr4ro"]
 [ext_resource type="Resource" uid="uid://tusikeeyjycn" path="res://system/setting/audio/device/output_options_property.tres" id="11_jo4xk"]
 [ext_resource type="Resource" uid="uid://dejd17gr4508s" path="res://system/setting/audio/mute/background_property.tres" id="13_av43r"]
@@ -128,6 +129,14 @@ label = "Music"
 layout_mode = 2
 property = ExtResource("8_vr8i3")
 
+[node name="Voice" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
+layout_mode = 2
+label = "Voice"
+
+[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Voice" instance=ExtResource("4_mkrwc")]
+layout_mode = 2
+property = ExtResource("9_ili1s")
+
 [node name="Audio" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound" instance=ExtResource("3_u1tkv")]
 layout_mode = 2
 label = "Audio"
@@ -140,11 +149,6 @@ label = "Sound device"
 layout_mode = 2
 property = ExtResource("10_qr4ro")
 options_property = ExtResource("11_jo4xk")
-property = ExtResource("10_qr4ro")
-options_property = ExtResource("11_jo4xk")
-formatter = null
-checkable = null
-radio_checkable = null
 
 [node name="MuteInBackground" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -171,11 +175,6 @@ layout_mode = 2
 property = ExtResource("15_fbtwd")
 options_property = ExtResource("16_v15fp")
 formatter = ExtResource("17_1f8wa")
-property = ExtResource("15_fbtwd")
-options_property = ExtResource("16_v15fp")
-formatter = ExtResource("17_1f8wa")
-checkable = null
-radio_checkable = null
 
 [node name="Window" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2

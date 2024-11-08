@@ -1,5 +1,5 @@
 ##
-## system/setting/property/audio/device/device_options.gd
+## system/setting/property/audio/device/output_options_property.gd
 ##
 ## `StdSettingsPropertyAudioDeviceOptions` is a read-only settings property that
 ## provides a list of sound device options based on connected devices.

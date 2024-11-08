@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyFloatRange" load_steps=2 format=3 uid="uid://csu1osb4kni20"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_float_range.gd" id="1_rmqih"]
+
+[resource]
+script = ExtResource("1_rmqih")
+minimum = 0.0
+maximum = 10.0
+step = 1.0
+default = 10.0
+category = &"audio"
+name = &"volume/voice"
+readonly = false

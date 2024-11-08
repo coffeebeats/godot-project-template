@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://gmkgv32umqjc"]
+
+[ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="1_af23g"]
+[ext_resource type="Script" path="res://system/setting/audio/volume/observer.gd" id="1_tolq7"]
+
+[resource]
+script = ExtResource("1_tolq7")
+bus = &"Master"
+property = ExtResource("1_af23g")
+should_call_on_value_loaded = true

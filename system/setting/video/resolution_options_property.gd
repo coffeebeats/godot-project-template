@@ -1,5 +1,5 @@
 ##
-## system/setting/property/video/resolution_options.gd
+## system/setting/property/video/resolution_options_property.gd
 ##
 ## `VideoResolutionOptions` is a read-only settings property that provides a list of
 ## display resolution options based on various video preferences.
