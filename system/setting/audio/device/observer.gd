@@ -43,7 +43,7 @@ func _handle_value_change(property: StdSettingsProperty, value: String) -> void:
 
 	if property == input_device:
 		print(
-			"std/setting/observer/audio/device.gd[",
+			"system/setting/audio/device/observer.gd[",
 			get_instance_id(),
 			"]: setting input device to: ",
 			value,
@@ -58,7 +58,7 @@ func _handle_value_change(property: StdSettingsProperty, value: String) -> void:
 
 	if property == output_device:
 		print(
-			"std/setting/observer/audio/device.gd[",
+			"system/setting/audio/device/observer.gd[",
 			get_instance_id(),
 			"]: setting output device to: ",
 			value,

@@ -1,5 +1,5 @@
 ##
-## system/setting/audio/mute/background_property_observer.gd
+## system/setting/audio/mute/background_observer.gd
 ##
 ## BackgroundPropertyObserver is a `StdSettingsObserver` that handles muting the game in
 ## the background.
