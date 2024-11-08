@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=30 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
@@ -6,24 +6,27 @@
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="3_u1tkv"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/settings/input/slider.tscn" id="4_mkrwc"]
 [ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="6_2y3gk"]
-[ext_resource type="PackedScene" uid="uid://my1g01p1bj4u" path="res://project/settings/input/option_button_string.tscn" id="6_da76o"]
-[ext_resource type="PackedScene" uid="uid://bm78v0k217qei" path="res://project/settings/input/checkbox.tscn" id="6_uu16a"]
 [ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="7_y2s16"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="8_e5i6r"]
 [ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="8_vr8i3"]
-[ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="9_ili1s"]
-[ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="10_qr4ro"]
-[ext_resource type="Resource" uid="uid://tusikeeyjycn" path="res://system/setting/audio/device/output_options_property.tres" id="11_jo4xk"]
+[ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="11_tj5m7"]
+[ext_resource type="PackedScene" uid="uid://jqrnk34kfw5u" path="res://project/settings/input/option_button.tscn" id="12_tlber"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_option_button_string.gd" id="13_2mp6h"]
 [ext_resource type="Resource" uid="uid://dejd17gr4508s" path="res://system/setting/audio/mute/background_property.tres" id="13_av43r"]
-[ext_resource type="PackedScene" uid="uid://c3vi4tsog6c40" path="res://project/settings/input/option_button_vector2.tscn" id="14_xa6sd"]
+[ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="14_olrbx"]
+[ext_resource type="Resource" uid="uid://tusikeeyjycn" path="res://system/setting/audio/device/output_options_property.tres" id="15_1xeuq"]
 [ext_resource type="Resource" uid="uid://cww41jobbf8mm" path="res://system/setting/video/resolution_property.tres" id="15_fbtwd"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="15_uobfh"]
 [ext_resource type="Resource" uid="uid://b4gapmq2h1teh" path="res://system/setting/video/resolution_options_property.tres" id="16_v15fp"]
 [ext_resource type="Resource" uid="uid://b8urheanvqc56" path="res://project/settings/input/option_button_formatter_resolution.tres" id="17_1f8wa"]
 [ext_resource type="Resource" uid="uid://csnkwoxt7d086" path="res://system/setting/video/window_mode_property.tres" id="17_4vp1q"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_option_button_vector2.gd" id="18_1yoru"]
 [ext_resource type="Resource" uid="uid://1qdbp8onjg36" path="res://system/setting/video/window_mode_options_property.tres" id="18_r44h5"]
-[ext_resource type="PackedScene" uid="uid://cut1rvev8vy0v" path="res://project/settings/input/option_button_int.tscn" id="18_ws1o3"]
-[ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="19_0dc8l"]
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="19_vnnyy"]
-[ext_resource type="Resource" uid="uid://wpfarrok3n25" path="res://project/settings/input/option_button_formatter_window_mode.tres" id="21_sx17q"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_option_button_int.gd" id="22_lqcmj"]
+[ext_resource type="Resource" uid="uid://wpfarrok3n25" path="res://project/settings/input/option_button_formatter_window_mode.tres" id="25_d55t0"]
+[ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="27_0umr4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sf1nb"]
 
@@ -111,7 +114,12 @@ label = "Master"
 
 [node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master" instance=ExtResource("4_mkrwc")]
 layout_mode = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider"]
+script = ExtResource("7_y2s16")
 property = ExtResource("6_2y3gk")
+scope = ExtResource("8_e5i6r")
+target = NodePath("../HSlider")
 
 [node name="Effects" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -119,7 +127,12 @@ label = "Sound effects"
 
 [node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Effects" instance=ExtResource("4_mkrwc")]
 layout_mode = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Effects/Slider"]
+script = ExtResource("7_y2s16")
 property = ExtResource("7_lbua0")
+scope = ExtResource("8_e5i6r")
+target = NodePath("../HSlider")
 
 [node name="Music" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -127,7 +140,12 @@ label = "Music"
 
 [node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Music" instance=ExtResource("4_mkrwc")]
 layout_mode = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Music/Slider"]
+script = ExtResource("7_y2s16")
 property = ExtResource("8_vr8i3")
+scope = ExtResource("8_e5i6r")
+target = NodePath("../HSlider")
 
 [node name="Voice" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -135,7 +153,12 @@ label = "Voice"
 
 [node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Voice" instance=ExtResource("4_mkrwc")]
 layout_mode = 2
-property = ExtResource("9_ili1s")
+
+[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Voice/Slider"]
+script = ExtResource("7_y2s16")
+property = ExtResource("11_tj5m7")
+scope = ExtResource("8_e5i6r")
+target = NodePath("../HSlider")
 
 [node name="Audio" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound" instance=ExtResource("3_u1tkv")]
 layout_mode = 2
@@ -145,18 +168,26 @@ label = "Audio"
 layout_mode = 2
 label = "Sound device"
 
-[node name="OptionButtonString" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/Device" instance=ExtResource("6_da76o")]
+[node name="OptionButton" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/Device" instance=ExtResource("12_tlber")]
 layout_mode = 2
-property = ExtResource("10_qr4ro")
-options_property = ExtResource("11_jo4xk")
+
+[node name="StdSettingsControllerOptionButtonString" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/Device/OptionButton"]
+script = ExtResource("13_2mp6h")
+property = ExtResource("14_olrbx")
+options_property = ExtResource("15_1xeuq")
+scope = ExtResource("8_e5i6r")
 
 [node name="MuteInBackground" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio" instance=ExtResource("3_mwywu")]
 layout_mode = 2
 label = "Mute in background"
 
-[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground" instance=ExtResource("6_uu16a")]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground"]
 layout_mode = 2
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/CheckBox"]
+script = ExtResource("15_uobfh")
 property = ExtResource("13_av43r")
+scope = ExtResource("8_e5i6r")
 
 [node name="Display" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
 layout_mode = 2
@@ -170,29 +201,41 @@ label = "Video"
 layout_mode = 2
 label = "Resolution"
 
-[node name="OptionButtonVector2" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Resolution" instance=ExtResource("14_xa6sd")]
+[node name="OptionButton" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Resolution" instance=ExtResource("12_tlber")]
 layout_mode = 2
+
+[node name="StdSettingsControllerOptionButtonVector2" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Resolution/OptionButton"]
+script = ExtResource("18_1yoru")
 property = ExtResource("15_fbtwd")
 options_property = ExtResource("16_v15fp")
 formatter = ExtResource("17_1f8wa")
+scope = ExtResource("8_e5i6r")
 
 [node name="Window" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
 label = "Window"
 
-[node name="OptionButtonInt" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Window" instance=ExtResource("18_ws1o3")]
+[node name="OptionButton" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Window" instance=ExtResource("12_tlber")]
 layout_mode = 2
+
+[node name="StdSettingsControllerOptionButtonInt" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Window/OptionButton"]
+script = ExtResource("22_lqcmj")
 property = ExtResource("17_4vp1q")
 options_property = ExtResource("18_r44h5")
-formatter = ExtResource("21_sx17q")
+formatter = ExtResource("25_d55t0")
+scope = ExtResource("8_e5i6r")
 
 [node name="Vsync" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
 label = "Vsync"
 
-[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync" instance=ExtResource("6_uu16a")]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync"]
 layout_mode = 2
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync/CheckBox"]
+script = ExtResource("15_uobfh")
 property = ExtResource("19_vnnyy")
+scope = ExtResource("8_e5i6r")
 
 [node name="MaxFrameLimit" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -200,7 +243,12 @@ label = "MaxFrameLimit"
 
 [node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/MaxFrameLimit" instance=ExtResource("4_mkrwc")]
 layout_mode = 2
-property = ExtResource("19_0dc8l")
+
+[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/MaxFrameLimit/Slider"]
+script = ExtResource("7_y2s16")
+property = ExtResource("27_0umr4")
+scope = ExtResource("8_e5i6r")
+target = NodePath("../HSlider")
 
 [node name="Controls" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
 visible = false
