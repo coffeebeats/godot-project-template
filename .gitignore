@@ -12,4 +12,5 @@
 *.TMP
 
 # Testing-related ignores
-# ...
+settings.cfg
+settings.dat
