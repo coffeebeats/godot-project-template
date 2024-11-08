@@ -33,6 +33,12 @@ class PlayInBackground:
 				_is_out = false
 
 				if _is_dangling_mute:
+					print(
+						"system/setting/audio/mute/background_observer.gd[",
+						get_instance_id(),
+						"]: unmuting sound",
+					)
+
 					_is_dangling_mute = false
 					AudioServer.set_bus_mute(bus, false)
 
@@ -48,6 +54,12 @@ class PlayInBackground:
 				_is_dangling_mute = not is_muted
 
 				if not is_muted and not enabled:
+					print(
+						"system/setting/audio/mute/background_observer.gd[",
+						get_instance_id(),
+						"]: muting sound in background",
+					)
+
 					AudioServer.set_bus_mute(bus, true)
 
 
@@ -78,6 +90,13 @@ func _handle_value_change(
 	assert(_handler is Node, "invalid state: missing handler node")
 	if not _handler:
 		return
+
+	print(
+		"system/setting/audio/mute/background_observer.gd[",
+		get_instance_id(),
+		"]: setting background mute status: ",
+		mute_in_background,
+	)
 
 	_handler.enabled = not mute_in_background
 

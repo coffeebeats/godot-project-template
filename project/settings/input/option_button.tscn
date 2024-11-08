@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://jqrnk34kfw5u"]
+
+[ext_resource type="Script" path="res://project/settings/input/option_button.gd" id="1_1sudd"]
+
+[node name="OptionButton" type="OptionButton"]
+script = ExtResource("1_1sudd")

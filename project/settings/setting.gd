@@ -30,9 +30,9 @@ func _ready() -> void:
 
 
 func _get_configuration_warnings() -> PackedStringArray:
-	var out := PackedStringArray()
+	var warnings := PackedStringArray()
 
 	if label == "":
-		out.append("Invalid config; missing label")
+		warnings.append("Invalid config; missing label")
 
-	return out
+	return warnings
