@@ -27,5 +27,5 @@ func _ready():
 	var popup_menu := get_popup()
 
 	for i in popup_menu.get_item_count():
-		popup_menu.set_item_as_checkable(i, checkable)
 		popup_menu.set_item_as_radio_checkable(i, radio_checkable)
+		popup_menu.set_item_as_checkable(i, checkable)
