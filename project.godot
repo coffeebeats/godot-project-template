@@ -14,6 +14,7 @@ config/name="game"
 run/main_scene="res://project/main/main.tscn"
 config/project_settings_override="user://settings.cfg"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=120
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 boot_splash/use_filter=false
@@ -33,6 +34,8 @@ Settings="*res://system/setting/settings.tscn"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=3
+window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 
@@ -44,6 +47,7 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 theme/custom="res://project/main/theme.tres"
 theme/custom_font="res://project/main/mina-bold.ttf"
+theme/default_font_multichannel_signed_distance_field=true
 
 [rendering]
 

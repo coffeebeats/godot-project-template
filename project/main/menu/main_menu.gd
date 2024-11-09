@@ -29,7 +29,9 @@ func _ready() -> void:
 
 
 func _set_initial_focus() -> void:
-	%Play.grab_focus()
+	# TODO: Only do this when using a controller.
+	# %Play.grab_focus()
+	pass
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #

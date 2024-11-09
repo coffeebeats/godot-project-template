@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_dmnn7")
-default = false
-category = &"video"
-name = &"vsync"
+default = true
+category = &"display"
+name = &"window/vsync/vsync_mode"
 readonly = false

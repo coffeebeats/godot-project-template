@@ -24,7 +24,9 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 	return [property]
 
 
-func _handle_value_change(_property: StdSettingsProperty, value: float) -> void:
+func _handle_value_change(
+	_config: Config, _property: StdSettingsProperty, value: float
+) -> void:
 	assert(_property == property, "invalid argument: wrong property")
 
 	var bus_index := AudioServer.get_bus_index(bus)

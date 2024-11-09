@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="StdSettingsPropertyVector2" load_steps=2 format=3 uid="uid://cww41jobbf8mm"]
+[gd_resource type="Resource" script_class="StdSettingsPropertyVector2" load_steps=2 format=3 uid="uid://cgx3u2ian4dbh"]
 
-[ext_resource type="Script" path="res://addons/std/setting/property_vector2.gd" id="1_p3awd"]
+[ext_resource type="Script" path="res://addons/std/setting/property_vector2.gd" id="1_how0s"]
 
 [resource]
-script = ExtResource("1_p3awd")
+script = ExtResource("1_how0s")
 default = Vector2(1920, 1080)
-category = &"video"
-name = &"resolution"
+category = &"display"
+name = &"window/size/override"
 readonly = false

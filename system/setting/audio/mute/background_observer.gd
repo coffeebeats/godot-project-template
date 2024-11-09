@@ -85,7 +85,7 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 
 
 func _handle_value_change(
-	_property: StdSettingsProperty, mute_in_background: bool
+	_config: Config, _property: StdSettingsProperty, mute_in_background: bool
 ) -> void:
 	assert(_handler is Node, "invalid state: missing handler node")
 	if not _handler:

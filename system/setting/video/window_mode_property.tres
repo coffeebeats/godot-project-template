@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_qv1f1")
-default = 0
-category = &"video"
-name = &"window_mode"
+default = 3
+category = &"display"
+name = &"window/size/mode"
 readonly = false
