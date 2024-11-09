@@ -9,7 +9,7 @@ extends StdSettingsPropertyVector2List
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var RESOLUTIONS := PackedVector2Array(
+static var all_resolutions := PackedVector2Array(
 	[
 		# 4:3
 		Vector2(800, 600),
@@ -50,7 +50,7 @@ func _get_value_from_config(_config: Config) -> Variant:
 	var screen := DisplayServer.screen_get_size()
 
 	var has_screen_resolution: bool = false
-	for resolution in RESOLUTIONS:
+	for resolution in all_resolutions:
 		if resolution.aspect() != screen.aspect():
 			continue
 
@@ -65,7 +65,7 @@ func _get_value_from_config(_config: Config) -> Variant:
 	# If no resolutions match the screen's aspect ratio, just provide all resolutions
 	# and let the user decide.
 	if resolutions.is_empty():
-		resolutions.append_array(RESOLUTIONS)
+		resolutions.append_array(all_resolutions)
 
 	if not has_screen_resolution:
 		resolutions.append(screen)

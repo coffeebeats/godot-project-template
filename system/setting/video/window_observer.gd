@@ -57,7 +57,7 @@ class WindowManager:
 
 			return set_resolution(config, resolution)
 
-		elif not was_fullscreen:
+		if not was_fullscreen:
 			# Fullscreen mode forces the resolution to match the screen size. Update the
 			# selected resolution to match this
 			return resolution_property.set_value_on_config(
