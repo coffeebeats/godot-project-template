@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyInt" load_steps=2 format=3 uid="uid://bdaxwm2dehgld"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_int.gd" id="1_77vmy"]
+
+[resource]
+script = ExtResource("1_77vmy")
+default = 0
+category = &"display"
+name = &"window/size/window_height_override"
+readonly = false

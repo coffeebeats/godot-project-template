@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cjb8nitks0be0"]
+[gd_scene load_steps=14 format=3 uid="uid://cjb8nitks0be0"]
 
 [ext_resource type="Script" path="res://system/setting/settings.gd" id="1_u6e61"]
 [ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://uyj2sm7m7xlt" path="res://system/setting/audio/volume/voice_observer.tres" id="9_odi6p"]
 [ext_resource type="Resource" uid="uid://i4p6wiw21lyg" path="res://system/setting/audio/mute/background_observer.tres" id="10_wsn7t"]
 [ext_resource type="Resource" uid="uid://b8pu7l5hu1oau" path="res://system/setting/audio/device/observer.tres" id="11_w3kvj"]
+[ext_resource type="Resource" uid="uid://devbgftrphi36" path="res://system/setting/video/window_observer.tres" id="12_7g6ki"]
 
 [sub_resource type="Resource" id="Resource_6ix3w"]
 script = ExtResource("4_v73tc")
@@ -22,4 +23,4 @@ script = ExtResource("1_u6e61")
 script = ExtResource("2_0mjau")
 scope = ExtResource("3_q5d07")
 sync_target = SubResource("Resource_6ix3w")
-observers = Array[ExtResource("5_8mb1f")]([ExtResource("6_633sj"), ExtResource("8_8oeei"), ExtResource("7_bn2ap"), ExtResource("9_odi6p"), ExtResource("10_wsn7t"), ExtResource("11_w3kvj")])
+observers = Array[ExtResource("5_8mb1f")]([ExtResource("6_633sj"), ExtResource("8_8oeei"), ExtResource("7_bn2ap"), ExtResource("9_odi6p"), ExtResource("10_wsn7t"), ExtResource("11_w3kvj"), ExtResource("12_7g6ki")])

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyInt" load_steps=2 format=3 uid="uid://biiioq518hd3s"]
+
+[ext_resource type="Script" path="res://addons/std/setting/property_int.gd" id="1_bafxf"]
+
+[resource]
+script = ExtResource("1_bafxf")
+default = 0
+category = &"display"
+name = &"window/size/window_width_override"
+readonly = false
