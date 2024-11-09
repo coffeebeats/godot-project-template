@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_pvmqe")
 default = PackedInt64Array(0, 3, 4)
-category = &"video"
-name = &"window_mode_options"
+category = &"display"
+name = &"window/size/mode_options"
 readonly = true
