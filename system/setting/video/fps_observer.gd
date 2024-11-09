@@ -7,7 +7,6 @@
 
 extends StdSettingsObserver
 
-
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## vsync_property is a `StdSettingsPropertyBool` defining the vsync property to observe.
@@ -21,8 +20,13 @@ extends StdSettingsObserver
 
 
 func _get_settings_properties() -> Array[StdSettingsProperty]:
-	assert(vsync_property is StdSettingsPropertyBool, "invalid config: missing property")
-	assert(frame_limit_property is StdSettingsPropertyFloat, "invalid config: missing property")
+	assert(
+		vsync_property is StdSettingsPropertyBool, "invalid config: missing property"
+	)
+	assert(
+		frame_limit_property is StdSettingsPropertyFloat,
+		"invalid config: missing property"
+	)
 
 	return [vsync_property, frame_limit_property]
 

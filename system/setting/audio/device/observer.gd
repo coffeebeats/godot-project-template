@@ -38,7 +38,9 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 
 
 # FIXME(https://github.com/godotengine/godot/issues/75603): This might not work.
-func _handle_value_change(_config: Config, property: StdSettingsProperty, value: String) -> void:
+func _handle_value_change(
+	_config: Config, property: StdSettingsProperty, value: String
+) -> void:
 	assert(value is String and value != "", "invalid argument: missing value")
 
 	if property == input_device:

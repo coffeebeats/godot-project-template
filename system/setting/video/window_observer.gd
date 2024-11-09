@@ -1,5 +1,5 @@
 ##
-## system/setting/video/window_mode_observer.gd
+## system/setting/video/window_observer.gd
 ##
 ## WindowObserver is a `StdSettingsObserver` which handles changing the window mode and
 ## display resolution.
@@ -8,6 +8,7 @@
 extends StdSettingsObserver
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
+
 
 ## WindowManager is a node which handles changing the window mode and resolution.
 class WindowManager:
@@ -35,8 +36,10 @@ class WindowManager:
 
 		_center_window(window_id)
 		_save_resolution(config, target)
-		
-	func set_window_mode(config: Config, mode: DisplayServer.WindowMode, resolution: Vector2) -> void:
+
+	func set_window_mode(
+		config: Config, mode: DisplayServer.WindowMode, resolution: Vector2
+	) -> void:
 		var window_id := get_window().get_window_id()
 
 		if DisplayServer.window_get_mode(window_id) == mode:
@@ -48,21 +51,25 @@ class WindowManager:
 
 		if was_fullscreen and not _is_fullscreen(window_id):
 			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
-			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
+			DisplayServer.window_set_flag(
+				DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true
+			)
 
 			return set_resolution(config, resolution)
 
 		elif not was_fullscreen:
 			# Fullscreen mode forces the resolution to match the screen size. Update the
 			# selected resolution to match this
-			return resolution_property.set_value_on_config(config, DisplayServer.screen_get_size())
+			return resolution_property.set_value_on_config(
+				config, DisplayServer.screen_get_size()
+			)
 
 	func _is_fullscreen(window_id: int) -> bool:
 		var mode := DisplayServer.window_get_mode(window_id)
 
 		return (
-			mode == DisplayServer.WINDOW_MODE_FULLSCREEN or
-			mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+			mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+			or mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 		)
 
 	func _center_window(window_id: int) -> void:
@@ -70,11 +77,14 @@ class WindowManager:
 		var size_window := DisplayServer.window_get_size(window_id)
 		var size_title := DisplayServer.window_get_title_size("Godot", window_id)
 
-		DisplayServer.window_set_position((size_screen / 2 - size_window / 2) + Vector2i(0, size_title.y), window_id)
+		DisplayServer.window_set_position(
+			(size_screen / 2 - size_window / 2) + Vector2i(0, size_title.y), window_id
+		)
 
 	func _save_resolution(config: Config, size: Vector2i) -> void:
 		window_height_property.set_value_on_config(config, size.y)
 		window_width_property.set_value_on_config(config, size.x)
+
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -123,12 +133,15 @@ func _handle_value_change(config: Config, property: StdSettingsProperty, value) 
 
 		return _handler.set_resolution(config, value)
 
+
 func _mount_observer_node() -> Node:
 	assert(not _handler, "invalid state: found dangling handler")
 	_handler = _create_observer_node()
 	return _handler
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _create_observer_node() -> WindowManager:
 	var handler := WindowManager.new()
