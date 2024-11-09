@@ -16,13 +16,13 @@
 [ext_resource type="Resource" uid="uid://dejd17gr4508s" path="res://system/setting/audio/mute/background_property.tres" id="13_av43r"]
 [ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="14_olrbx"]
 [ext_resource type="Resource" uid="uid://tusikeeyjycn" path="res://system/setting/audio/device/output_options_property.tres" id="15_1xeuq"]
-[ext_resource type="Resource" uid="uid://cww41jobbf8mm" path="res://system/setting/video/resolution_property.tres" id="15_fbtwd"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="15_uobfh"]
 [ext_resource type="Resource" uid="uid://b4gapmq2h1teh" path="res://system/setting/video/resolution_options_property.tres" id="16_v15fp"]
 [ext_resource type="Resource" uid="uid://b8urheanvqc56" path="res://project/settings/input/option_button_formatter_resolution.tres" id="17_1f8wa"]
 [ext_resource type="Resource" uid="uid://csnkwoxt7d086" path="res://system/setting/video/window_mode_property.tres" id="17_4vp1q"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_option_button_vector2.gd" id="18_1yoru"]
 [ext_resource type="Resource" uid="uid://1qdbp8onjg36" path="res://system/setting/video/window_mode_options_property.tres" id="18_r44h5"]
+[ext_resource type="Resource" uid="uid://cgx3u2ian4dbh" path="res://system/setting/video/resolution_property.tres" id="19_u0s72"]
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="19_vnnyy"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_option_button_int.gd" id="22_lqcmj"]
 [ext_resource type="Resource" uid="uid://wpfarrok3n25" path="res://project/settings/input/option_button_formatter_window_mode.tres" id="25_d55t0"]
@@ -206,7 +206,7 @@ layout_mode = 2
 
 [node name="StdSettingsControllerOptionButtonVector2" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Resolution/OptionButton"]
 script = ExtResource("18_1yoru")
-property = ExtResource("15_fbtwd")
+property = ExtResource("19_u0s72")
 options_property = ExtResource("16_v15fp")
 formatter = ExtResource("17_1f8wa")
 scope = ExtResource("8_e5i6r")
