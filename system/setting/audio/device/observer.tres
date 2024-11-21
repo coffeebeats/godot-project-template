@@ -1,9 +1,0 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://b8pu7l5hu1oau"]
-
-[ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="1_mhilr"]
-[ext_resource type="Script" path="res://system/setting/audio/device/observer.gd" id="2_w1c56"]
-
-[resource]
-script = ExtResource("2_w1c56")
-output_device = ExtResource("1_mhilr")
-should_call_on_value_loaded = true

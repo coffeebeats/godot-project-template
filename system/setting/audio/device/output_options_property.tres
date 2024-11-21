@@ -1,5 +1,6 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://tusikeeyjycn"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://tusikeeyjycn"]
 
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_24s4o"]
 [ext_resource type="Script" path="res://system/setting/audio/device/output_options_property.gd" id="1_do1ec"]
 
 [resource]
@@ -10,3 +11,4 @@ default = PackedStringArray()
 category = &"audio"
 name = &"device/output_options"
 readonly = true
+scope = ExtResource("1_24s4o")
