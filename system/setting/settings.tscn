@@ -1,18 +1,27 @@
-[gd_scene load_steps=15 format=3 uid="uid://cjb8nitks0be0"]
+[gd_scene load_steps=24 format=3 uid="uid://cjb8nitks0be0"]
 
 [ext_resource type="Script" path="res://system/setting/settings.gd" id="1_u6e61"]
 [ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="3_q5d07"]
 [ext_resource type="Script" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
-[ext_resource type="Script" path="res://addons/std/setting/observer.gd" id="5_8mb1f"]
-[ext_resource type="Resource" uid="uid://gmkgv32umqjc" path="res://system/setting/audio/volume/master_observer.tres" id="6_633sj"]
-[ext_resource type="Resource" uid="uid://dp6t2l6ye2jnn" path="res://system/setting/audio/volume/music_observer.tres" id="7_bn2ap"]
-[ext_resource type="Resource" uid="uid://cd5nxja5sp8hu" path="res://system/setting/audio/volume/sound_effects_observer.tres" id="8_8oeei"]
-[ext_resource type="Resource" uid="uid://uyj2sm7m7xlt" path="res://system/setting/audio/volume/voice_observer.tres" id="9_odi6p"]
-[ext_resource type="Resource" uid="uid://i4p6wiw21lyg" path="res://system/setting/audio/mute/background_observer.tres" id="10_wsn7t"]
-[ext_resource type="Resource" uid="uid://b8pu7l5hu1oau" path="res://system/setting/audio/device/observer.tres" id="11_w3kvj"]
-[ext_resource type="Resource" uid="uid://devbgftrphi36" path="res://system/setting/video/window_observer.tres" id="12_7g6ki"]
-[ext_resource type="Resource" uid="uid://csj75v2pxnxhj" path="res://system/setting/video/fps_observer.tres" id="13_phg0x"]
+[ext_resource type="Script" path="res://system/setting/audio/device/observer.gd" id="5_3q6ut"]
+[ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="6_tcob2"]
+[ext_resource type="Script" path="res://system/setting/audio/mute/observer.gd" id="7_nt3tl"]
+[ext_resource type="Resource" uid="uid://dejd17gr4508s" path="res://system/setting/audio/mute/background_property.tres" id="8_fchdv"]
+[ext_resource type="Script" path="res://system/setting/audio/volume/observer.gd" id="9_2opf3"]
+[ext_resource type="Resource" uid="uid://cg5lexk11pl7g" path="res://system/setting/audio/mute/global.tres" id="9_qp2op"]
+[ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="10_edgrp"]
+[ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="11_1jdvh"]
+[ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="12_hl0tw"]
+[ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="13_luwqe"]
+[ext_resource type="Script" path="res://system/setting/video/fps_observer.gd" id="15_rqncv"]
+[ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="16_hkpcf"]
+[ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="17_s141t"]
+[ext_resource type="Script" path="res://system/setting/video/window_observer.gd" id="18_sypjw"]
+[ext_resource type="Resource" uid="uid://csnkwoxt7d086" path="res://system/setting/video/window_mode_property.tres" id="19_ler7y"]
+[ext_resource type="Resource" uid="uid://cgx3u2ian4dbh" path="res://system/setting/video/resolution_property.tres" id="20_i0nkh"]
+[ext_resource type="Resource" uid="uid://bdaxwm2dehgld" path="res://system/setting/video/window_size_height.tres" id="21_w2qmb"]
+[ext_resource type="Resource" uid="uid://biiioq518hd3s" path="res://system/setting/video/window_size_width.tres" id="22_tlkex"]
 
 [sub_resource type="Resource" id="Resource_6ix3w"]
 script = ExtResource("4_v73tc")
@@ -24,4 +33,52 @@ script = ExtResource("1_u6e61")
 script = ExtResource("2_0mjau")
 scope = ExtResource("3_q5d07")
 sync_target = SubResource("Resource_6ix3w")
-observers = Array[ExtResource("5_8mb1f")]([ExtResource("6_633sj"), ExtResource("8_8oeei"), ExtResource("7_bn2ap"), ExtResource("9_odi6p"), ExtResource("10_wsn7t"), ExtResource("11_w3kvj"), ExtResource("12_7g6ki"), ExtResource("13_phg0x")])
+
+[node name="Observers" type="Node" parent="."]
+
+[node name="Audio" type="Node" parent="Observers"]
+
+[node name="SoundDevice" type="Node" parent="Observers/Audio"]
+script = ExtResource("5_3q6ut")
+output_device = ExtResource("6_tcob2")
+
+[node name="Mute" type="Node" parent="Observers/Audio"]
+script = ExtResource("7_nt3tl")
+background_property = ExtResource("8_fchdv")
+global_property = ExtResource("9_qp2op")
+
+[node name="Volume" type="Node" parent="Observers/Audio"]
+
+[node name="Master" type="Node" parent="Observers/Audio/Volume"]
+script = ExtResource("9_2opf3")
+bus = &"Master"
+property = ExtResource("10_edgrp")
+
+[node name="Music" type="Node" parent="Observers/Audio/Volume"]
+script = ExtResource("9_2opf3")
+bus = &"music"
+property = ExtResource("11_1jdvh")
+
+[node name="SoundEffects" type="Node" parent="Observers/Audio/Volume"]
+script = ExtResource("9_2opf3")
+bus = &"sound_effects"
+property = ExtResource("12_hl0tw")
+
+[node name="Voice" type="Node" parent="Observers/Audio/Volume"]
+script = ExtResource("9_2opf3")
+bus = &"voice"
+property = ExtResource("13_luwqe")
+
+[node name="Video" type="Node" parent="Observers"]
+
+[node name="FPS" type="Node" parent="Observers/Video"]
+script = ExtResource("15_rqncv")
+vsync_property = ExtResource("16_hkpcf")
+frame_limit_property = ExtResource("17_s141t")
+
+[node name="Window" type="Node" parent="Observers/Video"]
+script = ExtResource("18_sypjw")
+window_mode_property = ExtResource("19_ler7y")
+resolution_property = ExtResource("20_i0nkh")
+window_height_property = ExtResource("21_w2qmb")
+window_width_property = ExtResource("22_tlkex")
