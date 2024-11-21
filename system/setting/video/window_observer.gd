@@ -90,17 +90,23 @@ func set_window_mode(mode: DisplayServer.WindowMode, resolution: Vector2) -> voi
 			"]: disabling fullscreen",
 		)
 
-		DisplayServer.window_set_flag(
-			DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
-			true,
-			window_id,
+		(
+			DisplayServer
+			. window_set_flag(
+				DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+				true,
+				window_id,
+			)
 		)
-		DisplayServer.window_set_flag(
-			DisplayServer.WINDOW_FLAG_BORDERLESS,
-			false,
-			window_id,
+		(
+			DisplayServer
+			. window_set_flag(
+				DisplayServer.WINDOW_FLAG_BORDERLESS,
+				false,
+				window_id,
+			)
 		)
-		
+
 		return call_deferred(&"set_resolution", resolution, true)
 
 	if not was_fullscreen and is_fullscreen:
@@ -111,9 +117,12 @@ func set_window_mode(mode: DisplayServer.WindowMode, resolution: Vector2) -> voi
 
 	# FIXME(https://github.com/godotengine/godot/issues/94551): Remove this and disable
 	# window resizing in project settings.
-	var is_resizable := not DisplayServer.window_get_flag(
-		DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
-		window_id,
+	var is_resizable := not (
+		DisplayServer
+		. window_get_flag(
+			DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+			window_id,
+		)
 	)
 	if disable_resize_when_windowed and not is_fullscreen and is_resizable:
 		print(
@@ -161,13 +170,17 @@ func _center_window(window_id: int) -> void:
 
 
 func _disable_resize(resolution: Vector2, window_id: int) -> void:
-	DisplayServer.window_set_flag(
-		DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
-		true,
-		window_id,
+	(
+		DisplayServer
+		. window_set_flag(
+			DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+			true,
+			window_id,
+		)
 	)
 
 	set_resolution(resolution)
+
 
 func _is_fullscreen(window_id: int) -> bool:
 	var mode := DisplayServer.window_get_mode(window_id)
