@@ -19,7 +19,7 @@ func _enter_tree() -> void:
 		var err := ProjectSettings.settings_changed.connect(_update_color)
 		assert(err == OK, "failed to connect to signal")
 
-	color = ProjectSettings.get_setting_with_override(PROJECT_SETTING_BG_COLOR)
+	_update_color()
 
 
 func _exit_tree() -> void:

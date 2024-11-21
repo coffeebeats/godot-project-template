@@ -58,14 +58,14 @@ func _notification(what: int) -> void:
 
 			_is_out = true
 
-			if not background_property.get_value():
+			if background_property.get_value():
 				print(
 					"system/setting/audio/mute/background_observer.gd[",
 					get_instance_id(),
 					"]: muting sound in background",
 				)
 
-				AudioServer.set_bus_mute(_get_audio_bus_index(), false)
+				AudioServer.set_bus_mute(_get_audio_bus_index(), true)
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
