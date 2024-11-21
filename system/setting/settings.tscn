@@ -82,3 +82,4 @@ window_mode_property = ExtResource("19_ler7y")
 resolution_property = ExtResource("20_i0nkh")
 window_height_property = ExtResource("21_w2qmb")
 window_width_property = ExtResource("22_tlkex")
+disable_resize_when_windowed = true

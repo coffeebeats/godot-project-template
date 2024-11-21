@@ -30,10 +30,16 @@ extends StdSettingsObserver
 ## NOTE: This must be synced to project settings to work.
 @export var window_width_property: StdSettingsPropertyInt = null
 
+# FIXME(https://github.com/godotengine/godot/issues/94551): Remove this option.
+## disable_resize_when_windowed adds a temporary workaround for
+## https://github.com/godotengine/godot/issues/94551. Note that this workaround in turn
+## suffers from https://github.com/godotengine/godot/issues/81640.
+@export var disable_resize_when_windowed: bool = false
+
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
-func set_resolution(resolution: Vector2) -> void:
+func set_resolution(resolution: Vector2, should_center: bool = false) -> void:
 	assert(resolution_property, "invalid state: missing resolution property")
 
 	var window_id := get_window().get_window_id()
@@ -47,33 +53,76 @@ func set_resolution(resolution: Vector2) -> void:
 	if target == get_window().size:
 		return
 
+	print(
+		"system/setting/video/window_observer.gd[",
+		get_instance_id(),
+		"]: updating window resolution: %s" % target,
+	)
+
 	get_window().size = target
 
-	_center_window(window_id)
+	if should_center:
+		_center_window(window_id)
+
 	_save_resolution(target)
 
 
 func set_window_mode(mode: DisplayServer.WindowMode, resolution: Vector2) -> void:
 	var window_id := get_window().get_window_id()
 
-	if DisplayServer.window_get_mode(window_id) == mode:
-		return
-
 	var was_fullscreen := _is_fullscreen(window_id)
 
-	DisplayServer.window_set_mode(mode, window_id)
+	if DisplayServer.window_get_mode(window_id) != mode:
+		print(
+			"system/setting/video/window_observer.gd[",
+			get_instance_id(),
+			"]: updating window mode: %d" % mode,
+		)
 
-	if was_fullscreen and not _is_fullscreen(window_id):
-		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
-		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
+		DisplayServer.window_set_mode(mode, window_id)
 
-		return set_resolution(resolution)
+	var is_fullscreen := _is_fullscreen(window_id)
 
-	if not was_fullscreen:
+	if was_fullscreen and not is_fullscreen:
+		print(
+			"system/setting/video/window_observer.gd[",
+			get_instance_id(),
+			"]: disabling fullscreen",
+		)
+
+		DisplayServer.window_set_flag(
+			DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+			true,
+			window_id,
+		)
+		DisplayServer.window_set_flag(
+			DisplayServer.WINDOW_FLAG_BORDERLESS,
+			false,
+			window_id,
+		)
+		
+		return call_deferred(&"set_resolution", resolution, true)
+
+	if not was_fullscreen and is_fullscreen:
 		# Fullscreen mode forces the resolution to match the screen size. Update the
 		# selected resolution to match this
 		var size := DisplayServer.screen_get_size()
 		return resolution_property.set_value(Vector2(size.x, size.y))
+
+	# FIXME(https://github.com/godotengine/godot/issues/94551): Remove this and disable
+	# window resizing in project settings.
+	var is_resizable := not DisplayServer.window_get_flag(
+		DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+		window_id,
+	)
+	if disable_resize_when_windowed and not is_fullscreen and is_resizable:
+		print(
+			"system/setting/video/window_observer.gd[",
+			get_instance_id(),
+			"]: disabling window resize capability",
+		)
+
+		call_deferred(&"_disable_resize", resolution, window_id)
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -110,6 +159,15 @@ func _center_window(window_id: int) -> void:
 		(size_screen / 2 - size_window / 2) + Vector2i(0, size_title.y), window_id
 	)
 
+
+func _disable_resize(resolution: Vector2, window_id: int) -> void:
+	DisplayServer.window_set_flag(
+		DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+		true,
+		window_id,
+	)
+
+	set_resolution(resolution)
 
 func _is_fullscreen(window_id: int) -> bool:
 	var mode := DisplayServer.window_get_mode(window_id)
