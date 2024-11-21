@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=29 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
@@ -8,7 +8,6 @@
 [ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="6_2y3gk"]
 [ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="7_y2s16"]
-[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="8_e5i6r"]
 [ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="8_vr8i3"]
 [ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="11_tj5m7"]
 [ext_resource type="PackedScene" uid="uid://jqrnk34kfw5u" path="res://project/settings/input/option_button.tscn" id="12_tlber"]
@@ -118,7 +117,6 @@ layout_mode = 2
 [node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider"]
 script = ExtResource("7_y2s16")
 property = ExtResource("6_2y3gk")
-scope = ExtResource("8_e5i6r")
 target = NodePath("../HSlider")
 
 [node name="Effects" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
@@ -131,7 +129,6 @@ layout_mode = 2
 [node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Effects/Slider"]
 script = ExtResource("7_y2s16")
 property = ExtResource("7_lbua0")
-scope = ExtResource("8_e5i6r")
 target = NodePath("../HSlider")
 
 [node name="Music" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
@@ -144,7 +141,6 @@ layout_mode = 2
 [node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Music/Slider"]
 script = ExtResource("7_y2s16")
 property = ExtResource("8_vr8i3")
-scope = ExtResource("8_e5i6r")
 target = NodePath("../HSlider")
 
 [node name="Voice" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
@@ -157,7 +153,6 @@ layout_mode = 2
 [node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Voice/Slider"]
 script = ExtResource("7_y2s16")
 property = ExtResource("11_tj5m7")
-scope = ExtResource("8_e5i6r")
 target = NodePath("../HSlider")
 
 [node name="Audio" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound" instance=ExtResource("3_u1tkv")]
@@ -175,7 +170,6 @@ layout_mode = 2
 script = ExtResource("13_2mp6h")
 property = ExtResource("14_olrbx")
 options_property = ExtResource("15_1xeuq")
-scope = ExtResource("8_e5i6r")
 
 [node name="MuteInBackground" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -187,7 +181,6 @@ layout_mode = 2
 [node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/CheckBox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("13_av43r")
-scope = ExtResource("8_e5i6r")
 
 [node name="Display" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
 layout_mode = 2
@@ -209,7 +202,6 @@ script = ExtResource("18_1yoru")
 property = ExtResource("19_u0s72")
 options_property = ExtResource("16_v15fp")
 formatter = ExtResource("17_1f8wa")
-scope = ExtResource("8_e5i6r")
 
 [node name="Window" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -223,7 +215,6 @@ script = ExtResource("22_lqcmj")
 property = ExtResource("17_4vp1q")
 options_property = ExtResource("18_r44h5")
 formatter = ExtResource("25_d55t0")
-scope = ExtResource("8_e5i6r")
 
 [node name="Vsync" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -235,7 +226,6 @@ layout_mode = 2
 [node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync/CheckBox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("19_vnnyy")
-scope = ExtResource("8_e5i6r")
 
 [node name="MaxFrameLimit" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -247,7 +237,6 @@ layout_mode = 2
 [node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/MaxFrameLimit/Slider"]
 script = ExtResource("7_y2s16")
 property = ExtResource("27_0umr4")
-scope = ExtResource("8_e5i6r")
 target = NodePath("../HSlider")
 
 [node name="Controls" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
