@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="StdSettingsPropertyIntList" load_steps=2 format=3 uid="uid://1qdbp8onjg36"]
+[gd_resource type="Resource" script_class="StdSettingsPropertyIntList" load_steps=3 format=3 uid="uid://1qdbp8onjg36"]
 
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_jn66u"]
 [ext_resource type="Script" path="res://addons/std/setting/property_int_list.gd" id="1_pvmqe"]
 
 [resource]
@@ -8,3 +9,4 @@ default = PackedInt64Array(0, 3, 4)
 category = &"display"
 name = &"window/size/mode_options"
 readonly = true
+scope = ExtResource("1_jn66u")
