@@ -33,11 +33,12 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 
 func _handle_value_change(property: StdSettingsProperty, value) -> void:
 	if property == vsync_property:
-		var is_currently_enabled := DisplayServer.window_get_vsync_mode()
+		var current_mode := DisplayServer.window_get_vsync_mode()
 
-		if value and not is_currently_enabled:
+		if value and current_mode != DisplayServer.VSYNC_ADAPTIVE:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
-		elif not value and is_currently_enabled:
+		elif not value and current_mode != DisplayServer.VSYNC_DISABLED:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
 	elif property == frame_limit_property:
 		Engine.max_fps = value
