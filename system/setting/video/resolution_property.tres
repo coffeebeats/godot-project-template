@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="StdSettingsPropertyVector2" load_steps=3 format=3 uid="uid://cgx3u2ian4dbh"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://cgx3u2ian4dbh"]
 
-[ext_resource type="Script" path="res://addons/std/setting/property_vector2.gd" id="1_how0s"]
-[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_uqocv"]
+[ext_resource type="Resource" uid="uid://b4gapmq2h1teh" path="res://system/setting/video/resolution_options_property.tres" id="1_480cv"]
+[ext_resource type="Script" path="res://system/setting/video/resolution_property.gd" id="1_nrgqc"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="2_kjgbv"]
 
 [resource]
-script = ExtResource("1_how0s")
+script = ExtResource("1_nrgqc")
+resolution_options_property = ExtResource("1_480cv")
 default = Vector2(1920, 1080)
 category = &"display"
 name = &"window/size/override"
 readonly = false
-scope = ExtResource("1_uqocv")
+scope = ExtResource("2_kjgbv")

@@ -15,8 +15,8 @@ extends OptionButton
 ## radio_checkable controls whether the available options contain a radio button node.
 @export var radio_checkable: bool = false
 
-
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
 
 func _exit_tree() -> void:
 	var popup_menu := get_popup()
@@ -38,6 +38,7 @@ func _ready():
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
+
 func _style_items() -> void:
 	var popup_menu := get_popup()
 
@@ -49,7 +50,9 @@ func _style_items() -> void:
 		elif checkable and (not popup_menu.is_item_checkable(i) or is_radio_checkable):
 			popup_menu.set_item_as_checkable(i, checkable)
 
+
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
 
 func _on_PopupMenu_menu_changed() -> void:
 	_style_items()
