@@ -1,10 +1,12 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://b4gapmq2h1teh"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://b4gapmq2h1teh"]
 
 [ext_resource type="Script" path="res://system/setting/video/resolution_options_property.gd" id="1_0ocgd"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_mrytb"]
+[ext_resource type="Resource" uid="uid://csnkwoxt7d086" path="res://system/setting/video/window_mode_property.tres" id="3_7mugl"]
 
 [resource]
 script = ExtResource("1_0ocgd")
+window_mode_property = ExtResource("3_7mugl")
 default = PackedVector2Array()
 category = &"video"
 name = &"resolution_options"
