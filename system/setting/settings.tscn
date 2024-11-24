@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cjb8nitks0be0"]
+[gd_scene load_steps=25 format=3 uid="uid://cjb8nitks0be0"]
 
 [ext_resource type="Script" path="res://system/setting/settings.gd" id="1_u6e61"]
 [ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://system/setting/video/window_observer.gd" id="18_sypjw"]
 [ext_resource type="Resource" uid="uid://csnkwoxt7d086" path="res://system/setting/video/window_mode_property.tres" id="19_ler7y"]
 [ext_resource type="Resource" uid="uid://cgx3u2ian4dbh" path="res://system/setting/video/resolution_property.tres" id="20_i0nkh"]
+[ext_resource type="Resource" uid="uid://b4gapmq2h1teh" path="res://system/setting/video/resolution_options_property.tres" id="21_tvlaq"]
 [ext_resource type="Resource" uid="uid://bdaxwm2dehgld" path="res://system/setting/video/window_size_height.tres" id="21_w2qmb"]
 [ext_resource type="Resource" uid="uid://biiioq518hd3s" path="res://system/setting/video/window_size_width.tres" id="22_tlkex"]
 
@@ -80,6 +81,6 @@ frame_limit_property = ExtResource("17_s141t")
 script = ExtResource("18_sypjw")
 window_mode_property = ExtResource("19_ler7y")
 resolution_property = ExtResource("20_i0nkh")
+resolution_options_property = ExtResource("21_tvlaq")
 window_height_property = ExtResource("21_w2qmb")
 window_width_property = ExtResource("22_tlkex")
-disable_resize_when_windowed = true
