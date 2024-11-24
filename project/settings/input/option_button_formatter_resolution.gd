@@ -28,7 +28,9 @@ func _format_option(value: Variant) -> String:
 
 	return "%d x %d (%d:%d)" % [resolution.x, resolution.y, aspect.x, aspect.y]
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _get_aspect_ratio(value: Vector2) -> Vector2i:
 	if abs(value.aspect() - resolution_16_9.aspect()) <= 0.02:

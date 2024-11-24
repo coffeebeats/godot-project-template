@@ -37,8 +37,8 @@ static var resolutions_5_4 := PackedVector2Array(
 static var resolutions_14_9 := PackedVector2Array(
 	[
 		# 14:9
-		Vector2(3024, 1964), # MacBook Pro 14"
-		Vector2(3456, 2234), # MacBook Pro 16"
+		Vector2(3024, 1964),  # MacBook Pro 14"
+		Vector2(3456, 2234),  # MacBook Pro 16"
 	]
 )
 
@@ -53,9 +53,9 @@ static var resolutions_16_9 := PackedVector2Array(
 		Vector2(2048, 1152),
 		Vector2(2560, 1440),
 		Vector2(3840, 2160),
-		Vector2(4096, 2304), # iMac Retina 21.5"
-		Vector2(4480, 2520), # iMac Retina 24"
-		Vector2(5120, 2880), # iMac Retina 27"
+		Vector2(4096, 2304),  # iMac Retina 21.5"
+		Vector2(4480, 2520),  # iMac Retina 24"
+		Vector2(5120, 2880),  # iMac Retina 27"
 		Vector2(7680, 4320),
 	]
 )
@@ -70,10 +70,10 @@ static var resolutions_16_10 := PackedVector2Array(
 		Vector2(1920, 1200),
 		Vector2(2048, 1280),
 		Vector2(2304, 1440),
-		Vector2(2560, 1664), # Macbook Air 13"
+		Vector2(2560, 1664),  # Macbook Air 13"
 		Vector2(2560, 1600),
 		Vector2(2880, 1800),
-		Vector2(2880, 1864), # Macbook Air 15"
+		Vector2(2880, 1864),  # Macbook Air 15"
 		Vector2(3024, 1890),
 		Vector2(3072, 1920),
 		Vector2(3456, 2160),
@@ -124,7 +124,7 @@ func _get_value_from_config(_config: Config) -> Variant:
 		),
 	)
 
-	var size_max = (screen - title)
+	var size_max = screen - title
 
 	var target_aspects := [screen.aspect()]
 	if include_viewport_aspect_when_windowed:
@@ -162,7 +162,9 @@ func _get_value_from_config(_config: Config) -> Variant:
 
 	return out
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _round_to_vector2i(value: Vector2) -> Vector2i:
 	return Vector2i(round(value.x), round(value.y))
