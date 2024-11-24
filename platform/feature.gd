@@ -14,6 +14,14 @@ extends Object
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
+## Platform enumerates the set of platforms which this game might target.
+enum Platform {
+	UNKNOWN,
+	MACOS,
+	WEB,
+	WINDOWS
+}
+
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {
 	UNKNOWN,
@@ -23,6 +31,28 @@ enum Storefront {
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+## get_platform returns which platform this game is currently running on.
+static func get_platform() -> Platform:
+	if is_windows_platform():
+		return Platform.WINDOWS
+	if is_macos_platform():
+		return Platform.MACOS
+	if is_web_platform():
+		return Platform.WEB
+
+	return Platform.UNKNOWN
+
+## is_macos_platform returns whether this game is running on macOS.
+static func is_macos_platform() -> bool:
+	return OS.has_feature("macos")
+
+## is_web_platform returns whether this game is running on a web browser.
+static func is_web_platform() -> bool:
+	return OS.has_feature("web")
+
+## is_windows_platform returns whether this game is running on Windows.
+static func is_windows_platform() -> bool:
+	return OS.has_feature("windows")
 
 ## get_storefront returns the 'Storefront' targeted by the current game build.
 static func get_storefront() -> Storefront:
