@@ -17,7 +17,7 @@ func _format_option(value: Variant) -> String:
 		DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
 			return "Fullscreen (exclusive)"
 		DisplayServer.WINDOW_MODE_FULLSCREEN:
-			return "Fullscreen"
+			return "Fullscreen (borderless)"
 		DisplayServer.WINDOW_MODE_WINDOWED:
 			return "Windowed"
 
