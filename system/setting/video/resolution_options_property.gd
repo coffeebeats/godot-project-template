@@ -113,7 +113,6 @@ func _get_value_from_config(_config: Config) -> Variant:
 		return out
 
 	var screen := DisplayServer.get_display_safe_area().size
-	var title := Vector2i(0, DisplayServer.window_get_title_size("").y)
 
 	var viewport := Vector2(
 		ProjectSettings.get_setting_with_override(
@@ -124,7 +123,7 @@ func _get_value_from_config(_config: Config) -> Variant:
 		),
 	)
 
-	var size_max = screen - title
+	var size_max = screen - _get_title_size()
 
 	var target_aspects := [screen.aspect()]
 	if include_viewport_aspect_when_windowed:
@@ -158,12 +157,22 @@ func _get_value_from_config(_config: Config) -> Variant:
 
 				out.append(resolution)
 
-	out.sort()
-
 	return out
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _get_title_size(window_id: int = 0) -> Vector2i:
+	var title := (
+		DisplayServer
+		. window_get_title_size(
+			ProjectSettings.get_setting_with_override("application/config/name"),
+			window_id,
+		)
+	)
+
+	return Vector2i(0, title.y)
 
 
 func _round_to_vector2i(value: Vector2) -> Vector2i:
