@@ -14,7 +14,7 @@ const StdSettingsPropertyResolution := preload("resolution_property.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
-const WINDOW_WATCHER_DURATION_S := 2
+const WINDOW_WATCHER_DURATION_S := 3
 
 static var window_modes_allowed: Array[DisplayServer.WindowMode] = [
 	DisplayServer.WINDOW_MODE_WINDOWED,
@@ -59,10 +59,14 @@ var _is_resize_enabled: bool = ProjectSettings.get_setting_with_override(
 	&"display/window/size/resizable"
 )
 
-var _elapsed: float = 0.0
+var _window_mode_watcher_display_size: Vector2i = Vector2i()
+var _window_mode_watcher_enabled: bool = false
+var _window_mode_watcher_elapsed: float = 0.0
+
 var _window_mode: Window.Mode = ProjectSettings.get_setting_with_override(
 	&"display/window/size/mode"
 )
+
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
@@ -87,7 +91,7 @@ func set_resolution(resolution: Vector2) -> void:
 
 	assert(
 		window.mode != Window.MODE_MINIMIZED,
-		"invalid state; updating resolution while minized"
+		"invalid state; updating resolution while minimized"
 	)
 
 	# NOTE: Fullscreen always matches window size to screen size, so only update
@@ -99,21 +103,19 @@ func set_resolution(resolution: Vector2) -> void:
 			print(
 				"system/setting/video/window_observer.gd[",
 				get_instance_id(),
-				"]: updating window resolution: %s" % window_size_target,
+				"]: updating window resolution: %s (previously %s)" % [window_size_target, window.size],
 			)
+
+			_watch_window_mode_stop()
 
 			window.size = window_size_target
 			has_resolution_changed = true
 
-		# NOTE: DON'T SET THIS - THIS IS A WINDOW CONTROL.
-		# var screen := DisplayServer.get_display_safe_area().size - _get_title_size(window_id)
-		# if resolution == Vector2(screen.x, screen.y) and window.mode != Window.MODE_MAXIMIZED:
-		# 	window.mode = Window.MODE_MAXIMIZED
-
-		# 	# NOTE: Update cached value so window resize handler doesn't re-trigger.
-		# 	_window_mode = window.mode
-
+	# NOTE: Always save the resolution so this is kept in sync with the target value.
 	_save_resolution(resolution)
+
+	if has_resolution_changed:
+		_update_resolution()
 
 	if (
 		has_resolution_changed
@@ -157,8 +159,10 @@ func set_window_mode(mode: Window.Mode) -> void:
 			"]: updating window mode: %d" % mode,
 		)
 
-		# NOTE: Update cached value so window resize handler doesn't re-trigger.
-		_window_mode = mode
+		# _watch_window_mode_stop()
+
+		# # NOTE: Update cached value so window resize handler doesn't re-trigger.
+		# _window_mode = mode
 
 		window.mode = mode
 		has_window_mode_changed = true
@@ -166,13 +170,14 @@ func set_window_mode(mode: Window.Mode) -> void:
 	if not has_window_mode_changed:
 		return
 
-	call_deferred(&"_update_resolution_options")
-
-	if was_fullscreen and not is_fullscreen:
-		call_deferred(&"_disable_fullscreen_effects")
-		resolution_property.call_deferred(&"select_midpoint", true)
-	elif not was_fullscreen and is_fullscreen:
-		call_deferred(&"_enable_fullscreen_effects")
+	# if was_fullscreen and not is_fullscreen:
+		# call_deferred(&"_disable_fullscreen_effects")
+		# call_deferred(&"_update_resolution_options")
+		# resolution_property.call_deferred(&"select_midpoint", true)
+	# elif not was_fullscreen and is_fullscreen:
+	# 	pass
+		# call_deferred(&"_enable_fullscreen_effects")
+		# call_deferred(&"_update_resolution_options")
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -191,16 +196,36 @@ func _ready() -> void:
 	err = get_tree().root.size_changed.connect(_on_Window_size_changed)
 	assert(err == OK, "failed to connect to signal")
 
+	_window_mode_watcher_display_size = DisplayServer.get_display_safe_area().size
+
 	if window.mode < Window.MODE_FULLSCREEN:
 		_center_window(window.get_window_id())
 
 
 func _process(delta: float) -> void:
-	_elapsed += delta
-	if _elapsed >= WINDOW_WATCHER_DURATION_S:
+	if _window_mode_watcher_elapsed >= WINDOW_WATCHER_DURATION_S:
 		_watch_window_mode_stop()
 
-	_update_window_mode()
+	if _window_mode_watcher_enabled:
+		_window_mode_watcher_elapsed += delta
+		
+		var size_display := DisplayServer.get_display_safe_area().size
+		if size_display != _window_mode_watcher_display_size:
+			print(">> %f: %s (was %s); %s" % [_window_mode_watcher_elapsed, size_display, _window_mode_watcher_display_size, DisplayServer.window_get_size_with_decorations()])
+			_window_mode_watcher_display_size = size_display
+
+# 			call_deferred(&"_update_resolution_options")
+# 			call_deferred(&"_select_resolution_or_midpoint")
+		
+		var window := get_window()
+		if window.mode != _window_mode:
+			print(
+				"system/setting/video/window_observer.gd[",
+				get_instance_id(),
+				"]: window mode update required: %d -> %d" % [_window_mode, window.mode],
+			)
+
+			_handle_window_resize()
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -215,11 +240,12 @@ func _handle_value_change(property: StdSettingsProperty, value) -> void:
 		set_window_mode(value)
 
 	if property == resolution_property:
-		if get_window().mode == Window.MODE_MAXIMIZED:
-			set_window_mode(Window.MODE_WINDOWED)
-			call_deferred(&"set_resolution", value)
-		else:
-			set_resolution(value)
+		pass
+		# if get_window().mode == Window.MODE_MAXIMIZED:
+		# 	set_window_mode(Window.MODE_WINDOWED)
+		# 	call_deferred(&"set_resolution", value)
+		# else:
+			# set_resolution(value)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -228,7 +254,7 @@ func _handle_value_change(property: StdSettingsProperty, value) -> void:
 func _center_window(window_id: int = 0) -> void:
 	var size_screen := DisplayServer.screen_get_size()
 	var size_window := DisplayServer.window_get_size_with_decorations(window_id)
-	var size_title := DisplayServer.window_get_title_size("Godot", window_id)
+	var size_title := _get_title_size(window_id)
 
 	print(
 		"system/setting/video/window_observer.gd[",
@@ -237,57 +263,142 @@ func _center_window(window_id: int = 0) -> void:
 	)
 
 	DisplayServer.window_set_position(
-		(size_screen / 2 - size_window / 2) + Vector2i(0, size_title.y), window_id
+		(size_screen / 2 - size_window / 2) + Vector2i(0, size_title.y),
+		window_id,
 	)
 
 
-func _disable_fullscreen_effects(window_id: int = 0) -> void:
-	print(
-		"system/setting/video/window_observer.gd[",
-		get_instance_id(),
-		"]: disabling fullscreen effects",
-	)
+# func _disable_fullscreen_effects(window_id: int = 0) -> void:
+# 	print(
+# 		"system/setting/video/window_observer.gd[",
+# 		get_instance_id(),
+# 		"]: disabling fullscreen effects",
+# 	)
 
-	_set_borderless(true, window_id)
+# 	_set_borderless(false, window_id)
 
-	# FIXME: Upon first loading a game in fullscreen mode, assuming the window is
-	# resizable, resizing via code *after* changing to windowed mode fails if window
-	# resize is enabled. Therefore, manually disable it here, then conditionally
-	# enable it after resizing the window.
-	_set_resizable(false)
+# 	var is_window_resizable := not DisplayServer.window_get_flag(
+# 		DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+# 		window_id,
+# 	)
 
-	# FIXME(https://github.com/godotengine/godot/issues/94551): Remove this and utilize
-	# window resizing in project settings.
-	if _is_resize_enabled:
-		_set_resizable(true)
+# 	if _is_resize_enabled and not is_window_resizable:
+# 		_set_resizable(true, window_id)
+# 	elif is_window_resizable:
+# 		_set_resizable(false, window_id)
 
 
-func _enable_fullscreen_effects() -> void:
-	print(
-		"system/setting/video/window_observer.gd[",
-		get_instance_id(),
-		"]: enabling fullscreen effects",
-	)
+# 	# # FIXME: Upon first loading a game in fullscreen mode, assuming the window is
+# 	# # resizable, resizing via code *after* changing to windowed mode fails if window
+# 	# # resize is enabled. Therefore, manually disable it here, then conditionally
+# 	# # enable it after resizing the window.
+# 	# if not DisplayServer.window_get_flag(
+# 	# 	DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+# 	# 	window_id,
+# 	# ):
+# 	# 	_set_resizable(false)
 
-	# Fullscreen mode forces the resolution to match the screen size. Update the
-	# selected resolution to match this
-	var size := DisplayServer.window_get_size_with_decorations()
-	if not resolution_property.set_value(Vector2(size.x, size.y)):
-		_update_resolution()
+# 	# # FIXME(https://github.com/godotengine/godot/issues/94551): Remove this and utilize
+# 	# # window resizing in project settings.
+# 	# if _is_resize_enabled and:
+# 	# 	_set_resizable(true)
+
+
+# func _enable_fullscreen_effects() -> void:
+# 	print(
+# 		"system/setting/video/window_observer.gd[",
+# 		get_instance_id(),
+# 		"]: enabling fullscreen effects",
+# 	)
+
+# 	# Fullscreen mode forces the resolution to match the screen size. Update the
+# 	# selected resolution to match this
+# 	var size := DisplayServer.window_get_size_with_decorations()
+# 	if not resolution_property.set_value(Vector2(size.x, size.y)):
+# 		call_deferred(&"_update_resolution")
 
 
 func _get_title_size(window_id: int = 0) -> Vector2i:
 	var title := (
 		DisplayServer
-		. window_get_title_size(
-			# ProjectSettings.get_setting_with_override("application/config/name"),
-			"",
+		.window_get_title_size(
+			ProjectSettings.get_setting_with_override("application/config/name"),
 			window_id,
 		)
 	)
 
 	return Vector2i(0, title.y)
 
+func _handle_window_resize() -> void:
+	var window := get_window()
+
+	var window_mode_prev := _window_mode
+	_window_mode = window.mode
+
+	if window.mode == window_mode_prev:
+		return
+
+	print(
+		"system/setting/video/window_observer.gd[",
+		get_instance_id(),
+		"]: detected change in window mode (%d, previously %d)" % [window.mode, window_mode_prev],
+	)
+
+	# # NOTE: Entered maximize state; update mode to fullscreen.
+	# if (
+	# 	window.mode == Window.MODE_MAXIMIZED and
+	# 	window_mode_prev == Window.MODE_WINDOWED
+	# ):
+	# 	pass
+		# print(
+		# 	"system/setting/video/window_observer.gd[",
+		# 	get_instance_id(),
+		# 	"]: entering fullscreen from maximized",
+		# )
+
+		# window_mode_property.call_deferred(&"set_value", Window.MODE_FULLSCREEN)
+
+	# NOTE: On macOS, the user can enter fullscreen via the title bar controls.
+	# Detect this and handle it the same as "maximized".
+	if (
+		Feature.is_macos_platform() and
+		window.mode == Window.MODE_FULLSCREEN and
+		window_mode_prev == Window.MODE_WINDOWED
+	):
+		print(
+			"system/setting/video/window_observer.gd[",
+			get_instance_id(),
+			"]: already entered fullscreen; updating properties to match",
+		)
+
+		window_mode_property.call_deferred(&"set_value", Window.MODE_FULLSCREEN)
+
+		# call_deferred(&"_update_resolution_options")
+		# resolution_property.call_deferred(&"set_value", Vector2(DisplayServer.window_get_size_with_decorations()))
+
+	# NOTE: On macOS, the user can exit fullscreen (borderless) via the title bar
+	# controls. Detect this and handle it the same as "windowed".
+	elif (
+		Feature.is_macos_platform() and
+		window_mode_prev == Window.MODE_FULLSCREEN and
+		(
+			window.mode == Window.MODE_WINDOWED or
+			window.mode == Window.MODE_MAXIMIZED
+		)
+	):
+		print(
+			"system/setting/video/window_observer.gd[",
+			get_instance_id(),
+			"]: already exited fullscreen; updating properties to match",
+		)
+
+		# NOTE: The window mode property handler won't change from
+		# 'Window.MODE_MAXIMIZED' to 'Window.MODE_WINDOWED'; this just updates any
+		# dependent UI elements to reflect the exit from _is_fullscreenn.
+		window_mode_property.call_deferred(&"set_value", Window.MODE_WINDOWED)
+
+		# call_deferred(&"_update_resolution_options")
+		# resolution_property.call_deferred(&"select_midpoint", true)
 
 func _is_fullscreen(mode: Window.Mode) -> bool:
 	return mode == Window.MODE_FULLSCREEN or mode == Window.MODE_EXCLUSIVE_FULLSCREEN
@@ -306,12 +417,17 @@ func _save_resolution(size: Vector2i) -> void:
 	window_height_property.set_value(size.y)
 	window_width_property.set_value(size.x)
 
+func _select_resolution_or_midpoint() -> void:
+	if resolution_property.get_value() in resolution_options_property.get_value():
+		return _update_resolution()
+	
+	resolution_property.select_midpoint(true)
 
 func _set_borderless(value: bool, window_id: int = 0) -> void:
 	(
 		DisplayServer
-		. window_set_flag(
-			DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
+		.window_set_flag(
+			DisplayServer.WINDOW_FLAG_BORDERLESS,
 			value,
 			window_id,
 		)
@@ -321,7 +437,7 @@ func _set_borderless(value: bool, window_id: int = 0) -> void:
 func _set_resizable(value: bool, window_id: int = 0) -> void:
 	(
 		DisplayServer
-		. window_set_flag(
+		.window_set_flag(
 			DisplayServer.WINDOW_FLAG_RESIZE_DISABLED,
 			not value,
 			window_id,
@@ -338,67 +454,59 @@ func _update_resolution_options() -> void:
 	var resolution_options: PackedVector2Array = resolution_options_property.get_value()
 	resolution_options_property.value_changed.emit(resolution_options)
 
+func _watch_window_mode_start() -> void:
+	if not _window_mode_watcher_enabled:
+		if not is_processing():
+			set_process(true)
 
-func _update_window_mode() -> void:
-	var window := get_window()
-	var window_mode_target: Window.Mode = window_mode_property.get_value()
-
-	if window_mode_target != window.mode:
 		print(
 			"system/setting/video/window_observer.gd[",
 			get_instance_id(),
-			"]: window mode update required: %d" % window.mode,
+			(
+				"]: started watching for window mode changes (%d)" % get_window().mode
+			),
 		)
 
-		set_window_mode(window.mode)
-
-		_watch_window_mode_stop()
-
-
-func _watch_window_mode_start() -> void:
-	_elapsed = 0.0
-	if not is_processing():
-		set_process(true)
-
+	_window_mode_watcher_enabled = true
+	_window_mode_watcher_elapsed = 0.0
 
 func _watch_window_mode_stop() -> void:
-	_elapsed = 0.0
-	if is_processing():
-		set_process(false)
+	if _window_mode_watcher_enabled:
+		if is_processing():
+			set_process(false)
+
+		print(
+			"system/setting/video/window_observer.gd[",
+			get_instance_id(),
+			(
+				"]: stopped watching for window mode changes (%d)" % get_window().mode
+			),
+		)
+
+	_window_mode_watcher_enabled = false
+	_window_mode_watcher_elapsed = 0.0
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
 func _on_Window_size_changed() -> void:
-	var window := get_window()
-
-	var window_mode_prev := _window_mode
-	_window_mode = window.mode
-
-	if window.mode != window_mode_prev:
+	var size_display: Vector2i = DisplayServer.get_display_safe_area().size
+	if size_display != _window_mode_watcher_display_size:
 		print(
 			"system/setting/video/window_observer.gd[",
 			get_instance_id(),
-			(
-				"]: detected change in window size: %s (%s)"
-				% [get_window().size, window.mode]
-			),
+			"]: display's safe area size changed (%s, previously %s)" % [size_display, _window_mode_watcher_display_size],
 		)
 
-		# NOTE: Entered maximize state; update mode to fullscreen.
-		if (
-			window.mode == Window.MODE_MAXIMIZED
-			and window_mode_prev == Window.MODE_WINDOWED
-		):
-			window_mode_property.call_deferred(&"set_value", Window.MODE_FULLSCREEN)
+		_handle_window_resize()
 
 
 func _on_Window_titlebar_changed() -> void:
 	print(
 		"system/setting/video/window_observer.gd[",
 		get_instance_id(),
-		"]: detected change in titlebar visibility",
+		"]: detected change in titlebar visibility (%d, previously %d)" % [get_window().mode, _window_mode],
 	)
-
+	
 	_watch_window_mode_start()
