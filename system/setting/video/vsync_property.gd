@@ -17,7 +17,6 @@ func _get_value_from_config(config: Config) -> Variant:
 
 
 func _set_value_on_config(config: Config, value: bool) -> bool:
-	print("SET ", value)
 	if value == default:
 		return config.erase(category, name)
 
