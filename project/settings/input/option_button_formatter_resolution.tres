@@ -1,6 +1,0 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://b8urheanvqc56"]
-
-[ext_resource type="Script" path="res://project/settings/input/option_button_formatter_resolution.gd" id="1_a5wir"]
-
-[resource]
-script = ExtResource("1_a5wir")
