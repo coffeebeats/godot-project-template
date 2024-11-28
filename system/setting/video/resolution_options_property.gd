@@ -12,10 +12,6 @@ extends StdSettingsPropertyVector2List
 ## window_mode_property is a settings property defining the window mode.
 @export var window_mode_property: StdSettingsPropertyInt = null
 
-## include_viewport_aspect_when_windowed controls whether the viewport's aspect ratio is
-## used instead of the screen's when in non-fullscreen windowed mode.
-@export var include_viewport_aspect_when_windowed: bool = true
-
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 static var resolutions_4_3 := PackedVector2Array(
@@ -37,8 +33,8 @@ static var resolutions_5_4 := PackedVector2Array(
 static var resolutions_14_9 := PackedVector2Array(
 	[
 		# 14:9
-		Vector2(3024, 1964),  # MacBook Pro 14"
-		Vector2(3456, 2234),  # MacBook Pro 16"
+		Vector2(3024, 1964), # MacBook Pro 14"
+		Vector2(3456, 2234), # MacBook Pro 16"
 	]
 )
 
@@ -53,9 +49,9 @@ static var resolutions_16_9 := PackedVector2Array(
 		Vector2(2048, 1152),
 		Vector2(2560, 1440),
 		Vector2(3840, 2160),
-		Vector2(4096, 2304),  # iMac Retina 21.5"
-		Vector2(4480, 2520),  # iMac Retina 24"
-		Vector2(5120, 2880),  # iMac Retina 27"
+		Vector2(4096, 2304), # iMac Retina 21.5"
+		Vector2(4480, 2520), # iMac Retina 24"
+		Vector2(5120, 2880), # iMac Retina 27"
 		Vector2(7680, 4320),
 	]
 )
@@ -70,10 +66,10 @@ static var resolutions_16_10 := PackedVector2Array(
 		Vector2(1920, 1200),
 		Vector2(2048, 1280),
 		Vector2(2304, 1440),
-		Vector2(2560, 1664),  # Macbook Air 13"
+		Vector2(2560, 1664), # Macbook Air 13"
 		Vector2(2560, 1600),
 		Vector2(2880, 1800),
-		Vector2(2880, 1864),  # Macbook Air 15"
+		Vector2(2880, 1864), # Macbook Air 15"
 		Vector2(3024, 1890),
 		Vector2(3072, 1920),
 		Vector2(3456, 2160),
@@ -112,22 +108,8 @@ func _get_value_from_config(_config: Config) -> Variant:
 		out.append(DisplayServer.window_get_size_with_decorations())
 		return out
 
-	var screen := DisplayServer.get_display_safe_area().size
-
-	var viewport := Vector2(
-		ProjectSettings.get_setting_with_override(
-			&"display/window/size/viewport_width"
-		),
-		ProjectSettings.get_setting_with_override(
-			&"display/window/size/viewport_height"
-		),
-	)
-
-	var size_max = screen - _get_title_size()
-
-	var target_aspects := [screen.aspect()]
-	if include_viewport_aspect_when_windowed:
-		target_aspects.append(viewport.aspect())
+	var size_max = DisplayServer.get_display_safe_area().size - _get_title_size()
+	var target_aspects := [DisplayServer.screen_get_size().aspect()]
 
 	for resolutions in resolutions_by_aspect:
 		var is_matching_aspect := false
@@ -147,15 +129,15 @@ func _get_value_from_config(_config: Config) -> Variant:
 
 			out.append(resolution)
 
-	# If no resolutions match the screen's aspect ratio, just provide all resolutions
-	# smaller than the screen and let the user decide.
-	if out.is_empty():
-		for resolutions in resolutions_by_aspect:
-			for resolution in resolutions:
-				if resolution.x > size_max.x or resolution.y > size_max.y:
-					continue
+	# # If no resolutions match the screen's aspect ratio, just provide all resolutions
+	# # smaller than the screen and let the user decide.
+	# if out.is_empty():
+	# 	for resolutions in resolutions_by_aspect:
+	# 		for resolution in resolutions:
+	# 			if resolution.x > size_max.x or resolution.y > size_max.y:
+	# 				continue
 
-				out.append(resolution)
+	# 			out.append(resolution)
 
 	return out
 
@@ -166,7 +148,7 @@ func _get_value_from_config(_config: Config) -> Variant:
 func _get_title_size(window_id: int = 0) -> Vector2i:
 	var title := (
 		DisplayServer
-		. window_get_title_size(
+		.window_get_title_size(
 			ProjectSettings.get_setting_with_override("application/config/name"),
 			window_id,
 		)
