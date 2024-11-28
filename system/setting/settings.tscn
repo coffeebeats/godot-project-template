@@ -17,10 +17,10 @@
 [ext_resource type="Script" path="res://system/setting/video/fps_observer.gd" id="15_rqncv"]
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="16_hkpcf"]
 [ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="17_s141t"]
-[ext_resource type="Script" path="res://system/setting/video/window_observer.gd" id="18_sypjw"]
-[ext_resource type="Resource" uid="uid://csnkwoxt7d086" path="res://system/setting/video/window_mode_property.tres" id="19_ler7y"]
-[ext_resource type="Resource" uid="uid://cgx3u2ian4dbh" path="res://system/setting/video/resolution_property.tres" id="20_i0nkh"]
-[ext_resource type="Resource" uid="uid://b4gapmq2h1teh" path="res://system/setting/video/resolution_options_property.tres" id="21_tvlaq"]
+[ext_resource type="Script" path="res://system/setting/video/window_observer.gd" id="18_d4nyg"]
+[ext_resource type="Resource" uid="uid://bto0jfkd0pli7" path="res://system/setting/video/fullscreen.tres" id="19_sp5q8"]
+[ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="20_pmh6n"]
+[ext_resource type="Resource" uid="uid://62mhtqvh6wfn" path="res://system/setting/video/window_mode_property.tres" id="21_75euv"]
 [ext_resource type="Resource" uid="uid://bdaxwm2dehgld" path="res://system/setting/video/window_size_height.tres" id="21_w2qmb"]
 [ext_resource type="Resource" uid="uid://biiioq518hd3s" path="res://system/setting/video/window_size_width.tres" id="22_tlkex"]
 
@@ -77,10 +77,10 @@ script = ExtResource("15_rqncv")
 vsync_property = ExtResource("16_hkpcf")
 frame_limit_property = ExtResource("17_s141t")
 
-[node name="Window" type="Node" parent="Observers/Video"]
-script = ExtResource("18_sypjw")
-window_mode_property = ExtResource("19_ler7y")
-resolution_property = ExtResource("20_i0nkh")
-resolution_options_property = ExtResource("21_tvlaq")
+[node name="WindowMode" type="Node" parent="Observers/Video"]
+script = ExtResource("18_d4nyg")
+fullscreen_property = ExtResource("19_sp5q8")
+borderless_property = ExtResource("20_pmh6n")
+window_mode_property = ExtResource("21_75euv")
 window_height_property = ExtResource("21_w2qmb")
 window_width_property = ExtResource("22_tlkex")
