@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="StdSettingsPropertyBool" load_steps=2 format=3 uid="uid://cg5lexk11pl7g"]
+[gd_resource type="Resource" script_class="StdSettingsPropertyBool" load_steps=3 format=3 uid="uid://cg5lexk11pl7g"]
 
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_ib7bv"]
 [ext_resource type="Script" path="res://addons/std/setting/property_bool.gd" id="1_or2rp"]
 
 [resource]
@@ -8,3 +9,4 @@ default = false
 category = &"audio"
 name = &"mute/global"
 readonly = false
+scope = ExtResource("1_ib7bv")

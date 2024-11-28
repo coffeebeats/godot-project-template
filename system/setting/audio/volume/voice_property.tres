@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="StdSettingsPropertyFloatRange" load_steps=2 format=3 uid="uid://csu1osb4kni20"]
+[gd_resource type="Resource" script_class="StdSettingsPropertyFloatRange" load_steps=3 format=3 uid="uid://csu1osb4kni20"]
 
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_fgjhi"]
 [ext_resource type="Script" path="res://addons/std/setting/property_float_range.gd" id="1_rmqih"]
 
 [resource]
@@ -11,3 +12,4 @@ default = 10.0
 category = &"audio"
 name = &"volume/voice"
 readonly = false
+scope = ExtResource("1_fgjhi")

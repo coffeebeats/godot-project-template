@@ -37,7 +37,14 @@ func shutdown(exit_code: int = 0) -> void:
 		"]: shutdown requested; exit code: %d" % exit_code,
 	)
 
-	_lifecycle_mu.lock()
+	if not _lifecycle_mu.try_lock():
+		print(
+			"project/main/lifecycle.gd[",
+			get_instance_id(),
+			"]: shutdown already in progress; exiting",
+		)
+
+		return
 
 	var should_exit: bool = true
 	if not _is_shutdown_requested:
