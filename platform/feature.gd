@@ -10,12 +10,10 @@
 class_name Feature
 extends Object
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## Platform enumerates the set of platforms which this game might target.
-enum Platform { UNKNOWN, MACOS, WEB, WINDOWS }
+enum Platform {UNKNOWN, MACOS, WEB, WINDOWS}
 
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {
@@ -68,12 +66,12 @@ static func get_storefront() -> Storefront:
 
 ## is_steam_enabled returns whether the game build is targeting the Steam 'Storefront'.
 static func is_steam_storefront_enabled() -> bool:
-	return OS.has_feature("steam")
+	return OS.has_feature("storefront:steam")
 
 
 ## is_gog_enabled returns whether the game build is targeting the GOG 'Storefront'.
 static func is_gog_storefront_enabled() -> bool:
-	return OS.has_feature("gog")
+	return OS.has_feature("storefront:gog")
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -84,7 +82,3 @@ func _init() -> void:
 		not OS.is_debug_build(),
 		"Invalid config; this 'Object' should not be instantiated!"
 	)
-
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
