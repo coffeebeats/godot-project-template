@@ -1,0 +1,78 @@
+[gd_scene load_steps=25 format=3 uid="uid://d3cqgterdhlhy"]
+
+[ext_resource type="Script" path="res://system/input/player_input.gd" id="1_24ti8"]
+[ext_resource type="Script" path="res://addons/std/feature/conditional.gd" id="2_6o4il"]
+[ext_resource type="Resource" uid="uid://blgrkux4ucksh" path="res://project/actions/menu.tres" id="2_iybr5"]
+[ext_resource type="Script" path="res://addons/std/input/cursor.gd" id="2_mtsha"]
+[ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="3_w82uf"]
+[ext_resource type="Resource" uid="uid://b0i83cpqtjwoi" path="res://project/actions/menu_tabbed.tres" id="4_8dmot"]
+[ext_resource type="PackedScene" uid="uid://dmpqyx7wgrko2" path="res://system/input/unknown/joypad_monitor.tscn" id="4_impp7"]
+[ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="4_shks4"]
+[ext_resource type="Script" path="res://addons/std/input/slot.gd" id="5_nn0cf"]
+[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/scope.tres" id="5_xqlto"]
+[ext_resource type="Resource" uid="uid://bf20k1naxk6qi" path="res://system/input/unknown/sync_target.tres" id="6_isf7m"]
+[ext_resource type="Script" path="res://addons/std/input/godot/device_actions.gd" id="7_sjit1"]
+[ext_resource type="Script" path="res://addons/std/input/godot/device_glyphs.gd" id="8_2shmp"]
+[ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="8_smo6n"]
+[ext_resource type="Script" path="res://addons/std/input/godot/glyph_set.gd" id="9_2nk2p"]
+[ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="9_6yy7q"]
+[ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="10_xgqgy"]
+[ext_resource type="Resource" uid="uid://djapgw43x4jne" path="res://system/input/unknown/glyphs/keyboard.tres" id="11_edesv"]
+[ext_resource type="Resource" uid="uid://k5s1un1ghk61" path="res://system/input/unknown/glyphs/keyboard_label_only.tres" id="11_hfb5k"]
+[ext_resource type="Resource" uid="uid://enx6b4exkd62" path="res://system/input/unknown/glyphs/mouse.tres" id="11_t6xt8"]
+[ext_resource type="Resource" uid="uid://ci70wfv6cjmxo" path="res://system/input/unknown/glyphs/xbox.tres" id="12_20f35"]
+[ext_resource type="Resource" uid="uid://dfol1drrvpqd2" path="res://system/input/unknown/glyphs/playstation.tres" id="13_d18ch"]
+[ext_resource type="Resource" uid="uid://dxtdkbfbmrq8q" path="res://system/input/unknown/glyphs/unknown.tres" id="14_td3ng"]
+[ext_resource type="Script" path="res://addons/std/input/godot/device_haptics.gd" id="15_k7dqd"]
+
+[node name="PlayerInput" type="Node"]
+script = ExtResource("1_24ti8")
+default_action_set = ExtResource("2_iybr5")
+default_action_set_layers = Array[ExtResource("3_w82uf")]([ExtResource("4_8dmot")])
+
+[node name="InputCursor" type="Node" parent="."]
+script = ExtResource("2_mtsha")
+minimum_reveal_distance = Vector2(24, 24)
+
+[node name="Steam" type="Node" parent="."]
+script = ExtResource("2_6o4il")
+allow = PackedStringArray("storefront:steam")
+
+[node name="Godot" type="Node" parent="."]
+script = ExtResource("2_6o4il")
+allow = PackedStringArray("storefront:unknown", "editor")
+
+[node name="Components" type="Node" parent="Godot"]
+
+[node name="DeviceActions" type="Node" parent="Godot/Components"]
+script = ExtResource("7_sjit1")
+scope = ExtResource("5_xqlto")
+
+[node name="DeviceGlyphs" type="Node" parent="Godot/Components"]
+script = ExtResource("8_2shmp")
+glyph_sets = Array[ExtResource("9_2nk2p")]([ExtResource("11_edesv"), ExtResource("11_hfb5k"), ExtResource("11_t6xt8"), ExtResource("12_20f35"), ExtResource("13_d18ch"), ExtResource("14_td3ng")])
+
+[node name="DeviceHaptics" type="Node" parent="Godot/Components"]
+script = ExtResource("15_k7dqd")
+
+[node name="StdSettingsRepository" type="Node" parent="Godot"]
+script = ExtResource("4_shks4")
+scope = ExtResource("5_xqlto")
+sync_target = ExtResource("6_isf7m")
+
+[node name="JoypadMonitor" parent="Godot" instance=ExtResource("4_impp7")]
+
+[node name="InputSlots" type="Node" parent="Godot"]
+
+[node name="Player1" type="Node" parent="Godot/InputSlots" node_paths=PackedStringArray("cursor", "joypad_monitor", "actions_kbm", "glyphs_kbm", "actions_joy", "glyphs_joy", "haptics_joy")]
+script = ExtResource("5_nn0cf")
+glyph_type_override_property = ExtResource("8_smo6n")
+haptics_disabled_property = ExtResource("9_6yy7q")
+haptics_strength_property = ExtResource("10_xgqgy")
+cursor = NodePath("../../../InputCursor")
+joypad_monitor = NodePath("../../JoypadMonitor")
+actions_kbm = NodePath("../../Components/DeviceActions")
+glyphs_kbm = NodePath("../../Components/DeviceGlyphs")
+actions_joy = NodePath("../../Components/DeviceActions")
+glyphs_joy = NodePath("../../Components/DeviceGlyphs")
+haptics_joy = NodePath("../../Components/DeviceHaptics")

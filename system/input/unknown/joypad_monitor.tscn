@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmpqyx7wgrko2"]
+
+[ext_resource type="Script" path="res://addons/std/input/godot/joypad_monitor.gd" id="1_s6mc4"]
+
+[node name="JoypadMonitor" type="Node"]
+script = ExtResource("1_s6mc4")
