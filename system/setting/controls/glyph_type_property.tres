@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyInt" load_steps=3 format=3 uid="uid://dyuvr6ililvtc"]
+
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_3a786"]
+[ext_resource type="Script" path="res://addons/std/setting/property_int.gd" id="2_6h5r7"]
+
+[resource]
+script = ExtResource("2_6h5r7")
+default = 0
+category = &"controls"
+name = &"glyph/type"
+readonly = false
+scope = ExtResource("1_3a786")
