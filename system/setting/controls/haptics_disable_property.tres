@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StdSettingsPropertyBool" load_steps=3 format=3 uid="uid://bvn3rtmjdoe5s"]
+
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_a6nwo"]
+[ext_resource type="Script" path="res://addons/std/setting/property_bool.gd" id="1_mdhvv"]
+
+[resource]
+script = ExtResource("1_mdhvv")
+default = false
+category = &"controls"
+name = &"haptics/disable"
+readonly = false
+scope = ExtResource("1_a6nwo")
