@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StdInputActionSetLayer" load_steps=3 format=3 uid="uid://dp0wxxg20ablh"]
+
+[ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="1_2muka"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/menu.tres" id="1_km51u"]
+
+[resource]
+script = ExtResource("1_2muka")
+parent = ExtResource("1_km51u")
+name = &"menu_tabbed"
+actions_analog_1d = Array[StringName]([])
+actions_analog_2d = Array[StringName]([])
+actions_digital = Array[StringName]([&"ui_tab_next", &"ui_tab_prev"])
+confine_cursor = false
+activate_kbm_on_cursor_motion = true
+actions_hide_cursor = Array[StringName]([&"ui_tab_next", &"ui_tab_prev"])
+always_hide_cursor = false
+always_show_cursor = false
+action_absolute_mouse = &""
+version_major = 0
+version_minor = 0
