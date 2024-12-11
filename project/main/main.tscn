@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dhyjkxpbfsy81"]
+[gd_scene load_steps=9 format=3 uid="uid://dhyjkxpbfsy81"]
 
 [ext_resource type="Script" path="res://project/main/main.gd" id="1_gcs5q"]
 [ext_resource type="Script" path="res://addons/std/scene/scene.gd" id="2_e2317"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://addons/std/scene/state/fade.gd" id="4_vah31"]
 [ext_resource type="Script" path="res://addons/std/scene/state/playable.gd" id="5_wtlwn"]
 [ext_resource type="Script" path="res://addons/std/scene/state/splash.gd" id="6_stj23"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/menu.tres" id="7_camuk"]
 
 [node name="Main" type="ColorRect"]
 anchors_preset = 15
@@ -47,6 +48,7 @@ to = NodePath("../Splash")
 script = ExtResource("6_stj23")
 to = NodePath("../../Godot/Transition")
 duration_minimum_enabled = false
+action_set = ExtResource("7_camuk")
 scene = "res://project/main/splash/studio.tscn"
 
 [node name="Godot" type="Node" parent="Scene/Boot"]
@@ -60,6 +62,7 @@ to = NodePath("../Splash")
 script = ExtResource("6_stj23")
 to = NodePath("../../../Main/Transition")
 duration_minimum_enabled = false
+action_set = ExtResource("7_camuk")
 scene = "res://project/main/splash/godot.tscn"
 
 [node name="Main" type="Node" parent="Scene"]
@@ -71,4 +74,5 @@ to = NodePath("../Menu")
 
 [node name="Menu" type="Node" parent="Scene/Main"]
 script = ExtResource("5_wtlwn")
+action_set = ExtResource("7_camuk")
 scene = "res://project/main/menu/main_menu.tscn"
