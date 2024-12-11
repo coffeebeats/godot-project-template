@@ -38,6 +38,8 @@ window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=2
+window/size/mode.web=0
+window/size/mode.editor=0
 
 [editor_plugins]
 
