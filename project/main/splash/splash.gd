@@ -40,10 +40,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func _input(event: InputEvent) -> void:
 	if (
-		(
-			event is InputEventMouseButton
-			and event.button_index == MOUSE_BUTTON_LEFT
-		)
+		(event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT)
 		or Array(actions_advance).any(func(a): return event.is_action_pressed(a))
 	):
 		get_viewport().set_input_as_handled()
