@@ -17,6 +17,10 @@ const SceneHandle := preload("res://addons/std/scene/handle.gd")
 ## transition events to the main scene state machine.
 @export_node_path var scene_handle := NodePath()
 
+## actions_advance is the list of action names which, when activated, will advance the
+## splash screen to the next scene state.
+@export var actions_advance := PackedStringArray(["ui_accept", "ui_cancel"])
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 @onready var _scene_handle: SceneHandle = get_node_or_null(scene_handle)
@@ -36,9 +40,11 @@ func _gui_input(event: InputEvent) -> void:
 
 func _input(event: InputEvent) -> void:
 	if (
-		event.is_action_pressed("ui_accept")
-		or event.is_action_pressed("ui_select")
-		or event.is_action_pressed("ui_cancel")
+		(
+			event is InputEventMouseButton
+			and event.button_index == MOUSE_BUTTON_LEFT
+		)
+		or Array(actions_advance).any(func(a): return event.is_action_pressed(a))
 	):
 		get_viewport().set_input_as_handled()
 		_scene_handle.advance()
