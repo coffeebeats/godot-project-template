@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.2.0 (2024-12-12)
+
+## What's Changed
+* fix(settings): refactor settings to use new `std` API; improve window and audio settings by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/144
+* chore(addons): update `std` to `v1.5.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/146
+* fix(platform): tag storefront feature with a `storefront:` prefix by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/147
+* fix: refactor exported resources to be more intuitive by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/148
+* chore(addons): update `std` to `v1.6.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/149
+* chore(addons): update `std` to `v1.7.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/150
+* chore(addons): update `std` to `v1.7.1` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/151
+* chore(addons): update `std` to `v1.7.2` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/152
+* chore(addons): update `std` to `v1.7.3` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/153
+* chore(addons): update `std` to `v1.7.4` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/154
+* feat(input): add simple input device glyphs with `StdInputGlyphSet`s by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/155
+* feat(input): create components for Godot-backed `StdInputSlot` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/156
+* feat(input): create properties for controls by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/157
+* chore(addons): update `std` to `v1.8.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/158
+* chore: set default window mode to windowed for web and editor by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/159
+* feat(project): define menu action sets and improve configuration of splash screens by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/160
+* feat(ui): create a `Glyph` UI scene for controller origin icons by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/161
+* chore(addons): update `std` to `v1.8.1` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/162
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.1.0...v1.2.0
+
 ## 1.1.0 (2024-11-09)
 
 ## What's Changed
