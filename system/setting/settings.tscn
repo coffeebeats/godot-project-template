@@ -22,7 +22,7 @@
 [ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="20_pmh6n"]
 [ext_resource type="Resource" uid="uid://62mhtqvh6wfn" path="res://system/setting/video/window_mode_property.tres" id="21_75euv"]
 
-[sub_resource type="Resource" id="Resource_6ix3w"]
+[sub_resource type="Resource" id="Resource_017p8"]
 script = ExtResource("4_v73tc")
 
 [node name="Settings" type="Node"]
@@ -31,7 +31,7 @@ script = ExtResource("1_u6e61")
 [node name="StdSettingsRepository" type="Node" parent="."]
 script = ExtResource("2_0mjau")
 scope = ExtResource("3_q5d07")
-sync_target = SubResource("Resource_6ix3w")
+sync_target = SubResource("Resource_017p8")
 
 [node name="Observers" type="Node" parent="."]
 
