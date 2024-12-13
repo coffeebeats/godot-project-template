@@ -1,0 +1,68 @@
+"In Game Actions"
+{
+	"actions"
+	{
+		"menu"
+		{
+			"title"					"#set_menu"
+			"StickPadGyro"
+			{
+			}
+			"AnalogTrigger"
+			{
+			}
+			"Button"
+			{
+				"ui_accept"				"#Action_ui_accept"
+				"ui_back"				"#Action_ui_back"
+				"ui_left"				"#Action_ui_left"
+				"ui_right"				"#Action_ui_right"
+				"ui_up"				"#Action_ui_up"
+				"ui_down"				"#Action_ui_down"
+				"ui_focus_next"				"#Action_ui_focus_next"
+				"ui_focus_prev"				"#Action_ui_focus_prev"
+				"ui_cancel"				"#Action_ui_cancel"
+			}
+		}
+	}
+	"action_layers"
+	{
+		"menu_tabbed"
+		{
+			"title"					"#layer_menu_tabbed"
+			"legacy_set"					"0"
+			"set_layer"					"1"
+			"parent_set_name"					"menu"
+			"StickPadGyro"
+			{
+			}
+			"AnalogTrigger"
+			{
+			}
+			"Button"
+			{
+				"ui_tab_next"				"#Action_ui_tab_next"
+				"ui_tab_prev"				"#Action_ui_tab_prev"
+			}
+		}
+	}
+	"localization"
+	{
+		"english"
+		{
+			"set_menu"					"menu"
+			"action_ui_accept"					"ui_accept"
+			"action_ui_back"					"ui_back"
+			"action_ui_left"					"ui_left"
+			"action_ui_right"					"ui_right"
+			"action_ui_up"					"ui_up"
+			"action_ui_down"					"ui_down"
+			"action_ui_focus_next"					"ui_focus_next"
+			"action_ui_focus_prev"					"ui_focus_prev"
+			"action_ui_cancel"					"ui_cancel"
+			"layer_menu_tabbed"					"menu_tabbed"
+			"action_ui_tab_next"					"ui_tab_next"
+			"action_ui_tab_prev"					"ui_tab_prev"
+		}
+	}
+}
