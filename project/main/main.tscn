@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://addons/std/scene/state/fade.gd" id="4_vah31"]
 [ext_resource type="Script" path="res://addons/std/scene/state/playable.gd" id="5_wtlwn"]
 [ext_resource type="Script" path="res://addons/std/scene/state/splash.gd" id="6_stj23"]
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/menu.tres" id="7_camuk"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="7_camuk"]
 
 [node name="Main" type="ColorRect"]
 anchors_preset = 15
