@@ -1,18 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://beb4vb4fgtaik"]
+[gd_scene load_steps=5 format=3 uid="uid://beb4vb4fgtaik"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="1_4qq2r"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_elne7"]
-[ext_resource type="Script" path="res://addons/std/condition/expression_feature.gd" id="3_11bqo"]
-[ext_resource type="PackedScene" uid="uid://b4m43lixcajnq" path="res://platform/storefront/steam/steam.tscn" id="4_68an7"]
-
-[sub_resource type="Resource" id="Resource_jwryr"]
-script = ExtResource("3_11bqo")
-feature = &"storefront:steam"
+[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/expression_steam_storefront.tres" id="3_loaae"]
+[ext_resource type="PackedScene" uid="uid://b4m43lixcajnq" path="res://platform/storefront/steam/steam_storefront.tscn" id="4_68an7"]
 
 [node name="Storefront" type="Node"]
 
 [node name="StdConditionParent" type="Node" parent="."]
 script = ExtResource("1_4qq2r")
-expressions_allow = Array[ExtResource("2_elne7")]([SubResource("Resource_jwryr")])
+expressions_allow = Array[ExtResource("2_elne7")]([ExtResource("3_loaae")])
 
-[node name="Steam" parent="StdConditionParent" instance=ExtResource("4_68an7")]
+[node name="SteamStorefront" parent="StdConditionParent" instance=ExtResource("4_68an7")]
