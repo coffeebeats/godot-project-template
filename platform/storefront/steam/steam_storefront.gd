@@ -1,5 +1,5 @@
 ##
-## platform/storefront/steam/steam.gd
+## platform/storefront/steam/steam_storefront.gd
 ##
 ## This node initializes the `Steam` storefront integration.
 ##
@@ -17,8 +17,12 @@ var _is_initialized: bool = false
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 func _enter_tree() -> void:
-	# NOTE: Ensure this integration can always interact with the Steam SDK.
+	# NOTE: Ensure this node can always process callbacks.
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# NOTE: No need to call 'Steam.restartAppIfNecessary', as it should be handled by
+	# the Steam DRM wrapper, applied during upload. For more context, see
+	# https://partner.steamgames.com/doc/features/drm.
 
 	var response := Steam.steamInitEx(true)
 
@@ -48,3 +52,6 @@ func _exit_tree() -> void:
 		return
 
 	Steam.steamShutdown()
+
+func _process(_delta: float) -> void:
+	Steam.run_callbacks()

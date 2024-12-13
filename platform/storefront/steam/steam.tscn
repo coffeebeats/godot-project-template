@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4m43lixcajnq"]
-
-[ext_resource type="Script" path="res://platform/storefront/steam/steam.gd" id="1_1fo2a"]
-
-[node name="Steam" type="Node"]
-script = ExtResource("1_1fo2a")
