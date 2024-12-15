@@ -13,7 +13,7 @@ extends Object
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## Platform enumerates the set of platforms which this game might target.
-enum Platform {UNKNOWN, MACOS, WEB, WINDOWS}
+enum Platform { UNKNOWN, MACOS, WEB, WINDOWS }
 
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {

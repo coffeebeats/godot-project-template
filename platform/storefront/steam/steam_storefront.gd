@@ -16,6 +16,7 @@ var _is_initialized: bool = false
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _enter_tree() -> void:
 	# NOTE: Ensure this node can always process callbacks.
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -52,6 +53,7 @@ func _exit_tree() -> void:
 		return
 
 	Steam.steamShutdown()
+
 
 func _process(_delta: float) -> void:
 	Steam.run_callbacks()
