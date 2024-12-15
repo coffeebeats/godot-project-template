@@ -28,7 +28,8 @@ buses/default_bus_layout="res://system/audio/default_audio_bus_layout.tres"
 [autoload]
 
 Lifecycle="*res://project/main/lifecycle.gd"
-Settings="*res://system/setting/settings.tscn"
+Platform="*res://platform/platform.tscn"
+System="*res://system/system.tscn"
 
 [display]
 

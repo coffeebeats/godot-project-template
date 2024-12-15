@@ -1,5 +1,5 @@
 ##
-## Feature
+## feature.gd
 ##
 ## A shared library for querying feature flags and platform metadata.
 ##
