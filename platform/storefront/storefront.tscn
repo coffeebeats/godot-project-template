@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="1_4qq2r"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_elne7"]
-[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/expression_steam_storefront.tres" id="3_loaae"]
+[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="3_loaae"]
 [ext_resource type="PackedScene" uid="uid://b4m43lixcajnq" path="res://platform/storefront/steam/steam_storefront.tscn" id="4_68an7"]
+
 
 [node name="Storefront" type="Node"]
 

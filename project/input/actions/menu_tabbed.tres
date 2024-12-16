@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="1_2muka"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="1_km51u"]
 
-
 [resource]
 script = ExtResource("1_2muka")
 parent = ExtResource("1_km51u")
