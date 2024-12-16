@@ -46,4 +46,4 @@ button_dpad_right = ExtResource("7_3wlhl")
 button_misc = ExtResource("9_wvxc5")
 analog_trigger_left = ExtResource("1_hqbur")
 analog_trigger_right = ExtResource("2_3xapu")
-device_type = 6
+device_types = Array[int]([1, 11, 12])
