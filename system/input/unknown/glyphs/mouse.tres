@@ -17,4 +17,4 @@ button_wheel_left = ExtResource("2_85lv3")
 button_wheel_right = ExtResource("2_85lv3")
 button_side_1 = ExtResource("4_qjvqc")
 button_side_2 = ExtResource("4_qjvqc")
-device_type = 1
+device_types = Array[int]([2])

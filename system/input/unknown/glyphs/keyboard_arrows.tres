@@ -14,4 +14,4 @@ arrow_up = ExtResource("4_v0hlb")
 arrow_down = ExtResource("1_iu2x6")
 arrow_left = ExtResource("2_0tsjx")
 arrow_right = ExtResource("3_4jrqp")
-device_type = 1
+device_types = Array[int]([2])

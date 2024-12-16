@@ -48,4 +48,4 @@ button_misc = ExtResource("9_1a4t4")
 button_touchpad = ExtResource("15_uonpg")
 analog_trigger_left = ExtResource("1_rjmju")
 analog_trigger_right = ExtResource("2_8236s")
-device_type = 3
+device_types = Array[int]([3, 4])

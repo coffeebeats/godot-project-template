@@ -44,4 +44,4 @@ button_shoulder_left = ExtResource("6_nwftv")
 button_shoulder_right = ExtResource("7_wxk66")
 analog_trigger_left = ExtResource("1_teasb")
 analog_trigger_right = ExtResource("2_vjbuo")
-device_type = 5
+device_types = Array[int]([5])

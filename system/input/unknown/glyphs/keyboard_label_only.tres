@@ -6,4 +6,4 @@
 script = ExtResource("70_mp864")
 include_label = true
 capitalize_label = true
-device_type = 1
+device_types = Array[int]([2])
