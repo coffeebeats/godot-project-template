@@ -1,18 +1,21 @@
 [gd_resource type="Resource" script_class="StdInputActionSet" load_steps=2 format=3 uid="uid://ldk7k2w5uvks"]
 
-[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="1_3l5kp"]
+[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="1_c83rl"]
 
 [resource]
-script = ExtResource("1_3l5kp")
+script = ExtResource("1_c83rl")
 name = &"menu"
 actions_analog_1d = Array[StringName]([])
 actions_analog_2d = Array[StringName]([])
 actions_digital = Array[StringName]([&"ui_accept", &"ui_back", &"ui_left", &"ui_right", &"ui_up", &"ui_down", &"ui_focus_next", &"ui_focus_prev", &"ui_cancel"])
-confine_cursor = false
-activate_kbm_on_cursor_motion = true
-actions_hide_cursor = Array[StringName]([&"ui_accept", &"ui_select", &"ui_cancel", &"ui_left", &"ui_right", &"ui_up", &"ui_down"])
-always_hide_cursor = false
-always_show_cursor = false
+cursor_confined = false
+cursor_captured = false
+cursor_activates_kbm = true
+cursor_hide_actions = Array[StringName]([&"ui_left", &"ui_right", &"ui_up", &"ui_down", &"ui_focus_next", &"ui_focus_prev"])
+cursor_hide_actions_if_hovered = Array[StringName]([&"ui_accept"])
+cursor_hide_delay = 0.0
+cursor_reveal_mouse_buttons = Array[int]([1, 2])
+cursor_reveal_distance_minimum = Vector2(12, 12)
 action_absolute_mouse = &""
 version_major = 0
 version_minor = 0
