@@ -1,6 +1,5 @@
-[gd_scene load_steps=23 format=3 uid="uid://cjb8nitks0be0"]
+[gd_scene load_steps=22 format=3 uid="uid://cjb8nitks0be0"]
 
-[ext_resource type="Script" path="res://system/setting/settings.gd" id="1_u6e61"]
 [ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="3_q5d07"]
 [ext_resource type="Script" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
@@ -26,7 +25,6 @@
 script = ExtResource("4_v73tc")
 
 [node name="Settings" type="Node"]
-script = ExtResource("1_u6e61")
 
 [node name="StdSettingsRepository" type="Node" parent="."]
 script = ExtResource("2_0mjau")
