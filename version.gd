@@ -43,7 +43,7 @@ static func get_major_version() -> String:
 
 # get_minor_version returns the minor version component.
 static func get_minor_version() -> String:
-	return "1"  # x-release-please-minor
+	return "2"  # x-release-please-minor
 
 
 # get_patch_version returns the patch version component.
@@ -53,7 +53,7 @@ static func get_patch_version() -> String:
 
 # get_semantic_version returns the full semantic version.
 static func get_semantic_version(strip_v_prefix: bool = true) -> String:
-	var version := "v1.1.0"  # x-release-please-version
+	var version := "v1.2.0"  # x-release-please-version
 	if strip_v_prefix:
 		return version.trim_prefix("v")
 
