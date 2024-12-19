@@ -4,14 +4,14 @@
 
 [resource]
 script = ExtResource("1_c83rl")
-name = &"menu"
+name = &"Menu"
 actions_analog_1d = Array[StringName]([])
 actions_analog_2d = Array[StringName]([])
 actions_digital = Array[StringName]([&"ui_accept", &"ui_back", &"ui_left", &"ui_right", &"ui_up", &"ui_down", &"ui_focus_next", &"ui_focus_prev", &"ui_cancel"])
 cursor_confined = false
 cursor_captured = false
 cursor_activates_kbm = true
-cursor_hide_actions = Array[StringName]([&"ui_left", &"ui_right", &"ui_up", &"ui_down", &"ui_focus_next", &"ui_focus_prev"])
+cursor_hide_actions = Array[StringName]([&"ui_left", &"ui_right", &"ui_up", &"ui_down", &"ui_focus_next", &"ui_focus_prev", &"ui_accept"])
 cursor_hide_actions_if_hovered = Array[StringName]([&"ui_accept"])
 cursor_hide_delay = 0.0
 cursor_reveal_mouse_buttons = Array[int]([1, 2])

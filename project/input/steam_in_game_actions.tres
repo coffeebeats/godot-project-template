@@ -1,15 +1,15 @@
 [gd_resource type="Resource" script_class="StdInputSteamInGameActions" load_steps=6 format=3 uid="uid://7d4i7q2cv413"]
 
 [ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="1_cs3a2"]
-[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="2_2a803"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="2_5jpdx"]
+[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="3_e8ygo"]
 [ext_resource type="Script" path="res://addons/std/input/steam/in_game_actions.gd" id="3_farcy"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="4_jtdgy"]
 
 [resource]
 script = ExtResource("3_farcy")
 app_id = 480
-action_sets = Array[ExtResource("2_2a803")]([ExtResource("4_jtdgy")])
+action_sets = Array[ExtResource("3_e8ygo")]([ExtResource("4_jtdgy")])
 action_set_layers = Array[ExtResource("1_cs3a2")]([ExtResource("2_5jpdx")])
 locales = {
 "english": "en"
