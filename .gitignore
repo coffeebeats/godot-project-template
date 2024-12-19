@@ -1,16 +1,19 @@
-# Godot-specific ignores
+# Godot-specific files
 .godot/
 
 # Imported translations (automatically generated from CSV files)
 *.translation
 
-# MacOS-specific ignores
+# MacOS-specific files
 .DS_Store
 
-# Windows-specific ignores
+# Windows-specific files
 ~*
 *.TMP
 
-# Testing-related ignores
+# Testing-related files
 settings.cfg
 settings.dat
+
+# IDE-related files
+.vscode/*
