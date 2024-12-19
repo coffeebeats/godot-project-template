@@ -2,47 +2,36 @@
 {
 	"actions"
 	{
-		"menu"
+		"Menu"
 		{
-			"title"					"#set_menu"
-			"StickPadGyro"
-			{
-			}
-			"AnalogTrigger"
-			{
-			}
+			"title"					"#set_Menu"
+			"legacy_set"					"0"
 			"Button"
 			{
-				"ui_accept"				"#Action_ui_accept"
-				"ui_back"				"#Action_ui_back"
-				"ui_left"				"#Action_ui_left"
-				"ui_right"				"#Action_ui_right"
-				"ui_up"				"#Action_ui_up"
-				"ui_down"				"#Action_ui_down"
-				"ui_focus_next"				"#Action_ui_focus_next"
-				"ui_focus_prev"				"#Action_ui_focus_prev"
-				"ui_cancel"				"#Action_ui_cancel"
+				"ui_accept"				"#action_ui_accept"
+				"ui_back"				"#action_ui_back"
+				"ui_left"				"#action_ui_left"
+				"ui_right"				"#action_ui_right"
+				"ui_up"				"#action_ui_up"
+				"ui_down"				"#action_ui_down"
+				"ui_focus_next"				"#action_ui_focus_next"
+				"ui_focus_prev"				"#action_ui_focus_prev"
+				"ui_cancel"				"#action_ui_cancel"
 			}
 		}
 	}
 	"action_layers"
 	{
-		"menu_tabbed"
+		"MenuTabbed"
 		{
-			"title"					"#layer_menu_tabbed"
+			"title"					"#layer_MenuTabbed"
 			"legacy_set"					"0"
 			"set_layer"					"1"
-			"parent_set_name"					"menu"
-			"StickPadGyro"
-			{
-			}
-			"AnalogTrigger"
-			{
-			}
+			"parent_set_name"					"Menu"
 			"Button"
 			{
-				"ui_tab_next"				"#Action_ui_tab_next"
-				"ui_tab_prev"				"#Action_ui_tab_prev"
+				"ui_tab_next"				"#action_ui_tab_next"
+				"ui_tab_prev"				"#action_ui_tab_prev"
 			}
 		}
 	}
@@ -50,7 +39,7 @@
 	{
 		"english"
 		{
-			"set_menu"					"menu"
+			"set_Menu"					"Menu"
 			"action_ui_accept"					"ui_accept"
 			"action_ui_back"					"ui_back"
 			"action_ui_left"					"ui_left"
@@ -60,7 +49,7 @@
 			"action_ui_focus_next"					"ui_focus_next"
 			"action_ui_focus_prev"					"ui_focus_prev"
 			"action_ui_cancel"					"ui_cancel"
-			"layer_menu_tabbed"					"menu_tabbed"
+			"layer_MenuTabbed"					"MenuTabbed"
 			"action_ui_tab_next"					"ui_tab_next"
 			"action_ui_tab_prev"					"ui_tab_prev"
 		}

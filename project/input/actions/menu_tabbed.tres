@@ -6,15 +6,18 @@
 [resource]
 script = ExtResource("1_2muka")
 parent = ExtResource("1_km51u")
-name = &"menu_tabbed"
+name = &"MenuTabbed"
 actions_analog_1d = Array[StringName]([])
 actions_analog_2d = Array[StringName]([])
 actions_digital = Array[StringName]([&"ui_tab_next", &"ui_tab_prev"])
-confine_cursor = false
-activate_kbm_on_cursor_motion = true
-actions_hide_cursor = Array[StringName]([&"ui_tab_next", &"ui_tab_prev"])
-always_hide_cursor = false
-always_show_cursor = false
+cursor_confined = false
+cursor_captured = false
+cursor_activates_kbm = false
+cursor_hide_actions = Array[StringName]([])
+cursor_hide_actions_if_hovered = Array[StringName]([])
+cursor_hide_delay = 0.0
+cursor_reveal_mouse_buttons = Array[int]([1, 2])
+cursor_reveal_distance_minimum = Vector2(0, 0)
 action_absolute_mouse = &""
 version_major = 0
 version_minor = 0
