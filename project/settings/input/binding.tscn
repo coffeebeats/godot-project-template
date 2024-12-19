@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bu8x1mvx5g4k6"]
+
+[ext_resource type="Script" path="res://project/settings/input/binding.gd" id="1_fw4yf"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="2_73ruu"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="3_2ex4s"]
+
+[node name="Binding" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fw4yf")
+
+[node name="Glyph" parent="." instance=ExtResource("2_73ruu")]
+layout_mode = 1
+action_set = ExtResource("3_2ex4s")
+action = &"ui_up"
