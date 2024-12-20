@@ -1,6 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://bexeoi21tf2v2"]
+[gd_scene load_steps=24 format=3 uid="uid://bexeoi21tf2v2"]
 
 [ext_resource type="Script" path="res://addons/std/input/cursor.gd" id="1_7hhqa"]
+[ext_resource type="Script" path="res://system/input/input.gd" id="1_sl0pi"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="2_0k85f"]
 [ext_resource type="Script" path="res://addons/std/input/slot.gd" id="3_sjych"]
 [ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="4_q62lm"]
 [ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="5_41lg2"]
@@ -23,10 +25,11 @@
 [ext_resource type="Resource" uid="uid://pya88dyjf32f" path="res://system/input/unknown/glyphs/steam_controller.tres" id="20_qptul"]
 
 [node name="Input" type="Node"]
+script = ExtResource("1_sl0pi")
+action_set_default = ExtResource("2_0k85f")
 
 [node name="InputCursor" type="Node" parent="."]
 script = ExtResource("1_7hhqa")
-minimum_reveal_distance = Vector2(24, 24)
 
 [node name="InputSlots" type="Node" parent="."]
 

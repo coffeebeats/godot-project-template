@@ -114,7 +114,7 @@ func set_fullscreen(value: bool) -> void:
 
 
 func _ready() -> void:
-	super._ready()
+	super._ready()  # gdlint:ignore=private-method-call
 
 	var window := get_window()
 
