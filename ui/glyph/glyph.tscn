@@ -23,6 +23,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 script = ExtResource("1_t2ikv")
+show_on_kbm = false
 action_set = ExtResource("2_omx3f")
 action = &"ui_accept"
 device_type_override = ExtResource("3_jfinn")
