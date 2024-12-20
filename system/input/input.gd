@@ -13,6 +13,7 @@ extends Node
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _ready() -> void:
 	assert(action_set_default is StdInputActionSet, "invalid state; missing action set")
 

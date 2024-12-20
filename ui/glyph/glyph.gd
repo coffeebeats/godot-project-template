@@ -36,6 +36,7 @@ extends StdInputGlyph
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
+
 func _update_glyph() -> bool:
 	var label_prev: String = _label.text
 	_label.text = ""
@@ -47,7 +48,9 @@ func _update_glyph() -> bool:
 	var is_compatible := (is_kbm and show_on_kbm) or (not is_kbm and show_on_joy)
 
 	if is_compatible:
-		_texture_rect.texture = _slot.get_action_glyph(action_set.name, action, _texture_rect.size)
+		_texture_rect.texture = _slot.get_action_glyph(
+			action_set.name, action, _texture_rect.size
+		)
 
 		_label.text = (
 			_slot.get_action_origin_label(action_set.name, action)
