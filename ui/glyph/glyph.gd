@@ -23,42 +23,41 @@ extends StdInputGlyph
 ## joypad.
 @export var show_on_joy: bool = true
 
-# -- INITIALIZATION ------------------------------------------------------------------ #
+@export_subgroup("Labels")
 
-var _is_device_compatible: bool = true
+@export var show_label_if_texture_missing_kbm: bool = true
+
+@export var show_label_if_texture_missing_joy: bool = false
+
+# -- INITIALIZATION ------------------------------------------------------------------ #
 
 @onready var _label: Label = get_node("Label")
 @onready var _texture_rect: TextureRect = get_node("TextureRect")
 
-# -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
-
-
-func _ready() -> void:
-	_device_activated(_slot)
-	super._ready()
-
-
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
-
-func _device_activated(device: StdInputDevice) -> void:
-	_is_device_compatible = (
-		show_on_kbm if device.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD else show_on_joy
-	)
-
-
 func _update_glyph() -> bool:
-	var texture_prev: Texture = _texture_rect.texture
 	var label_prev: String = _label.text
-
-	_texture_rect.texture = null
 	_label.text = ""
 
-	if _is_device_compatible:
+	var texture_prev: Texture = _texture_rect.texture
+	_texture_rect.texture = null
+
+	var is_kbm := _slot.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD
+	var is_compatible := (is_kbm and show_on_kbm) or (not is_kbm and show_on_joy)
+
+	if is_compatible:
 		_texture_rect.texture = _slot.get_action_glyph(action_set.name, action, _texture_rect.size)
+
 		_label.text = (
 			_slot.get_action_origin_label(action_set.name, action)
-			if not _texture_rect.texture
+			if (
+				not _texture_rect.texture
+				and (
+					(is_kbm and show_label_if_texture_missing_kbm)
+					or (not is_kbm and show_label_if_texture_missing_joy)
+				)
+			)
 			else ""
 		)
 
