@@ -25,37 +25,77 @@ extends StdInputGlyph
 
 @export_subgroup("Labels")
 
+## show_label_if_texture_missing_kbm controls whether to show the origin display name if
+## there's no glyph icon available for the keyboard and mouse device.
 @export var show_label_if_texture_missing_kbm: bool = true
 
+## show_label_if_texture_missing_joy controls whether to show the origin display name if
+## there's no glyph icon available for the joypad device.
 @export var show_label_if_texture_missing_joy: bool = false
 
-# -- INITIALIZATION ------------------------------------------------------------------ #
+@export_subgroup("Sizing")
 
-@onready var _label: Label = get_node("Label")
-@onready var _texture_rect: TextureRect = get_node("TextureRect")
+## use_target_size controls whether the glyph target `Control` node's size is used as
+## the requested glyph icon size.
+@export var use_target_size: bool = true:
+	set(value):
+		use_target_size = value
+
+		if use_target_size and target_size_override != Vector2.ZERO:
+			target_size_override = Vector2.ZERO
+
+## target_size_override is a specific target size for the rendered origin glyph. This
+## will be ignored if `use_target_size` is `true`. A zero value will not constrain the
+## texture's size.
+@export var target_size_override: Vector2 = Vector2.ZERO
+
+@export_subgroup("Fallback")
+
+@export var fallback_label: String = ""
+
+@export_group("Components")
+
+## label is the `Label` node which origin display names will be rendered in.
+@export var label: Label = null
+
+## texture_rect is the `TextureRect` node which the origin glyph icon will be rendered
+## in.
+@export var texture_rect: TextureRect = null
+
+# -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+func _ready() -> void:
+	super._ready()
+
+	if Engine.is_editor_hint():
+		return
+
+	assert(label is Label, "invalid state; missing node")
+	assert(texture_rect is TextureRect, "invalid state; missing node")
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
 
 func _update_glyph() -> bool:
-	var label_prev: String = _label.text
-	_label.text = ""
+	var label_prev: String = label.text
+	label.text = ""
 
-	var texture_prev: Texture = _texture_rect.texture
-	_texture_rect.texture = null
+	var texture_prev: Texture = texture_rect.texture
+	texture_rect.texture = null
 
 	var is_kbm := _slot.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD
 	var is_compatible := (is_kbm and show_on_kbm) or (not is_kbm and show_on_joy)
 
 	if is_compatible:
-		_texture_rect.texture = _slot.get_action_glyph(
-			action_set.name, action, _texture_rect.size
+		texture_rect.texture = _slot.get_action_glyph(
+			action_set.name, action, texture_rect.size if use_target_size else target_size_override
 		)
 
-		_label.text = (
-			_slot.get_action_origin_label(action_set.name, action)
+		var contents := _slot.get_action_origin_label(action_set.name, action)
+		label.text = (
+			(contents if contents else fallback_label)
 			if (
-				not _texture_rect.texture
+				not texture_rect.texture
 				and (
 					(is_kbm and show_label_if_texture_missing_kbm)
 					or (not is_kbm and show_label_if_texture_missing_joy)
@@ -64,7 +104,7 @@ func _update_glyph() -> bool:
 			else ""
 		)
 
-	_texture_rect.visible = _texture_rect.texture != null
-	_label.visible = _label.text != ""
+	texture_rect.visible = texture_rect.texture != null
+	label.visible = label.text != ""
 
-	return _texture_rect.texture != texture_prev or _label.text != label_prev
+	return texture_rect.texture != texture_prev or label.text != label_prev

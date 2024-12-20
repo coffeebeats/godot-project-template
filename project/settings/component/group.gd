@@ -1,5 +1,5 @@
 ##
-## project/settings/group.gd
+## project/settings/component/group.gd
 ##
 ## SettingsGroup is a grouping of related settings items within a menu page. A name for
 ## the group can be set, which will be displayed above the elements.
