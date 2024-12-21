@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=34 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
@@ -24,6 +24,7 @@
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="19_vnnyy"]
 [ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="22_rud21"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="23_66lgp"]
+[ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="23_75bgj"]
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="23_jooaf"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/component/action_set.tscn" id="24_x71d3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="25_42b8g"]
@@ -216,15 +217,12 @@ options_property = ExtResource("15_1xeuq")
 layout_mode = 2
 label = "Mute in background"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground"]
+[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground" instance=ExtResource("23_75bgj")]
 layout_mode = 2
 
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/CheckBox"]
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/Checkbox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("13_av43r")
-
-[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/CheckBox"]
-script = ExtResource("23_66lgp")
 
 [node name="Display" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
 visible = false
@@ -254,15 +252,12 @@ use_as_anchor = true
 layout_mode = 2
 label = "Borderless"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless"]
+[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless" instance=ExtResource("23_75bgj")]
 layout_mode = 2
 
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless/CheckBox"]
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless/Checkbox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("18_e44is")
-
-[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless/CheckBox"]
-script = ExtResource("23_66lgp")
 
 [node name="MaxFrameLimit" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -280,10 +275,10 @@ target = NodePath("../HSlider")
 layout_mode = 2
 label = "Vsync"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync"]
+[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync" instance=ExtResource("23_75bgj")]
 layout_mode = 2
 
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync/CheckBox"]
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync/Checkbox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("19_vnnyy")
 
@@ -299,16 +294,13 @@ label = "General"
 layout_mode = 2
 label = "Disable vibration"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration"]
+[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration" instance=ExtResource("23_75bgj")]
 layout_mode = 2
 
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration/CheckBox"]
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration/Checkbox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("22_rud21")
-
-[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration/CheckBox"]
-script = ExtResource("23_66lgp")
-use_as_anchor = true
+target = NodePath("")
 
 [node name="VibrationStrength" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General" instance=ExtResource("3_mwywu")]
 layout_mode = 2
