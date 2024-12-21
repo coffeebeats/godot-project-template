@@ -1,5 +1,5 @@
 ##
-## project/settings/input/slider.gd
+## project/ui/input/slider.gd
 ##
 ## Slider is an `HSlider` node, along with a label.
 ##

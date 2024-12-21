@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dm1yyvkqdxmqe"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_kuu00"]
-[ext_resource type="Script" path="res://project/settings/component/binding_prompt.gd" id="1_lre2j"]
+[ext_resource type="Script" path="res://project/settings/rebinder.gd" id="1_lre2j"]
 [ext_resource type="PackedScene" uid="uid://ddxioxjkv2o8j" path="res://project/ui/modal/scrim.tscn" id="2_dbjkr"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]

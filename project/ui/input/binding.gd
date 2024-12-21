@@ -1,5 +1,5 @@
 ##
-## project/settings/input/binding.gd
+## project/ui/input/binding.gd
 ##
 ## InputBinding is a button node which allows a user to rebind an action.
 ##
@@ -10,7 +10,7 @@ extends Control
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
-const BindingPrompt := preload("res://project/settings/component/binding_prompt.gd")
+const Rebinder := preload("res://project/settings/rebinder.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -70,5 +70,5 @@ func _on_glyph_updated(_has_contents: bool) -> void:
 
 
 func _on_pressed() -> void:
-	var binding_prompt: BindingPrompt = BindingPrompt.find_in_scene()
+	var binding_prompt: Rebinder = Rebinder.find_in_scene()
 	binding_prompt.start(action_set, action, player_id)

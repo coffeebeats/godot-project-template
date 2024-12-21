@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
-[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/component/binding_prompt.tscn" id="3_1lgqj"]
+[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/rebinder.tscn" id="3_1lgqj"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_bhxpg"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/component/setting.tscn" id="3_mwywu"]
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/component/group.tscn" id="3_u1tkv"]
@@ -30,7 +30,6 @@
 [ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="27_0umr4"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="27_ma3b3"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="28_ca7t1"]
-
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sf1nb"]
 
