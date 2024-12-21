@@ -47,7 +47,12 @@ extends StdInputGlyph
 ## target_size_override is a specific target size for the rendered origin glyph. This
 ## will be ignored if `use_target_size` is `true`. A zero value will not constrain the
 ## texture's size.
-@export var target_size_override: Vector2 = Vector2.ZERO
+@export var target_size_override: Vector2 = Vector2.ZERO:
+	set(value):
+		target_size_override = value
+
+		if target_size_override != Vector2.ZERO and use_target_size:
+			use_target_size = false
 
 @export_subgroup("Fallback")
 
@@ -64,6 +69,7 @@ extends StdInputGlyph
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _ready() -> void:
 	super._ready()
 
@@ -72,6 +78,7 @@ func _ready() -> void:
 
 	assert(label is Label, "invalid state; missing node")
 	assert(texture_rect is TextureRect, "invalid state; missing node")
+
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
@@ -86,9 +93,11 @@ func _update_glyph() -> bool:
 	var is_kbm := _slot.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD
 	var is_compatible := (is_kbm and show_on_kbm) or (not is_kbm and show_on_joy)
 
-	if is_compatible:
+	if action_set and action and is_compatible:
 		texture_rect.texture = _slot.get_action_glyph(
-			action_set.name, action, texture_rect.size if use_target_size else target_size_override
+			action_set.name,
+			action,
+			texture_rect.size if use_target_size else target_size_override
 		)
 
 		var contents := _slot.get_action_origin_label(action_set.name, action)
@@ -103,6 +112,12 @@ func _update_glyph() -> bool:
 			)
 			else ""
 		)
+
+	var minimum_size := get_minimum_size().max(label.get_minimum_size()).max(
+		texture_rect.get_minimum_size()
+	)
+	if get_minimum_size() != minimum_size:
+		custom_minimum_size = minimum_size
 
 	texture_rect.visible = texture_rect.texture != null
 	label.visible = label.text != ""
