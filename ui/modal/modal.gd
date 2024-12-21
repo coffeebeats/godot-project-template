@@ -24,7 +24,9 @@ signal opened
 ## closed. If empty, the 'Modal' must be manually closed by toggling 'visible'.
 ##
 ## NOTE: The modal will only detect shortcuts (i.e. keys and joypad buttons).
-@export var action_toggle: StringName = "ui_cancel"
+@export var action_toggle: StringName = ""
+
+@export var floating: bool = false
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -46,13 +48,24 @@ func _notification(what) -> void:
 
 func _ready() -> void:
 	# TODO: Validate action is supported type for shortcuts.
-	assert(InputMap.has_action(action_toggle), "invalid action: %s" % action_toggle)
+	assert(
+		not action_toggle or InputMap.has_action(action_toggle),
+		"invalid action: %s" % action_toggle,
+	)
+
+	if not action_toggle:
+		set_process_shortcut_input(false)
 
 	mouse_filter = MOUSE_FILTER_STOP
 	mouse_force_pass_scroll_events = false
 
-	_is_open = visible
+	if floating:
+		var parent_next := get_viewport()
 
+		get_parent().call_deferred(&"remove_child", self)
+		parent_next.call_deferred(&"add_child", self, false, INTERNAL_MODE_BACK)
+
+	_is_open = visible
 
 func _shortcut_input(event: InputEvent) -> void:
 	if event.is_action_pressed(action_toggle):
