@@ -2,11 +2,12 @@
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_kuu00"]
 [ext_resource type="Script" path="res://project/settings/component/binding_prompt.gd" id="1_lre2j"]
-[ext_resource type="PackedScene" uid="uid://ddxioxjkv2o8j" path="res://ui/modal/scrim.tscn" id="2_dbjkr"]
+[ext_resource type="PackedScene" uid="uid://ddxioxjkv2o8j" path="res://project/ui/modal/scrim.tscn" id="2_dbjkr"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
-[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="4_cin5u"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
 [ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/main/mina-bold.ttf" id="5_vcr7c"]
+
 
 [node name="BindingPrompt" type="Control"]
 visible = false

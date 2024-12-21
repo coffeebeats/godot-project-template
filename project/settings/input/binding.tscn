@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://bdaxk1l73tb67"]
 
-[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="1_67jty"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="1_67jty"]
 [ext_resource type="Script" path="res://project/settings/input/binding.gd" id="1_q4f6o"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="2_b0war"]
-[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://ui/button/prompt.tscn" id="3_ffo6a"]
+[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/button/prompt.tscn" id="3_ffo6a"]
+
 
 [node name="Binding" type="Control"]
 custom_minimum_size = Vector2(192, 44)

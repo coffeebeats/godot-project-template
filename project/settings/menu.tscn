@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/component/group.tscn" id="3_u1tkv"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/settings/input/slider.tscn" id="4_mkrwc"]
 [ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="6_2y3gk"]
-[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="6_xrc8s"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="6_xrc8s"]
 [ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="7_y2s16"]
 [ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="8_vr8i3"]
@@ -30,6 +30,7 @@
 [ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="27_0umr4"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="27_ma3b3"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="28_ca7t1"]
+
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sf1nb"]
 

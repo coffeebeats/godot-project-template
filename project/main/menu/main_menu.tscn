@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="Theme" uid="uid://cogf7w75p6jrt" path="res://project/main/menu/theme.tres" id="1_o380n"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
-[ext_resource type="Script" path="res://ui/modal/modal.gd" id="4_y3h4b"]
+[ext_resource type="Script" path="res://project/ui/modal/modal.gd" id="4_y3h4b"]
 [ext_resource type="PackedScene" uid="uid://nqcb7t7nk8cn" path="res://project/settings/menu.tscn" id="5_46s0c"]
+
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
