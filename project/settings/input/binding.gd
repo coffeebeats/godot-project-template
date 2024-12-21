@@ -5,79 +5,65 @@
 ##
 
 @tool
-extends "res://ui/glyph/glyph.gd"
+extends Control
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Origin := preload("res://addons/std/input/origin.gd")
-const BindingPrompt := preload("../component/binding_prompt.gd")
-
-# -- DEFINITIONS --------------------------------------------------------------------- #
-
-const DeviceType := StdInputDevice.DeviceType  # gdlint:ignore=constant-name
+const Signals := preload("res://addons/std/event/signal.gd")
+const BindingPrompt := preload("res://project/settings/component/binding_prompt.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## binding_prompt is a reference to the `BindingPrompt` node used to execute the rebind.
-@export var binding_prompt: Modal = null
+@export_group("Binding")
+
+@export_subgroup("Action")
+
+## action_set is an input action set which defines the configured action.
+@export var action_set: StdInputActionSet = null
+
+## action is the name of the input action which the glyph icon will correspond to.
+@export var action := &""
+
+@export_subgroup("Player")
+
+## player_id is a player identifier which will be used to look up the action's input
+## origin bindings. Specifically, this is used to find the corresponding `StdInputSlot`
+## node, which must be present in the scene tree.
+@export var player_id: int = 1
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _custom_minimum_size := Vector2.ZERO
+
 @onready var _button: Button = get_node("Prompt")
+@onready var _glyph: StdInputGlyph = get_node("CenterContainer/Glyph")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+func _exit_tree() -> void:
+	Signals.disconnect_safe(_button.pressed, _on_pressed)
+	Signals.disconnect_safe(_glyph.glyph_updated, _on_glyph_updated)
 
-func _exit_tree():
-	super._exit_tree()  # gdlint:ignore=private-method-call
-
-	Signals.disconnect_safe(_button.pressed, _on_button_pressed)
-
+func _get_configuration_warnings() -> PackedStringArray:
+	return _glyph._get_configuration_warnings()
 
 func _ready():
-	super._ready()  # gdlint:ignore=private-method-call
+	assert(_glyph is StdInputGlyph, "invalid state; missing node")
+	_glyph.action_set = action_set
+	_glyph.action = action
+	_glyph.player_id = player_id
 
-	if Engine.is_editor_hint():
-		return
+	_custom_minimum_size = custom_minimum_size
 
-	assert(binding_prompt is BindingPrompt, "invalid state; missing binding prompt")
-
-	Signals.connect_safe(_button.pressed, _on_button_pressed)
-
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _start_listening() -> bool:
-	if not binding_prompt.start(action_set, action, _slot.player_id):
-		return false
-
-	_button.focus_mode = Control.FOCUS_ALL
-	_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_button.grab_focus()
-
-	return true
-
-
-func _stop_listening() -> void:
-	binding_prompt.stop()
-
-	_button.mouse_filter = Control.MOUSE_FILTER_STOP
-	_button.focus_mode = (
-		Control.FOCUS_NONE if _slot.cursor.get_is_visible() else Control.FOCUS_ALL
-	)
-
-	if _slot.cursor.get_is_visible():
-		_button.release_focus()
-
+	Signals.connect_safe(_button.pressed, _on_pressed)
+	Signals.connect_safe(_glyph.glyph_updated, _on_glyph_updated)
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
+func _on_glyph_updated(_has_contents: bool) -> void:
+	custom_minimum_size = _custom_minimum_size.max(_glyph.get_combined_minimum_size())
 
-func _on_button_pressed() -> void:
-	if _button.button_pressed:
-		if not _start_listening():
-			_stop_listening()
-			_button.button_pressed = false
-	else:
-		_stop_listening()
+
+func _on_pressed() -> void:
+	var binding_prompt: BindingPrompt = BindingPrompt.find_in_scene()
+	binding_prompt.start(action_set, action, player_id)
