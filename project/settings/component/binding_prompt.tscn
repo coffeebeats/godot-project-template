@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dm1yyvkqdxmqe"]
+[gd_scene load_steps=8 format=3 uid="uid://dm1yyvkqdxmqe"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_kuu00"]
 [ext_resource type="Script" path="res://project/settings/component/binding_prompt.gd" id="1_lre2j"]
 [ext_resource type="PackedScene" uid="uid://ddxioxjkv2o8j" path="res://ui/modal/scrim.tscn" id="2_dbjkr"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
+[ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="4_cin5u"]
 [ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/main/mina-bold.ttf" id="5_vcr7c"]
 
@@ -17,8 +18,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_kuu00")
 script = ExtResource("1_lre2j")
-binding_action_set_layer = ExtResource("3_nyt6g")
 floating = true
+
+[node name="StdInputActionSetLoader" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_rp1ye")
+action_set_layer = ExtResource("3_nyt6g")
+enable_on_enter = false
+enable_on_visible = true
+disable_on_hidden = true
 
 [node name="Scrim" parent="." instance=ExtResource("2_dbjkr")]
 layout_mode = 1
@@ -65,32 +75,22 @@ size_flags_horizontal = 4
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 28
 text = "Press any key now or"
 vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="Bar/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_right = 8
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
 
 [node name="Glyph" parent="Bar/CenterContainer/VBoxContainer/HBoxContainer2/MarginContainer" instance=ExtResource("4_cin5u")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-use_target_size = false
-target_size_override = Vector2(48, 48)
 action_set = ExtResource("3_nyt6g")
 action = &"ui_binding_stop"
 
 [node name="Label" type="Label" parent="Bar/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
 text = "to cancel."
 vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Bar"]
-layout_mode = 0
-offset_left = 704.0
-offset_top = 75.0
-offset_right = 744.0
-offset_bottom = 113.5

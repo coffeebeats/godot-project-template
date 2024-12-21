@@ -14,14 +14,10 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
+const GROUP_BINDING_PROMPT := &"project/settings:binding-prompt"
+
 const DEVICE_TYPE_KEYBOARD := StdInputDevice.DEVICE_TYPE_KEYBOARD
 const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
-
-# -- CONFIGURATION ------------------------------------------------------------------- #
-
-## binding_action_set_layer is an action set layer that defines the action used to
-## cancel the re-binding state.
-@export var binding_action_set_layer: StdInputActionSetLayer = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -35,6 +31,11 @@ var _player: int = -1
 @onready var _label_press: Label = %Press
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+
+## find_in_scene returns the `BindingPrompt` node within the scene, if it exists.
+static func find_in_scene():
+	return StdGroup.get_sole_member(GROUP_BINDING_PROMPT)
 
 
 ## start begins the rebinding process for the specified action and player, making the
@@ -54,10 +55,6 @@ func start(action_set: StdInputActionSet, action: StringName, player: int = 1) -
 		return false
 
 	if Signals.connect_safe(slot.device_activated, _on_device_activated) != OK:
-		return false
-
-	if not slot.enable_action_set_layer(binding_action_set_layer):
-		assert(false, "failed to enable action set")
 		return false
 
 	assert(not is_processing_input(), "invalid state; already processing input")
@@ -82,7 +79,6 @@ func stop() -> void:
 		return
 
 	Signals.disconnect_safe(slot.device_activated, _on_device_activated)
-	slot.disable_action_set_layer(binding_action_set_layer)
 
 	_action_set = null
 	_action = &""
@@ -94,6 +90,10 @@ func stop() -> void:
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+
+func _exit_tree() -> void:
+	StdGroup.with_id(GROUP_BINDING_PROMPT).remove_member(self)
 
 
 func _input(event: InputEvent) -> void:
@@ -127,6 +127,14 @@ func _input(event: InputEvent) -> void:
 
 	stop()
 	get_viewport().set_input_as_handled()
+
+
+func _enter_tree() -> void:
+	assert(
+		StdGroup.is_empty(GROUP_BINDING_PROMPT),
+		"invalid state; found dangling binding prompt",
+	)
+	StdGroup.with_id(GROUP_BINDING_PROMPT).add_member(self)
 
 
 func _ready() -> void:

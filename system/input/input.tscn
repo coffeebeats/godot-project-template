@@ -65,6 +65,7 @@ scope = ExtResource("7_o845e")
 
 [node name="Glyphs" type="Node" parent="Godot/Components"]
 script = ExtResource("11_2rulw")
+scope = ExtResource("7_o845e")
 glyph_sets = Array[ExtResource("12_d03pd")]([ExtResource("13_xu3lv"), ExtResource("14_wugda"), ExtResource("15_asfv3"), ExtResource("16_r4jje"), ExtResource("17_tf43d"), ExtResource("18_8px6m"), ExtResource("19_w8a26"), ExtResource("20_qptul")])
 
 [node name="Haptics" type="Node" parent="Godot/Components"]

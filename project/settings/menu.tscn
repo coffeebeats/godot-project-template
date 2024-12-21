@@ -1,11 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=33 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
+[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/component/binding_prompt.tscn" id="3_1lgqj"]
+[ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_bhxpg"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/component/setting.tscn" id="3_mwywu"]
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/component/group.tscn" id="3_u1tkv"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/settings/input/slider.tscn" id="4_mkrwc"]
 [ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="6_2y3gk"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="6_xrc8s"]
 [ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="7_y2s16"]
 [ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="8_vr8i3"]
@@ -19,27 +22,45 @@
 [ext_resource type="Resource" uid="uid://bto0jfkd0pli7" path="res://system/setting/video/fullscreen.tres" id="17_p7irk"]
 [ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="18_e44is"]
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="19_vnnyy"]
-[ext_resource type="PackedScene" uid="uid://cym4l3bv5ulxk" path="res://project/settings/input/binding.tscn" id="21_kr7mv"]
+[ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="22_rud21"]
+[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="23_66lgp"]
+[ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="23_jooaf"]
+[ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/component/action_set.tscn" id="24_x71d3"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="25_42b8g"]
 [ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="27_0umr4"]
+[ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="27_ma3b3"]
+[ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="28_ca7t1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sf1nb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qeoie"]
 
 [node name="Menu" type="PanelContainer"]
+custom_minimum_size = Vector2(1440, 972)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -565.0
-offset_top = -92.0
-offset_right = 565.0
-offset_bottom = 92.0
+offset_left = -541.5
+offset_top = -405.0
+offset_right = 541.5
+offset_bottom = 405.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ewp1c")
 script = ExtResource("2_7o7fm")
+
+[node name="StdInputActionSetLoader" type="Control" parent="."]
+layout_mode = 2
+script = ExtResource("3_bhxpg")
+action_set_layer = ExtResource("27_ma3b3")
+enable_on_enter = false
+enable_on_visible = true
+disable_on_hidden = true
+
+[node name="BindingPrompt" parent="." instance=ExtResource("3_1lgqj")]
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(810, 810)
@@ -54,9 +75,22 @@ layout_mode = 2
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="TabBar" type="TabBar" parent="VBoxContainer/Header/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+
+[node name="GlyphTabPrev" parent="VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 10
+show_on_kbm = false
+action_set = ExtResource("27_ma3b3")
+action = &"ui_tab_prev"
+
+[node name="TabBar" type="TabBar" parent="VBoxContainer/Header/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
 current_tab = 3
 tab_alignment = 1
 clip_tabs = false
@@ -66,6 +100,14 @@ tab_0/title = "    Gameplay    "
 tab_1/title = "    Sound    "
 tab_2/title = "    Display    "
 tab_3/title = "    Controls    "
+
+[node name="GlyphTabNext" parent="VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 2
+show_on_kbm = false
+action_set = ExtResource("27_ma3b3")
+action = &"ui_tab_next"
 
 [node name="Body" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -77,6 +119,7 @@ layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Body/MarginContainer"]
 layout_mode = 2
+follow_focus = true
 
 [node name="TabContents" type="MarginContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer"]
 unique_name_in_owner = true
@@ -108,6 +151,9 @@ label = "Master"
 
 [node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master" instance=ExtResource("4_mkrwc")]
 layout_mode = 2
+
+[node name="StdInputCursorFocusHandler" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider/HSlider" index="0"]
+use_as_anchor = true
 
 [node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider"]
 script = ExtResource("7_y2s16")
@@ -177,6 +223,9 @@ layout_mode = 2
 script = ExtResource("15_uobfh")
 property = ExtResource("13_av43r")
 
+[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/CheckBox"]
+script = ExtResource("23_66lgp")
+
 [node name="Display" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
 visible = false
 layout_mode = 2
@@ -197,6 +246,10 @@ layout_mode = 2
 script = ExtResource("15_uobfh")
 property = ExtResource("17_p7irk")
 
+[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Fullscreen/CheckBox"]
+script = ExtResource("23_66lgp")
+use_as_anchor = true
+
 [node name="Borderless" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
 label = "Borderless"
@@ -207,6 +260,9 @@ layout_mode = 2
 [node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless/CheckBox"]
 script = ExtResource("15_uobfh")
 property = ExtResource("18_e44is")
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless/CheckBox"]
+script = ExtResource("23_66lgp")
 
 [node name="MaxFrameLimit" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
 layout_mode = 2
@@ -235,16 +291,51 @@ property = ExtResource("19_vnnyy")
 layout_mode = 2
 theme_type_variation = &"Body"
 
-[node name="Menu" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("3_u1tkv")]
+[node name="General" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("3_u1tkv")]
 layout_mode = 2
-label = "Menu Controls"
+label = "General"
 
-[node name="Setting" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/Menu" instance=ExtResource("3_mwywu")]
+[node name="DisableVibration" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General" instance=ExtResource("3_mwywu")]
 layout_mode = 2
-label = "Up"
+label = "Disable vibration"
 
-[node name="Binding" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/Menu/Setting" instance=ExtResource("21_kr7mv")]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration"]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-show_on_kbm = true
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration/CheckBox"]
+script = ExtResource("15_uobfh")
+property = ExtResource("22_rud21")
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration/CheckBox"]
+script = ExtResource("23_66lgp")
+use_as_anchor = true
+
+[node name="VibrationStrength" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General" instance=ExtResource("3_mwywu")]
+layout_mode = 2
+label = "Vibration strength"
+
+[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/VibrationStrength" instance=ExtResource("4_mkrwc")]
+layout_mode = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/VibrationStrength/Slider"]
+script = ExtResource("7_y2s16")
+property = ExtResource("23_jooaf")
+target = NodePath("../HSlider")
+disabled = ExtResource("22_rud21")
+
+[node name="MenuControls" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("24_x71d3")]
+layout_mode = 2
+action_set = ExtResource("25_42b8g")
+label = "Menu"
+
+[node name="MenuTabs" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("24_x71d3")]
+layout_mode = 2
+action_set = ExtResource("27_ma3b3")
+label = "MenuTabbed"
+
+[node name="MenuRebinding" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("24_x71d3")]
+layout_mode = 2
+action_set = ExtResource("28_ca7t1")
+label = "MenuBinding"
+
+[editable path="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider"]
