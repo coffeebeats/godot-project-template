@@ -28,11 +28,13 @@ func _ready():
 
 	_set_active_index(_tab_bar.current_tab)
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"ui_tab_next"):
 		_tab_bar.select_next_available()
 	elif event.is_action_pressed(&"ui_tab_prev"):
 		_tab_bar.select_previous_available()
+
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 

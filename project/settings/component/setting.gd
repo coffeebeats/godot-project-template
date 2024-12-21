@@ -34,5 +34,6 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 	return warnings
 
+
 func _ready() -> void:
 	_label.text = label
