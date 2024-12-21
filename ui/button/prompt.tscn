@@ -20,4 +20,3 @@ action_mode = 0
 
 [node name="StdInputCursorFocusHandler" type="Node" parent="."]
 script = ExtResource("2_1bnaq")
-use_as_anchor = true
