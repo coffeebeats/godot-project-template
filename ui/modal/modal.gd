@@ -26,6 +26,8 @@ signal opened
 ## NOTE: The modal will only detect shortcuts (i.e. keys and joypad buttons).
 @export var action_toggle: StringName = ""
 
+## floating controls whether this node is re-parented to the nearest `Viewport` node and
+## thus renders on top of the scene.
 @export var floating: bool = false
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
