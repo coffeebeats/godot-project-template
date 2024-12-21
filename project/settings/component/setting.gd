@@ -1,5 +1,5 @@
 ##
-## project/settings/setting.gd
+## project/settings/component/setting.gd
 ##
 ## Setting is a single entry in the settings menu. This consists of a `Label` and an
 ## input `Control` for updating the setting value.
