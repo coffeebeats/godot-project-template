@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("1_thf8i")
 minimum = 0.0
-maximum = 1.0
-step = 0.01
-default = 1.0
+maximum = 100.0
+step = 1.0
+default = 50.0
 category = &"controls"
 name = &"haptics/strength"
 readonly = false
