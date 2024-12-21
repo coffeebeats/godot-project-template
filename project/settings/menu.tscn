@@ -1,9 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=24 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
-[ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="3_mwywu"]
-[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="3_u1tkv"]
+[ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/component/setting.tscn" id="3_mwywu"]
+[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/component/group.tscn" id="3_u1tkv"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/settings/input/slider.tscn" id="4_mkrwc"]
 [ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="6_2y3gk"]
 [ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
@@ -19,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://bto0jfkd0pli7" path="res://system/setting/video/fullscreen.tres" id="17_p7irk"]
 [ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="18_e44is"]
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="19_vnnyy"]
+[ext_resource type="PackedScene" uid="uid://cym4l3bv5ulxk" path="res://project/settings/input/binding.tscn" id="21_kr7mv"]
 [ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="27_0umr4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sf1nb"]
@@ -56,7 +57,7 @@ theme_override_constants/margin_bottom = 32
 [node name="TabBar" type="TabBar" parent="VBoxContainer/Header/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-current_tab = 2
+current_tab = 3
 tab_alignment = 1
 clip_tabs = false
 scrolling_enabled = false
@@ -177,6 +178,7 @@ script = ExtResource("15_uobfh")
 property = ExtResource("13_av43r")
 
 [node name="Display" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
+visible = false
 layout_mode = 2
 theme_type_variation = &"Body"
 
@@ -230,6 +232,19 @@ script = ExtResource("15_uobfh")
 property = ExtResource("19_vnnyy")
 
 [node name="Controls" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
-visible = false
 layout_mode = 2
 theme_type_variation = &"Body"
+
+[node name="Menu" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("3_u1tkv")]
+layout_mode = 2
+label = "Menu Controls"
+
+[node name="Setting" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/Menu" instance=ExtResource("3_mwywu")]
+layout_mode = 2
+label = "Up"
+
+[node name="Binding" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/Menu/Setting" instance=ExtResource("21_kr7mv")]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+show_on_kbm = true
