@@ -44,11 +44,14 @@ const SettingScene := preload("setting.tscn")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _ready() -> void:
 	action_set = action_set
 	player_id = player_id
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _clear_settings() -> void:
 	for node in get_children():
@@ -58,17 +61,14 @@ func _clear_settings() -> void:
 		remove_child(node)
 		node.queue_free()
 
+
 func _generate_settings() -> void:
 	assert(action_set is StdInputActionSet, "invalid state; missing action set")
 
 	_clear_settings()
 
 	for action in (
-		(
-			[action_set.action_absolute_mouse]
-			if action_set.action_absolute_mouse
-			else []
-		)
+		([action_set.action_absolute_mouse] if action_set.action_absolute_mouse else [])
 		+ action_set.actions_analog_2d
 		+ action_set.actions_analog_1d
 		+ action_set.actions_digital

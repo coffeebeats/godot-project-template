@@ -56,7 +56,7 @@ var _custom_minimum_size: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
-	super._ready() # gdlint:ignore=private-method-call
+	super._ready()  # gdlint:ignore=private-method-call
 
 	if Engine.is_editor_hint():
 		return
@@ -81,10 +81,13 @@ func _update_glyph() -> bool:
 	var is_compatible := (is_kbm and show_on_kbm) or (not is_kbm and show_on_joy)
 
 	if is_compatible:
-		texture_rect.texture = _slot.get_action_glyph(
-			action_set.name,
-			action,
-			custom_minimum_size,
+		texture_rect.texture = (
+			_slot
+			. get_action_glyph(
+				action_set.name,
+				action,
+				custom_minimum_size,
+			)
 		)
 
 		var contents := _slot.get_action_origin_label(action_set.name, action)

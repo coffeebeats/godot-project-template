@@ -40,12 +40,15 @@ var _custom_minimum_size := Vector2.ZERO
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _exit_tree() -> void:
 	Signals.disconnect_safe(_button.pressed, _on_pressed)
 	Signals.disconnect_safe(_glyph.glyph_updated, _on_glyph_updated)
 
+
 func _get_configuration_warnings() -> PackedStringArray:
 	return _glyph._get_configuration_warnings()
+
 
 func _ready():
 	assert(_glyph is StdInputGlyph, "invalid state; missing node")
@@ -58,7 +61,9 @@ func _ready():
 	Signals.connect_safe(_button.pressed, _on_pressed)
 	Signals.connect_safe(_glyph.glyph_updated, _on_glyph_updated)
 
+
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
 
 func _on_glyph_updated(_has_contents: bool) -> void:
 	custom_minimum_size = _custom_minimum_size.max(_glyph.get_combined_minimum_size())
