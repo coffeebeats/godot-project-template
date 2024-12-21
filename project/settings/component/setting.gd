@@ -10,6 +10,7 @@ extends HBoxContainer
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
+## label is the display name for the setting property.
 @export var label: String = "":
 	set(value):
 		label = value
@@ -20,13 +21,9 @@ extends HBoxContainer
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-@onready var _label: Label = $Label
+@onready var _label: Label = get_node("Label")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
-
-
-func _ready() -> void:
-	_label.text = label
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -36,3 +33,6 @@ func _get_configuration_warnings() -> PackedStringArray:
 		warnings.append("Invalid config; missing label")
 
 	return warnings
+
+func _ready() -> void:
+	_label.text = label
