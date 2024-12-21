@@ -1,6 +1,10 @@
 ##
 ## project/settings/component/binding_prompt.gd
 ##
+## BindingPrompt is a floating `Modal` which handles rebinding a configured input
+## action. Only one is required in the scene and `Binding` nodes should delegate to this
+## node when rebinding.
+##
 
 extends Modal
 
@@ -15,6 +19,8 @@ const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
+## binding_action_set_layer is an action set layer that defines the action used to
+## cancel the re-binding state.
 @export var binding_action_set_layer: StdInputActionSetLayer = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
@@ -24,9 +30,9 @@ var _action: StringName = &""
 var _device: StdInputDevice = null
 var _player: int = -1
 
-@onready var _label_action: Label = % "Action"
-@onready var _label_glyph: StdInputGlyph = % "Glyph"
-@onready var _label_press: Label = % "Press"
+@onready var _label_action: Label = %Action
+@onready var _label_glyph: StdInputGlyph = %Glyph
+@onready var _label_press: Label = %Press
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
@@ -85,7 +91,8 @@ func stop() -> void:
 
 	_label_action.text = ""
 	_label_press.text = ""
-	
+
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -121,17 +128,20 @@ func _input(event: InputEvent) -> void:
 	stop()
 	get_viewport().set_input_as_handled()
 
+
 func _ready() -> void:
-	super._ready()
+	super._ready()  # gdlint:ignore=private-method-call
 	set_process_input(false)
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _update_prompt() -> void:
 	_label_glyph.player_id = _player
 	_label_glyph.update()
 
-	_label_action.text = "Bind \"%s\"" % _action
+	_label_action.text = 'Bind "%s"' % _action
 	_label_press.text = (
 		"Press any key now or"
 		if _device.device_type == DEVICE_TYPE_KEYBOARD
@@ -140,6 +150,7 @@ func _update_prompt() -> void:
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
 
 func _on_device_activated(device: StdInputDevice) -> void:
 	_device = device

@@ -14,7 +14,7 @@ const BindingPrompt := preload("../component/binding_prompt.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
-const DeviceType := StdInputDevice.DeviceType
+const DeviceType := StdInputDevice.DeviceType  # gdlint:ignore=constant-name
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -27,13 +27,15 @@ const DeviceType := StdInputDevice.DeviceType
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _exit_tree():
-	super._exit_tree()
+	super._exit_tree()  # gdlint:ignore=private-method-call
 
 	Signals.disconnect_safe(_button.pressed, _on_button_pressed)
 
+
 func _ready():
-	super._ready()
+	super._ready()  # gdlint:ignore=private-method-call
 
 	if Engine.is_editor_hint():
 		return
@@ -41,6 +43,7 @@ func _ready():
 	assert(binding_prompt is BindingPrompt, "invalid state; missing binding prompt")
 
 	Signals.connect_safe(_button.pressed, _on_button_pressed)
+
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
@@ -55,14 +58,13 @@ func _start_listening() -> bool:
 
 	return true
 
+
 func _stop_listening() -> void:
 	binding_prompt.stop()
 
 	_button.mouse_filter = Control.MOUSE_FILTER_STOP
 	_button.focus_mode = (
-		Control.FOCUS_NONE
-		if _slot.cursor.get_is_visible()
-		else Control.FOCUS_ALL
+		Control.FOCUS_NONE if _slot.cursor.get_is_visible() else Control.FOCUS_ALL
 	)
 
 	if _slot.cursor.get_is_visible():

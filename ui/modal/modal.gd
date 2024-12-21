@@ -67,6 +67,7 @@ func _ready() -> void:
 
 	_is_open = visible
 
+
 func _shortcut_input(event: InputEvent) -> void:
 	if event.is_action_pressed(action_toggle):
 		assert(_is_open == visible, "state mismatch")
