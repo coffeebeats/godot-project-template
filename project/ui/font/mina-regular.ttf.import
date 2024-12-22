@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bmqtcsuwp7ptg"
-path="res://.godot/imported/mina-bold.ttf-cd0c6322986223588d8d43f87d1b22d2.fontdata"
+uid="uid://cr5y3dy5yghp1"
+path="res://.godot/imported/mina-regular.ttf-d494a9686ead6a4a9ef7e986beff0c99.fontdata"
 
 [deps]
 
-source_file="res://project/main/mina-bold.ttf"
-dest_files=["res://.godot/imported/mina-bold.ttf-cd0c6322986223588d8d43f87d1b22d2.fontdata"]
+source_file="res://project/ui/font/mina-regular.ttf"
+dest_files=["res://.godot/imported/mina-regular.ttf-d494a9686ead6a4a9ef7e986beff0c99.fontdata"]
 
 [params]
 
