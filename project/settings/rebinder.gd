@@ -138,7 +138,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	super._ready() # gdlint:ignore=private-method-call
+	super._ready()  # gdlint:ignore=private-method-call
 	set_process_input(false)
 
 
