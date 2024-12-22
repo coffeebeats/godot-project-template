@@ -1,5 +1,5 @@
 ##
-## project/settings/input/option_button.gd
+## project/ui/input/option_button.gd
 ##
 ## OptionButton is a base `OptionButton` node which implements common cosmetic behavior.
 ##

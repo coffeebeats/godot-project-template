@@ -48,8 +48,8 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [gui]
 
-theme/custom="res://project/main/theme.tres"
-theme/custom_font="res://project/main/mina-bold.ttf"
+theme/custom="res://project/ui/theme.tres"
+theme/custom_font="res://project/ui/font/mina-bold.ttf"
 theme/default_font_multichannel_signed_distance_field=true
 
 [input]

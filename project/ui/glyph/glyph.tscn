@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://dg8wa8rp672rb"]
 
-[ext_resource type="Script" path="res://ui/glyph/glyph.gd" id="1_t2ikv"]
+[ext_resource type="Script" path="res://project/ui/glyph/glyph.gd" id="1_t2ikv"]
 [ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="3_jfinn"]
+
 
 [node name="Glyph" type="Control" node_paths=PackedStringArray("label", "texture_rect")]
 layout_mode = 3

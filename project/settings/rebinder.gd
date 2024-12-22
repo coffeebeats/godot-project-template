@@ -1,9 +1,9 @@
 ##
-## project/settings/component/binding_prompt.gd
+## project/settings/rebinder.gd
 ##
-## BindingPrompt is a floating `Modal` which handles rebinding a configured input
-## action. Only one is required in the scene and `Binding` nodes should delegate to this
-## node when rebinding.
+## Rebinder is a floating `Modal` which handles rebinding a configured input action.
+## Only one is required in the scene and `Binding` nodes should delegate to this node
+## when rebinding.
 ##
 
 extends Modal
@@ -14,7 +14,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
-const GROUP_BINDING_PROMPT := &"project/settings:binding-prompt"
+const GROUP_REBINDER := &"project/settings:rebinder"
 
 const DEVICE_TYPE_KEYBOARD := StdInputDevice.DEVICE_TYPE_KEYBOARD
 const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
@@ -35,7 +35,7 @@ var _player: int = -1
 
 ## find_in_scene returns the `BindingPrompt` node within the scene, if it exists.
 static func find_in_scene():
-	return StdGroup.get_sole_member(GROUP_BINDING_PROMPT)
+	return StdGroup.get_sole_member(GROUP_REBINDER)
 
 
 ## start begins the rebinding process for the specified action and player, making the
@@ -93,7 +93,7 @@ func stop() -> void:
 
 
 func _exit_tree() -> void:
-	StdGroup.with_id(GROUP_BINDING_PROMPT).remove_member(self)
+	StdGroup.with_id(GROUP_REBINDER).remove_member(self)
 
 
 func _input(event: InputEvent) -> void:
@@ -131,10 +131,10 @@ func _input(event: InputEvent) -> void:
 
 func _enter_tree() -> void:
 	assert(
-		StdGroup.is_empty(GROUP_BINDING_PROMPT),
+		StdGroup.is_empty(GROUP_REBINDER),
 		"invalid state; found dangling binding prompt",
 	)
-	StdGroup.with_id(GROUP_BINDING_PROMPT).add_member(self)
+	StdGroup.with_id(GROUP_REBINDER).add_member(self)
 
 
 func _ready() -> void:

@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxxweem4spjs8"]
 
 [ext_resource type="Script" path="res://project/settings/component/group.gd" id="1_i23do"]
-[ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/main/mina-bold.ttf" id="2_1aowl"]
+[ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/ui/font/mina-bold.ttf" id="2_1aowl"]
+
 
 [node name="Group" type="VBoxContainer"]
 anchors_preset = 15
