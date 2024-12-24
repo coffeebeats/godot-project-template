@@ -86,7 +86,7 @@ var _custom_minimum_size: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
-	super._ready() # gdlint:ignore=private-method-call
+	super._ready()  # gdlint:ignore=private-method-call
 
 	if Engine.is_editor_hint():
 		return
@@ -98,6 +98,7 @@ func _ready() -> void:
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+
 
 func _get_device_type() -> DeviceType:
 	if always_show_kbm:
@@ -122,16 +123,10 @@ func _get_device_type() -> DeviceType:
 			return last_active_joy.device_type
 
 		var connected := _slot.get_connected_devices(false)
-		return (
-			connected[0].device_type
-			if connected
-			else DeviceType.GENERIC
-		)
+		return connected[0].device_type if connected else DeviceType.GENERIC
 
 	return (
-		property_value
-		if property_value != DEVICE_TYPE_UNKNOWN
-		else _slot.device_type
+		property_value if property_value != DEVICE_TYPE_UNKNOWN else _slot.device_type
 	)
 
 
@@ -143,10 +138,7 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	texture_rect.texture = null
 
 	var should_hide := (
-		(
-			_slot.device_type == DEVICE_TYPE_KEYBOARD
-			and hide_if_kbm_active
-		)
+		(_slot.device_type == DEVICE_TYPE_KEYBOARD and hide_if_kbm_active)
 		or (
 			_slot.device_type != DEVICE_TYPE_KEYBOARD
 			and _slot.device_type != DEVICE_TYPE_UNKNOWN
@@ -157,7 +149,7 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	if not should_hide:
 		texture_rect.texture = (
 			_slot
-			.get_action_glyph(
+			. get_action_glyph(
 				action_set.name,
 				action,
 				custom_minimum_size,
@@ -179,17 +171,16 @@ func _update_glyph(device_type: DeviceType) -> bool:
 				)
 			)
 		):
-			label.text = _slot.get_action_origin_label(
-				action_set.name,
-				action,
-				device_type,
+			label.text = (
+				_slot
+				. get_action_origin_label(
+					action_set.name,
+					action,
+					device_type,
+				)
 			)
 
-	if (
-		not should_hide
-		and texture_rect.texture == null
-		and label.text == ""
-	):
+	if not should_hide and texture_rect.texture == null and label.text == "":
 		label.text = fallback_label
 		texture_rect.texture = fallback_texture
 
