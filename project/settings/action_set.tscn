@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://nia5b07rjxi7"]
 
-[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/component/group.tscn" id="1_61w7n"]
-[ext_resource type="Script" path="res://project/settings/component/action_set.gd" id="2_vv7fq"]
+[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="1_61w7n"]
+[ext_resource type="Script" path="res://project/settings/action_set.gd" id="2_vv7fq"]
 
 [node name="ActionSet" instance=ExtResource("1_61w7n")]
 anchors_preset = 8
