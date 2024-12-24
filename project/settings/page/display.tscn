@@ -1,0 +1,69 @@
+[gd_scene load_steps=11 format=3 uid="uid://b4obsfsvns0ap"]
+
+[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="1_xfdfg"]
+[ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="2_gb8tg"]
+[ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="3_mhfj1"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="4_f57c6"]
+[ext_resource type="Resource" uid="uid://bto0jfkd0pli7" path="res://system/setting/video/fullscreen.tres" id="5_ik6tg"]
+[ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="6_51jay"]
+[ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="7_bou38"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="8_v2br7"]
+[ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="9_a1v7r"]
+[ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="10_atx4x"]
+
+[node name="Display" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"Body"
+
+[node name="Video" parent="." instance=ExtResource("1_xfdfg")]
+layout_mode = 2
+label = "Video"
+
+[node name="Fullscreen" parent="Video" instance=ExtResource("2_gb8tg")]
+layout_mode = 2
+label = "Fullscreen"
+
+[node name="Checkbox" parent="Video/Fullscreen" instance=ExtResource("3_mhfj1")]
+layout_mode = 2
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="Video/Fullscreen/Checkbox"]
+script = ExtResource("4_f57c6")
+property = ExtResource("5_ik6tg")
+
+[node name="Borderless" parent="Video" instance=ExtResource("2_gb8tg")]
+layout_mode = 2
+label = "Borderless"
+
+[node name="Checkbox" parent="Video/Borderless" instance=ExtResource("3_mhfj1")]
+layout_mode = 2
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="Video/Borderless/Checkbox"]
+script = ExtResource("4_f57c6")
+property = ExtResource("6_51jay")
+
+[node name="MaxFrameLimit" parent="Video" instance=ExtResource("2_gb8tg")]
+layout_mode = 2
+label = "MaxFrameLimit"
+
+[node name="Slider" parent="Video/MaxFrameLimit" instance=ExtResource("7_bou38")]
+layout_mode = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="Video/MaxFrameLimit/Slider"]
+script = ExtResource("8_v2br7")
+property = ExtResource("9_a1v7r")
+target = NodePath("../HSlider")
+
+[node name="Vsync" parent="Video" instance=ExtResource("2_gb8tg")]
+layout_mode = 2
+label = "Vsync"
+
+[node name="Checkbox" parent="Video/Vsync" instance=ExtResource("3_mhfj1")]
+layout_mode = 2
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="Video/Vsync/Checkbox"]
+script = ExtResource("4_f57c6")
+property = ExtResource("10_atx4x")
