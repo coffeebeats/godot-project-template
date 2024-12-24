@@ -142,17 +142,19 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	var texture_prev: Texture = texture_rect.texture
 	texture_rect.texture = null
 
-	if (
-		not (
+	var should_hide := (
+		(
 			_slot.device_type == DEVICE_TYPE_KEYBOARD
 			and hide_if_kbm_active
 		)
-		and not (
+		or (
 			_slot.device_type != DEVICE_TYPE_KEYBOARD
 			and _slot.device_type != DEVICE_TYPE_UNKNOWN
 			and hide_if_joy_active
 		)
-	):
+	)
+
+	if not should_hide:
 		texture_rect.texture = (
 			_slot
 			.get_action_glyph(
@@ -184,7 +186,8 @@ func _update_glyph(device_type: DeviceType) -> bool:
 			)
 
 	if (
-		texture_rect.texture == null
+		not should_hide
+		and texture_rect.texture == null
 		and label.text == ""
 	):
 		label.text = fallback_label
