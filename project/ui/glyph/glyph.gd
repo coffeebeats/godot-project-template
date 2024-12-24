@@ -1,5 +1,5 @@
 ##
-## ui/glyph/glyph.gd
+## project/ui/glyph/glyph.gd
 ##
 ## UiGlyph is an opinionated implementation of a dynamic origin icon which updates its
 ## contents based on what the action is currently bound to and which device the player
@@ -13,31 +13,61 @@ extends StdInputGlyph
 
 @export_group("Display")
 
-@export_subgroup("Visibility")
+## always_show_kbm forcibly shows glyph information for keyboard and mouse devices. When
+## enabled, `device_type_override` will be ignored.
+##
+## NOTE: Only one of `always_show_kbm` and `always_show_joy` may be `true`. If neither
+## are enabled then either the active device's type is used or the
+## `device_type_override` if it's set.
+@export var always_show_kbm: bool = false:
+	set(value):
+		always_show_kbm = value
+		if value and always_show_joy:
+			always_show_joy = false
 
-## show_on_kbm controls whether this glyph is displayed when the active device is a
-## keyboard and mouse.
-@export var show_on_kbm: bool = true
+## always_show_joy forcibly shows glyph information for joypad devices. When enabled,
+## `device_type_override` will be ignored.
+##
+## NOTE: Only one of `always_show_joy` and `always_show_kbm` may be `true`. If neither
+## are enabled then either the active device's type is used or the
+## `device_type_override` if it's set.
+@export var always_show_joy: bool = false:
+	set(value):
+		always_show_joy = value
+		if value and always_show_kbm:
+			always_show_kbm = false
 
-## show_on_joy controls whether this glyph is displayed when the active device is a
-## joypad.
-@export var show_on_joy: bool = true
+## hide_if_kbm_active controls whether this glyph is displayed when the active device is
+## a keyboard and mouse. Note that this applies regardless of whether `always_show_kbm`
+## is selected.
+
+@export var hide_if_kbm_active: bool = false
+
+## hide_if_joy_active controls whether this glyph is displayed when the active device is
+## a joypad. Note that this applies regardless of whether `always_show_joy`
+## is selected.
+@export var hide_if_joy_active: bool = false
 
 @export_subgroup("Labels")
 
-## show_label_if_texture_missing_kbm controls whether to show the origin display name if
+## show_origin_label_as_fallback_kbm controls whether to show the origin display name if
 ## there's no glyph icon available for the keyboard and mouse device.
-@export var show_label_if_texture_missing_kbm: bool = true
+@export var show_origin_label_as_fallback_kbm: bool = true
 
-## show_label_if_texture_missing_joy controls whether to show the origin display name if
-## there's no glyph icon available for the joypad device.
-@export var show_label_if_texture_missing_joy: bool = false
+## show_origin_label_as_fallback_joy controls whether to show the origin display name if
+## there's no glyph icon available for joypad devices.
+@export var show_origin_label_as_fallback_joy: bool = false
 
-@export_subgroup("Sizing")
-
+## Fallback properties apply when neither a glyph or a label (if configured) are found
+## for the configured action. When fallbacks are used, *both* of the label and textures
+## are used if set.
 @export_subgroup("Fallback")
 
+## fallback_label is a label to display when no glyph or label is found.
 @export var fallback_label: String = ""
+
+## fallback_texture is a texture to display when no glyph or label is found.
+@export var fallback_texture: Texture2D = null
 
 @export_group("Components")
 
@@ -56,7 +86,7 @@ var _custom_minimum_size: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
-	super._ready()  # gdlint:ignore=private-method-call
+	super._ready() # gdlint:ignore=private-method-call
 
 	if Engine.is_editor_hint():
 		return
@@ -69,39 +99,96 @@ func _ready() -> void:
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
+func _get_device_type() -> DeviceType:
+	if always_show_kbm:
+		return DeviceType.KEYBOARD
 
-func _update_glyph() -> bool:
+	var property_value: DeviceType = DEVICE_TYPE_UNKNOWN
+	if device_type_override:
+		property_value = device_type_override.get_value()
+
+	if always_show_joy:
+		# When showing joypad glyphs, still check if an override was set in settings,
+		# but only use it if a joypad type is selected.
+		if device_type_override:
+			if (
+				property_value != DEVICE_TYPE_UNKNOWN
+				and property_value != DEVICE_TYPE_KEYBOARD
+			):
+				return property_value
+
+		var last_active_joy := _slot.get_last_active_joypad_device()
+		if last_active_joy:
+			return last_active_joy.device_type
+
+		var connected := _slot.get_connected_devices(false)
+		return (
+			connected[0].device_type
+			if connected
+			else DeviceType.GENERIC
+		)
+
+	return (
+		property_value
+		if property_value != DEVICE_TYPE_UNKNOWN
+		else _slot.device_type
+	)
+
+
+func _update_glyph(device_type: DeviceType) -> bool:
 	var label_prev: String = label.text
 	label.text = ""
 
 	var texture_prev: Texture = texture_rect.texture
 	texture_rect.texture = null
 
-	var is_kbm := _slot.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD
-	var is_compatible := (is_kbm and show_on_kbm) or (not is_kbm and show_on_joy)
-
-	if is_compatible:
+	if (
+		not (
+			_slot.device_type == DEVICE_TYPE_KEYBOARD
+			and hide_if_kbm_active
+		)
+		and not (
+			_slot.device_type != DEVICE_TYPE_KEYBOARD
+			and _slot.device_type != DEVICE_TYPE_UNKNOWN
+			and hide_if_joy_active
+		)
+	):
 		texture_rect.texture = (
 			_slot
-			. get_action_glyph(
+			.get_action_glyph(
 				action_set.name,
 				action,
 				custom_minimum_size,
+				device_type,
 			)
 		)
 
-		var contents := _slot.get_action_origin_label(action_set.name, action)
-		label.text = (
-			(contents if contents else fallback_label)
-			if (
-				not texture_rect.texture
-				and (
-					(is_kbm and show_label_if_texture_missing_kbm)
-					or (not is_kbm and show_label_if_texture_missing_joy)
+		if (
+			texture_rect.texture == null
+			and (
+				(
+					show_origin_label_as_fallback_kbm
+					and device_type == DEVICE_TYPE_KEYBOARD
+				)
+				or (
+					show_origin_label_as_fallback_joy
+					and device_type != DEVICE_TYPE_KEYBOARD
+					and device_type != DEVICE_TYPE_UNKNOWN
 				)
 			)
-			else ""
-		)
+		):
+			label.text = _slot.get_action_origin_label(
+				action_set.name,
+				action,
+				device_type,
+			)
+
+	if (
+		texture_rect.texture == null
+		and label.text == ""
+	):
+		label.text = fallback_label
+		texture_rect.texture = fallback_texture
 
 	texture_rect.visible = texture_rect.texture != null
 	label.visible = label.text != ""
