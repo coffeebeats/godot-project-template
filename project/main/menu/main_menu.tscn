@@ -1,11 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=7 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="Theme" uid="uid://cogf7w75p6jrt" path="res://project/main/menu/theme.tres" id="1_o380n"]
+[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="3_2fhwa"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
 [ext_resource type="Script" path="res://project/ui/modal/modal.gd" id="4_y3h4b"]
 [ext_resource type="PackedScene" uid="uid://nqcb7t7nk8cn" path="res://project/settings/menu.tscn" id="5_46s0c"]
-
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -61,6 +61,10 @@ focus_neighbor_bottom = NodePath("../Options")
 text = "Play"
 alignment = 0
 
+[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Play"]
+script = ExtResource("3_2fhwa")
+use_as_anchor = true
+
 [node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -69,6 +73,9 @@ focus_neighbor_bottom = NodePath("../Credits")
 text = "Options"
 alignment = 0
 
+[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Options"]
+script = ExtResource("3_2fhwa")
+
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
@@ -76,12 +83,18 @@ focus_neighbor_bottom = NodePath("../Quit")
 text = "Credits"
 alignment = 0
 
+[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Credits"]
+script = ExtResource("3_2fhwa")
+
 [node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Credits")
 text = "Quit"
 alignment = 0
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Quit"]
+script = ExtResource("3_2fhwa")
 
 [node name="Version" parent="." instance=ExtResource("3_b6tfj")]
 layout_mode = 1
@@ -97,6 +110,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_y3h4b")
+action_toggle = &"ui_cancel"
 
 [node name="ColorRect" type="ColorRect" parent="Settings"]
 layout_mode = 1

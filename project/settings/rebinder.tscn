@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
 [ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/ui/font/mina-bold.ttf" id="5_vcr7c"]
 
-
 [node name="BindingPrompt" type="Control"]
 visible = false
 layout_mode = 3
