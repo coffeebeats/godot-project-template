@@ -32,6 +32,9 @@ label = "Disable vibration"
 [node name="Checkbox" parent="General/DisableVibration" instance=ExtResource("3_jltjr")]
 layout_mode = 2
 
+[node name="StdInputCursorFocusHandler" parent="General/DisableVibration/Checkbox" index="0"]
+use_as_anchor = true
+
 [node name="StdSettingsControllerToggleButton" type="Node" parent="General/DisableVibration/Checkbox"]
 script = ExtResource("4_b2qpk")
 property = ExtResource("5_3bhsi")
@@ -63,3 +66,5 @@ label = "MenuTabbed"
 layout_mode = 2
 action_set = ExtResource("12_s1qm1")
 label = "MenuBinding"
+
+[editable path="General/DisableVibration/Checkbox"]

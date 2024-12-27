@@ -30,6 +30,9 @@ label = "Fullscreen"
 [node name="Checkbox" parent="Video/Fullscreen" instance=ExtResource("3_mhfj1")]
 layout_mode = 2
 
+[node name="StdInputCursorFocusHandler" parent="Video/Fullscreen/Checkbox" index="0"]
+use_as_anchor = true
+
 [node name="StdSettingsControllerToggleButton" type="Node" parent="Video/Fullscreen/Checkbox"]
 script = ExtResource("4_f57c6")
 property = ExtResource("5_ik6tg")
@@ -67,3 +70,5 @@ layout_mode = 2
 [node name="StdSettingsControllerToggleButton" type="Node" parent="Video/Vsync/Checkbox"]
 script = ExtResource("4_f57c6")
 property = ExtResource("10_atx4x")
+
+[editable path="Video/Fullscreen/Checkbox"]
