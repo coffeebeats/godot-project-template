@@ -10,7 +10,6 @@ extends "group.gd"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Binding := preload("res://project/ui/input/binding.gd")
 const BindingScene := preload("res://project/ui/input/binding.tscn")
 const Setting := preload("setting.gd")
 const SettingScene := preload("setting.tscn")

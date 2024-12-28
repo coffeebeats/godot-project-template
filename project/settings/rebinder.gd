@@ -11,6 +11,7 @@ extends Modal
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
+const Bindings := preload("res://addons/std/input/godot/binding.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
@@ -19,10 +20,16 @@ const GROUP_REBINDER := &"project/settings:rebinder"
 const DEVICE_TYPE_KEYBOARD := StdInputDevice.DEVICE_TYPE_KEYBOARD
 const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
 
+# -- CONFIGURATION ------------------------------------------------------------------- #
+
+## scope is a settings scope which contains input origin bindings for game actions.
+@export var scope: StdSettingsScope = null
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _action_set: StdInputActionSet = null
 var _action: StringName = &""
+var _binding_index: Bindings.BindingIndex = Bindings.BINDING_INDEX_PRIMARY
 var _device: StdInputDevice = null
 var _player: int = -1
 
@@ -40,9 +47,15 @@ static func find_in_scene():
 
 ## start begins the rebinding process for the specified action and player, making the
 ## modal visible and listening for the appropriate input events.
-func start(action_set: StdInputActionSet, action: StringName, player: int = 1) -> bool:
+func start(
+	action_set: StdInputActionSet,
+	action: StringName,
+	binding_index: Bindings.BindingIndex = Bindings.BINDING_INDEX_PRIMARY,
+	player: int = 1,
+) -> bool:
 	_action_set = action_set
 	_action = action
+	_binding_index = binding_index
 	_player = player
 
 	var slot := StdInputSlot.for_player(player)
@@ -63,6 +76,15 @@ func start(action_set: StdInputActionSet, action: StringName, player: int = 1) -
 	_update_prompt()
 	visible = true
 
+	print(
+		"project/settings/rebinder.gd[",
+		get_instance_id(),
+		(
+			"]: %s: started listening"
+			% ("%s/%s" % [_action_set.name, _action] if _action_set else "")
+		),
+	)
+
 	return true
 
 
@@ -77,6 +99,15 @@ func stop() -> void:
 	if not slot:
 		assert(false, "invalid state; missing input slot")
 		return
+
+	print(
+		"project/settings/rebinder.gd[",
+		get_instance_id(),
+		(
+			"]: %s: stopped listening"
+			% ("%s/%s" % [_action_set.name, _action] if _action_set else "")
+		),
+	)
 
 	Signals.disconnect_safe(slot.device_activated, _on_device_activated)
 
@@ -123,7 +154,28 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
-	# TODO: Implement rebinding.
+	var changed := (
+		Bindings
+		.bind_action(
+			scope,
+			_action_set,
+			_action,
+			event,
+			_device.device_type,
+			_binding_index,
+		)
+	)
+	if changed:
+		print(
+			"project/settings/rebinder.gd[",
+			get_instance_id(),
+			(
+				"]: %s: bound action to event: %s"
+				% ([
+					"%s/%s" % [_action_set.name, _action] if _action_set else "", event
+				])
+			),
+		)
 
 	stop()
 	get_viewport().set_input_as_handled()
@@ -138,7 +190,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	super._ready()  # gdlint:ignore=private-method-call
+	super._ready() # gdlint:ignore=private-method-call
 	set_process_input(false)
 
 
