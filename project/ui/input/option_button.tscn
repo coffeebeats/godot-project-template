@@ -6,5 +6,6 @@
 [node name="OptionButton" type="OptionButton"]
 script = ExtResource("1_1sudd")
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="."]
+[node name="StdInputCursorFocusHandler" type="Control" parent="."]
+anchors_preset = 0
 script = ExtResource("2_4wi16")
