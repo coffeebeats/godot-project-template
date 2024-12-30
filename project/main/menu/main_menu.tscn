@@ -61,7 +61,8 @@ focus_neighbor_bottom = NodePath("../Options")
 text = "Play"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Play"]
+[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Play"]
+anchors_preset = 0
 script = ExtResource("3_2fhwa")
 use_as_anchor = true
 
@@ -73,7 +74,8 @@ focus_neighbor_bottom = NodePath("../Credits")
 text = "Options"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Options"]
+[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Options"]
+anchors_preset = 0
 script = ExtResource("3_2fhwa")
 
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
@@ -83,7 +85,8 @@ focus_neighbor_bottom = NodePath("../Quit")
 text = "Credits"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Credits"]
+[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Credits"]
+anchors_preset = 0
 script = ExtResource("3_2fhwa")
 
 [node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
@@ -93,7 +96,8 @@ focus_neighbor_top = NodePath("../Credits")
 text = "Quit"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="Buttons/VBoxContainer/VBoxContainer/Quit"]
+[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Quit"]
+anchors_preset = 0
 script = ExtResource("3_2fhwa")
 
 [node name="Version" parent="." instance=ExtResource("3_b6tfj")]
