@@ -80,7 +80,7 @@ func start(
 		"project/settings/rebinder.gd[",
 		get_instance_id(),
 		(
-			"]: %s: started listening"
+			"]: started listening: %s"
 			% ("%s/%s" % [_action_set.name, _action] if _action_set else "")
 		),
 	)
@@ -104,7 +104,7 @@ func stop() -> void:
 		"project/settings/rebinder.gd[",
 		get_instance_id(),
 		(
-			"]: %s: stopped listening"
+			"]: stopped listening: %s"
 			% ("%s/%s" % [_action_set.name, _action] if _action_set else "")
 		),
 	)
@@ -113,6 +113,7 @@ func stop() -> void:
 
 	_action_set = null
 	_action = &""
+	_binding_index = Bindings.BINDING_INDEX_PRIMARY
 	_device = null
 	_player = -1
 
@@ -154,28 +155,21 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
-	var changed := (
+	(
 		Bindings
-		.bind_action(
+		. bind_action(
 			scope,
 			_action_set,
 			_action,
 			event,
-			_device.device_type,
+			(
+				StdInputDevice.DEVICE_TYPE_KEYBOARD
+				if _device.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD
+				else StdInputDevice.DEVICE_TYPE_GENERIC
+			),
 			_binding_index,
 		)
 	)
-	if changed:
-		print(
-			"project/settings/rebinder.gd[",
-			get_instance_id(),
-			(
-				"]: %s: bound action to event: %s"
-				% ([
-					"%s/%s" % [_action_set.name, _action] if _action_set else "", event
-				])
-			),
-		)
 
 	stop()
 	get_viewport().set_input_as_handled()
@@ -190,7 +184,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	super._ready() # gdlint:ignore=private-method-call
+	super._ready()  # gdlint:ignore=private-method-call
 	set_process_input(false)
 
 
