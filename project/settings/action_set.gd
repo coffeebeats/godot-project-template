@@ -5,7 +5,6 @@
 ## action included in the specified `StdInputActionSet`.
 ##
 
-@tool
 extends "group.gd"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
@@ -16,10 +15,16 @@ const SettingScene := preload("setting.tscn")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
+## scope is the settings scope in which binding overrides will be stored.
+@export var scope: StdSettingsScope = null
+
 ## action_set is an input action set which defines the configured action.
 @export var action_set: StdInputActionSet = null:
 	set(value):
 		action_set = value
+
+		if not is_inside_tree():
+			return
 
 		if not value:
 			_clear_settings()
@@ -45,8 +50,8 @@ const SettingScene := preload("setting.tscn")
 
 
 func _ready() -> void:
-	action_set = action_set
-	player_id = player_id
+	action_set = action_set  # Trigger 'label' update.
+	_generate_settings()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -62,17 +67,15 @@ func _clear_settings() -> void:
 
 
 func _generate_settings() -> void:
-	assert(action_set is StdInputActionSet, "invalid state; missing action set")
+	if not action_set is StdInputActionSet:
+		assert(Engine.is_editor_hint(), "invalid state; missing action set")
+		return
 
 	_clear_settings()
 
-	for action in (
-		([action_set.action_absolute_mouse] if action_set.action_absolute_mouse else [])
-		+ action_set.actions_analog_2d
-		+ action_set.actions_analog_1d
-		+ action_set.actions_digital
-	):
+	for action in action_set.list_action_names():
 		var binding := BindingScene.instantiate()
+		binding.scope = scope
 		binding.action_set = action_set
 		binding.action = action
 		binding.player_id = player_id

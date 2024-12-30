@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=14 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="1_e2ijp"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="2_0hkxm"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="8_dv3hg"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/action_set.tscn" id="9_4fqy3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="10_71vps"]
+[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="10_owgtb"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="11_0aylm"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="12_s1qm1"]
 
@@ -54,16 +55,19 @@ disabled = ExtResource("5_3bhsi")
 
 [node name="MenuControls" parent="." instance=ExtResource("9_4fqy3")]
 layout_mode = 2
+scope = ExtResource("10_owgtb")
 action_set = ExtResource("10_71vps")
 label = "Menu"
 
 [node name="MenuTabs" parent="." instance=ExtResource("9_4fqy3")]
 layout_mode = 2
+scope = ExtResource("10_owgtb")
 action_set = ExtResource("11_0aylm")
 label = "MenuTabbed"
 
 [node name="MenuRebinding" parent="." instance=ExtResource("9_4fqy3")]
 layout_mode = 2
+scope = ExtResource("10_owgtb")
 action_set = ExtResource("12_s1qm1")
 label = "MenuBinding"
 
