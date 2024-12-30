@@ -81,15 +81,28 @@ extends StdInputGlyph
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _custom_minimum_size: Vector2 = Vector2.ZERO
+var _keyboard_language: String = _get_keyboard_language()
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+
+func _process(_delta: float) -> void:
+	var keyboard_language := _get_keyboard_language()
+
+	if keyboard_language != _keyboard_language:
+		_keyboard_language = keyboard_language
+		update()
 
 
 func _ready() -> void:
 	super._ready() # gdlint:ignore=private-method-call
 
+	
 	if Engine.is_editor_hint():
+		set_process(false)
 		return
+
+	set_process(_slot.device_type == DeviceType.KEYBOARD)
 
 	assert(label is Label, "invalid state; missing node")
 	assert(texture_rect is TextureRect, "invalid state; missing node")
@@ -100,18 +113,22 @@ func _ready() -> void:
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
 
+func _device_activated(device: StdInputDevice) -> void:
+	set_process(device.device_type == DeviceType.KEYBOARD)
+
+
 func _get_device_type() -> DeviceType:
 	if always_show_kbm:
 		return DeviceType.KEYBOARD
 
 	var property_value: DeviceType = DEVICE_TYPE_UNKNOWN
-	if device_type_override:
+	if device_type_override is StdSettingsPropertyInt:
 		property_value = device_type_override.get_value()
 
 	if always_show_joy:
 		# When showing joypad glyphs, still check if an override was set in settings,
 		# but only use it if a joypad type is selected.
-		if device_type_override:
+		if device_type_override is StdSettingsPropertyInt:
 			if (
 				property_value != DEVICE_TYPE_UNKNOWN
 				and property_value != DEVICE_TYPE_KEYBOARD
@@ -152,6 +169,7 @@ func _update_glyph(device_type: DeviceType) -> bool:
 			.get_action_glyph(
 				action_set,
 				action,
+				binding_index,
 				custom_minimum_size,
 				device_type,
 			)
@@ -174,8 +192,9 @@ func _update_glyph(device_type: DeviceType) -> bool:
 			label.text = (
 				_slot
 				.get_action_origin_label(
-					action_set.name,
+					action_set,
 					action,
+					binding_index,
 					device_type,
 				)
 			)
@@ -198,3 +217,11 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	custom_minimum_size = minimum_size
 
 	return texture_rect.texture != texture_prev or label.text != label_prev
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+static func _get_keyboard_language() -> String:
+	var index := DisplayServer.keyboard_get_current_layout()
+	return DisplayServer.keyboard_get_layout_language(index)
