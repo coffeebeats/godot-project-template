@@ -106,7 +106,7 @@ jobs:
           version: ${{ steps.version.outputs.semantic }}
 
       - name: Install 'pngcrush' tool
-        run: apt-get install -y pngcrush
+        run: sudo apt-get install -y pngcrush
 
       - name: Optimize images
         run: |
