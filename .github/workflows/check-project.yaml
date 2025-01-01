@@ -110,7 +110,9 @@ jobs:
 
       - name: Optimize images
         run: |
-          for f in "${{ needs.changes.outputs.added-png-files }} ${{ needs.changes.outputs.modified-png-files }}"; do
+          files="$(echo "${{ needs.changes.outputs.added-png-files }} ${{ needs.changes.outputs.modified-png-files }}" | xargs)"
+
+          for f in $files; do
             echo "$(du -sh $f) (before)"
             pngcrush "$f" "$f.opt"
             mv "$f.opt" "$f"
