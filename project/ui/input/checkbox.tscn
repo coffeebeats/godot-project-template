@@ -4,5 +4,6 @@
 
 [node name="Checkbox" type="CheckBox"]
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="."]
+[node name="StdInputCursorFocusHandler" type="Control" parent="."]
+anchors_preset = 0
 script = ExtResource("1_agpof")

@@ -113,19 +113,6 @@ func set_fullscreen(value: bool) -> void:
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _ready() -> void:
-	super._ready()  # gdlint:ignore=private-method-call
-
-	var window := get_window()
-
-	# Reconcile the user-level properties with the actual initial window state.
-	borderless_property.set_value(window.borderless)
-	fullscreen_property.set_value(window.mode >= Window.MODE_FULLSCREEN)
-
-	if window.mode < Window.MODE_FULLSCREEN:
-		_center_window(window.get_window_id())
-
-
 func _process(_delta: float) -> void:
 	var window: Window = get_window()
 

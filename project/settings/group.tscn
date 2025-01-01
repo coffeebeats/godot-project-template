@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxxweem4spjs8"]
 
-[ext_resource type="Script" path="res://project/settings/component/group.gd" id="1_i23do"]
+[ext_resource type="Script" path="res://project/settings/group.gd" id="1_i23do"]
 [ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/ui/font/mina-bold.ttf" id="2_1aowl"]
-
 
 [node name="Group" type="VBoxContainer"]
 anchors_preset = 15
@@ -14,8 +13,12 @@ size_flags_vertical = 0
 theme_override_constants/separation = 24
 script = ExtResource("1_i23do")
 
-[node name="Label" type="Label" parent="."]
+[node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("2_1aowl")
 theme_override_font_sizes/font_size = 30

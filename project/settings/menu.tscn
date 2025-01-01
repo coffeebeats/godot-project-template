@@ -1,43 +1,23 @@
-[gd_scene load_steps=34 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=14 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/rebinder.tscn" id="3_1lgqj"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_bhxpg"]
-[ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/component/setting.tscn" id="3_mwywu"]
-[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/component/group.tscn" id="3_u1tkv"]
-[ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="4_mkrwc"]
-[ext_resource type="Resource" uid="uid://cdgwm6x2i52sn" path="res://system/setting/audio/volume/master_property.tres" id="6_2y3gk"]
+[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="6_8400t"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="6_xrc8s"]
-[ext_resource type="Resource" uid="uid://dxoybi2umepwu" path="res://system/setting/audio/volume/sound_effects_property.tres" id="7_lbua0"]
-[ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="7_y2s16"]
-[ext_resource type="Resource" uid="uid://c548qtehlfufq" path="res://system/setting/audio/volume/music_property.tres" id="8_vr8i3"]
-[ext_resource type="Resource" uid="uid://csu1osb4kni20" path="res://system/setting/audio/volume/voice_property.tres" id="11_tj5m7"]
-[ext_resource type="PackedScene" uid="uid://jqrnk34kfw5u" path="res://project/ui/input/option_button.tscn" id="12_tlber"]
-[ext_resource type="Script" path="res://addons/std/setting/controller_option_button_string.gd" id="13_2mp6h"]
-[ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="13_akn4b"]
-[ext_resource type="Resource" uid="uid://dejd17gr4508s" path="res://system/setting/audio/mute/background_property.tres" id="13_av43r"]
-[ext_resource type="Resource" uid="uid://tusikeeyjycn" path="res://system/setting/audio/device/output_options_property.tres" id="15_1xeuq"]
-[ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="15_uobfh"]
-[ext_resource type="Resource" uid="uid://bto0jfkd0pli7" path="res://system/setting/video/fullscreen.tres" id="17_p7irk"]
-[ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="18_e44is"]
-[ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="19_vnnyy"]
-[ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="22_rud21"]
-[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="23_66lgp"]
-[ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="23_75bgj"]
-[ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="23_jooaf"]
-[ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/component/action_set.tscn" id="24_x71d3"]
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="25_42b8g"]
-[ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="27_0umr4"]
+[ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/settings/page/gameplay.tscn" id="7_tg4wg"]
+[ext_resource type="PackedScene" uid="uid://dkt0y14cgygus" path="res://project/settings/page/sound.tscn" id="8_q5vgy"]
+[ext_resource type="PackedScene" uid="uid://b4obsfsvns0ap" path="res://project/settings/page/display.tscn" id="9_hcsho"]
+[ext_resource type="PackedScene" uid="uid://bd5fo51o6asi2" path="res://project/settings/page/controls.tscn" id="10_fwjro"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="27_ma3b3"]
-[ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="28_ca7t1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sf1nb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qeoie"]
 
 [node name="Menu" type="PanelContainer"]
-custom_minimum_size = Vector2(1440, 972)
+custom_minimum_size = Vector2(1080, 972)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -60,34 +40,41 @@ enable_on_enter = false
 enable_on_visible = true
 disable_on_hidden = true
 
-[node name="BindingPrompt" parent="." instance=ExtResource("3_1lgqj")]
+[node name="Rebinder" parent="." instance=ExtResource("3_1lgqj")]
 layout_mode = 2
+scope = ExtResource("6_8400t")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 custom_minimum_size = Vector2(810, 810)
 layout_mode = 2
 
-[node name="Header" type="PanelContainer" parent="VBoxContainer"]
+[node name="Header" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_sf1nb")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Header"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Header"]
 layout_mode = 2
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Header/MarginContainer"]
 layout_mode = 2
 
-[node name="GlyphTabPrev" parent="VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
+[node name="GlyphTabPrev" parent="MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 10
-show_on_kbm = false
 action_set = ExtResource("27_ma3b3")
 action = &"ui_tab_prev"
 
-[node name="TabBar" type="TabBar" parent="VBoxContainer/Header/MarginContainer/HBoxContainer"]
+[node name="TabBar" type="TabBar" parent="MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -102,27 +89,26 @@ tab_1/title = "    Sound    "
 tab_2/title = "    Display    "
 tab_3/title = "    Controls    "
 
-[node name="GlyphTabNext" parent="VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
+[node name="GlyphTabNext" parent="MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 2
-show_on_kbm = false
 action_set = ExtResource("27_ma3b3")
 action = &"ui_tab_next"
 
-[node name="Body" type="PanelContainer" parent="VBoxContainer"]
+[node name="Body" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_qeoie")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Body"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Body/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/Body/MarginContainer"]
 layout_mode = 2
 follow_focus = true
 
-[node name="TabContents" type="MarginContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer"]
+[node name="TabContents" type="MarginContainer" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -132,202 +118,17 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 128
 theme_override_constants/margin_bottom = 16
 
-[node name="Gameplay" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
+[node name="Gameplay" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("7_tg4wg")]
 visible = false
 layout_mode = 2
-theme_type_variation = &"Body"
 
-[node name="Sound" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
+[node name="Sound" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("8_q5vgy")]
 visible = false
 layout_mode = 2
-theme_type_variation = &"Body"
 
-[node name="Volume" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound" instance=ExtResource("3_u1tkv")]
-layout_mode = 2
-label = "Volume"
-
-[node name="Master" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Master"
-
-[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master" instance=ExtResource("4_mkrwc")]
-layout_mode = 2
-
-[node name="StdInputCursorFocusHandler" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider/HSlider" index="0"]
-use_as_anchor = true
-
-[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider"]
-script = ExtResource("7_y2s16")
-property = ExtResource("6_2y3gk")
-target = NodePath("../HSlider")
-
-[node name="Effects" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Sound effects"
-
-[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Effects" instance=ExtResource("4_mkrwc")]
-layout_mode = 2
-
-[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Effects/Slider"]
-script = ExtResource("7_y2s16")
-property = ExtResource("7_lbua0")
-target = NodePath("../HSlider")
-
-[node name="Music" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Music"
-
-[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Music" instance=ExtResource("4_mkrwc")]
-layout_mode = 2
-
-[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Music/Slider"]
-script = ExtResource("7_y2s16")
-property = ExtResource("8_vr8i3")
-target = NodePath("../HSlider")
-
-[node name="Voice" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Voice"
-
-[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Voice" instance=ExtResource("4_mkrwc")]
-layout_mode = 2
-
-[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Voice/Slider"]
-script = ExtResource("7_y2s16")
-property = ExtResource("11_tj5m7")
-target = NodePath("../HSlider")
-
-[node name="Audio" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound" instance=ExtResource("3_u1tkv")]
-layout_mode = 2
-label = "Audio"
-
-[node name="Device" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Sound device"
-
-[node name="OptionButton" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/Device" instance=ExtResource("12_tlber")]
-layout_mode = 2
-
-[node name="StdSettingsControllerOptionButtonString" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/Device/OptionButton"]
-script = ExtResource("13_2mp6h")
-property = ExtResource("13_akn4b")
-options_property = ExtResource("15_1xeuq")
-
-[node name="MuteInBackground" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Mute in background"
-
-[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground" instance=ExtResource("23_75bgj")]
-layout_mode = 2
-
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Audio/MuteInBackground/Checkbox"]
-script = ExtResource("15_uobfh")
-property = ExtResource("13_av43r")
-
-[node name="Display" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
+[node name="Display" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("9_hcsho")]
 visible = false
 layout_mode = 2
-theme_type_variation = &"Body"
 
-[node name="Video" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display" instance=ExtResource("3_u1tkv")]
+[node name="Controls" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("10_fwjro")]
 layout_mode = 2
-label = "Video"
-
-[node name="Fullscreen" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Fullscreen"
-
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Fullscreen"]
-layout_mode = 2
-
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Fullscreen/CheckBox"]
-script = ExtResource("15_uobfh")
-property = ExtResource("17_p7irk")
-
-[node name="StdInputCursorFocusHandler" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Fullscreen/CheckBox"]
-script = ExtResource("23_66lgp")
-use_as_anchor = true
-
-[node name="Borderless" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Borderless"
-
-[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless" instance=ExtResource("23_75bgj")]
-layout_mode = 2
-
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Borderless/Checkbox"]
-script = ExtResource("15_uobfh")
-property = ExtResource("18_e44is")
-
-[node name="MaxFrameLimit" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "MaxFrameLimit"
-
-[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/MaxFrameLimit" instance=ExtResource("4_mkrwc")]
-layout_mode = 2
-
-[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/MaxFrameLimit/Slider"]
-script = ExtResource("7_y2s16")
-property = ExtResource("27_0umr4")
-target = NodePath("../HSlider")
-
-[node name="Vsync" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Vsync"
-
-[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync" instance=ExtResource("23_75bgj")]
-layout_mode = 2
-
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Display/Video/Vsync/Checkbox"]
-script = ExtResource("15_uobfh")
-property = ExtResource("19_vnnyy")
-
-[node name="Controls" type="VBoxContainer" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents"]
-layout_mode = 2
-theme_type_variation = &"Body"
-
-[node name="General" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("3_u1tkv")]
-layout_mode = 2
-label = "General"
-
-[node name="DisableVibration" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Disable vibration"
-
-[node name="Checkbox" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration" instance=ExtResource("23_75bgj")]
-layout_mode = 2
-
-[node name="StdSettingsControllerToggleButton" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/DisableVibration/Checkbox"]
-script = ExtResource("15_uobfh")
-property = ExtResource("22_rud21")
-target = NodePath("")
-
-[node name="VibrationStrength" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General" instance=ExtResource("3_mwywu")]
-layout_mode = 2
-label = "Vibration strength"
-
-[node name="Slider" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/VibrationStrength" instance=ExtResource("4_mkrwc")]
-layout_mode = 2
-
-[node name="StdSettingsControllerRange" type="Node" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls/General/VibrationStrength/Slider"]
-script = ExtResource("7_y2s16")
-property = ExtResource("23_jooaf")
-target = NodePath("../HSlider")
-disabled = ExtResource("22_rud21")
-
-[node name="MenuControls" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("24_x71d3")]
-layout_mode = 2
-action_set = ExtResource("25_42b8g")
-label = "Menu"
-
-[node name="MenuTabs" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("24_x71d3")]
-layout_mode = 2
-action_set = ExtResource("27_ma3b3")
-label = "MenuTabbed"
-
-[node name="MenuRebinding" parent="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Controls" instance=ExtResource("24_x71d3")]
-layout_mode = 2
-action_set = ExtResource("28_ca7t1")
-label = "MenuBinding"
-
-[editable path="VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents/Sound/Volume/Master/Slider"]

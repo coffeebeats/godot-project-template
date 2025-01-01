@@ -20,7 +20,7 @@ extends VBoxContainer
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-@onready var _label: Label = $Label
+@onready var _label: Label = $Header/Label
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 

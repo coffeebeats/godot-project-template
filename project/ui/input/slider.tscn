@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://project/ui/input/slider.gd" id="1_7861e"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="2_xue5s"]
 
-
 [node name="Slider" type="HBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +19,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 9.0
 
-[node name="StdInputCursorFocusHandler" type="Node" parent="HSlider"]
+[node name="StdInputCursorFocusHandler" type="Control" parent="HSlider"]
+anchors_preset = 0
 script = ExtResource("2_xue5s")
 
 [node name="Label" type="Label" parent="."]
