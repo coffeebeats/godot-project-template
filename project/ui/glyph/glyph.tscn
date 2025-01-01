@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg8wa8rp672rb"]
+[gd_scene load_steps=3 format=3 uid="uid://dg8wa8rp672rb"]
 
 [ext_resource type="Script" path="res://project/ui/glyph/glyph.gd" id="1_t2ikv"]
-[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="2_3whri"]
 [ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="3_jfinn"]
 
 [node name="Glyph" type="Control" node_paths=PackedStringArray("label", "texture_rect")]
@@ -17,7 +16,6 @@ mouse_filter = 2
 script = ExtResource("1_t2ikv")
 label = NodePath("Label")
 texture_rect = NodePath("TextureRect")
-scope = ExtResource("2_3whri")
 device_type_override = ExtResource("3_jfinn")
 
 [node name="TextureRect" type="TextureRect" parent="."]
