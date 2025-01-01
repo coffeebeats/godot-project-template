@@ -29,7 +29,9 @@ const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
 
 var _action_set: StdInputActionSet = null
 var _action: StringName = &""
-var _binding_index: Bindings.BindingIndex = Bindings.BINDING_INDEX_PRIMARY
+var _binding_index: StdInputDeviceActions.BindingIndex = (
+	StdInputDeviceActions.BINDING_INDEX_PRIMARY
+)
 var _device: StdInputDevice = null
 var _player: int = -1
 
@@ -50,7 +52,9 @@ static func find_in_scene():
 func start(
 	action_set: StdInputActionSet,
 	action: StringName,
-	binding_index: Bindings.BindingIndex = Bindings.BINDING_INDEX_PRIMARY,
+	binding_index: StdInputDeviceActions.BindingIndex = (
+		StdInputDeviceActions.BINDING_INDEX_PRIMARY
+	),
 	player: int = 1,
 ) -> bool:
 	_action_set = action_set
@@ -113,7 +117,7 @@ func stop() -> void:
 
 	_action_set = null
 	_action = &""
-	_binding_index = Bindings.BINDING_INDEX_PRIMARY
+	_binding_index = StdInputDeviceActions.BINDING_INDEX_PRIMARY
 	_device = null
 	_player = -1
 
@@ -162,11 +166,7 @@ func _input(event: InputEvent) -> void:
 			_action_set,
 			_action,
 			event,
-			(
-				StdInputDevice.DEVICE_TYPE_KEYBOARD
-				if _device.device_type == StdInputDevice.DEVICE_TYPE_KEYBOARD
-				else StdInputDevice.DEVICE_TYPE_GENERIC
-			),
+			_device.device_category,
 			_binding_index,
 		)
 	)
