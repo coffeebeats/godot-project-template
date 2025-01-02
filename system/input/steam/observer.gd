@@ -54,7 +54,7 @@ func _handle_value_change(property: StdSettingsProperty, value: bool) -> void:
 	if not property == steam_input_enabled_property:
 		assert(false, "invalid state; wrong property")
 		return
-	
+
 	if not slot:
 		assert(false, "invalid config; missing player slot")
 		return
