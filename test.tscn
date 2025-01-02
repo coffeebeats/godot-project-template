@@ -1,0 +1,208 @@
+[gd_scene load_steps=6 format=3 uid="uid://cy4gbt6mq3har"]
+
+[ext_resource type="Script" path="res://test.gd" id="1_pjlqf"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://ui/glyph/glyph.tscn" id="2_y36jh"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="3_fpmlg"]
+[ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="4_7qy7k"]
+[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="4_8ybos"]
+
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pjlqf")
+action_set = ExtResource("3_fpmlg")
+action_set_layer = ExtResource("4_7qy7k")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PrintLayers" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 24
+text = "Print action set layers"
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="HBoxContainer/VBoxContainer2/PrintLayers"]
+script = ExtResource("4_8ybos")
+use_as_anchor = true
+
+[node name="LoadActionSet" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 24
+text = "Load Action Set"
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="HBoxContainer/VBoxContainer2/LoadActionSet"]
+script = ExtResource("4_8ybos")
+
+[node name="EnableActionSetLayer" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_neighbor_top = NodePath("../LoadActionSet")
+focus_neighbor_bottom = NodePath("../DeactivateActionSetLayer")
+focus_next = NodePath("../DeactivateActionSetLayer")
+focus_previous = NodePath("../LoadActionSet")
+theme_override_font_sizes/font_size = 24
+text = "Enable Action Set Layer
+"
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="HBoxContainer/VBoxContainer2/EnableActionSetLayer"]
+script = ExtResource("4_8ybos")
+
+[node name="DeactivateActionSetLayer" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 24
+text = "Deactivate Action Set Layer
+"
+
+[node name="StdInputCursorFocusHandler" type="Node" parent="HBoxContainer/VBoxContainer2/DeactivateActionSetLayer"]
+script = ExtResource("4_8ybos")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FPS" type="Label" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="ActionSet" type="Label" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="ActionSetLayer" type="Label" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="ActiveDevice" type="Label" parent="HBoxContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="ConnectedDevices" type="Label" parent="HBoxContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Up" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Up"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Up"
+horizontal_alignment = 1
+
+[node name="Glyph" parent="HBoxContainer/VBoxContainer/Up" instance=ExtResource("2_y36jh")]
+layout_mode = 2
+action_set = ExtResource("3_fpmlg")
+action = &"ui_up"
+
+[node name="Down" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Down"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Down"
+horizontal_alignment = 1
+
+[node name="Glyph" parent="HBoxContainer/VBoxContainer/Down" instance=ExtResource("2_y36jh")]
+layout_mode = 2
+action_set = ExtResource("3_fpmlg")
+action = &"ui_down"
+
+[node name="Left" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Left"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Left
+"
+horizontal_alignment = 1
+
+[node name="Glyph" parent="HBoxContainer/VBoxContainer/Left" instance=ExtResource("2_y36jh")]
+layout_mode = 2
+action_set = ExtResource("3_fpmlg")
+action = &"ui_left"
+
+[node name="Right" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Right"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Right"
+horizontal_alignment = 1
+
+[node name="Glyph" parent="HBoxContainer/VBoxContainer/Right" instance=ExtResource("2_y36jh")]
+layout_mode = 2
+action_set = ExtResource("3_fpmlg")
+action = &"ui_right"
+
+[node name="TabNext" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/TabNext"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Next Tab"
+horizontal_alignment = 1
+
+[node name="Glyph" parent="HBoxContainer/VBoxContainer/TabNext" instance=ExtResource("2_y36jh")]
+layout_mode = 2
+size_flags_horizontal = 3
+action_set = ExtResource("4_7qy7k")
+action = &"ui_tab_next"
+
+[node name="TabPrev" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/TabPrev"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Previous Tab"
+horizontal_alignment = 1
+
+[node name="Glyph" parent="HBoxContainer/VBoxContainer/TabPrev" instance=ExtResource("2_y36jh")]
+layout_mode = 2
+size_flags_horizontal = 3
+action_set = ExtResource("4_7qy7k")
+action = &"ui_tab_prev"
