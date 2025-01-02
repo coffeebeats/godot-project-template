@@ -2,10 +2,9 @@
 
 [ext_resource type="FontFile" uid="uid://cr5y3dy5yghp1" path="res://project/ui/font/mina-regular.ttf" id="1_mej04"]
 
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkwvk"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lq8se"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ooeb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_idf6p"]
 
@@ -22,7 +21,7 @@ Button/colors/font_hover_pressed_color = Color(0.364706, 0.6, 0.976471, 1)
 Button/colors/font_pressed_color = Color(0.364706, 0.6, 0.976471, 1)
 Button/fonts/font = ExtResource("1_mej04")
 Button/styles/disabled = SubResource("StyleBoxEmpty_jkwvk")
-Button/styles/focus = SubResource("StyleBoxEmpty_lq8se")
+Button/styles/focus = SubResource("StyleBoxEmpty_7ooeb")
 Button/styles/hover = SubResource("StyleBoxEmpty_idf6p")
 Button/styles/normal = SubResource("StyleBoxEmpty_pvtmu")
 Button/styles/pressed = SubResource("StyleBoxEmpty_cy8xd")
