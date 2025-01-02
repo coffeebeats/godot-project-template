@@ -39,13 +39,15 @@ theme_type_variation = &"Body"
 script = ExtResource("1_453xn")
 targets = [NodePath("../MenuControls"), NodePath("../MenuTabs"), NodePath("../MenuRebinding")]
 expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("3_hd45r"), SubResource("Resource_d5xjy")])
+expressions_block = Array[ExtResource("10_sjbu8")]([ExtResource("7_11xxv")])
 
 [node name="Steam" type="Node" parent="."]
 
-[node name="Settings" type="Node" parent="Steam" node_paths=PackedStringArray("targets")]
+[node name="StdConditionTarget2D" type="Node" parent="Steam" node_paths=PackedStringArray("targets")]
 script = ExtResource("1_453xn")
-targets = [NodePath("../../Controls")]
-expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("12_jpul5")])
+targets = [NodePath("../../Bindings")]
+expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("12_jpul5"), ExtResource("7_11xxv")])
+expressions_allow_require_all = true
 
 [node name="StdConditionParent" type="Node" parent="Steam"]
 script = ExtResource("9_7ovan")
@@ -53,7 +55,7 @@ expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("12_jpul5"), Ext
 
 [node name="StdInputSteamConfigurator" type="Node" parent="Steam/StdConditionParent" node_paths=PackedStringArray("button")]
 script = ExtResource("7_e6av4")
-button = NodePath("../../../Controls/Configurator/Prompt")
+button = NodePath("../../../Bindings/Configurator/Prompt")
 
 [node name="General" parent="." instance=ExtResource("1_e2ijp")]
 layout_mode = 2
@@ -86,6 +88,20 @@ property = ExtResource("8_dv3hg")
 target = NodePath("../HSlider")
 disabled = ExtResource("5_3bhsi")
 
+[node name="Bindings" parent="." instance=ExtResource("1_e2ijp")]
+layout_mode = 2
+label = "Bindings"
+
+[node name="Configurator" parent="Bindings" instance=ExtResource("2_0hkxm")]
+unique_name_in_owner = true
+layout_mode = 2
+label = "Steam Configurator"
+
+[node name="Prompt" parent="Bindings/Configurator" instance=ExtResource("19_sjjvc")]
+custom_minimum_size = Vector2(128, 48)
+layout_mode = 2
+text = "OPEN"
+
 [node name="MenuControls" parent="." instance=ExtResource("9_4fqy3")]
 layout_mode = 2
 action_set = ExtResource("10_71vps")
@@ -103,19 +119,5 @@ layout_mode = 2
 action_set = ExtResource("12_s1qm1")
 scope = ExtResource("10_owgtb")
 label = "MenuBinding"
-
-[node name="Controls" parent="." instance=ExtResource("1_e2ijp")]
-layout_mode = 2
-label = "Controls"
-
-[node name="Configurator" parent="Controls" instance=ExtResource("2_0hkxm")]
-unique_name_in_owner = true
-layout_mode = 2
-label = "Steam Configurator"
-
-[node name="Prompt" parent="Controls/Configurator" instance=ExtResource("19_sjjvc")]
-custom_minimum_size = Vector2(128, 48)
-layout_mode = 2
-text = "OPEN"
 
 [editable path="General/DisableVibration/Checkbox"]
