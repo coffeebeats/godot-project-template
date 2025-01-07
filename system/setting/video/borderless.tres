@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdSettingsPropertyBool" load_steps=3 format=3 uid="uid://iw3u23yo0kyb"]
 
-[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_2egl8"]
+[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/project_settings_scope.tres" id="1_f3i82"]
 [ext_resource type="Script" path="res://addons/std/setting/property_bool.gd" id="2_afwje"]
 
 [resource]
@@ -9,4 +9,4 @@ default = false
 category = &"display"
 name = &"window/size/borderless"
 readonly = false
-scope = ExtResource("1_2egl8")
+scope = ExtResource("1_f3i82")

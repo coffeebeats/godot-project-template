@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="StdSettingsPropertyFloatRange" load_steps=3 format=3 uid="uid://cnxktk43lvql6"]
 
+[ext_resource type="Resource" uid="uid://mwqxsj0u3y8u" path="res://system/setting/user_settings_scope.tres" id="1_65dvr"]
 [ext_resource type="Script" path="res://addons/std/setting/property_float_range.gd" id="1_thf8i"]
-[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_v63fx"]
 
 [resource]
 script = ExtResource("1_thf8i")
@@ -12,4 +12,4 @@ default = 50.0
 category = &"controls"
 name = &"haptics/strength"
 readonly = false
-scope = ExtResource("1_v63fx")
+scope = ExtResource("1_65dvr")

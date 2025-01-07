@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=3 uid="uid://tusikeeyjycn"]
 
-[ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/scope.tres" id="1_24s4o"]
 [ext_resource type="Script" path="res://system/setting/audio/device/output_options_property.gd" id="1_do1ec"]
+[ext_resource type="Resource" uid="uid://mwqxsj0u3y8u" path="res://system/setting/user_settings_scope.tres" id="1_gs2ng"]
 
 [resource]
 script = ExtResource("1_do1ec")
@@ -11,4 +11,4 @@ default = PackedStringArray()
 category = &"audio"
 name = &"device/output_options"
 readonly = true
-scope = ExtResource("1_24s4o")
+scope = ExtResource("1_gs2ng")
