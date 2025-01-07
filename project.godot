@@ -12,6 +12,7 @@ config_version=5
 
 config/name="game"
 run/main_scene="res://project/main/main.tscn"
+config/use_custom_user_dir=true
 config/project_settings_override="user://settings.cfg"
 config/features=PackedStringArray("4.3", "Forward Plus")
 run/max_fps=120
