@@ -1,0 +1,29 @@
+##
+## platform/profile/profile.gd
+##
+## Profile is a `Platform` node which manages information about the user running the
+## game application.
+##
+
+extends Node
+
+# -- DEFINITIONS --------------------------------------------------------------------- #
+
+# -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _profile: UserProfile = null
+
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+## get_user_profile returns information about the profile currently running the game
+## application.
+func get_user_profile() -> UserProfile:
+	return _profile
+
+## set_user_profile updates the current user profile.
+func set_user_profile(profile: UserProfile) -> void:
+	if _profile:
+		assert(false, "invalid state; user profile already set")
+		return
+	
+	_profile = profile
