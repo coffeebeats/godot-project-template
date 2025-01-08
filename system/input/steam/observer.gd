@@ -72,9 +72,12 @@ func _handle_value_change(property: StdSettingsProperty, value: bool) -> void:
 		{&"player": slot.player_id, &"storefront": "steam" if value else "unknown"}
 	)
 
-	slot.swap_joypad_components(
-		steam_joypad_monitor if value else godot_joypad_monitor,
-		steam_device_actions if value else godot_device_actions,
-		steam_device_glyphs if value else godot_device_glyphs,
-		steam_device_haptics if value else godot_device_haptics,
+	(
+		slot
+		. swap_joypad_components(
+			steam_joypad_monitor if value else godot_joypad_monitor,
+			steam_device_actions if value else godot_device_actions,
+			steam_device_glyphs if value else godot_device_glyphs,
+			steam_device_haptics if value else godot_device_haptics,
+		)
 	)
