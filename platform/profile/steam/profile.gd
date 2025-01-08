@@ -19,12 +19,15 @@ const Profile := preload("../profile.gd")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _ready() -> void:
 	assert(_profile is Profile, "invalid state; missing profile")
 
 	_profile.set_user_profile(_create_user_profile())
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _create_user_profile() -> UserProfile:
 	var user_profile := UserProfile.new()

@@ -13,7 +13,7 @@ extends Object
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## HostPlatform enumerates the set of OS/platforms which this game might target.
-enum HostPlatform {UNKNOWN, MACOS, WEB, WINDOWS}
+enum HostPlatform { UNKNOWN, MACOS, WEB, WINDOWS }
 
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {

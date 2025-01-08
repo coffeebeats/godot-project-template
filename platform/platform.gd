@@ -17,6 +17,7 @@ const Profile := preload("profile/profile.gd")
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## get_user_profile returns the current/local user running the game application.
 func get_user_profile() -> UserProfile:
 	var profile := _profile.get_user_profile()
