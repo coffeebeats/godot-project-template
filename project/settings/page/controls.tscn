@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=27 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_453xn"]
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="1_e2ijp"]
@@ -7,8 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="3_jltjr"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="4_b2qpk"]
 [ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="5_3bhsi"]
+[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="5_h46d6"]
+[ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="6_f35qp"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="6_oeit6"]
-[ext_resource type="Resource" uid="uid://dvbmhrciukos0" path="res://system/input/steam/steam_input_enabled_expression.tres" id="7_11xxv"]
 [ext_resource type="Script" path="res://addons/std/input/steam/configurator.gd" id="7_e6av4"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="7_n77ad"]
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="8_dv3hg"]
@@ -19,13 +20,24 @@
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="10_sjbu8"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="11_0aylm"]
 [ext_resource type="Script" path="res://addons/std/condition/expression_feature.gd" id="12_c24wx"]
-[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="12_jpul5"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="12_s1qm1"]
 [ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="19_sjjvc"]
 
 [sub_resource type="Resource" id="Resource_d5xjy"]
 script = ExtResource("12_c24wx")
 feature = &"editor"
+
+[sub_resource type="Resource" id="Resource_00m0w"]
+script = ExtResource("6_f35qp")
+block = ExtResource("5_h46d6")
+
+[sub_resource type="Resource" id="Resource_pi47t"]
+script = ExtResource("6_f35qp")
+allow = ExtResource("5_h46d6")
+
+[sub_resource type="Resource" id="Resource_jhqli"]
+script = ExtResource("6_f35qp")
+allow = ExtResource("5_h46d6")
 
 [node name="Controls" type="VBoxContainer"]
 anchors_preset = 15
@@ -39,19 +51,18 @@ theme_type_variation = &"Body"
 script = ExtResource("1_453xn")
 targets = [NodePath("../MenuControls"), NodePath("../MenuTabs"), NodePath("../MenuRebinding")]
 expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("3_hd45r"), SubResource("Resource_d5xjy")])
-expressions_block = Array[ExtResource("10_sjbu8")]([ExtResource("7_11xxv")])
+expressions_block = Array[ExtResource("10_sjbu8")]([SubResource("Resource_00m0w")])
 
 [node name="Steam" type="Node" parent="."]
 
 [node name="StdConditionTarget2D" type="Node" parent="Steam" node_paths=PackedStringArray("targets")]
 script = ExtResource("1_453xn")
 targets = [NodePath("../../Bindings")]
-expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("12_jpul5"), ExtResource("7_11xxv")])
-expressions_allow_require_all = true
+expressions_allow = Array[ExtResource("10_sjbu8")]([SubResource("Resource_pi47t")])
 
 [node name="StdConditionParent" type="Node" parent="Steam"]
 script = ExtResource("9_7ovan")
-expressions_allow = Array[ExtResource("10_sjbu8")]([ExtResource("12_jpul5"), ExtResource("7_11xxv")])
+expressions_allow = Array[ExtResource("10_sjbu8")]([SubResource("Resource_jhqli")])
 
 [node name="StdInputSteamConfigurator" type="Node" parent="Steam/StdConditionParent" node_paths=PackedStringArray("button")]
 script = ExtResource("7_e6av4")
@@ -90,14 +101,15 @@ disabled = ExtResource("5_3bhsi")
 
 [node name="Bindings" parent="." instance=ExtResource("1_e2ijp")]
 layout_mode = 2
-label = "Bindings"
+label = "Steam Input"
 
 [node name="Configurator" parent="Bindings" instance=ExtResource("2_0hkxm")]
 unique_name_in_owner = true
 layout_mode = 2
-label = "Steam Configurator"
+label = "Controller layout"
 
 [node name="Prompt" parent="Bindings/Configurator" instance=ExtResource("19_sjjvc")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 48)
 layout_mode = 2
 text = "OPEN"
