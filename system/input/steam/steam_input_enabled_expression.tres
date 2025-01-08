@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="StdConditionExpressionSettingsProperty" load_steps=3 format=3 uid="uid://dvbmhrciukos0"]
-
-[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="1_ltdsd"]
-[ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="1_u6r8o"]
-
-[resource]
-script = ExtResource("1_u6r8o")
-allow = ExtResource("1_ltdsd")

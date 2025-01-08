@@ -23,6 +23,8 @@ extends StdSettingsObserver
 
 @export_subgroup("Godot")
 
+@export var godot_joypad_monitor: StdInputSlot.JoypadMonitor = null
+
 ## godot_device_actions is the Godot-backed device actions component.
 @export var godot_device_actions: StdInputDeviceActions = null
 
@@ -34,6 +36,8 @@ extends StdSettingsObserver
 
 @export_subgroup("Steam")
 
+@export var steam_joypad_monitor: StdInputSlot.JoypadMonitor = null
+
 ## steam_device_actions is the Steam-backed device actions component.
 @export var steam_device_actions: StdInputDeviceActions = null
 
@@ -42,6 +46,10 @@ extends StdSettingsObserver
 
 ## steam_device_haptics is the Steam-backed device haptics component.
 @export var steam_device_haptics: StdInputDeviceHaptics = null
+
+# -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _logger := StdLogger.create("system/input/steam/observer").with_process_frame()
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
@@ -59,6 +67,14 @@ func _handle_value_change(property: StdSettingsProperty, value: bool) -> void:
 		assert(false, "invalid config; missing player slot")
 		return
 
-	slot.actions_joy = steam_device_actions if value else godot_device_actions
-	slot.glyphs_joy = steam_device_glyphs if value else godot_device_glyphs
-	slot.haptics_joy = steam_device_haptics if value else godot_device_haptics
+	_logger.debug(
+		"Swapped device components for input slot.",
+		{&"player": slot.player_id, &"storefront": "steam" if value else "unknown"}
+	)
+
+	slot.swap_joypad_components(
+		steam_joypad_monitor if value else godot_joypad_monitor,
+		steam_device_actions if value else godot_device_actions,
+		steam_device_glyphs if value else godot_device_glyphs,
+		steam_device_haptics if value else godot_device_haptics,
+	)
