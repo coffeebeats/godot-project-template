@@ -12,8 +12,8 @@ extends Object
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
-## Platform enumerates the set of platforms which this game might target.
-enum Platform { UNKNOWN, MACOS, WEB, WINDOWS }
+## HostPlatform enumerates the set of OS/platforms which this game might target.
+enum HostPlatform { UNKNOWN, MACOS, WEB, WINDOWS }
 
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {
@@ -26,15 +26,15 @@ enum Storefront {
 
 
 ## get_platform returns which platform this game is currently running on.
-static func get_platform() -> Platform:
+static func get_platform() -> HostPlatform:
 	if is_windows_platform():
-		return Platform.WINDOWS
+		return HostPlatform.WINDOWS
 	if is_macos_platform():
-		return Platform.MACOS
+		return HostPlatform.MACOS
 	if is_web_platform():
-		return Platform.WEB
+		return HostPlatform.WEB
 
-	return Platform.UNKNOWN
+	return HostPlatform.UNKNOWN
 
 
 ## is_macos_platform returns whether this game is running on macOS.
