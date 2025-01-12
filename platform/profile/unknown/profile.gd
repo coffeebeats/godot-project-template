@@ -17,6 +17,19 @@ const Profile := preload("../profile.gd")
 
 @onready var _profile: Profile = get_node(profile)
 
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+
+## create_default_user_profile creates a `UserProfile` defining the default profile
+## information. This is intended to be used when the platform doesn't have a profile
+## capability or the profile cannot be retrieved.
+static func create_default_user_profile() -> UserProfile:
+	var user_profile := UserProfile.new()
+	user_profile.id = "public"
+
+	return user_profile
+
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -30,7 +43,4 @@ func _ready() -> void:
 
 
 func _create_user_profile() -> UserProfile:
-	var user_profile := UserProfile.new()
-	user_profile.id = "public"
-
-	return user_profile
+	return create_default_user_profile()

@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://34h1c3iahd0p"]
+
+[ext_resource type="Script" path="res://system/input/steam/observer.gd" id="1_cx6kn"]
+[ext_resource type="PackedScene" uid="uid://cqt14not5nr5d" path="res://system/input/unknown/input.tscn" id="1_stiaj"]
+[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="2_4olke"]
+[ext_resource type="Script" path="res://addons/std/input/steam/joypad_monitor.gd" id="3_kpuj4"]
+[ext_resource type="Script" path="res://addons/std/input/steam/device_actions.gd" id="4_l5spr"]
+[ext_resource type="Resource" uid="uid://7d4i7q2cv413" path="res://project/input/steam_in_game_actions.tres" id="5_54bbq"]
+[ext_resource type="Script" path="res://addons/std/input/steam/device_glyphs.gd" id="6_62q7k"]
+
+[node name="Input" type="Node"]
+
+[node name="Godot" parent="." instance=ExtResource("1_stiaj")]
+
+[node name="Observers" type="Node" parent="."]
+
+[node name="Player1" type="Node" parent="Observers" node_paths=PackedStringArray("slot", "godot_joypad_monitor", "godot_device_actions", "godot_device_glyphs", "godot_device_haptics", "steam_joypad_monitor", "steam_device_actions", "steam_device_glyphs", "steam_device_haptics")]
+script = ExtResource("1_cx6kn")
+slot = NodePath("../../Godot/InputSlots/Player1")
+steam_input_enabled_property = ExtResource("2_4olke")
+godot_joypad_monitor = NodePath("../../Godot/Godot/JoypadMonitor")
+godot_device_actions = NodePath("../../Godot/Godot/Components/Actions")
+godot_device_glyphs = NodePath("../../Godot/Godot/Components/Glyphs")
+godot_device_haptics = NodePath("../../Godot/Godot/Components/Haptics")
+steam_joypad_monitor = NodePath("../../JoypadMonitor")
+steam_device_actions = NodePath("../../Components/Actions")
+steam_device_glyphs = NodePath("../../Components/Glyphs")
+steam_device_haptics = NodePath("../../Godot/Godot/Components/Haptics")
+
+[node name="JoypadMonitor" type="Node" parent="."]
+script = ExtResource("3_kpuj4")
+steam_input_enabled_property = ExtResource("2_4olke")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="Actions" type="Node" parent="Components" node_paths=PackedStringArray("joypad_monitor")]
+script = ExtResource("4_l5spr")
+in_game_actions = ExtResource("5_54bbq")
+joypad_monitor = NodePath("../../JoypadMonitor")
+steam_input_enabled_property = ExtResource("2_4olke")
+
+[node name="Glyphs" type="Node" parent="Components" node_paths=PackedStringArray("joypad_monitor")]
+script = ExtResource("6_62q7k")
+joypad_monitor = NodePath("../../JoypadMonitor")
+
+[editable path="Godot"]

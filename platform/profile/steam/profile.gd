@@ -7,6 +7,7 @@ extends Node
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Profile := preload("../profile.gd")
+const UnknownProfile := preload("../unknown/profile.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -31,6 +32,11 @@ func _ready() -> void:
 
 func _create_user_profile() -> UserProfile:
 	var user_profile := UserProfile.new()
-	user_profile.id = str(Steam.getSteamID())
+
+	var steam_id := Steam.getSteamID()
+	if not steam_id:
+		return UnknownProfile.create_default_user_profile()
+
+	user_profile.id = str(steam_id)
 
 	return user_profile

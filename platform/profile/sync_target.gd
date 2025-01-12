@@ -30,6 +30,6 @@ func _create_sync_target_node() -> StdConfigWriter:
 		return
 
 	var writer := StdBinaryConfigWriter.new()
-	writer.path = ("user://%s" % profile.id).path_join(path)
+	writer.path = ("user://profiles/%s" % profile.id).path_join(path)
 
 	return writer
