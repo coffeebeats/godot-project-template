@@ -9,6 +9,7 @@ extends Node
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _logger := StdLogger.create(&"platform/profile/profile")
 var _profile: UserProfile = null
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
@@ -27,3 +28,5 @@ func set_user_profile(profile: UserProfile) -> void:
 		return
 
 	_profile = profile
+
+	_logger.info("Set profile for platform.", {&"profile": profile})
