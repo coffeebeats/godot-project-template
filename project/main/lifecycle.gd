@@ -75,7 +75,7 @@ func shutdown(exit_code: int = 0) -> void:
 	# https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#sending-your-own-quit-notification. # gdlint:ignore=max-line-length
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
-	# Just prior to exit, record orphaned nodes. 
+	# Just prior to exit, record orphaned nodes.
 	print_orphan_nodes()
 
 	get_tree().quit(exit_code)

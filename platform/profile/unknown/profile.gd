@@ -19,6 +19,7 @@ const Profile := preload("../profile.gd")
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## create_default_user_profile creates a `UserProfile` defining the default profile
 ## information. This is intended to be used when the platform doesn't have a profile
 ## capability or the profile cannot be retrieved.
