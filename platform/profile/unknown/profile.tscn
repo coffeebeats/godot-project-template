@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://lnq741pg6303"]
+
+[ext_resource type="Script" path="res://platform/profile/unknown/profile.gd" id="1_7mws6"]
+
+[node name="Profile" type="Node"]
+script = ExtResource("1_7mws6")
