@@ -1,0 +1,137 @@
+[gd_scene load_steps=28 format=3 uid="uid://bd5fo51o6asi2"]
+
+[ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
+[ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
+[ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="3_6rqrp"]
+[ext_resource type="Script" path="res://addons/std/condition/expression_feature.gd" id="4_q1fih"]
+[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="5_73sma"]
+[ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="6_bdd3f"]
+[ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_i8vxq"]
+[ext_resource type="Script" path="res://project/settings/controls/configurator.gd" id="9_d7lqc"]
+[ext_resource type="PackedScene" uid="uid://dm7wsbaixmu22" path="res://project/settings/controls/configurator.tscn" id="9_m5toj"]
+[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="10_heyw7"]
+[ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="11_ph7kg"]
+[ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="12_jaj02"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="13_662de"]
+[ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="14_rj08w"]
+[ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="15_8qtro"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="16_wymh8"]
+[ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="17_0rlbk"]
+[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="18_v42t3"]
+[ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/action_set.tscn" id="19_ngc7g"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="20_h7kk8"]
+[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="21_dqueq"]
+[ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
+[ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
+
+[sub_resource type="Resource" id="Resource_d5xjy"]
+script = ExtResource("4_q1fih")
+feature = &"editor"
+
+[sub_resource type="Resource" id="Resource_00m0w"]
+script = ExtResource("6_bdd3f")
+block = ExtResource("5_73sma")
+
+[sub_resource type="Resource" id="Resource_pi47t"]
+script = ExtResource("6_bdd3f")
+allow = ExtResource("5_73sma")
+
+[sub_resource type="Resource" id="Resource_jhqli"]
+script = ExtResource("6_bdd3f")
+allow = ExtResource("5_73sma")
+
+[node name="Controls" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"Body"
+
+[node name="Godot" type="Node" parent="." node_paths=PackedStringArray("targets")]
+script = ExtResource("1_slt8e")
+targets = [NodePath("../MenuControls"), NodePath("../MenuTabs"), NodePath("../MenuRebinding")]
+expressions_allow = Array[ExtResource("2_xiafk")]([ExtResource("3_6rqrp"), SubResource("Resource_d5xjy")])
+expressions_block = Array[ExtResource("2_xiafk")]([SubResource("Resource_00m0w")])
+
+[node name="Steam" type="Node" parent="."]
+
+[node name="StdConditionTarget2D" type="Node" parent="Steam" node_paths=PackedStringArray("targets")]
+script = ExtResource("1_slt8e")
+targets = [NodePath("../../Bindings")]
+expressions_allow = Array[ExtResource("2_xiafk")]([SubResource("Resource_pi47t")])
+
+[node name="StdConditionParent" type="Node" parent="Steam"]
+script = ExtResource("7_i8vxq")
+expressions_allow = Array[ExtResource("2_xiafk")]([SubResource("Resource_jhqli")])
+
+[node name="SteamConfigurator" type="Node" parent="Steam/StdConditionParent" node_paths=PackedStringArray("button")]
+script = ExtResource("9_d7lqc")
+button = NodePath("../../../Bindings/Configurator/Prompt")
+configurator = ExtResource("9_m5toj")
+
+[node name="General" parent="." instance=ExtResource("10_heyw7")]
+layout_mode = 2
+label = "General"
+
+[node name="DisableVibration" parent="General" instance=ExtResource("11_ph7kg")]
+layout_mode = 2
+label = "Disable vibration"
+
+[node name="Checkbox" parent="General/DisableVibration" instance=ExtResource("12_jaj02")]
+layout_mode = 2
+
+[node name="StdInputCursorFocusHandler" parent="General/DisableVibration/Checkbox" index="0"]
+use_as_anchor = true
+
+[node name="StdSettingsControllerToggleButton" type="Node" parent="General/DisableVibration/Checkbox"]
+script = ExtResource("13_662de")
+property = ExtResource("14_rj08w")
+
+[node name="VibrationStrength" parent="General" instance=ExtResource("11_ph7kg")]
+layout_mode = 2
+label = "Vibration strength"
+
+[node name="Slider" parent="General/VibrationStrength" instance=ExtResource("15_8qtro")]
+layout_mode = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="General/VibrationStrength/Slider"]
+script = ExtResource("16_wymh8")
+property = ExtResource("17_0rlbk")
+target = NodePath("../HSlider")
+disabled = ExtResource("14_rj08w")
+
+[node name="Bindings" parent="." instance=ExtResource("10_heyw7")]
+layout_mode = 2
+label = "Steam Input"
+
+[node name="Configurator" parent="Bindings" instance=ExtResource("11_ph7kg")]
+unique_name_in_owner = true
+layout_mode = 2
+label = "Controller layout"
+
+[node name="Prompt" parent="Bindings/Configurator" instance=ExtResource("18_v42t3")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 48)
+layout_mode = 2
+text = "OPEN"
+
+[node name="MenuControls" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("20_h7kk8")
+scope = ExtResource("21_dqueq")
+label = "Menu"
+
+[node name="MenuTabs" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("22_6tsaj")
+scope = ExtResource("21_dqueq")
+label = "MenuTabbed"
+
+[node name="MenuRebinding" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("23_ahsqh")
+scope = ExtResource("21_dqueq")
+label = "MenuBinding"
+
+[editable path="General/DisableVibration/Checkbox"]

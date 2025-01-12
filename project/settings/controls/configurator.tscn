@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm7wsbaixmu22"]
+
+[ext_resource type="Script" path="res://addons/std/input/steam/configurator.gd" id="1_wk2pe"]
+
+[node name="Configurator" type="Node"]
+script = ExtResource("1_wk2pe")
