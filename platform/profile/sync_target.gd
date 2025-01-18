@@ -29,7 +29,7 @@ func _create_sync_target_node() -> StdConfigWriter:
 	if not profile:
 		return
 
-	var writer := StdBinaryConfigWriter.new()
+	var writer := StdConfigWriterBinary.new()
 	writer.path = ("user://profiles/%s" % profile.id).path_join(path)
 
 	return writer
