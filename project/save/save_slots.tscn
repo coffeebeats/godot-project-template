@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs5nke3386ggd"]
+[gd_scene load_steps=3 format=3 uid="uid://bs5nke3386ggd"]
 
+[ext_resource type="Theme" uid="uid://bxmegoxoe6kpt" path="res://project/save/theme.tres" id="1_reyi2"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="2_gycxb"]
 
 [node name="SaveSlots" type="PanelContainer"]
@@ -11,6 +12,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_reyi2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
