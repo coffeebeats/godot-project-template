@@ -6,47 +6,47 @@
 
 extends Control
 
+# -- DEPENDENCIES -------------------------------------------------------------------- #
+
+const Signals := preload("res://addons/std/event/signal.gd")
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
 func _ready() -> void:
-	var err: int = %Quit.pressed.connect(_on_Quit_pressed)
-	assert(err == OK, "failed to connect to signal")
-
-	err = %Options.pressed.connect(_on_Options_pressed)
-	assert(err == OK, "failed to connect to signal")
-
-	err = $Settings.closed.connect(_on_Settings_changed)
-	assert(err == OK, "failed to connect to signal")
-
-	err = $Settings.opened.connect(_on_Settings_changed)
-	assert(err == OK, "failed to connect to signal")
-
-	_set_initial_focus()
+	Signals.connect_safe(%Quit.pressed, _on_quit_pressed)
+	Signals.connect_safe(%Play.pressed, _on_play_pressed)
+	Signals.connect_safe($SaveSlots.opened, _on_save_slots_changed)
+	Signals.connect_safe($SaveSlots.closed, _on_save_slots_changed)
+	Signals.connect_safe(%Options.pressed, _on_options_pressed)
+	Signals.connect_safe($Settings.closed, _on_settings_changed)
+	Signals.connect_safe($Settings.opened, _on_settings_changed)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
-
-func _set_initial_focus() -> void:
-	# TODO: Only do this when using a controller.
-	# %Play.grab_focus()
-	pass
-
-
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
-func _on_Options_pressed() -> void:
+func _on_options_pressed() -> void:
 	$Settings.visible = true
 
 
-func _on_Quit_pressed() -> void:
+func _on_play_pressed() -> void:
+	$SaveSlots.visible = true
+
+
+func _on_quit_pressed() -> void:
 	Lifecycle.shutdown()
 
 
-func _on_Settings_changed() -> void:
+func _on_save_slots_changed() -> void:
+	# TODO: Replace this with proper navigation stack.
+	if $SaveSlots.visible:
+		get_viewport().gui_release_focus()
+
+
+func _on_settings_changed() -> void:
+	# TODO: Replace this with proper navigation stack.
 	if $Settings.visible:
 		get_viewport().gui_release_focus()
-	else:
-		_set_initial_focus()
