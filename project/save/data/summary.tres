@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ProjectSaveSummary" load_steps=2 format=3 uid="uid://cxuk4hgkpke5c"]
+
+[ext_resource type="Script" path="res://project/save/data/summary.gd" id="1_e4sre"]
+
+[resource]
+script = ExtResource("1_e4sre")
+time_played = 0.0

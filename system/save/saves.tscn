@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3 uid="uid://bqrjkv5me2dp5"]
+
+[ext_resource type="Script" path="res://system/save/saves.gd" id="1_5c4en"]
+[ext_resource type="Resource" uid="uid://bksg4w3cw6183" path="res://project/save/data/data.tres" id="2_uge4e"]
+[ext_resource type="Script" path="res://addons/std/setting/repository.gd" id="2_v64up"]
+[ext_resource type="Resource" uid="uid://h35tjkpwu3h1" path="res://system/save/scope.tres" id="3_nt0ca"]
+[ext_resource type="Resource" uid="uid://2jm3n21bmh6x" path="res://system/save/sync_target.tres" id="4_1qais"]
+[ext_resource type="Script" path="res://system/save/writer.gd" id="5_pfhtx"]
+
+[node name="Saves" type="Node"]
+script = ExtResource("1_5c4en")
+schema = ExtResource("2_uge4e")
+slot_scope = ExtResource("3_nt0ca")
+slot_count = 5
+
+[node name="StdSettingsRepository" type="Node" parent="."]
+script = ExtResource("2_v64up")
+scope = ExtResource("3_nt0ca")
+sync_target = ExtResource("4_1qais")
+
+[node name="SaveFileWriter" type="Node" parent="."]
+script = ExtResource("5_pfhtx")
+path = "save.dat"

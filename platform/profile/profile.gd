@@ -29,4 +29,4 @@ func set_user_profile(profile: UserProfile) -> void:
 
 	_profile = profile
 
-	_logger.info("Set profile for platform.", {&"profile": profile})
+	_logger.info("Set profile for platform.", {&"profile": profile.id})
