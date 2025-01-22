@@ -3,7 +3,6 @@
 [ext_resource type="FontFile" uid="uid://cr5y3dy5yghp1" path="res://project/ui/font/mina-regular.ttf" id="1_7vmnx"]
 [ext_resource type="FontFile" uid="uid://bmqtcsuwp7ptg" path="res://project/ui/font/mina-bold.ttf" id="1_oajk8"]
 
-
 [resource]
 Body/base_type = &"HBoxContainer"
 Body/constants/separation = 64
