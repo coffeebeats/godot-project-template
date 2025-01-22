@@ -75,7 +75,7 @@ func _update_contents() -> void:
 	# See https://github.com/godotengine/godot/issues/66695
 	_label_last_updated.text = (
 		Time
-		.get_datetime_string_from_unix_time(
+		. get_datetime_string_from_unix_time(
 			int(_save_slot.summary.time_last_saved),
 			true,
 		)
