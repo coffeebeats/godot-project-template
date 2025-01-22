@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://ig0aeexy2dcl"]
+
+[ext_resource type="Script" path="res://project/save/slot_button.gd" id="1_8gfwc"]
+[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="2_i4wqt"]
+
+[node name="SlotButton" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8gfwc")
+
+[node name="StdInputCursorFocusHandler" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_i4wqt")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Empty" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "EMPTY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Broken" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "BROKEN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Contents" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Active" type="Label" parent="MarginContainer/Contents"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "ACTIVE"
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Contents"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Header" type="Label" parent="MarginContainer/Contents/VBoxContainer"]
+layout_mode = 2
+text = "Last Updated"
+uppercase = true
+
+[node name="LastUpdated" type="Label" parent="MarginContainer/Contents/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
