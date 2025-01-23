@@ -32,15 +32,13 @@ var _window_mode: Window.Mode = ProjectSettings.get_setting_with_override(
 	&"display/window/size/mode"
 )
 
+var _logger := StdLogger.create(&"system/setting/window")
+
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
 func set_borderless(value: bool, window_id: int = 0) -> void:
-	print(
-		"system/setting/video/window_observer.gd[",
-		get_instance_id(),
-		"]: set borderless: %s" % value,
-	)
+	_logger.debug("Updating window borderless state.", {&"state": value})
 
 	(
 		DisplayServer
@@ -67,18 +65,10 @@ func set_fullscreen(value: bool) -> void:
 		call_deferred(&"_update_borderless")
 		return
 
-	print(
-		"system/setting/video/window_observer.gd[",
-		get_instance_id(),
-		"]: updating window mode: %d" % mode,
-	)
+	_logger.debug("Updating window mode.", {&"mode": mode})
 
 	if value:
-		print(
-			"system/setting/video/window_observer.gd[",
-			get_instance_id(),
-			"]: entering fullscreen",
-		)
+		_logger.debug("Entering fullscreen mode.")
 
 		# FIXME: On macOS, after entering fullscreen with borderless enabled, disabling
 		# borderless and the exiting fullscreen causes the title bar to be inaccessible.
@@ -90,11 +80,7 @@ func set_fullscreen(value: bool) -> void:
 		call_deferred(&"_set_window_mode", mode, window_id)
 
 	else:
-		print(
-			"system/setting/video/window_observer.gd[",
-			get_instance_id(),
-			"]: exiting fullscreen",
-		)
+		_logger.debug("Exiting fullscreen mode.")
 
 		# FIXME: On macOS, when exiting fullscreen with resizable enabled, the window
 		# shrinks to a zero size. To fix, disable resize before exiting fullscreen.
@@ -148,11 +134,7 @@ func _center_window(window_id: int = 0) -> void:
 	var size_window := DisplayServer.window_get_size_with_decorations(window_id)
 	var size_title := _get_title_size(window_id)
 
-	print(
-		"system/setting/video/window_observer.gd[",
-		get_instance_id(),
-		"]: centering window",
-	)
+	_logger.debug("Centering window.")
 
 	(
 		DisplayServer
@@ -182,13 +164,12 @@ func _handle_window_mode_change(window: Window) -> void:
 	if window.mode == window_mode_prev:
 		return
 
-	print(
-		"system/setting/video/window_observer.gd[",
-		get_instance_id(),
-		(
-			"]: detected change in window mode (%d, previously %d)"
-			% [window.mode, window_mode_prev]
-		),
+	(
+		_logger
+		. debug(
+			"Detected change in window mode.",
+			{&"previous": window_mode_prev, &"next": window.mode},
+		)
 	)
 
 	if not fullscreen_property.set_value(window.mode >= Window.MODE_FULLSCREEN):

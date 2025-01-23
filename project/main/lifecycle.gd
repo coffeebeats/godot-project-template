@@ -23,6 +23,8 @@ var _is_shutdown_requested: bool = false
 ## safely use the methods here.
 var _lifecycle_mu: Mutex = Mutex.new()
 
+var _logger := StdLogger.create(&"project/main/lifecycle")
+
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
@@ -31,19 +33,11 @@ var _lifecycle_mu: Mutex = Mutex.new()
 func shutdown(exit_code: int = 0) -> void:
 	assert(exit_code >= 0, "invalid argument: must be >= 0")
 
-	print(
-		"project/main/lifecycle.gd[",
-		get_instance_id(),
-		"]: shutdown requested; exit code: %d" % exit_code,
-	)
+	var logger := _logger.with({&"exit_code": exit_code})
+	logger.info("Shutdown requested.")
 
 	if not _lifecycle_mu.try_lock():
-		print(
-			"project/main/lifecycle.gd[",
-			get_instance_id(),
-			"]: shutdown already in progress; exiting",
-		)
-
+		logger.warn("Shutdown already in progress; exiting without changes.")
 		return
 
 	var should_exit: bool = true
@@ -54,19 +48,10 @@ func shutdown(exit_code: int = 0) -> void:
 	_lifecycle_mu.unlock()
 
 	if should_exit:
-		print(
-			"project/main/lifecycle.gd[",
-			get_instance_id(),
-			"]: shutdown already in progress; exiting",
-		)
-
+		logger.warn("Shutdown already in progress; exiting without changes.")
 		return
 
-	print(
-		"project/main/lifecycle.gd[",
-		get_instance_id(),
-		"]: shutdown started",
-	)
+	logger.info("Shutdown started.")
 
 	# First, emit the shutdown signal so any listeners can gracefully handle it.
 	shutdown_requested.emit(exit_code)
