@@ -10,6 +10,7 @@ extends Button
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
+const Saves := preload("res://system/save/saves.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -26,24 +27,29 @@ var _save_slot: SaveSlot = null
 @onready var _container_contents: Control = %Contents
 @onready var _label_last_updated: Label = %LastUpdated
 
+# NOTE: Accessing `Saves` via the `System` autoload works, but produces an error
+# (seemingly when this script is loaded on another thread). The workaround, fetching the
+# node via its path, prevents the error.
+@onready var _saves: Saves = get_node(^"/root/System/Saves")
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
 func _exit_tree() -> void:
-	Signals.disconnect_safe(System.saves.slot_activated, _on_save_slot_updated)
-	Signals.disconnect_safe(System.saves.slot_deactivated, _on_save_slot_updated)
-	Signals.disconnect_safe(System.saves.slot_erased, _on_save_slot_updated)
+	Signals.disconnect_safe(_saves.slot_activated, _on_save_slot_updated)
+	Signals.disconnect_safe(_saves.slot_deactivated, _on_save_slot_updated)
+	Signals.disconnect_safe(_saves.slot_erased, _on_save_slot_updated)
 	Signals.disconnect_safe(_save_slot.changed, _on_save_slot_changed)
 	Signals.disconnect_safe(pressed, _on_pressed)
 
 
 func _ready():
-	_save_slot = System.saves.get_save_slot(slot)
+	_save_slot = _saves.get_save_slot(slot)
 	assert(_save_slot is SaveSlot, "invalid state; missing save summary")
 
-	Signals.connect_safe(System.saves.slot_activated, _on_save_slot_updated)
-	Signals.connect_safe(System.saves.slot_deactivated, _on_save_slot_updated)
-	Signals.connect_safe(System.saves.slot_erased, _on_save_slot_updated)
+	Signals.connect_safe(_saves.slot_activated, _on_save_slot_updated)
+	Signals.connect_safe(_saves.slot_deactivated, _on_save_slot_updated)
+	Signals.connect_safe(_saves.slot_erased, _on_save_slot_updated)
 	Signals.connect_safe(_save_slot.changed, _on_save_slot_changed)
 	Signals.connect_safe(pressed, _on_pressed)
 
@@ -63,7 +69,7 @@ func _update_contents() -> void:
 	)
 
 	_container_contents.visible = _save_slot.status == SaveSlot.STATUS_OK
-	_label_active.visible = slot == System.saves.get_active_save_slot()
+	_label_active.visible = slot == _saves.get_active_save_slot()
 	_label_empty.visible = is_empty
 	_label_broken.visible = is_broken
 
@@ -72,11 +78,18 @@ func _update_contents() -> void:
 	if is_empty or is_broken:
 		return
 
+	var offset := int(
+		(
+			Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
+			- Time.get_unix_time_from_system()
+		)
+	)
+
 	# See https://github.com/godotengine/godot/issues/66695
 	_label_last_updated.text = (
 		Time
 		. get_datetime_string_from_unix_time(
-			int(_save_slot.summary.time_last_saved),
+			int(_save_slot.summary.time_last_saved) + offset,
 			true,
 		)
 	)
@@ -88,7 +101,7 @@ func _update_contents() -> void:
 
 
 func _on_pressed() -> void:
-	System.saves.activate_slot(slot)
+	_saves.activate_slot(slot)
 
 
 func _on_save_slot_updated(index: int) -> void:

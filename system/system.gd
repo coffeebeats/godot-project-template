@@ -9,8 +9,16 @@ extends Node
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Saves := preload("save/saves.gd")
+const SystemInput := preload("input/input.gd")
+const SystemSaves := preload("save/saves.gd")
 
-# -- INITIALIZATION ------------------------------------------------------------------ #
+# -- CONFIGURATION ------------------------------------------------------------------- #
 
-@onready var saves: Saves = get_node("Saves")
+## input is the input system component.
+@export var input: SystemInput = null
+
+## saves is the save system component.
+@export var saves: SystemSaves = null
+
+## setting is the settings system component.
+@export var setting: Node = null
