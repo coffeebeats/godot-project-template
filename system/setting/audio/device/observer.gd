@@ -17,6 +17,10 @@ extends StdSettingsObserver
 ## device.
 @export var output_device: StdSettingsPropertyString = null
 
+# -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _logger := StdLogger.create(&"system/setting/audio-device")
+
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
 
@@ -42,12 +46,7 @@ func _handle_value_change(property: StdSettingsProperty, value: String) -> void:
 	assert(value is String and value != "", "invalid argument: missing value")
 
 	if property == input_device:
-		print(
-			"system/setting/audio/device/observer.gd[",
-			get_instance_id(),
-			"]: setting input device to: ",
-			value,
-		)
+		_logger.debug("Updating audio input device.", {&"device": value})
 
 		assert(
 			value in AudioServer.get_input_device_list(),
@@ -57,12 +56,7 @@ func _handle_value_change(property: StdSettingsProperty, value: String) -> void:
 		AudioServer.input_device = value
 
 	if property == output_device:
-		print(
-			"system/setting/audio/device/observer.gd[",
-			get_instance_id(),
-			"]: setting output device to: ",
-			value,
-		)
+		_logger.debug("Updating audio output device.", {&"device": value})
 
 		assert(
 			value in AudioServer.get_output_device_list(),

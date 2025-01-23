@@ -17,6 +17,10 @@ extends StdSettingsObserver
 ## observe. Note that the value should be a linear value, not exponential (e.g. dB).
 @export var property: StdSettingsPropertyFloatRange = null
 
+# -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _logger := StdLogger.create(&"system/setting/audio-volume")
+
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
 
@@ -36,12 +40,12 @@ func _handle_value_change(_property: StdSettingsProperty, value: float) -> void:
 		clampf((value - property.minimum) / (property.maximum - property.minimum), 0, 1)
 	)
 
-	print(
-		"system/setting/audio/volume/observer.gd[",
-		get_instance_id(),
-		"]: adjust '%s' bus volume to: %f dB" % [bus, volume],
-	)
-
 	AudioServer.set_bus_volume_db(bus_index, volume)
 
-	print(bus, " volume adjusted to: %f" % AudioServer.get_bus_volume_db(bus_index))
+	(
+		_logger
+		. debug(
+			"Adjusted audio bus volume.",
+			{&"bus": bus, &"volume": AudioServer.get_bus_volume_db(bus_index)},
+		)
+	)

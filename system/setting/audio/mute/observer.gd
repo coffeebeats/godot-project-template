@@ -28,6 +28,7 @@ const BUS_NAME := &"Master"
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _is_out: bool = false
+var _logger := StdLogger.create(&"system/setting/audio-mute")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
@@ -44,11 +45,7 @@ func _notification(what: int) -> void:
 			_is_out = false
 
 			if not global_property.get_value():
-				print(
-					"system/setting/audio/mute/background_observer.gd[",
-					get_instance_id(),
-					"]: unmuting sound",
-				)
+				_logger.debug("Unmuting sound.")
 
 				AudioServer.set_bus_mute(_get_audio_bus_index(), false)
 
@@ -59,11 +56,7 @@ func _notification(what: int) -> void:
 			_is_out = true
 
 			if background_property.get_value():
-				print(
-					"system/setting/audio/mute/background_observer.gd[",
-					get_instance_id(),
-					"]: muting sound in background",
-				)
+				_logger.debug("Muting sound in background.")
 
 				AudioServer.set_bus_mute(_get_audio_bus_index(), true)
 
@@ -85,12 +78,7 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 
 func _handle_value_change(property: StdSettingsProperty, value: bool) -> void:
 	if property == background_property:
-		print(
-			"system/setting/audio/mute/background_observer.gd[",
-			get_instance_id(),
-			"]: setting background mute state: ",
-			value,
-		)
+		_logger.debug("Updating background mute state.", {&"state": value})
 
 		# If currently in the background and there isn't a global mute overriding this
 		# setting, then update the current mute status.
@@ -98,12 +86,7 @@ func _handle_value_change(property: StdSettingsProperty, value: bool) -> void:
 			AudioServer.set_bus_mute(_get_audio_bus_index(), value)
 
 	elif property == global_property:
-		print(
-			"system/setting/audio/mute/background_observer.gd[",
-			get_instance_id(),
-			"]: setting global mute state: ",
-			value,
-		)
+		_logger.debug("Setting global mute state.", {&"state": value})
 
 		if not _is_out:
 			AudioServer.set_bus_mute(_get_audio_bus_index(), value)
