@@ -79,14 +79,16 @@ func _update_contents() -> void:
 		return
 
 	var offset := int(
-		Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system()) -
-		Time.get_unix_time_from_system()
+		(
+			Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
+			- Time.get_unix_time_from_system()
+		)
 	)
 
 	# See https://github.com/godotengine/godot/issues/66695
 	_label_last_updated.text = (
 		Time
-		.get_datetime_string_from_unix_time(
+		. get_datetime_string_from_unix_time(
 			int(_save_slot.summary.time_last_saved) + offset,
 			true,
 		)

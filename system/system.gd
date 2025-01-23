@@ -14,7 +14,6 @@ const SystemSaves := preload("save/saves.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-
 ## input is the input system component.
 @export var input: SystemInput = null
 
