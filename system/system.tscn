@@ -5,8 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://bexeoi21tf2v2" path="res://system/input/input.tscn" id="2_u77o4"]
 [ext_resource type="PackedScene" uid="uid://bqrjkv5me2dp5" path="res://system/save/saves.tscn" id="3_j3l3i"]
 
-[node name="System" type="Node"]
+[node name="System" type="Node" node_paths=PackedStringArray("input", "saves", "setting")]
 script = ExtResource("1_t0uu3")
+input = NodePath("Input")
+saves = NodePath("Saves")
+setting = NodePath("Settings")
 
 [node name="Settings" parent="." instance=ExtResource("1_8d1ab")]
 
