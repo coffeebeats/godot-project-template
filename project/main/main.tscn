@@ -70,9 +70,36 @@ script = ExtResource("3_t3x0b")
 
 [node name="Transition" type="Node" parent="Scene/Main"]
 script = ExtResource("4_vah31")
+fade_out_duration = 0.45
 to = NodePath("../Menu")
 
 [node name="Menu" type="Node" parent="Scene/Main"]
 script = ExtResource("5_wtlwn")
 action_set = ExtResource("7_camuk")
 scene = "res://project/main/menu/main_menu.tscn"
+
+[node name="Core" type="Node" parent="Scene"]
+script = ExtResource("3_t3x0b")
+track_extra = Array[NodePath]([NodePath("Map/Scene")])
+
+[node name="Loading" type="Node" parent="Scene/Core"]
+script = ExtResource("3_t3x0b")
+
+[node name="Transition" type="Node" parent="Scene/Core/Loading"]
+script = ExtResource("4_vah31")
+
+[node name="Scene" type="Node" parent="Scene/Core/Loading"]
+script = ExtResource("5_wtlwn")
+scene = "res://project/main/load/loading.tscn"
+
+[node name="Map" type="Node" parent="Scene/Core"]
+script = ExtResource("3_t3x0b")
+
+[node name="Transition" type="Node" parent="Scene/Core/Map"]
+script = ExtResource("4_vah31")
+fade_out_duration = 0.45
+to = NodePath("../Scene")
+
+[node name="Scene" type="Node" parent="Scene/Core/Map"]
+script = ExtResource("5_wtlwn")
+scene = "res://project/maps/example/scene.tscn"

@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://nalgori3y7v6"]
+
+[ext_resource type="Script" path="res://project/main/load/loading.gd" id="1_lmycx"]
+[ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_qpnxt"]
+
+[node name="Loading" type="Control" node_paths=PackedStringArray("scene_handle")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lmycx")
+scene_handle = NodePath("SceneHandle")
+
+[node name="SceneHandle" type="Node" parent="."]
+script = ExtResource("2_qpnxt")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Loading..."
