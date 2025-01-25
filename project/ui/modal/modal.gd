@@ -18,6 +18,10 @@ signal closed
 ## opened is emitted when the modal is opened.
 signal opened
 
+# -- DEPENDENCIES -------------------------------------------------------------------- #
+
+const Signals := preload("res://addons/std/event/signal.gd")
+
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## action_toggle is the name of an input action which will toggle the modal open and
@@ -62,10 +66,13 @@ func _ready() -> void:
 	mouse_force_pass_scroll_events = false
 
 	if floating:
+		var parent_prev := get_parent()
 		var parent_next := get_viewport()
 
-		get_parent().call_deferred(&"remove_child", self)
+		parent_prev.call_deferred(&"remove_child", self)
 		parent_next.call_deferred(&"add_child", self, false, INTERNAL_MODE_BACK)
+
+		Signals.connect_safe(parent_prev.tree_exiting, _cleanup, CONNECT_ONE_SHOT)
 
 	_is_open = visible
 
@@ -80,3 +87,16 @@ func _shortcut_input(event: InputEvent) -> void:
 			visible = false
 		else:
 			visible = true
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _cleanup() -> void:
+	if is_inside_tree():
+		var parent := get_parent()
+		assert(parent is Node, "invalid state; missing parent")
+
+		parent.remove_child(self)
+
+	queue_free()

@@ -99,6 +99,7 @@ func activate_slot(index: int) -> bool:
 	var slot_previous := _active_slot
 	_active_slot = index
 	_writer.slot = index
+	_save_data = null
 
 	if not slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, index):
 		logger.warn("Found stored value for active slot already updated.")
@@ -131,6 +132,7 @@ func clear_active_slot() -> bool:
 
 	_active_slot = -1
 	_writer.slot = -1
+	_save_data = null
 
 	var is_change := slot_scope.config.erase(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT)
 	assert(is_change, "invalid state; expected active slot to be updated")
@@ -216,6 +218,17 @@ func create_new_save_data() -> StdSaveData:
 	return data
 
 
+## get_save_data copies the cached save data for the active save slot into the provided
+## resource. The return value denotes whether this operation succeeded; if `false` is
+## returned, no cached data was found.
+func get_save_data(data: StdSaveData) -> bool:
+	if _writer.is_worker_in_progress() or not _save_data is StdSaveData:
+		return false
+
+	data.copy(_save_data)
+	return true
+
+
 ## load_save_data asynchronously hydrates the provided save data resource with the
 ## latest data for the active save slot and returns whether this operation succeeded.
 func load_save_data(data: StdSaveData) -> bool:
@@ -259,20 +272,22 @@ func load_save_data(data: StdSaveData) -> bool:
 	match save_slot.status:
 		SaveSlot.STATUS_OK:
 			logger.info("Successfully loaded save slot.")
-			save_slot.summary = _save_data.summary
 			data.copy(_save_data)
 
 			return true
 
 		SaveSlot.STATUS_EMPTY:
 			logger.info("Found save slot is empty.")
+			data.copy(_save_data)  # Copy the empty value to "reset" argument.
+
+			return true
 
 		SaveSlot.STATUS_BROKEN, SaveSlot.STATUS_UNKNOWN:
 			logger.warn("Failed to load save; slot is broken or corrupted.")
 			_save_data = null  # Clear this so that next load can retry.
 			save_slot.summary = null
 
-	return false
+	return false  # gdlint:ignore=max-returns
 
 
 ## store_save_data asynchronously stores the provided save data to the currently active

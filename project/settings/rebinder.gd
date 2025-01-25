@@ -10,7 +10,6 @@ extends Modal
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Signals := preload("res://addons/std/event/signal.gd")
 const Bindings := preload("res://addons/std/input/godot/binding.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
