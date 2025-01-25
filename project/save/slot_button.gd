@@ -40,7 +40,6 @@ func _exit_tree() -> void:
 	Signals.disconnect_safe(_saves.slot_deactivated, _on_save_slot_updated)
 	Signals.disconnect_safe(_saves.slot_erased, _on_save_slot_updated)
 	Signals.disconnect_safe(_save_slot.changed, _on_save_slot_changed)
-	Signals.disconnect_safe(pressed, _on_pressed)
 
 
 func _ready():
@@ -51,7 +50,6 @@ func _ready():
 	Signals.connect_safe(_saves.slot_deactivated, _on_save_slot_updated)
 	Signals.connect_safe(_saves.slot_erased, _on_save_slot_updated)
 	Signals.connect_safe(_save_slot.changed, _on_save_slot_changed)
-	Signals.connect_safe(pressed, _on_pressed)
 
 	_update_contents()
 
@@ -100,16 +98,12 @@ func _update_contents() -> void:
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
-func _on_pressed() -> void:
-	_saves.activate_slot(slot)
+func _on_save_slot_changed() -> void:
+	_update_contents()
 
 
 func _on_save_slot_updated(index: int) -> void:
 	if index != slot:
 		return
 
-	_update_contents()
-
-
-func _on_save_slot_changed() -> void:
 	_update_contents()
