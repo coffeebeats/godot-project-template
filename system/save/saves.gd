@@ -287,7 +287,7 @@ func load_save_data(data: StdSaveData) -> bool:
 			_save_data = null  # Clear this so that next load can retry.
 			save_slot.summary = null
 
-	return false
+	return false  # gdlint:ignore=max-returns
 
 
 ## store_save_data asynchronously stores the provided save data to the currently active
