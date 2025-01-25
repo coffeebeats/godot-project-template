@@ -63,7 +63,7 @@ func delete_save_directory(slot: int) -> Error:
 		)
 		return OK
 
-	var err := DirAccess.remove_absolute(path_absolute)
+	var err := _delete_directory(path_absolute)
 	_worker_mutex.unlock()
 
 	if err != OK:
@@ -74,6 +74,37 @@ func delete_save_directory(slot: int) -> Error:
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+
+
+func _delete_directory(path_absolute: String) -> Error:
+	if not DirAccess.dir_exists_absolute(path_absolute):
+		return OK
+
+	var logger := _logger.with({&"directory": path_absolute})
+	logger.debug("Deleting directory.")
+
+	if OS.get_name() in ["Android", "Linux", "macOS", "Windows"]:
+		return OS.move_to_trash(path_absolute)
+
+	var directory := DirAccess.open(path_absolute)
+	if not directory:
+		return DirAccess.get_open_error()
+
+	var err: Error = OK
+
+	for path_dir in directory.get_directories():
+		err = _delete_directory(path_absolute.path_join(path_dir))
+		if err != OK:
+			return err
+
+	for path_file in directory.get_files():
+		logger.debug("Deleting file.", {&"file": path_file})
+
+		err = DirAccess.remove_absolute(path_absolute.path_join(path_file))
+		if err != OK:
+			return err
+
+	return DirAccess.remove_absolute(path_absolute)
 
 
 func _get_save_directory() -> String:
