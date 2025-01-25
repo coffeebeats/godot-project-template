@@ -7,6 +7,11 @@
 @tool
 extends HBoxContainer
 
+# -- CONFIGURATION ------------------------------------------------------------------- #
+
+## precision is the number of decimals that will be displayed.
+@export var precision: int = 0
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 @onready var _label: Label = $Label
@@ -26,7 +31,7 @@ func _ready():
 
 
 func _set_label_text(value: float) -> void:
-	_label.text = "%d" % round(value)
+	_label.text = ("%." + str(precision) + "f") % value
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #

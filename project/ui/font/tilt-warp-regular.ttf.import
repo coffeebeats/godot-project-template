@@ -2,19 +2,19 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cr5y3dy5yghp1"
-path="res://.godot/imported/mina-regular.ttf-d494a9686ead6a4a9ef7e986beff0c99.fontdata"
+uid="uid://dob5jlfv5m46h"
+path="res://.godot/imported/tilt-warp-regular.ttf-78a697c44b99d9e89674d57353271d7a.fontdata"
 
 [deps]
 
-source_file="res://project/ui/font/mina-regular.ttf"
-dest_files=["res://.godot/imported/mina-regular.ttf-d494a9686ead6a4a9ef7e986beff0c99.fontdata"]
+source_file="res://project/ui/font/tilt-warp-regular.ttf"
+dest_files=["res://.godot/imported/tilt-warp-regular.ttf-78a697c44b99d9e89674d57353271d7a.fontdata"]
 
 [params]
 
 Rendering=null
 antialiasing=1
-generate_mipmaps=true
+generate_mipmaps=false
 disable_embedded_bitmaps=true
 multichannel_signed_distance_field=true
 msdf_pixel_range=8
@@ -28,7 +28,12 @@ Fallbacks=null
 fallbacks=[]
 Compress=null
 compress=true
-preload=[]
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 0)
+}]
 language_support={}
 script_support={}
 opentype_features={}

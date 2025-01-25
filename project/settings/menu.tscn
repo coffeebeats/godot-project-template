@@ -1,6 +1,5 @@
 [gd_scene load_steps=14 format=3 uid="uid://nqcb7t7nk8cn"]
 
-[ext_resource type="Theme" uid="uid://crh1721xu8goc" path="res://project/settings/theme.tres" id="1_ewp1c"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/rebinder.tscn" id="3_1lgqj"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_bhxpg"]
@@ -9,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/settings/gameplay/gameplay.tscn" id="7_tg4wg"]
 [ext_resource type="PackedScene" uid="uid://dkt0y14cgygus" path="res://project/settings/sound/sound.tscn" id="8_q5vgy"]
 [ext_resource type="PackedScene" uid="uid://b4obsfsvns0ap" path="res://project/settings/display/display.tscn" id="9_hcsho"]
+[ext_resource type="PackedScene" uid="uid://jxtm7mh7fsc0" path="res://project/settings/interface/interface.tscn" id="9_nb5l0"]
 [ext_resource type="PackedScene" uid="uid://bd5fo51o6asi2" path="res://project/settings/controls/controls.tscn" id="10_fwjro"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="27_ma3b3"]
 
@@ -29,7 +29,6 @@ offset_right = 541.5
 offset_bottom = 405.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_ewp1c")
 script = ExtResource("2_7o7fm")
 
 [node name="StdInputActionSetLoader" type="Control" parent="."]
@@ -83,11 +82,12 @@ current_tab = 3
 tab_alignment = 1
 clip_tabs = false
 scrolling_enabled = false
-tab_count = 4
+tab_count = 5
 tab_0/title = "    Gameplay    "
 tab_1/title = "    Sound    "
-tab_2/title = "    Display    "
-tab_3/title = "    Controls    "
+tab_2/title = "Interface"
+tab_3/title = "    Display    "
+tab_4/title = "    Controls    "
 
 [node name="GlyphTabNext" parent="MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
 custom_minimum_size = Vector2(48, 48)
@@ -124,6 +124,9 @@ layout_mode = 2
 
 [node name="Sound" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("8_q5vgy")]
 visible = false
+layout_mode = 2
+
+[node name="Interface" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("9_nb5l0")]
 layout_mode = 2
 
 [node name="Display" parent="MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" instance=ExtResource("9_hcsho")]

@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=7 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
-[ext_resource type="Theme" uid="uid://cogf7w75p6jrt" path="res://project/main/menu/theme.tres" id="1_o380n"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="3_2fhwa"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
 [ext_resource type="Script" path="res://project/ui/modal/modal.gd" id="4_y3h4b"]
@@ -15,7 +14,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_o380n")
 script = ExtResource("1_8stub")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -25,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="Buttons" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -48,7 +46,7 @@ theme_override_constants/margin_bottom = 32
 [node name="Label" type="Label" parent="Buttons/VBoxContainer/MarginContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.401239, 0.456438, 1)
-theme_override_font_sizes/font_size = 72
+theme_override_font_sizes/font_size = 64
 text = "Game Title
 "
 
@@ -59,6 +57,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../Options")
+theme_type_variation = &"main_menu_button"
 text = "Play"
 alignment = 0
 
@@ -72,6 +71,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Play")
 focus_neighbor_bottom = NodePath("../Credits")
+theme_type_variation = &"main_menu_button"
 text = "Options"
 alignment = 0
 
@@ -83,6 +83,7 @@ script = ExtResource("3_2fhwa")
 layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Quit")
+theme_type_variation = &"main_menu_button"
 text = "Credits"
 alignment = 0
 
@@ -94,6 +95,7 @@ script = ExtResource("3_2fhwa")
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Credits")
+theme_type_variation = &"main_menu_button"
 text = "Quit"
 alignment = 0
 

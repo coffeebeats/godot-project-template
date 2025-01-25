@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://jxtm7mh7fsc0"]
+
+[ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="1_o8m7n"]
+[ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="2_81g61"]
+[ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="2_a2kj5"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="4_be8bq"]
+[ext_resource type="Resource" uid="uid://l6p88qy4dcsh" path="res://system/setting/interface/font_scaling_property.tres" id="5_217en"]
+
+[node name="Interface" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"Body"
+
+[node name="Font" parent="." instance=ExtResource("1_o8m7n")]
+layout_mode = 2
+label = "Text"
+
+[node name="FontScaling" parent="Font" instance=ExtResource("2_a2kj5")]
+layout_mode = 2
+label = "Text Scaling"
+
+[node name="Slider" parent="Font/FontScaling" instance=ExtResource("2_81g61")]
+layout_mode = 2
+precision = 2
+
+[node name="StdSettingsControllerRange" type="Node" parent="Font/FontScaling/Slider"]
+script = ExtResource("4_be8bq")
+property = ExtResource("5_217en")
+target = NodePath("../HSlider")

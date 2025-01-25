@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dhyjkxpbfsy81"]
+[gd_scene load_steps=10 format=3 uid="uid://dhyjkxpbfsy81"]
 
 [ext_resource type="Script" path="res://project/main/main.gd" id="1_gcs5q"]
+[ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="1_vu0ul"]
 [ext_resource type="Script" path="res://addons/std/scene/scene.gd" id="2_e2317"]
 [ext_resource type="Script" path="res://addons/std/scene/state/track.gd" id="3_t3x0b"]
 [ext_resource type="Script" path="res://addons/std/scene/state/auto_transition.gd" id="4_phfq2"]
@@ -15,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_vu0ul")
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_gcs5q")
 

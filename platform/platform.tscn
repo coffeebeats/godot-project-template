@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d11g4egdkq7ws" path="res://platform/profile/profile.tscn" id="3_w460j"]
 
 [node name="Platform" type="Node"]
+process_mode = 3
 script = ExtResource("1_k54xk")
 
 [node name="Storefront" parent="." instance=ExtResource("1_dcwh7")]

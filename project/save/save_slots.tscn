@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://bs5nke3386ggd"]
+[gd_scene load_steps=4 format=3 uid="uid://bs5nke3386ggd"]
 
-[ext_resource type="Theme" uid="uid://bxmegoxoe6kpt" path="res://project/save/theme.tres" id="1_reyi2"]
 [ext_resource type="Script" path="res://project/save/save_slots.gd" id="2_cw46s"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="2_gycxb"]
 [ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_t2ksl"]
@@ -14,7 +13,6 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_reyi2")
 script = ExtResource("2_cw46s")
 scene_handle = NodePath("SceneHandle")
 
