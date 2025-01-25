@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bqrjkv5me2dp5" path="res://system/save/saves.tscn" id="3_j3l3i"]
 
 [node name="System" type="Node" node_paths=PackedStringArray("input", "saves", "setting")]
+process_mode = 3
 script = ExtResource("1_t0uu3")
 input = NodePath("Input")
 saves = NodePath("Saves")
