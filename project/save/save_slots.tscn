@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bs5nke3386ggd"]
+[gd_scene load_steps=5 format=3 uid="uid://bs5nke3386ggd"]
 
 [ext_resource type="Theme" uid="uid://bxmegoxoe6kpt" path="res://project/save/theme.tres" id="1_reyi2"]
+[ext_resource type="Script" path="res://project/save/save_slots.gd" id="2_cw46s"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="2_gycxb"]
+[ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_t2ksl"]
 
-[node name="SaveSlots" type="PanelContainer"]
+[node name="SaveSlots" type="PanelContainer" node_paths=PackedStringArray("scene_handle")]
 custom_minimum_size = Vector2(1440, 810)
 anchors_preset = 8
 anchor_left = 0.5
@@ -13,6 +15,11 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_reyi2")
+script = ExtResource("2_cw46s")
+scene_handle = NodePath("SceneHandle")
+
+[node name="SceneHandle" type="Node" parent="."]
+script = ExtResource("2_t2ksl")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -33,27 +40,58 @@ text = "Choose a save slot"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="SlotButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 4.0
 theme_override_constants/separation = 32
 
-[node name="SlotButton1" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_gycxb")]
+[node name="SlotButton1" parent="MarginContainer/VBoxContainer/SlotButtons" instance=ExtResource("2_gycxb")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SlotButton2" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_gycxb")]
+[node name="SlotButton2" parent="MarginContainer/VBoxContainer/SlotButtons" instance=ExtResource("2_gycxb")]
 layout_mode = 2
 size_flags_horizontal = 3
 slot = 1
 
-[node name="SlotButton3" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_gycxb")]
+[node name="SlotButton3" parent="MarginContainer/VBoxContainer/SlotButtons" instance=ExtResource("2_gycxb")]
 layout_mode = 2
 size_flags_horizontal = 3
 slot = 2
 
-[node name="SlotButton4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_gycxb")]
+[node name="SlotButton4" parent="MarginContainer/VBoxContainer/SlotButtons" instance=ExtResource("2_gycxb")]
 layout_mode = 2
 size_flags_horizontal = 3
 slot = 3
+
+[node name="DeleteButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 4.0
+theme_override_constants/separation = 32
+
+[node name="Button1" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DELETE"
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DELETE"
+
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DELETE"
+
+[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DELETE"
