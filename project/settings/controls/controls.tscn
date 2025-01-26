@@ -72,11 +72,11 @@ configurator = ExtResource("9_m5toj")
 
 [node name="General" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
-label = "General"
+label = "options_controls_general"
 
 [node name="DisableVibration" parent="General" instance=ExtResource("11_ph7kg")]
 layout_mode = 2
-label = "Disable vibration"
+label = "options_controls_disable_vibration"
 
 [node name="Checkbox" parent="General/DisableVibration" instance=ExtResource("12_jaj02")]
 layout_mode = 2
@@ -90,7 +90,7 @@ property = ExtResource("14_rj08w")
 
 [node name="VibrationStrength" parent="General" instance=ExtResource("11_ph7kg")]
 layout_mode = 2
-label = "Vibration strength"
+label = "options_controls_vibration_strength"
 
 [node name="Slider" parent="General/VibrationStrength" instance=ExtResource("15_8qtro")]
 layout_mode = 2
@@ -103,12 +103,12 @@ disabled = ExtResource("14_rj08w")
 
 [node name="Bindings" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
-label = "Steam Input"
+label = "options_controls_steam"
 
 [node name="Configurator" parent="Bindings" instance=ExtResource("11_ph7kg")]
 unique_name_in_owner = true
 layout_mode = 2
-label = "Controller layout"
+label = "options_controls_steam_configurator"
 
 [node name="Prompt" parent="Bindings/Configurator" instance=ExtResource("18_v42t3")]
 unique_name_in_owner = true
@@ -120,18 +120,18 @@ text = "OPEN"
 layout_mode = 2
 action_set = ExtResource("20_h7kk8")
 scope = ExtResource("21_dqueq")
-label = "Menu"
+label = "options_controls_menu"
 
 [node name="MenuTabs" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("22_6tsaj")
 scope = ExtResource("21_dqueq")
-label = "MenuTabbed"
+label = "options_controls_menu_tabbed"
 
 [node name="MenuRebinding" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("23_ahsqh")
 scope = ExtResource("21_dqueq")
-label = "MenuBinding"
+label = "options_controls_menu_binding"
 
 [editable path="General/DisableVibration/Checkbox"]

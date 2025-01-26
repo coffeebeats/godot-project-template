@@ -34,7 +34,7 @@ theme_override_constants/separation = 64
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
-text = "Choose a save slot"
+text = "save_slots_choose"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -74,22 +74,22 @@ theme_override_constants/separation = 32
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "DELETE"
+text = "save_slots_delete"
 
 [node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "DELETE"
+text = "save_slots_delete"
 
 [node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "DELETE"
+text = "save_slots_delete"
 
 [node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "DELETE"
+text = "save_slots_delete"
