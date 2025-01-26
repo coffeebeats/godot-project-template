@@ -44,6 +44,18 @@ When submitting code for review, ensure the following requirements are met:
         -gexit
     ```
 
+### Tools
+
+#### Translation
+
+Translation is supported using `gettext` tools. A `messages.pot` template file is located at [project/locale/messages.pot](project/locale/messages.pot) and contains messages used by the template. Translations to english have already been added, so new language support is as simple as creating a new `po` file with the translations.
+
+Finally, CI/CD runs check that translations are accurate; any changes to template files will result in fuzzy messages, blocking releases.
+
+#### Fonts
+
+MSDF rendering is recommended for fonts, but many fonts contain overlapping contours [which render incorrectly in Godot](https://github.com/godotengine/godot/issues/52247). This can be fixed using [FontForge's `removeOverlap` utility](https://fontforge.org/docs/scripting/python/fontforge.html#fontforge.font.removeOverlap). This process is not automated, so if font artifacts are seen when using MSDF rendering, they must be fixed manually.
+
 ## **Releasing**
 
 [Semantic Versioning](http://semver.org/) is used for versioning and [Conventional Commits](https://www.conventionalcommits.org/) is used for commit messages. A [release-please](https://github.com/googleapis/release-please) integration via [GitHub Actions](https://github.com/googleapis/release-please-action) automates releases.
