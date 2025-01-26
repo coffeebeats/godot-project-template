@@ -4,6 +4,9 @@
 # Imported translations (automatically generated from CSV files)
 *.translation
 
+# Compiled 'gettext' translations (not supported yet)
+*.mo
+
 # MacOS-specific files
 .DS_Store
 
