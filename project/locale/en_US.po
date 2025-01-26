@@ -89,7 +89,7 @@ msgstr "Audio"
 
 #. Describes the setting which changes the specific audio output device used by the game.
 msgid "options_sound_audio_device"
-msgstr "Audio device"
+msgstr "Audio output device"
 
 #. Describes the setting which causes sound to be muted when the game is unfocused (i.e. when the user "tabs out" of the game).
 msgid "options_sound_audio_bg_mute"
@@ -190,7 +190,7 @@ msgstr "Cancel"
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
 msgid "options_controls_menu_tabbed"
-msgstr "Tabs"
+msgstr "Menu tabs"
 
 #. An input action that moves to the next tab/page within a game menu.
 msgid "ui_tab_next"
