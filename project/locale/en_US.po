@@ -47,6 +47,10 @@ msgstr "Choose a save slot — progress will be saved automatically"
 msgid "save_slots_last_updated"
 msgstr "Last updated:"
 
+#. A label displayed when a save slot is broken/unusable.
+msgid "save_slots_broken"
+msgstr "Broken"
+
 #. A label displayed when a save slot is empty/available/has no save data.
 msgid "save_slots_empty"
 msgstr "Empty"
@@ -147,6 +151,15 @@ msgstr "Disable vibration"
 #. Describes the setting which controls how intense controller vibration feedback is.
 msgid "options_controls_vibration_strength"
 msgstr "Vibration strength"
+
+#. Used as a category name for a group of settings related to Steam Input.
+#. Steam Input is a software library/interface for the Steam game distribution platform.
+msgid "options_controls_steam"
+msgstr "Steam Input"
+
+#. Describes a setting which adjusts the action-to-button bindings for a game controller.
+msgid "options_controls_steam_configurator"
+msgstr "Controller layout"
 
 #. Used as a category name for a group of input actions related to menu navigation.
 msgid "options_controls_menu"
