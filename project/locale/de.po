@@ -19,23 +19,23 @@ msgstr ""
 
 #. A "play game" button, located on the main menu.
 msgid "Play"
-msgstr ""
+msgstr "Spielen"
 
 #. A button to open the options menu, located on the main menu.
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #. A button to open the game's recent changes, located on the main menu.
 msgid "Patch Notes"
-msgstr ""
+msgstr "Patch-Details"
 
 #. A button to open the game's credits, located on the main menu.
 msgid "Credits"
-msgstr ""
+msgstr "Mitwirkende"
 
 #. A button to quit/exit the game, located on the main menu.
 msgid "Quit"
-msgstr ""
+msgstr "Beenden"
 
 #. Displayed to the player on a loading screen and indicates the game is loading.
 msgid "Loading..."
@@ -43,27 +43,27 @@ msgstr ""
 
 #. Instructs the player to select which save slot to use.
 msgid "Choose a save slot — progress will be saved automatically"
-msgstr ""
+msgstr "Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
 
 #. A label for the timestamp of when the particular save was last updated.
 msgid "Last updated:"
-msgstr ""
+msgstr "Zuletzt aktualisiert:"
 
 #. A label displayed when a save slot is broken/unusable.
 msgid "Broken"
-msgstr ""
+msgstr "Gebrochen"
 
 #. A label displayed when a save slot is empty/available/has no save data.
 msgid "Empty"
-msgstr ""
+msgstr "Leer"
 
 #. A button which the player can press to delete save data for a specific slot.
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #. A tab within the game's options menu containing gameplay-related settings.
 msgid "Gameplay"
-msgstr ""
+msgstr "Spieloptionen"
 
 #. A tab within the game's options menu containing sound-related settings.
 msgid "Sound"
@@ -91,7 +91,7 @@ msgstr ""
 
 #. Used as a category name for a group of settings related to audio output.
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #. Describes the setting which changes the specific audio output device used by the game.
 msgid "Audio output device"
@@ -103,7 +103,7 @@ msgstr ""
 
 #. A tab within the game's options menu containing settings for interacting with the game. This menu includes things like text size, changing the game's display language, etc.
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #. Used as a category name for a group of settings related to text display.
 msgid "Text"
@@ -115,7 +115,7 @@ msgstr ""
 
 #. A tab within the game's options menu containing graphics/video-related settings.
 msgid "Display"
-msgstr ""
+msgstr "Anzeige"
 
 #. Used as a category name for a group of settings related to graphics.
 msgid "Video"
@@ -123,11 +123,11 @@ msgstr ""
 
 #. Describes the setting which toggles the size of the game between "windowed" and "fullscreen".
 msgid "Fullscreen"
-msgstr ""
+msgstr "Vollbildmodus"
 
 #. Describes the setting which removes the border around the game application window.
 msgid "Borderless"
-msgstr ""
+msgstr "Rahmenlos"
 
 #. Describes the setting which adjusts the maximum number of frames drawn per second.
 msgid "Max frame limit"
@@ -135,11 +135,11 @@ msgstr ""
 
 #. Describes the setting which adjusts whether the game's frames drawn per second are capped to the monitor's refresh rate.
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 #. A tab within the game's options menu containing controls/input-related settings.
 msgid "Controls"
-msgstr ""
+msgstr "Steuerung"
 
 #. Used as a category name for gamepad settings.
 msgid "Gamepads"
