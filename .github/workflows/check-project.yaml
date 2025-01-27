@@ -25,12 +25,12 @@ jobs:
     timeout-minutes: 5
 
     outputs:
-      has_change: "${{ steps.check-non-source.outputs.any_modified == 'true' || steps.check-source.outputs.any_modified == 'true' }}"
-      has_source_change: "${{ steps.check-source.outputs.any_modified == 'true' }}"
-      has_pot_change: "${{ steps.check-pot.outputs.any_modified == 'true' }}"
-      has_po_change: "${{ steps.check-po.outputs.any_modified == 'true' }}"
-      added-png-files: "${{ steps.check-png.outputs.added_files }}"
-      modified-png-files: "${{ steps.check-png.outputs.modified_files }}"
+      has_change: "${{ steps.check-non-source.outputs.any_modified == 'true' || steps.check-source.outputs.any_changed == 'true' }}"
+      has_source_change: "${{ steps.check-source.outputs.any_changed == 'true' }}"
+      has_pot_change: "${{ steps.check-pot.outputs.any_changed == 'true' }}"
+      has_po_change: "${{ steps.check-po.outputs.any_changed == 'true' }}"
+      changed-png-files: "${{ steps.check-png.outputs.all_changed_files }}"
+      changed-po-files: "${{ steps.check-po.outputs.all_changed_files }}"
 
     steps:
       - uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
         uses: tj-actions/changed-files@v45
         with:
           files: |
-            project/locale/messages.pot
+            project/locale/*.pot
             project/locale/en_US.po
 
       - name: Check for non-template translation file changes
@@ -68,9 +68,7 @@ jobs:
         uses: tj-actions/changed-files@v45
         with:
           files: "project/locale/*.po"
-          files_ignore: |
-            project/locale/messages.pot
-            project/locale/en_US.po
+          files_ignore: "project/locale/*.pot"
 
   format-and-lint:
     needs: ["changes"]
@@ -104,8 +102,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
 
-      (needs.changes.outputs.added-png-files != '' || needs.changes.outputs.modified-png-files != '') &&
-      github.actor != 'dependabot[bot]'
+      github.actor != 'dependabot[bot]' &&
+      needs.changes.outputs.changed-png-files != ''
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -134,9 +132,11 @@ jobs:
 
       - name: Optimize images
         run: |
-          files="$(echo "${{ needs.changes.outputs.added-png-files }} ${{ needs.changes.outputs.modified-png-files }}" | xargs)"
+          files="$(echo "${{ needs.changes.outputs.changed-png-files }}" | xargs)"
 
           for f in $files; do
+            echo "Optimizing image: $f"
+
             echo "$(du -sh $f) (before)"
             pngcrush "$f" "$f.opt"
             mv "$f.opt" "$f"
@@ -153,16 +153,32 @@ jobs:
   check-translations:
     needs:
       - "changes"
+      - "optimize-png" # NOTE: Run serially to avoid racing commits.
     if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+
       github.actor != 'dependabot[bot]' &&
-      (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true') ||
-      contains( github.event.pull_request.labels.*.name, 'autorelease: pending')
+      (
+        (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true') ||
+        contains( github.event.pull_request.labels.*.name, 'autorelease: pending')
+      )
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v4
+
+      # NOTE: Translation files should not need changes from a release PR.
+      - name: Verify state for release PRs
+        if: |
+          contains( github.event.pull_request.labels.*.name, 'autorelease: pending') &&
+          (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true')
+        run: exit 1
+
+      # 1. Install tools.
 
       - name: Install 'gettext' tools
         run: |
@@ -171,6 +187,18 @@ jobs:
           sudo dpkg-reconfigure man-db
 
           sudo apt-get install --no-install-recommends -y gettext
+
+      - name: Install 'translate-toolkit' tools
+        if: needs.changes.outputs.has_pot_change == 'true'
+        run: |
+          python3 -m pip install translate-toolkit
+
+          if ! command -v poswap >/dev/null; then
+            echo "Failed to install 'poswap'; exiting."
+            exit 1
+          fi
+
+      # 2. Validate translation files.
 
       # NOTE: While we could just check the changed ones, because this will also
       # be run on release branches, it's better to just check all of them.
@@ -190,53 +218,13 @@ jobs:
             fi
           done
 
-  update-translations:
-    needs:
-      - "changes"
-      - "check-translations"
-      - "optimize-png" # NOTE: Run serially to avoid racing commits.
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-
-      needs.changes.outputs.has_pot_change == 'true' &&
-      github.actor != 'dependabot[bot]'
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    steps:
-      # NOTE: No need for submodules since we don't need to optimize them.
-      - uses: actions/checkout@v4
-        with:
-          # Checkout the "head_ref" (i.e. PR branch HEAD) in case a commit is
-          # later needed. See https://github.com/stefanzweifel/git-auto-commit-action
-          # for more details.
-          ref: ${{ github.head_ref }}
-          token: ${{ env.ACTIONS_BOT_TOKEN }}
-
-      - name: Install 'gettext' tools
-        run: |
-          # Disable man-db, which sometimes takes minutes to process triggers for.
-          sudo debconf-communicate <<< "set man-db/auto-update false"
-          sudo dpkg-reconfigure man-db
-
-          sudo apt-get install --no-install-recommends -y gettext
-
-      - name: Install 'translate-toolkit' tools
-        run: |
-          python3 -m pip install translate-toolkit
-
-          if ! command -v poswap >/dev/null; then
-            echo "Failed to install 'poswap'; exiting."
-            exit 1
-          fi
+      # 3. Update translation files.
 
       # Non-english 'po' files use the intermediate English translations as
-      # their source language. Ensure these are updated if any of the files
-      # have changed.
+      # their source language. Ensure these are updated if any of the template
+      # files were changed.
       - name: Update modified 'po' files
+        if: needs.changes.outputs.has_pot_change == 'true'
         run: |
           cd project/locale
 
@@ -246,7 +234,21 @@ jobs:
             rm "$f.tmp"
           done
 
+      - name: Compile modified 'po' files
+        if: needs.changes.outputs.has_po_change == 'true'
+        run: |
+          files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
+
+          for f in $files; do
+            echo "Compiling translation file: $f"
+
+            msgfmt "$f" --no-hash -o "$(dirname "$f")/$(basename "$f" .po).mo"
+          done
+
       - uses: "coffeebeats/godot-infra/commit-changes@v1"
+        if: |
+          needs.changes.outputs.has_pot_change == 'true' ||
+          needs.changes.outputs.has_po_change == 'true'
         with:
           description: "updating translation files"
 
@@ -293,7 +295,6 @@ jobs:
       - "format-and-lint"
       - "optimize-png"
       - "check-translations"
-      - "update-translations"
       - "test"
     if: ${{ always() }}
 
