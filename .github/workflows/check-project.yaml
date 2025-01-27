@@ -213,7 +213,7 @@ jobs:
         run: |
           for f in $(ls --hide "*.pot" project/locale); do
             if grep '#,' "project/locale/$f" >/dev/null; then
-              echo "Found fuzzy translation in file: $f"
+              echo "Error: found fuzzy translation in file: $f"
               exit 1
             fi
           done
