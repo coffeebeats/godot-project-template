@@ -101,7 +101,11 @@ jobs:
     needs:
       - "changes"
       - "format-and-lint" # NOTE: Run serially to avoid racing commits.
-    if:
+    if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+
       (needs.changes.outputs.added-png-files != '' || needs.changes.outputs.modified-png-files != '') &&
       github.event_name == 'pull_request' &&
       github.actor != 'dependabot[bot]' &&
@@ -200,6 +204,10 @@ jobs:
       - "check-translations"
       - "optimize-png" # NOTE: Run serially to avoid racing commits.
     if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+
       needs.changes.outputs.has_pot_change == 'true' &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'github-actions[bot]'
@@ -308,37 +316,8 @@ jobs:
     timeout-minutes: 1
 
     steps:
-      - name: Verify 'format-and-lint' status
+      - name: Verify status of dependencies
         if: |
           always() &&
-          needs.format-and-lint.result == 'failure' ||
-          needs.format-and-lint.result == 'cancelled'
-        run: exit 1
-
-      - name: Verify 'optimize-png' status
-        if: |
-          always() &&
-          needs.optimize-png.result == 'failure' ||
-          needs.optimize-png.result == 'cancelled'
-        run: exit 1
-
-      - name: Verify 'check-translations' status
-        if: |
-          always() &&
-          needs.check-translations.result == 'failure' ||
-          needs.check-translations.result == 'cancelled'
-        run: exit 1
-
-      - name: Verify 'update-translations' status
-        if: |
-          always() &&
-          needs.update-translations.result == 'failure' ||
-          needs.update-translations.result == 'cancelled'
-        run: exit 1
-
-      - name: Verify 'test' status
-        if: |
-          always() &&
-          needs.test.result == 'failure' ||
-          needs.test.result == 'cancelled'
+          (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
         run: exit 1
