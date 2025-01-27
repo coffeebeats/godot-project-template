@@ -151,8 +151,9 @@ jobs:
     needs:
       - "changes"
     if: |
-      (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true') &&
-      github.actor != 'dependabot[bot]'
+      github.actor != 'dependabot[bot]' &&
+      (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true') ||
+      (github.event_name == 'pull_request' && contains( github.event.pull_request.labels.*.name, 'autorelease: pending'))
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -171,12 +172,24 @@ jobs:
             fi
           done
 
-      - name: Validate modified 'po' files
+      # NOTE: While we could just check the changed ones, because this will also
+      # be run on release branches, it's better to just check all of them.
+      - name: Validate translation files
         run: |
-          files="$(echo "${{ needs.changes.outputs.modified-po-files }}" | xargs)"
+          for f in $(ls project/locale); do
+            msgfmt "project/locale/$f" --check
+          done
 
-          for f in $files; do
-            msgfmt $f --check
+      - name: Check for fuzzy translations before release
+        if: |
+          github.event_name == 'pull_request' &&
+          contains( github.event.pull_request.labels.*.name, 'autorelease: pending')
+        run: |
+          for f in $(ls --hide "*.pot" project/locale); do
+            if grep '#,' "project/locale/$f" >/dev/null; then
+              echo "Found fuzzy translation in file: $f"
+              exit 1
+            fi
           done
 
   update-translations:
