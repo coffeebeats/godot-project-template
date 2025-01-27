@@ -118,6 +118,7 @@ jobs:
           # later needed. See https://github.com/stefanzweifel/git-auto-commit-action
           # for more details.
           ref: ${{ github.head_ref }}
+          token: ${{ env.ACTIONS_BOT_TOKEN }}
 
       - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@v1"
         id: version
@@ -216,6 +217,7 @@ jobs:
           # later needed. See https://github.com/stefanzweifel/git-auto-commit-action
           # for more details.
           ref: ${{ github.head_ref }}
+          token: ${{ env.ACTIONS_BOT_TOKEN }}
 
       - name: Install 'gettext' tools
         run: |
