@@ -201,7 +201,6 @@ jobs:
       - "optimize-png" # NOTE: Run serially to avoid racing commits.
     if: |
       needs.changes.outputs.has_po_change == 'true' &&
-      github.event_name == 'pull_request' &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'github-actions[bot]'
 
