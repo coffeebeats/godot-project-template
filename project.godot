@@ -137,6 +137,10 @@ ui_binding_stop={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://project/locale/en_US.po")
+
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true

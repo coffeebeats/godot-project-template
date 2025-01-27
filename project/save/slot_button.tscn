@@ -33,7 +33,7 @@ theme_override_constants/margin_bottom = 32
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "EMPTY"
+text = "save_slots_empty"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -41,7 +41,7 @@ vertical_alignment = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "BROKEN"
+text = "save_slots_broken"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -63,7 +63,7 @@ size_flags_vertical = 6
 
 [node name="Header" type="Label" parent="MarginContainer/Contents/VBoxContainer"]
 layout_mode = 2
-text = "Last Updated"
+text = "save_slots_last_updated"
 uppercase = true
 
 [node name="LastUpdated" type="Label" parent="MarginContainer/Contents/VBoxContainer"]

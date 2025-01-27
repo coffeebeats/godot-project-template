@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-26 16:13-0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#. The title of the game, located on the main menu.
+#. No translation found in en_US.po
+msgid "main_game_title"
+msgstr ""
+
+#. A "play game" button, located on the main menu.
+msgid "Play"
+msgstr ""
+
+#. A button to open the options menu, located on the main menu.
+msgid "Options"
+msgstr ""
+
+#. A button to open the game's recent changes, located on the main menu.
+msgid "Patch Notes"
+msgstr ""
+
+#. A button to open the game's credits, located on the main menu.
+msgid "Credits"
+msgstr ""
+
+#. A button to quit/exit the game, located on the main menu.
+msgid "Quit"
+msgstr ""
+
+#. Displayed to the player on a loading screen and indicates the game is loading.
+msgid "Loading..."
+msgstr ""
+
+#. Instructs the player to select which save slot to use.
+msgid "Choose a save slot — progress will be saved automatically"
+msgstr ""
+
+#. A label for the timestamp of when the particular save was last updated.
+msgid "Last updated:"
+msgstr ""
+
+#. A label displayed when a save slot is broken/unusable.
+msgid "Broken"
+msgstr ""
+
+#. A label displayed when a save slot is empty/available/has no save data.
+msgid "Empty"
+msgstr ""
+
+#. A button which the player can press to delete save data for a specific slot.
+msgid "Delete"
+msgstr ""
+
+#. A tab within the game's options menu containing gameplay-related settings.
+msgid "Gameplay"
+msgstr ""
+
+#. A tab within the game's options menu containing sound-related settings.
+msgid "Sound"
+msgstr ""
+
+#. Used as a category name for a group of settings related to volume.
+msgid "Volume"
+msgstr ""
+
+#. Describes the global volume setting within the options menu.
+msgid "Global"
+msgstr ""
+
+#. Describes the sound effects volume setting within the options menu.
+msgid "Sound Effects"
+msgstr ""
+
+#. Describes the musics volume setting within the options menu.
+msgid "Music"
+msgstr ""
+
+#. Describes the spoken word volume setting within the options menu.
+msgid "Voice"
+msgstr ""
+
+#. Used as a category name for a group of settings related to audio output.
+msgid "Audio"
+msgstr ""
+
+#. Describes the setting which changes the specific audio output device used by the game.
+msgid "Audio output device"
+msgstr ""
+
+#. Describes the setting which causes sound to be muted when the game is unfocused (i.e. when the user "tabs out" of the game).
+msgid "Mute in background"
+msgstr ""
+
+#. A tab within the game's options menu containing settings for interacting with the game.
+#. This menu includes things like text size, changing the game's display language, etc.
+msgid "Interface"
+msgstr ""
+
+#. Used as a category name for a group of settings related to text display.
+msgid "Text"
+msgstr ""
+
+#. Describes the setting which changes the size of the text.
+msgid "Scale text size"
+msgstr ""
+
+#. A tab within the game's options menu containing graphics/video-related settings.
+msgid "Display"
+msgstr ""
+
+#. Used as a category name for a group of settings related to graphics.
+msgid "Video"
+msgstr ""
+
+#. Describes the setting which toggles the size of the game between "windowed" and "fullscreen".
+msgid "Fullscreen"
+msgstr ""
+
+#. Describes the setting which removes the border around the game application window.
+msgid "Borderless"
+msgstr ""
+
+#. Describes the setting which adjusts the maximum number of frames drawn per second.
+msgid "Max frame limit"
+msgstr ""
+
+#. Describes the setting which adjusts whether the game's frames drawn per second are capped to the monitor's refresh rate.
+msgid "VSync"
+msgstr ""
+
+#. A tab within the game's options menu containing controls/input-related settings.
+msgid "Controls"
+msgstr ""
+
+#. Used as a category name for a group of non-specific settings.
+msgid "General"
+msgstr ""
+
+#. Describes the setting which disables controller vibration feedback.
+msgid "Disable vibration"
+msgstr ""
+
+#. Describes the setting which controls how intense controller vibration feedback is.
+msgid "Vibration strength"
+msgstr ""
+
+#. Used as a category name for a group of settings related to Steam Input.
+#. Steam Input is a software library/interface for the Steam game distribution platform.
+msgid "Steam Input"
+msgstr ""
+
+#. Describes a setting which adjusts the action-to-button bindings for a game controller.
+msgid "Controller layout"
+msgstr ""
+
+#. Used as a category name for a group of input actions related to menu navigation.
+msgid "Menus"
+msgstr ""
+
+#. An input action that confirms the current selection.
+msgctxt "actions_menu"
+msgid "Accept"
+msgstr ""
+
+#. An input action that navigates (through a menu) back to the previous selected element.
+msgctxt "actions_menu"
+msgid "Back"
+msgstr ""
+
+#. An input action used to navigate left within a game menu.
+msgctxt "actions_menu"
+msgid "Left"
+msgstr ""
+
+#. An input action used to navigate right within a game menu.
+msgctxt "actions_menu"
+msgid "Right"
+msgstr ""
+
+#. An input action used to navigate up within a game menu.
+msgctxt "actions_menu"
+msgid "Up"
+msgstr ""
+
+#. An input action used to navigate down within a game menu.
+msgctxt "actions_menu"
+msgid "Down"
+msgstr ""
+
+#. An input action used to navigate to the next item within a game menu.
+msgctxt "actions_menu"
+msgid "Next"
+msgstr ""
+
+#. An input action used to navigate to the previous item within a game menu.
+msgctxt "actions_menu"
+msgid "Previous"
+msgstr ""
+
+#. An input action used to cancel the current selection/leave the current menu page.
+msgctxt "actions_menu"
+msgid "Cancel"
+msgstr ""
+
+#. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
+msgid "Menu tabs"
+msgstr ""
+
+#. An input action that moves to the next tab/page within a game menu.
+msgctxt "actions_menu_tabbed"
+msgid "Next tab"
+msgstr ""
+
+#. An input action that moves to the previous tab/page within a game menu.
+msgctxt "actions_menu_tabbed"
+msgid "Previous tab"
+msgstr ""
+
+#. Used as a category name for a group of input actions related to changing which game actions are bound to a controller input button.
+msgid "Input binding"
+msgstr ""
+
+#. An input action that cancels the "rebinding" operation.
+msgctxt "actions_menu_binding"
+msgid "Cancel binding"
+msgstr ""

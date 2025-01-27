@@ -26,11 +26,11 @@ theme_type_variation = &"Body"
 
 [node name="Volume" parent="." instance=ExtResource("1_0oves")]
 layout_mode = 2
-label = "Volume"
+label = "options_sound_volume"
 
 [node name="Master" parent="Volume" instance=ExtResource("2_2qbby")]
 layout_mode = 2
-label = "Master"
+label = "options_sound_volume_master"
 
 [node name="Slider" parent="Volume/Master" instance=ExtResource("3_4ws2g")]
 layout_mode = 2
@@ -45,7 +45,7 @@ target = NodePath("../HSlider")
 
 [node name="Effects" parent="Volume" instance=ExtResource("2_2qbby")]
 layout_mode = 2
-label = "Sound effects"
+label = "options_sound_volume_sound_effects"
 
 [node name="Slider" parent="Volume/Effects" instance=ExtResource("3_4ws2g")]
 layout_mode = 2
@@ -57,7 +57,7 @@ target = NodePath("../HSlider")
 
 [node name="Music" parent="Volume" instance=ExtResource("2_2qbby")]
 layout_mode = 2
-label = "Music"
+label = "options_sound_volume_music"
 
 [node name="Slider" parent="Volume/Music" instance=ExtResource("3_4ws2g")]
 layout_mode = 2
@@ -69,7 +69,7 @@ target = NodePath("../HSlider")
 
 [node name="Voice" parent="Volume" instance=ExtResource("2_2qbby")]
 layout_mode = 2
-label = "Voice"
+label = "options_sound_volume_voice"
 
 [node name="Slider" parent="Volume/Voice" instance=ExtResource("3_4ws2g")]
 layout_mode = 2
@@ -81,11 +81,11 @@ target = NodePath("../HSlider")
 
 [node name="Audio" parent="." instance=ExtResource("1_0oves")]
 layout_mode = 2
-label = "Audio"
+label = "options_sound_audio"
 
 [node name="Device" parent="Audio" instance=ExtResource("2_2qbby")]
 layout_mode = 2
-label = "Sound device"
+label = "options_sound_audio_device"
 
 [node name="OptionButton" parent="Audio/Device" instance=ExtResource("9_ydimy")]
 layout_mode = 2
@@ -97,7 +97,7 @@ options_property = ExtResource("12_605fi")
 
 [node name="MuteInBackground" parent="Audio" instance=ExtResource("2_2qbby")]
 layout_mode = 2
-label = "Mute in background"
+label = "options_sound_audio_bg_mute"
 
 [node name="Checkbox" parent="Audio/MuteInBackground" instance=ExtResource("13_ns2fj")]
 layout_mode = 2

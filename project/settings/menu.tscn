@@ -83,11 +83,11 @@ tab_alignment = 1
 clip_tabs = false
 scrolling_enabled = false
 tab_count = 5
-tab_0/title = "    Gameplay    "
-tab_1/title = "    Sound    "
-tab_2/title = "Interface"
-tab_3/title = "    Display    "
-tab_4/title = "    Controls    "
+tab_0/title = "options_gameplay"
+tab_1/title = "options_sound"
+tab_2/title = "options_interface"
+tab_3/title = "options_display"
+tab_4/title = "options_controls"
 
 [node name="GlyphTabNext" parent="MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" instance=ExtResource("6_xrc8s")]
 custom_minimum_size = Vector2(48, 48)

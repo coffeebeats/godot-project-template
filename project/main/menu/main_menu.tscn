@@ -47,8 +47,7 @@ theme_override_constants/margin_bottom = 32
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.401239, 0.456438, 1)
 theme_override_font_sizes/font_size = 64
-text = "Game Title
-"
+text = "main_game_title"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer"]
 layout_mode = 2
@@ -58,7 +57,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../Options")
 theme_type_variation = &"main_menu_button"
-text = "Play"
+text = "main_play"
 alignment = 0
 
 [node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Play"]
@@ -72,10 +71,22 @@ layout_mode = 2
 focus_neighbor_top = NodePath("../Play")
 focus_neighbor_bottom = NodePath("../Credits")
 theme_type_variation = &"main_menu_button"
-text = "Options"
+text = "main_options"
 alignment = 0
 
 [node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Options"]
+anchors_preset = 0
+script = ExtResource("3_2fhwa")
+
+[node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_bottom = NodePath("../Quit")
+theme_type_variation = &"main_menu_button"
+text = "main_patch_notes"
+alignment = 0
+
+[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes"]
 anchors_preset = 0
 script = ExtResource("3_2fhwa")
 
@@ -84,7 +95,7 @@ layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Quit")
 theme_type_variation = &"main_menu_button"
-text = "Credits"
+text = "main_credits"
 alignment = 0
 
 [node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Credits"]
@@ -96,7 +107,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Credits")
 theme_type_variation = &"main_menu_button"
-text = "Quit"
+text = "main_quit"
 alignment = 0
 
 [node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Quit"]
