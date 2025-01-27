@@ -166,14 +166,11 @@ jobs:
 
       - name: Install 'gettext' tools
         run: |
-          sudo apt-get install --no-install-recommends -y gettext
+          # Disable man-db, which sometimes takes minutes to process triggers for.
+          sudo debconf-communicate <<< "set man-db/auto-update false"
+          sudo dpkg-reconfigure man-db
 
-          for tool in msgfmt; do
-            if ! command -v $tool >/dev/null; then
-              echo "Failed to install '$tool'; exiting."
-              exit 1
-            fi
-          done
+          sudo apt-get install --no-install-recommends -y gettext
 
       # NOTE: While we could just check the changed ones, because this will also
       # be run on release branches, it's better to just check all of them.
@@ -221,14 +218,11 @@ jobs:
 
       - name: Install 'gettext' tools
         run: |
-          sudo apt-get install --no-install-recommends -y gettext
+          # Disable man-db, which sometimes takes minutes to process triggers for.
+          sudo debconf-communicate <<< "set man-db/auto-update false"
+          sudo dpkg-reconfigure man-db
 
-          for tool in msgmerge msgfmt; do
-            if ! command -v $tool >/dev/null; then
-              echo "Failed to install '$tool'; exiting."
-              exit 1
-            fi
-          done
+          sudo apt-get install --no-install-recommends -y gettext
 
       - name: Install 'translate-toolkit' tools
         run: |
