@@ -111,8 +111,7 @@ msgstr ""
 
 
 
-#. A tab within the game's options menu containing settings for interacting with the game.
-#. This menu includes things like text size, changing the game's display language, etc.
+#. A tab within the game's options menu containing settings for interacting with the game. This menu includes things like text size, changing the game's display language, etc.
 msgid "options_interface"
 msgstr ""
 
@@ -168,8 +167,7 @@ msgstr ""
 msgid "options_controls_vibration_strength"
 msgstr ""
 
-#. Used as a category name for a group of settings related to Steam Input.
-#. Steam Input is a software library/interface for the Steam game distribution platform.
+#. Used as a category name for a group of settings related to Steam Input. Steam Input is a software library/interface for the Steam game distribution platform.
 msgid "options_controls_steam"
 msgstr ""
 
