@@ -16,12 +16,22 @@ const ResetScene := preload("reset.tscn")
 const Setting := preload("setting.gd")
 const SettingScene := preload("setting.tscn")
 
+# -- DEFINITIONS --------------------------------------------------------------------- #
+
+const LOCALE_MSGID_ACTION_PREFIX := &"actions_"
+const LOCALE_MSGID_ACTION_SET_PREFIX := &"options_controls_"
+
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 @export_subgroup("Action")
 
 ## action_set is an input action set which defines the configured action.
-@export var action_set: StdInputActionSet = null
+@export var action_set: StdInputActionSet = null:
+	set(value):
+		action_set = value
+
+		if value is StdInputActionSet:
+			label = LOCALE_MSGID_ACTION_SET_PREFIX + value.name
 
 @export_subgroup("Binding")
 
@@ -56,11 +66,11 @@ func _exit_tree() -> void:
 
 func _ready() -> void:
 	assert(action_set is StdInputActionSet, "invalid config; missing action set")
+	action_set = action_set  # Trigger 'label' update.
 
 	_reset.action_set = action_set
 	_reset.player_id = player_id
 
-	label = action_set.name
 	_generate_settings()
 
 
@@ -103,7 +113,7 @@ func _generate_settings() -> void:
 		reset.bindings.append_array([primary, secondary])
 
 		var setting := SettingScene.instantiate()
-		setting.label = action
+		setting.label = tr(action, LOCALE_MSGID_ACTION_PREFIX + action_set.name)
 		setting.add_child(reset)
 		setting.add_child(primary)
 		setting.add_child(secondary)

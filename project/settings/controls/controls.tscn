@@ -70,32 +70,32 @@ script = ExtResource("9_d7lqc")
 button = NodePath("../../../Bindings/Configurator/Prompt")
 configurator = ExtResource("9_m5toj")
 
-[node name="General" parent="." instance=ExtResource("10_heyw7")]
+[node name="Gamepad" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
-label = "options_controls_general"
+label = "options_controls_gamepad"
 
-[node name="DisableVibration" parent="General" instance=ExtResource("11_ph7kg")]
+[node name="DisableVibration" parent="Gamepad" instance=ExtResource("11_ph7kg")]
 layout_mode = 2
 label = "options_controls_disable_vibration"
 
-[node name="Checkbox" parent="General/DisableVibration" instance=ExtResource("12_jaj02")]
+[node name="Checkbox" parent="Gamepad/DisableVibration" instance=ExtResource("12_jaj02")]
 layout_mode = 2
 
-[node name="StdInputCursorFocusHandler" parent="General/DisableVibration/Checkbox" index="0"]
+[node name="StdInputCursorFocusHandler" parent="Gamepad/DisableVibration/Checkbox" index="0"]
 use_as_anchor = true
 
-[node name="StdSettingsControllerToggleButton" type="Node" parent="General/DisableVibration/Checkbox"]
+[node name="StdSettingsControllerToggleButton" type="Node" parent="Gamepad/DisableVibration/Checkbox"]
 script = ExtResource("13_662de")
 property = ExtResource("14_rj08w")
 
-[node name="VibrationStrength" parent="General" instance=ExtResource("11_ph7kg")]
+[node name="VibrationStrength" parent="Gamepad" instance=ExtResource("11_ph7kg")]
 layout_mode = 2
 label = "options_controls_vibration_strength"
 
-[node name="Slider" parent="General/VibrationStrength" instance=ExtResource("15_8qtro")]
+[node name="Slider" parent="Gamepad/VibrationStrength" instance=ExtResource("15_8qtro")]
 layout_mode = 2
 
-[node name="StdSettingsControllerRange" type="Node" parent="General/VibrationStrength/Slider"]
+[node name="StdSettingsControllerRange" type="Node" parent="Gamepad/VibrationStrength/Slider"]
 script = ExtResource("16_wymh8")
 property = ExtResource("17_0rlbk")
 target = NodePath("../HSlider")
@@ -134,4 +134,4 @@ action_set = ExtResource("23_ahsqh")
 scope = ExtResource("21_dqueq")
 label = "options_controls_menu_binding"
 
-[editable path="General/DisableVibration/Checkbox"]
+[editable path="Gamepad/DisableVibration/Checkbox"]
