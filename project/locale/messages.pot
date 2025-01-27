@@ -251,3 +251,11 @@ msgctxt "actions_menu_binding"
 msgid "ui_binding_stop"
 msgstr ""
 
+#. Instructs the user that they will be updating the controller binding for the specified action.
+msgid "options_controls_rebinder_title"
+msgstr ""
+
+#. Instructs the user that they should now press the new controller button or exit the operation.
+msgid "options_controls_rebinder_bind_or_exit"
+msgstr ""
+
