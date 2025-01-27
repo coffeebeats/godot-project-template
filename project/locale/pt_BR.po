@@ -142,8 +142,8 @@ msgstr ""
 msgid "Controls"
 msgstr ""
 
-#. Used as a category name for a group of non-specific settings.
-msgid "General"
+#. Used as a category name for gamepad settings.
+msgid "Gamepads"
 msgstr ""
 
 #. Describes the setting which disables controller vibration feedback.
@@ -168,47 +168,47 @@ msgid "Menus"
 msgstr ""
 
 #. An input action that confirms the current selection.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Accept"
 msgstr ""
 
 #. An input action that navigates (through a menu) back to the previous selected element.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Back"
 msgstr ""
 
 #. An input action used to navigate left within a game menu.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Left"
 msgstr ""
 
 #. An input action used to navigate right within a game menu.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Right"
 msgstr ""
 
 #. An input action used to navigate up within a game menu.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Up"
 msgstr ""
 
 #. An input action used to navigate down within a game menu.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Down"
 msgstr ""
 
 #. An input action used to navigate to the next item within a game menu.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Next"
 msgstr ""
 
 #. An input action used to navigate to the previous item within a game menu.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Previous"
 msgstr ""
 
 #. An input action used to cancel the current selection/leave the current menu page.
-msgctxt "actions_menu"
+msgctxt "actions_Menu"
 msgid "Cancel"
 msgstr ""
 
@@ -217,12 +217,12 @@ msgid "Menu tabs"
 msgstr ""
 
 #. An input action that moves to the next tab/page within a game menu.
-msgctxt "actions_menu_tabbed"
+msgctxt "actions_MenuTabbed"
 msgid "Next tab"
 msgstr ""
 
 #. An input action that moves to the previous tab/page within a game menu.
-msgctxt "actions_menu_tabbed"
+msgctxt "actions_MenuTabbed"
 msgid "Previous tab"
 msgstr ""
 
@@ -231,16 +231,14 @@ msgid "Input binding"
 msgstr ""
 
 #. An input action that cancels the "rebinding" operation.
-msgctxt "actions_menu_binding"
+msgctxt "actions_MenuBinding"
 msgid "Cancel binding"
 msgstr ""
 
 #. Instructs the user that they will be updating the controller binding for the specified action.
-#. Here, the '%s' placeholder will be replaced with the translated name of the game action.
 msgid "Bind “%s”"
 msgstr ""
 
 #. Instructs the user that they should now press the new controller button or exit the operation.
-#. Here, the '%s' placeholder will be replaced with an icon representing the controller button to press to cancel.
 msgid "Press any key now or %s to cancel."
 msgstr ""
