@@ -27,8 +27,12 @@ jobs:
     outputs:
       has_change: "${{ steps.check-non-source.outputs.any_modified == 'true' || steps.check-source.outputs.any_modified == 'true' }}"
       has_source_change: "${{ steps.check-source.outputs.any_modified == 'true' }}"
+      has_pot_change: "${{ steps.check-pot.outputs.any_modified == 'true' }}"
+      has_po_change: "${{ steps.check-po.outputs.any_modified == 'true' }}"
       added-png-files: "${{ steps.check-png.outputs.added_files }}"
       modified-png-files: "${{ steps.check-png.outputs.modified_files }}"
+      modified-pot-files: "${{ steps.check-pot.outputs.modified_files }}"
+      modified-po-files: "${{ steps.check-po.outputs.modified_files }}"
 
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +56,23 @@ jobs:
         uses: tj-actions/changed-files@v45
         with:
           files: "**/*.png"
+
+      - name: Check for template translation file changes
+        id: check-pot
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            project/locale/messages.pot
+            project/locale/en_US.po
+
+      - name: Check for non-template translation file changes
+        id: check-po
+        uses: tj-actions/changed-files@v45
+        with:
+          files: "project/locale/*.po"
+          files_ignore: |
+            project/locale/messages.pot
+            project/locale/en_US.po
 
   format-and-lint:
     needs: ["changes"]
@@ -126,6 +147,100 @@ jobs:
         with:
           description: "optimizing PNG images"
 
+  check-translations:
+    needs:
+      - "changes"
+    if: |
+      (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true') &&
+      github.actor != 'dependabot[bot]'
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install 'gettext' tools
+        run: |
+          # sudo apt-get install -y gettext
+
+          for tool in msgfmt; do
+            if ! command -v $tool >/dev/null; then
+              echo "Failed to install '$tool'; exiting."
+              exit 1
+            fi
+          done
+
+      - name: Validate modified 'po' files
+        run: |
+          files="$(echo "${{ needs.changes.outputs.modified-po-files }}" | xargs)"
+
+          for f in $files; do
+            msgfmt $f --check
+          done
+
+  update-translations:
+    needs:
+      - "changes"
+      - "check-translations"
+      - "optimize-png" # NOTE: Run serially to avoid racing commits.
+    if: |
+      needs.changes.outputs.has_po_change == 'true' &&
+      github.actor != 'dependabot[bot]'
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      # NOTE: No need for submodules since we don't need to optimize them.
+      - uses: actions/checkout@v4
+        with:
+          # Checkout the "head_ref" (i.e. PR branch HEAD) in case a commit is
+          # later needed. See https://github.com/stefanzweifel/git-auto-commit-action
+          # for more details.
+          ref: ${{ github.head_ref }}
+
+      - name: Install 'gettext' tools
+        run: |
+          # sudo apt-get install -y gettext
+
+          for tool in msgmerge msgfmt; do
+            if ! command -v $tool >/dev/null; then
+              echo "Failed to install '$tool'; exiting."
+              exit 1
+            fi
+          done
+
+      - name: Install 'translate-toolkit' tools
+        run: |
+          python3 -m pip install translate-toolkit
+
+          if ! command -v poswap >/dev/null; then
+            echo "Failed to install 'poswap'; exiting."
+            exit 1
+          fi
+
+      # Non-english 'po' files use the intermediate English translations as
+      # their source language. Ensure these are updated if any of the files
+      # have changed.
+      - name: Update modified 'po' files
+        run: |
+          files="$(echo "${{ needs.changes.outputs.modified-po-files }}" | xargs)"
+
+          for f in $files; do
+            if [[ "$(basename "$f")" == "en_US.po" ]]; then
+              continue
+            fi
+
+            poswap en_US.po -t $f "$f.tmp"
+            msgmerge --update --backup=none $f "$f.tmp"
+            rm "$f.tmp"
+          done
+
+      - uses: "coffeebeats/godot-infra/commit-changes@v1"
+        with:
+          description: "updating translation files"
+
   test:
     needs: ["changes"]
     if: needs.changes.outputs.has_change == 'true'
@@ -165,7 +280,12 @@ jobs:
   # Used to ensure all branch protection requirements are met. This is a workaround until
   # https://github.com/github-community/community/discussions/4324 is addressed.
   branch_protection:
-    needs: ["format-and-lint", "optimize-png", "test"]
+    needs:
+      - "format-and-lint"
+      - "optimize-png"
+      - "check-translations"
+      - "update-translations"
+      - "test"
     if: ${{ always() }}
 
     runs-on: ubuntu-latest
@@ -184,6 +304,20 @@ jobs:
           always() &&
           needs.optimize-png.result == 'failure' ||
           needs.optimize-png.result == 'cancelled'
+        run: exit 1
+
+      - name: Verify 'check-translations' status
+        if: |
+          always() &&
+          needs.check-translations.result == 'failure' ||
+          needs.check-translations.result == 'cancelled'
+        run: exit 1
+
+      - name: Verify 'update-translations' status
+        if: |
+          always() &&
+          needs.update-translations.result == 'failure' ||
+          needs.update-translations.result == 'cancelled'
         run: exit 1
 
       - name: Verify 'test' status
