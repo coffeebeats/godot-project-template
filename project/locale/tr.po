@@ -234,3 +234,13 @@ msgstr ""
 msgctxt "actions_menu_binding"
 msgid "Cancel binding"
 msgstr ""
+
+#. Instructs the user that they will be updating the controller binding for the specified action.
+#. Here, the '%s' placeholder will be replaced with the translated name of the game action.
+msgid "Bind “%s”"
+msgstr ""
+
+#. Instructs the user that they should now press the new controller button or exit the operation.
+#. Here, the '%s' placeholder will be replaced with an icon representing the controller button to press to cancel.
+msgid "Press any key now or %s to cancel."
+msgstr ""
