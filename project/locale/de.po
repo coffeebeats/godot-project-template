@@ -201,7 +201,7 @@ msgid "Next"
 msgstr ""
 
 #. An input action used to navigate to the previous item within a game menu.
-msgctxt 
+msgctxt "actions_Menu"
 msgid "Previous"
 msgstr ""
 
