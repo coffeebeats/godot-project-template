@@ -21,7 +21,6 @@ const SettingScene := preload("setting.tscn")
 const LOCALE_MSGID_ACTION_PREFIX := &"actions_"
 const LOCALE_MSGID_ACTION_SET_PREFIX := &"options_controls_"
 
-
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 @export_subgroup("Action")
@@ -67,7 +66,7 @@ func _exit_tree() -> void:
 
 func _ready() -> void:
 	assert(action_set is StdInputActionSet, "invalid config; missing action set")
-	action_set = action_set # Trigger 'label' update.
+	action_set = action_set  # Trigger 'label' update.
 
 	_reset.action_set = action_set
 	_reset.player_id = player_id
