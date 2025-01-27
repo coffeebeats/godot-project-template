@@ -103,6 +103,7 @@ jobs:
       - "format-and-lint" # NOTE: Run serially to avoid racing commits.
     if:
       (needs.changes.outputs.added-png-files != '' || needs.changes.outputs.modified-png-files != '') &&
+      github.event_name == 'pull_request' &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'github-actions[bot]'
 
@@ -200,6 +201,7 @@ jobs:
       - "optimize-png" # NOTE: Run serially to avoid racing commits.
     if: |
       needs.changes.outputs.has_po_change == 'true' &&
+      github.event_name == 'pull_request' &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'github-actions[bot]'
 
