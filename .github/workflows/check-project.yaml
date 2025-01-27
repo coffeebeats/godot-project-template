@@ -204,7 +204,7 @@ jobs:
       # be run on release branches, it's better to just check all of them.
       - name: Validate translation files
         run: |
-          for f in $(ls project/locale); do
+          for f in $(ls project/locale --hide '*.mo'); do
             msgfmt "project/locale/$f" --check
           done
 
