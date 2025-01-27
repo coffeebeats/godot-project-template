@@ -105,7 +105,6 @@ jobs:
       !contains(needs.*.result, 'cancelled') &&
 
       (needs.changes.outputs.added-png-files != '' || needs.changes.outputs.modified-png-files != '') &&
-      github.event_name == 'pull_request' &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'github-actions[bot]'
 
@@ -157,7 +156,7 @@ jobs:
     if: |
       github.actor != 'dependabot[bot]' &&
       (needs.changes.outputs.has_pot_change == 'true' || needs.changes.outputs.has_po_change == 'true') ||
-      (github.event_name == 'pull_request' && contains( github.event.pull_request.labels.*.name, 'autorelease: pending'))
+      contains( github.event.pull_request.labels.*.name, 'autorelease: pending')
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -185,9 +184,7 @@ jobs:
           done
 
       - name: Check for fuzzy translations before release
-        if: |
-          github.event_name == 'pull_request' &&
-          contains( github.event.pull_request.labels.*.name, 'autorelease: pending')
+        if: "${{ contains( github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
         run: |
           for f in $(ls --hide "*.pot" project/locale); do
             if grep '#,' "project/locale/$f" >/dev/null; then
