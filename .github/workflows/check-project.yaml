@@ -82,9 +82,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Checkout the "head_ref" (i.e. PR branch HEAD) in case a commit is
-          # later needed. See https://github.com/stefanzweifel/git-auto-commit-action
-          # for more details.
+          # Checkout the PR branch HEAD in case a commit is later needed.
+          # See https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#checkout-the-correct-branch.
           ref: ${{ github.head_ref }}
           token: ${{ env.ACTIONS_BOT_TOKEN }}
 
@@ -109,12 +108,10 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      # NOTE: No need for submodules since we don't need to optimize them.
       - uses: actions/checkout@v4
         with:
-          # Checkout the "head_ref" (i.e. PR branch HEAD) in case a commit is
-          # later needed. See https://github.com/stefanzweifel/git-auto-commit-action
-          # for more details.
+          # Checkout the PR branch HEAD in case a commit is later needed.
+          # See https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#checkout-the-correct-branch.
           ref: ${{ github.head_ref }}
           token: ${{ env.ACTIONS_BOT_TOKEN }}
 
@@ -170,6 +167,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Checkout the PR branch HEAD in case a commit is later needed.
+          # See https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#checkout-the-correct-branch.
+          ref: ${{ github.head_ref }}
+          token: ${{ env.ACTIONS_BOT_TOKEN }}
 
       # NOTE: Translation files should not need changes from a release PR.
       - name: Verify state for release PRs
