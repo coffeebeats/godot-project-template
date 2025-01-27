@@ -200,7 +200,7 @@ jobs:
       - "check-translations"
       - "optimize-png" # NOTE: Run serially to avoid racing commits.
     if: |
-      needs.changes.outputs.has_po_change == 'true' &&
+      needs.changes.outputs.has_pot_change == 'true' &&
       github.actor != 'dependabot[bot]' &&
       github.actor != 'github-actions[bot]'
 
