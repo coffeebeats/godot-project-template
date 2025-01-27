@@ -31,8 +31,6 @@ jobs:
       has_po_change: "${{ steps.check-po.outputs.any_modified == 'true' }}"
       added-png-files: "${{ steps.check-png.outputs.added_files }}"
       modified-png-files: "${{ steps.check-png.outputs.modified_files }}"
-      modified-pot-files: "${{ steps.check-pot.outputs.modified_files }}"
-      modified-po-files: "${{ steps.check-po.outputs.modified_files }}"
 
     steps:
       - uses: actions/checkout@v4
@@ -249,13 +247,9 @@ jobs:
       # have changed.
       - name: Update modified 'po' files
         run: |
-          files="$(echo "${{ needs.changes.outputs.modified-po-files }}" | xargs)"
+          cd project/locale
 
-          for f in $files; do
-            if [[ "$(basename "$f")" == "en_US.po" ]]; then
-              continue
-            fi
-
+          for f in $(ls --hide '*.pot' --hide 'en_US.po'); do
             poswap en_US.po -t $f "$f.tmp"
             msgmerge --update --backup=none $f "$f.tmp"
             rm "$f.tmp"
