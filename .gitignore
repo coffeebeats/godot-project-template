@@ -1,11 +1,9 @@
 # Godot-specific files
 .godot/
 
-# Imported translations (automatically generated from CSV files)
+# Translation files
 *.translation
-
-# Compiled 'gettext' translations (not supported yet)
-*.mo
+project/locale/messages.mo
 
 # MacOS-specific files
 .DS_Store
