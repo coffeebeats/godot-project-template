@@ -274,7 +274,7 @@ jobs:
 
             msgfmt "$src" --no-hash -o "$(get_mo_filepath "$1")"
 
-            if [[ "$src" != "$1" ]]; then rm "$src"; done
+            if [[ "$src" != "$1" ]]; then rm "$src"; fi
           }
 
           for f in $files; do
