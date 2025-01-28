@@ -13,7 +13,7 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 # DO NOT TRANSLATE - this is a workaround to allow each language to define how it should be displayed within the game.
-#. The name of the language.
+#. The native name of the language. This will be presented as an option in the language settings menu.
 msgid "locale_language"
 msgstr "locale_language"
 

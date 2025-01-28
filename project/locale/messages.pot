@@ -13,7 +13,7 @@ msgstr ""
 
 
 
-#. The name of the language.
+#. The native name of the language. This will be presented as an option in the language settings menu.
 msgid "locale_language"
 msgstr ""
 
