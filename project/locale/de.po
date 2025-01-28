@@ -42,6 +42,7 @@ msgstr ""
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
+#. No translation found in en_US.po
 msgid "main_game_title"
 msgstr ""
 
@@ -74,6 +75,7 @@ msgstr "Spielen"
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
+#. No translation found in en_US.po
 msgid "Options"
 msgstr "Optionen"
 
@@ -82,6 +84,7 @@ msgid "Patch Notes"
 msgstr "Patch-Details"
 
 #. A button to open the game's credits, located on the main menu.
+#. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
@@ -203,6 +206,7 @@ msgstr ""
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
+#. No translation found in en_US.po
 msgid "Interface"
 msgstr "Interface"
 
@@ -215,6 +219,7 @@ msgid "Scale text size"
 msgstr ""
 
 #. A tab within the game's options menu containing graphics/video-related settings.
+#. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
@@ -299,6 +304,7 @@ msgstr ""
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
+#. No translation found in en_US.po
 msgid "Vibration strength"
 msgstr ""
 
@@ -339,6 +345,7 @@ msgstr ""
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
+#. No translation found in en_US.po
 msgctxt "actions_Menu"
 msgid "Accept"
 msgstr ""
@@ -354,6 +361,7 @@ msgid "Left"
 msgstr ""
 
 #. An input action used to navigate right within a game menu.
+#. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
@@ -427,6 +435,7 @@ msgstr ""
 #. No translation found in en_US.po
 #. No translation found in en_US.po
 #. No translation found in en_US.po
+#. No translation found in en_US.po
 msgctxt "actions_Menu"
 msgid "Cancel"
 msgstr ""
@@ -462,96 +471,47 @@ msgstr ""
 msgid "Press any key now or %s to cancel."
 msgstr ""
 
-#~ msgid "main_patch_notes"
-#~ msgstr "Patch Notes"
-
 #~ msgid "loading_in_progress"
 #~ msgstr "Loading..."
-
-#~ msgid "save_slots_last_updated"
-#~ msgstr "Last updated:"
 
 #~ msgid "save_slots_empty"
 #~ msgstr "Empty"
 
-#~ msgid "options_gameplay"
-#~ msgstr "Gameplay"
-
 #~ msgid "options_sound_volume"
 #~ msgstr "Volume"
-
-#~ msgid "options_sound_volume_sound_effects"
-#~ msgstr "Sound Effects"
 
 #~ msgid "options_sound_volume_voice"
 #~ msgstr "Voice"
 
-#, fuzzy
-#~ msgid "options_sound_audio_device"
-#~ msgstr "Audio output device"
-
 #~ msgid "options_interface_text"
 #~ msgstr "Text"
 
-#~ msgid "options_display"
-#~ msgstr "Display"
-
 #~ msgid "options_display_video_fullscreen"
 #~ msgstr "Fullscreen"
-
-#~ msgid "options_display_video_fps_limit"
-#~ msgstr "Max frame limit"
 
 #, fuzzy
 #~ msgid "options_controls"
 #~ msgstr "Menu tabs"
 
-#~ msgid "options_controls_disable_vibration"
-#~ msgstr "Disable vibration"
-
 #~ msgid "options_controls_steam_configurator"
 #~ msgstr "Controller layout"
-
-#~ msgctxt "actions_Menu"
-#~ msgid "ui_back"
-#~ msgstr "Back"
 
 #~ msgctxt "actions_Menu"
 #~ msgid "ui_up"
 #~ msgstr "Up"
 
-#~ msgctxt "actions_Menu"
-#~ msgid "ui_focus_next"
-#~ msgstr "Next"
-
 #~ msgid "options_controls_MenuTabbed"
 #~ msgstr "Menu tabs"
-
-#, fuzzy
-#~ msgctxt "actions_MenuTabbed"
-#~ msgid "ui_tab_prev"
-#~ msgstr "Previous tab"
 
 #~ msgctxt "actions_MenuBinding"
 #~ msgid "ui_binding_stop"
 #~ msgstr "Cancel binding"
 
-#, fuzzy
-#~ msgid "options_controls_rebinder_bind_or_exit"
-#~ msgstr "Press any key now or %s to cancel."
-
 #~ msgid "locale_language"
 #~ msgstr "English"
 
-#~ msgid "main_quit"
-#~ msgstr "Quit"
-
 #, fuzzy
 #~ msgid "save_slots_choose"
-#~ msgstr "Empty"
-
-#, fuzzy
-#~ msgid "save_slots_broken"
 #~ msgstr "Empty"
 
 #, fuzzy
@@ -559,23 +519,11 @@ msgstr ""
 #~ msgstr "Empty"
 
 #, fuzzy
-#~ msgid "options_sound"
-#~ msgstr "Audio output device"
-
-#, fuzzy
 #~ msgid "options_sound_volume_master"
 #~ msgstr "Volume"
 
 #, fuzzy
-#~ msgid "options_sound_volume_music"
-#~ msgstr "Voice"
-
-#, fuzzy
 #~ msgid "options_sound_audio"
-#~ msgstr "Audio output device"
-
-#, fuzzy
-#~ msgid "options_sound_audio_bg_mute"
 #~ msgstr "Audio output device"
 
 #, fuzzy
@@ -583,15 +531,7 @@ msgstr ""
 #~ msgstr "Text"
 
 #, fuzzy
-#~ msgid "options_display_video"
-#~ msgstr "Fullscreen"
-
-#, fuzzy
 #~ msgid "options_display_video_borderless"
-#~ msgstr "Fullscreen"
-
-#, fuzzy
-#~ msgid "options_display_video_vsync"
 #~ msgstr "Fullscreen"
 
 #, fuzzy
@@ -599,25 +539,12 @@ msgstr ""
 #~ msgstr "Controls"
 
 #, fuzzy
-#~ msgid "options_controls_steam"
-#~ msgstr "Controls"
-
-#, fuzzy
 #~ msgid "options_controls_Menu"
 #~ msgstr "Menu tabs"
 
 #~ msgctxt "actions_Menu"
-#~ msgid "ui_left"
-#~ msgstr "Left"
-
-#~ msgctxt "actions_Menu"
 #~ msgid "ui_down"
 #~ msgstr "Down"
-
-#, fuzzy
-#~ msgctxt "actions_Menu"
-#~ msgid "ui_focus_prev"
-#~ msgstr "Next"
 
 #, fuzzy
 #~ msgctxt "actions_MenuTabbed"
@@ -625,9 +552,91 @@ msgstr ""
 #~ msgstr "Previous tab"
 
 #, fuzzy
-#~ msgid "options_controls_MenuBinding"
-#~ msgstr "Menu tabs"
-
-#, fuzzy
 #~ msgid "options_controls_rebinder_title"
 #~ msgstr "Press any key now or %s to cancel."
+
+#~ msgid "main_patch_notes"
+#~ msgstr "Patch Notes"
+
+#~ msgid "save_slots_last_updated"
+#~ msgstr "Last updated:"
+
+#~ msgid "options_gameplay"
+#~ msgstr "Gameplay"
+
+#~ msgid "options_sound_volume_sound_effects"
+#~ msgstr "Sound Effects"
+
+#, fuzzy
+#~ msgid "options_sound_audio_device"
+#~ msgstr "Audio output device"
+
+#~ msgid "options_display"
+#~ msgstr "Display"
+
+#~ msgid "options_display_video_fps_limit"
+#~ msgstr "Max frame limit"
+
+#~ msgid "options_controls_disable_vibration"
+#~ msgstr "Disable vibration"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_back"
+#~ msgstr "Back"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_focus_next"
+#~ msgstr "Next"
+
+#, fuzzy
+#~ msgctxt "actions_MenuTabbed"
+#~ msgid "ui_tab_prev"
+#~ msgstr "Previous tab"
+
+#, fuzzy
+#~ msgid "options_controls_rebinder_bind_or_exit"
+#~ msgstr "Press any key now or %s to cancel."
+
+#~ msgid "main_quit"
+#~ msgstr "Quit"
+
+#, fuzzy
+#~ msgid "save_slots_broken"
+#~ msgstr "Empty"
+
+#, fuzzy
+#~ msgid "options_sound"
+#~ msgstr "Audio output device"
+
+#, fuzzy
+#~ msgid "options_sound_volume_music"
+#~ msgstr "Voice"
+
+#, fuzzy
+#~ msgid "options_sound_audio_bg_mute"
+#~ msgstr "Audio output device"
+
+#, fuzzy
+#~ msgid "options_display_video"
+#~ msgstr "Fullscreen"
+
+#, fuzzy
+#~ msgid "options_display_video_vsync"
+#~ msgstr "Fullscreen"
+
+#, fuzzy
+#~ msgid "options_controls_steam"
+#~ msgstr "Controls"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_left"
+#~ msgstr "Left"
+
+#, fuzzy
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_focus_prev"
+#~ msgstr "Next"
+
+#, fuzzy
+#~ msgid "options_controls_MenuBinding"
+#~ msgstr "Menu tabs"
