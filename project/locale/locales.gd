@@ -17,6 +17,7 @@ const MSGID_LANGUAGE := &"locale_language"
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## tr_language translates the provided locale into the name of the language in the
 ## language itself.
 ##
