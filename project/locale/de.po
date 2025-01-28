@@ -12,8 +12,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
+#. The name of the language.
+msgid "locale_language"
+msgstr ""
+
 #. The title of the game, located on the main menu.
-#. No translation found in en_US.po
+#. No translation found in project/locale/en_US.po
 msgid "main_game_title"
 msgstr ""
 
@@ -43,7 +47,8 @@ msgstr ""
 
 #. Instructs the player to select which save slot to use.
 msgid "Choose a save slot — progress will be saved automatically"
-msgstr "Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
+msgstr ""
+"Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
 
 #. A label for the timestamp of when the particular save was last updated.
 msgid "Last updated:"
@@ -237,6 +242,6 @@ msgstr ""
 msgid "Bind “%s”"
 msgstr ""
 
-#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with the translated name of the game action.
+#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
 msgid "Press any key now or %s to cancel."
 msgstr ""
