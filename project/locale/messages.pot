@@ -256,11 +256,11 @@ msgctxt "actions_MenuBinding"
 msgid "ui_binding_stop"
 msgstr ""
 
-#. Instructs the user that they will be updating the controller binding for the specified action.
+#. Instructs the user that they will be updating the controller binding for the specified action. Here, the '%s' placeholder will be replaced with the translated name of the game action.
 msgid "options_controls_rebinder_title"
 msgstr ""
 
-#. Instructs the user that they should now press the new controller button or exit the operation.
+#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
 msgid "options_controls_rebinder_bind_or_exit"
 msgstr ""
 
