@@ -12,6 +12,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 
+
+#. The name of the language.
+msgid "locale_language"
+msgstr ""
+
+
+
 #. The title of the game, located on the main menu.
 msgid "main_game_title"
 msgstr ""
