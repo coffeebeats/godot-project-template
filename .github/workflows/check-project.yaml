@@ -235,7 +235,7 @@ jobs:
           }
 
           for f in $(ls project/locale | grep -E '*.po$'); do
-            if [[ "$(basename "$f")" == "en_US.po" ]]; then
+            if [[ "$f" == "en_US.po" ]]; then
               continue
             fi
 
@@ -243,6 +243,8 @@ jobs:
 
             # NOTE: Each '.po' file is updated twice to verify that the change is
             # stable. This prevents an edge case where changes are recursively made.
+
+            f="project/locale/$f"
 
             update_po_file "$f"
             CHECKSUM=$(shasum -a1 "$f")
