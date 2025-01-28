@@ -50,7 +50,7 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 [gui]
 
 theme/custom="res://project/ui/theme.tres"
-theme/custom_font="res://project/ui/font/tilt-warp-regular.ttf"
+theme/custom_font="res://project/ui/font/noto-sans-variable.ttf"
 theme/default_font_multichannel_signed_distance_field=true
 
 [input]
@@ -139,7 +139,7 @@ ui_binding_stop={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://project/locale/de.mo", "res://project/locale/en_US.mo", "res://project/locale/es_ES.mo", "res://project/locale/fr.mo", "res://project/locale/ja.mo", "res://project/locale/ko.mo", "res://project/locale/messages.mo", "res://project/locale/pl.mo", "res://project/locale/pt_BR.mo", "res://project/locale/ru.mo", "res://project/locale/tr.mo", "res://project/locale/uk.mo", "res://project/locale/zh_CN.mo", "res://project/locale/zh_TW.mo")
+locale/translations=PackedStringArray("res://project/locale/de.mo", "res://project/locale/en_US.mo", "res://project/locale/es_ES.mo", "res://project/locale/fr.mo", "res://project/locale/ja.mo", "res://project/locale/ko.mo", "res://project/locale/pl.mo", "res://project/locale/pt_BR.mo", "res://project/locale/ru.mo", "res://project/locale/tr.mo", "res://project/locale/uk.mo", "res://project/locale/zh_CN.mo", "res://project/locale/zh_TW.mo")
 
 [rendering]
 
