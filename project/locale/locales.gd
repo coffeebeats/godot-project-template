@@ -24,13 +24,16 @@ static func tr_action(
 	action: StringName,
 	locale: StringName = &"",
 ) -> String:
-	return _translate(action, MSGID_ACTION_PREFIX + action_set, locale)
+	var translated := _translate(action, MSGID_ACTION_PREFIX + action_set, locale)
+	return translated if translated else str(action)
 
 
 ## tr_action_set translates an input action set. Provide `locale` to specify a locale
 ## other than the one currently loaded.
 static func tr_action_set(action_set: StringName, locale: StringName = &"") -> String:
-	return _translate(MSGID_ACTION_SET_PREFIX + action_set, &"", locale)
+	var translated := _translate(MSGID_ACTION_SET_PREFIX + action_set, &"", locale)
+	return translated if translated else str(action_set)
+
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
