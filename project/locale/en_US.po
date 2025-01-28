@@ -12,9 +12,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
+# DO NOT TRANSLATE - this is a workaround to allow each language to define how it should be displayed within the game.
 #. The name of the language.
 msgid "locale_language"
-msgstr "English"
+msgstr "locale_language"
 
 #. The title of the game, located on the main menu.
 msgid "main_game_title"
