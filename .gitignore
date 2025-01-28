@@ -3,7 +3,7 @@
 
 # Translation files
 *.translation
-project/locale/messages.mo
+messages.mo
 
 # MacOS-specific files
 .DS_Store
