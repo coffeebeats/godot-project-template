@@ -27,7 +27,7 @@ static func tr_language(locale: StringName) -> String:
 	if locale.begins_with("en"):
 		return "English"
 
-	var translated := _translate(MSGID_LANGUAGE, locale)
+	var translated := _translate(MSGID_LANGUAGE, &"", locale)
 	return translated if translated else str(locale)
 
 
@@ -52,11 +52,7 @@ static func tr_action_set(action_set: StringName, locale: StringName = &"") -> S
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
-static func _translate(
-	msg: StringName,
-	ctx: StringName = &"",
-	locale: StringName = &"",
-) -> String:
+static func _translate(msg: StringName, ctx: StringName, locale: StringName) -> String:
 	if locale == &"":
 		locale = TranslationServer.get_locale()
 
