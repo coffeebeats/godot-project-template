@@ -228,12 +228,31 @@ jobs:
       - name: Update modified 'po' files
         if: needs.changes.outputs.has_pot_change == 'true'
         run: |
-          cd project/locale
+          files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
 
-          for f in $(ls | grep -E '\.po$'); do
-            poswap en_US.po -t $f "$f.tmp"
-            msgmerge --update --backup=none $f "$f.tmp"
-            rm "$f.tmp"
+          update_po_file () {
+            PO_FILE="${1}"
+
+            poswap project/locale/en_US.po -t "$PO_FILE" "${PO_FILE}.tmp"
+            msgmerge --update --backup=none "$PO_FILE" "${PO_FILE}.tmp"
+            rm "${PO_FILE}.tmp"
+          }
+
+          for f in $files; do
+            if [[ "$(basename "$f")" == "en_US.po" ]]; then
+              continue
+            fi
+
+            echo "Compiling translation file: $f"
+
+            # NOTE: Each '.po' file is updated twice to verify that the change is
+            # stable. This prevents an edge case where changes are recursively made.
+
+            update_po_file "$f"
+            PO_FILE_CHECKSUM=$(shasum -a1 "$f")
+
+            update_po_file "$f"
+            echo "$PO_FILE_CHECKSUM" | shasum -a1 -c
           done
 
       - name: Compile modified 'po' files
