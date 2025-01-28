@@ -228,15 +228,13 @@ jobs:
       - name: Update modified 'po' files
         if: needs.changes.outputs.has_pot_change == 'true'
         run: |
-          files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
-
           update_po_file () {
             poswap project/locale/en_US.po -t "$1" "${1}.tmp"
             msgmerge --update --backup=none "$1" "${1}.tmp"
             rm "${1}.tmp"
           }
 
-          for f in $files; do
+          for f in $(ls project/locale | grep -E '*.po$'); do
             if [[ "$(basename "$f")" == "en_US.po" ]]; then
               continue
             fi
