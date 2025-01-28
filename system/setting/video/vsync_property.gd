@@ -1,7 +1,7 @@
 ##
 ## system/setting/property/video/vsync_property.gd
 ##
-## `VsyncModeProperty` is a boolean settings property that stores configuration values
+## VsyncModeProperty is a boolean settings property that stores configuration values
 ## as an integer `VSyncMode`.
 ##
 

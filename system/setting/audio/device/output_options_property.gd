@@ -1,7 +1,7 @@
 ##
-## system/setting/property/audio/device/output_options_property.gd
+## system/setting/audio/device/output_options_property.gd
 ##
-## `StdSettingsPropertyAudioDeviceOptions` is a read-only settings property that
+## StdSettingsPropertyAudioDeviceOptions is a read-only settings property that
 ## provides a list of sound device options based on connected devices.
 ##
 
@@ -16,6 +16,10 @@ extends StdSettingsPropertyStringList
 @export var include_output_devices: bool = true
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+
+
+func _can_modify() -> bool:
+	return false
 
 
 func _get_value_from_config(_config: Config) -> Variant:
