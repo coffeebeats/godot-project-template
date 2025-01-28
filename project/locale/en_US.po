@@ -13,233 +13,389 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 #. The name of the language.
-msgid "locale_language"
+msgid "English"
 msgstr "English"
 
 #. The title of the game, located on the main menu.
+#. No translation found in en_US.po
 msgid "main_game_title"
 msgstr ""
 
 #. A "play game" button, located on the main menu.
-msgid "main_play"
+msgid "Play"
 msgstr "Play"
 
 #. A button to open the options menu, located on the main menu.
-msgid "main_options"
+#, fuzzy
+msgid "Options"
 msgstr "Options"
 
 #. A button to open the game's recent changes, located on the main menu.
-msgid "main_patch_notes"
+msgid "Patch Notes"
 msgstr "Patch Notes"
 
 #. A button to open the game's credits, located on the main menu.
-msgid "main_credits"
+#, fuzzy
+msgid "Credits"
 msgstr "Credits"
 
 #. A button to quit/exit the game, located on the main menu.
-msgid "main_quit"
+msgid "Quit"
 msgstr "Quit"
 
 #. Displayed to the player on a loading screen and indicates the game is loading.
-msgid "loading_in_progress"
+msgid "Loading..."
 msgstr "Loading..."
 
 #. Instructs the player to select which save slot to use.
-msgid "save_slots_choose"
+msgid "Choose a save slot — progress will be saved automatically"
 msgstr "Choose a save slot — progress will be saved automatically"
 
 #. A label for the timestamp of when the particular save was last updated.
-msgid "save_slots_last_updated"
+msgid "Last updated:"
 msgstr "Last updated:"
 
 #. A label displayed when a save slot is broken/unusable.
-msgid "save_slots_broken"
+msgid "Broken"
 msgstr "Broken"
 
 #. A label displayed when a save slot is empty/available/has no save data.
-msgid "save_slots_empty"
+msgid "Empty"
 msgstr "Empty"
 
 #. A button which the player can press to delete save data for a specific slot.
-msgid "save_slots_delete"
+msgid "Delete"
 msgstr "Delete"
 
 #. A tab within the game's options menu containing gameplay-related settings.
-msgid "options_gameplay"
+msgid "Gameplay"
 msgstr "Gameplay"
 
 #. A tab within the game's options menu containing sound-related settings.
-msgid "options_sound"
+msgid "Sound"
 msgstr "Sound"
 
 #. Used as a category name for a group of settings related to volume.
-msgid "options_sound_volume"
+msgid "Volume"
 msgstr "Volume"
 
 #. Describes the global volume setting within the options menu.
-msgid "options_sound_volume_master"
+msgid "Global"
 msgstr "Global"
 
 #. Describes the sound effects volume setting within the options menu.
-msgid "options_sound_volume_sound_effects"
+msgid "Sound Effects"
 msgstr "Sound Effects"
 
 #. Describes the musics volume setting within the options menu.
-msgid "options_sound_volume_music"
+msgid "Music"
 msgstr "Music"
 
 #. Describes the spoken word volume setting within the options menu.
-msgid "options_sound_volume_voice"
+msgid "Voice"
 msgstr "Voice"
 
 #. Used as a category name for a group of settings related to audio output.
-msgid "options_sound_audio"
+msgid "Audio"
 msgstr "Audio"
 
 #. Describes the setting which changes the specific audio output device used by the game.
-msgid "options_sound_audio_device"
+msgid "Audio output device"
 msgstr "Audio output device"
 
 #. Describes the setting which causes sound to be muted when the game is unfocused (i.e. when the user "tabs out" of the game).
-msgid "options_sound_audio_bg_mute"
+msgid "Mute in background"
 msgstr "Mute in background"
 
 #. A tab within the game's options menu containing settings for interacting with the game. This menu includes things like text size, changing the game's display language, etc.
-msgid "options_interface"
+#, fuzzy
+msgid "Interface"
 msgstr "Interface"
 
 #. Used as a category name for a group of settings related to text display.
-msgid "options_interface_text"
+msgid "Text"
 msgstr "Text"
 
 #. Describes the setting which changes the size of the text.
-msgid "options_interface_text_scaling"
+msgid "Scale text size"
 msgstr "Scale text size"
 
 #. A tab within the game's options menu containing graphics/video-related settings.
-msgid "options_display"
-msgstr "Display"
+#, fuzzy
+msgid "Display"
+msgstr "Play"
 
 #. Used as a category name for a group of settings related to graphics.
-msgid "options_display_video"
+msgid "Video"
 msgstr "Video"
 
 #. Describes the setting which toggles the size of the game between "windowed" and "fullscreen".
-msgid "options_display_video_fullscreen"
+msgid "Fullscreen"
 msgstr "Fullscreen"
 
 #. Describes the setting which removes the border around the game application window.
-msgid "options_display_video_borderless"
+msgid "Borderless"
 msgstr "Borderless"
 
 #. Describes the setting which adjusts the maximum number of frames drawn per second.
-msgid "options_display_video_fps_limit"
+msgid "Max frame limit"
 msgstr "Max frame limit"
 
 #. Describes the setting which adjusts whether the game's frames drawn per second are capped to the monitor's refresh rate.
-msgid "options_display_video_vsync"
+msgid "VSync"
 msgstr "VSync"
 
 #. A tab within the game's options menu containing controls/input-related settings.
-msgid "options_controls"
+msgid "Controls"
 msgstr "Controls"
 
 #. Used as a category name for gamepad settings.
-msgid "options_controls_gamepad"
+msgid "Gamepads"
 msgstr "Gamepads"
 
 #. Describes the setting which disables controller vibration feedback.
-msgid "options_controls_disable_vibration"
+msgid "Disable vibration"
 msgstr "Disable vibration"
 
 #. Describes the setting which controls how intense controller vibration feedback is.
-msgid "options_controls_vibration_strength"
+#, fuzzy
+msgid "Vibration strength"
 msgstr "Vibration strength"
 
 #. Used as a category name for a group of settings related to Steam Input. Steam Input is a software library/interface for the Steam game distribution platform.
-msgid "options_controls_steam"
+msgid "Steam Input"
 msgstr "Steam Input"
 
 #. Describes a setting which adjusts the action-to-button bindings for a game controller.
-msgid "options_controls_steam_configurator"
+msgid "Controller layout"
 msgstr "Controller layout"
 
 #. Used as a category name for a group of input actions related to menu navigation.
-msgid "options_controls_Menu"
+msgid "Menus"
 msgstr "Menus"
 
 #. An input action that confirms the current selection.
+#, fuzzy
 msgctxt "actions_Menu"
-msgid "ui_accept"
+msgid "Accept"
 msgstr "Accept"
 
 #. An input action that navigates (through a menu) back to the previous selected element.
 msgctxt "actions_Menu"
-msgid "ui_back"
+msgid "Back"
 msgstr "Back"
 
 #. An input action used to navigate left within a game menu.
 msgctxt "actions_Menu"
-msgid "ui_left"
+msgid "Left"
 msgstr "Left"
 
 #. An input action used to navigate right within a game menu.
+#, fuzzy
 msgctxt "actions_Menu"
-msgid "ui_right"
+msgid "Right"
 msgstr "Right"
 
 #. An input action used to navigate up within a game menu.
 msgctxt "actions_Menu"
-msgid "ui_up"
+msgid "Up"
 msgstr "Up"
 
 #. An input action used to navigate down within a game menu.
 msgctxt "actions_Menu"
-msgid "ui_down"
+msgid "Down"
 msgstr "Down"
 
 #. An input action used to navigate to the next item within a game menu.
 msgctxt "actions_Menu"
-msgid "ui_focus_next"
+msgid "Next"
 msgstr "Next"
 
 #. An input action used to navigate to the previous item within a game menu.
 msgctxt "actions_Menu"
-msgid "ui_focus_prev"
+msgid "Previous"
 msgstr "Previous"
 
 #. An input action used to cancel the current selection/leave the current menu page.
+#, fuzzy
 msgctxt "actions_Menu"
-msgid "ui_cancel"
+msgid "Cancel"
 msgstr "Cancel"
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
-msgid "options_controls_MenuTabbed"
+msgid "Menu tabs"
 msgstr "Menu tabs"
 
 #. An input action that moves to the next tab/page within a game menu.
 msgctxt "actions_MenuTabbed"
-msgid "ui_tab_next"
+msgid "Next tab"
 msgstr "Next tab"
 
 #. An input action that moves to the previous tab/page within a game menu.
 msgctxt "actions_MenuTabbed"
-msgid "ui_tab_prev"
+msgid "Previous tab"
 msgstr "Previous tab"
 
 #. Used as a category name for a group of input actions related to changing which game actions are bound to a controller input button.
-msgid "options_controls_MenuBinding"
+msgid "Input binding"
 msgstr "Input binding"
 
 #. An input action that cancels the "rebinding" operation.
 msgctxt "actions_MenuBinding"
-msgid "ui_binding_stop"
+msgid "Cancel binding"
 msgstr "Cancel binding"
 
 #. Instructs the user that they will be updating the controller binding for the specified action.
-msgid "options_controls_rebinder_title"
+msgid "Bind “%s”"
 msgstr "Bind “%s”"
 
 #. Instructs the user that they should now press the new controller button or exit the operation.
-msgid "options_controls_rebinder_bind_or_exit"
+msgid "Press any key now or %s to cancel."
 msgstr "Press any key now or %s to cancel."
+
+#~ msgid "locale_language"
+#~ msgstr "English"
+
+#~ msgid "main_patch_notes"
+#~ msgstr "Patch Notes"
+
+#~ msgid "main_quit"
+#~ msgstr "Quit"
+
+#~ msgid "loading_in_progress"
+#~ msgstr "Loading..."
+
+#~ msgid "save_slots_choose"
+#~ msgstr "Choose a save slot — progress will be saved automatically"
+
+#~ msgid "save_slots_last_updated"
+#~ msgstr "Last updated:"
+
+#~ msgid "save_slots_broken"
+#~ msgstr "Broken"
+
+#~ msgid "save_slots_empty"
+#~ msgstr "Empty"
+
+#~ msgid "save_slots_delete"
+#~ msgstr "Delete"
+
+#~ msgid "options_gameplay"
+#~ msgstr "Gameplay"
+
+#~ msgid "options_sound"
+#~ msgstr "Sound"
+
+#~ msgid "options_sound_volume"
+#~ msgstr "Volume"
+
+#~ msgid "options_sound_volume_master"
+#~ msgstr "Global"
+
+#~ msgid "options_sound_volume_sound_effects"
+#~ msgstr "Sound Effects"
+
+#~ msgid "options_sound_volume_music"
+#~ msgstr "Music"
+
+#~ msgid "options_sound_volume_voice"
+#~ msgstr "Voice"
+
+#~ msgid "options_sound_audio"
+#~ msgstr "Audio"
+
+#~ msgid "options_sound_audio_device"
+#~ msgstr "Audio output device"
+
+#~ msgid "options_sound_audio_bg_mute"
+#~ msgstr "Mute in background"
+
+#~ msgid "options_interface_text"
+#~ msgstr "Text"
+
+#~ msgid "options_interface_text_scaling"
+#~ msgstr "Scale text size"
+
+#~ msgid "options_display"
+#~ msgstr "Display"
+
+#~ msgid "options_display_video"
+#~ msgstr "Video"
+
+#~ msgid "options_display_video_fullscreen"
+#~ msgstr "Fullscreen"
+
+#~ msgid "options_display_video_borderless"
+#~ msgstr "Borderless"
+
+#~ msgid "options_display_video_fps_limit"
+#~ msgstr "Max frame limit"
+
+#~ msgid "options_display_video_vsync"
+#~ msgstr "VSync"
+
+#~ msgid "options_controls"
+#~ msgstr "Controls"
+
+#~ msgid "options_controls_gamepad"
+#~ msgstr "Gamepads"
+
+#~ msgid "options_controls_disable_vibration"
+#~ msgstr "Disable vibration"
+
+#~ msgid "options_controls_steam"
+#~ msgstr "Steam Input"
+
+#~ msgid "options_controls_steam_configurator"
+#~ msgstr "Controller layout"
+
+#~ msgid "options_controls_Menu"
+#~ msgstr "Menus"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_back"
+#~ msgstr "Back"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_left"
+#~ msgstr "Left"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_up"
+#~ msgstr "Up"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_down"
+#~ msgstr "Down"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_focus_next"
+#~ msgstr "Next"
+
+#~ msgctxt "actions_Menu"
+#~ msgid "ui_focus_prev"
+#~ msgstr "Previous"
+
+#~ msgid "options_controls_MenuTabbed"
+#~ msgstr "Menu tabs"
+
+#~ msgctxt "actions_MenuTabbed"
+#~ msgid "ui_tab_next"
+#~ msgstr "Next tab"
+
+#~ msgctxt "actions_MenuTabbed"
+#~ msgid "ui_tab_prev"
+#~ msgstr "Previous tab"
+
+#~ msgid "options_controls_MenuBinding"
+#~ msgstr "Input binding"
+
+#~ msgctxt "actions_MenuBinding"
+#~ msgid "ui_binding_stop"
+#~ msgstr "Cancel binding"
+
+#~ msgid "options_controls_rebinder_title"
+#~ msgstr "Bind “%s”"
+
+#~ msgid "options_controls_rebinder_bind_or_exit"
+#~ msgstr "Press any key now or %s to cancel."

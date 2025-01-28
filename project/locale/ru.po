@@ -12,7 +12,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
+#. The name of the language.
+msgid "English"
+msgstr ""
+
 #. The title of the game, located on the main menu.
+#. No translation found in en_US.po
 #. No translation found in en_US.po
 msgid "main_game_title"
 msgstr ""
@@ -22,6 +27,7 @@ msgid "Play"
 msgstr ""
 
 #. A button to open the options menu, located on the main menu.
+#. No translation found in en_US.po
 msgid "Options"
 msgstr ""
 
@@ -30,6 +36,7 @@ msgid "Patch Notes"
 msgstr ""
 
 #. A button to open the game's credits, located on the main menu.
+#. No translation found in en_US.po
 msgid "Credits"
 msgstr ""
 
@@ -102,6 +109,7 @@ msgid "Mute in background"
 msgstr ""
 
 #. A tab within the game's options menu containing settings for interacting with the game. This menu includes things like text size, changing the game's display language, etc.
+#. No translation found in en_US.po
 msgid "Interface"
 msgstr ""
 
@@ -114,6 +122,7 @@ msgid "Scale text size"
 msgstr ""
 
 #. A tab within the game's options menu containing graphics/video-related settings.
+#. No translation found in en_US.po
 msgid "Display"
 msgstr ""
 
@@ -150,6 +159,7 @@ msgid "Disable vibration"
 msgstr ""
 
 #. Describes the setting which controls how intense controller vibration feedback is.
+#. No translation found in en_US.po
 msgid "Vibration strength"
 msgstr ""
 
@@ -166,6 +176,7 @@ msgid "Menus"
 msgstr ""
 
 #. An input action that confirms the current selection.
+#. No translation found in en_US.po
 msgctxt "actions_Menu"
 msgid "Accept"
 msgstr ""
@@ -181,6 +192,7 @@ msgid "Left"
 msgstr ""
 
 #. An input action used to navigate right within a game menu.
+#. No translation found in en_US.po
 msgctxt "actions_Menu"
 msgid "Right"
 msgstr ""
@@ -206,6 +218,7 @@ msgid "Previous"
 msgstr ""
 
 #. An input action used to cancel the current selection/leave the current menu page.
+#. No translation found in en_US.po
 msgctxt "actions_Menu"
 msgid "Cancel"
 msgstr ""
@@ -233,10 +246,84 @@ msgctxt "actions_MenuBinding"
 msgid "Cancel binding"
 msgstr ""
 
-#. Instructs the user that they will be updating the controller binding for the specified action. Here, the '%s' placeholder will be replaced with the translated name of the game action.
+#. Instructs the user that they will be updating the controller binding for the specified action.
 msgid "Bind “%s”"
 msgstr ""
 
-#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with the translated name of the game action.
+#. Instructs the user that they should now press the new controller button or exit the operation.
 msgid "Press any key now or %s to cancel."
 msgstr ""
+
+msgid "main_patch_notes"
+msgstr "Patch Notes"
+
+msgid "loading_in_progress"
+msgstr "Loading..."
+
+msgid "save_slots_last_updated"
+msgstr "Last updated:"
+
+msgid "save_slots_empty"
+msgstr "Empty"
+
+msgid "options_gameplay"
+msgstr "Gameplay"
+
+msgid "options_sound_volume"
+msgstr "Volume"
+
+msgid "options_sound_volume_sound_effects"
+msgstr "Sound Effects"
+
+msgid "options_sound_volume_voice"
+msgstr "Voice"
+
+msgid "options_sound_audio_device"
+msgstr "Audio output device"
+
+msgid "options_interface_text"
+msgstr "Text"
+
+msgid "options_display"
+msgstr "Display"
+
+msgid "options_display_video_fullscreen"
+msgstr "Fullscreen"
+
+msgid "options_display_video_fps_limit"
+msgstr "Max frame limit"
+
+msgid "options_controls"
+msgstr "Controls"
+
+msgid "options_controls_disable_vibration"
+msgstr "Disable vibration"
+
+msgid "options_controls_steam_configurator"
+msgstr "Controller layout"
+
+msgctxt "actions_Menu"
+msgid "ui_back"
+msgstr "Back"
+
+msgctxt "actions_Menu"
+msgid "ui_up"
+msgstr "Up"
+
+msgctxt "actions_Menu"
+msgid "ui_focus_next"
+msgstr "Next"
+
+msgid "options_controls_MenuTabbed"
+msgstr "Menu tabs"
+
+msgctxt "actions_MenuTabbed"
+msgid "ui_tab_prev"
+msgstr "Previous tab"
+
+msgctxt "actions_MenuBinding"
+msgid "ui_binding_stop"
+msgstr "Cancel binding"
+
+msgid "options_controls_rebinder_bind_or_exit"
+msgstr "Press any key now or %s to cancel."
