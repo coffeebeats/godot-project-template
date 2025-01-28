@@ -13,8 +13,21 @@ extends Object
 
 const MSGID_ACTION_PREFIX := &"actions_"
 const MSGID_ACTION_SET_PREFIX := &"options_controls_"
+const MSGID_LANGUAGE := &"locale_language"
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+## tr_language translates the provided locale into the name of the language in the
+## language itself.
+##
+## NOTE: This should be implemented within the engine; see
+## https://github.com/godotengine/godot-proposals/issues/2378.
+static func tr_language(locale: StringName) -> String:
+	if locale.begins_with("en"):
+		return "English"
+
+	var translated := _translate(MSGID_LANGUAGE, locale)
+	return translated if translated else str(locale)
 
 
 ## tr_action translates an input action. Provide `locale` to specify a locale other than
