@@ -3,7 +3,7 @@
 ##
 ## SteamInGameActions is a resource which, given a set of `StdInputActionSet` resources,
 ## generates a Steam Input actions manifest file. This works in the editor and is not
-## intended to be exported. 
+## intended to be exported.
 ##
 
 @tool

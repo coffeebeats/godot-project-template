@@ -16,6 +16,7 @@ const MSGID_ACTION_SET_PREFIX := &"options_controls_"
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## tr_action translates an input action. Provide `locale` to specify a locale other than
 ## the one currently loaded.
 static func tr_action(
@@ -31,7 +32,9 @@ static func tr_action(
 static func tr_action_set(action_set: StringName, locale: StringName = &"") -> String:
 	return _translate(MSGID_ACTION_SET_PREFIX + action_set, &"", locale)
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 static func _translate(
 	msg: StringName,
@@ -47,6 +50,7 @@ static func _translate(
 		return msg
 
 	return translation.get_message(msg, ctx)
+
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
