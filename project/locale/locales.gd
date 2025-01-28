@@ -35,7 +35,6 @@ static func tr_action_set(action_set: StringName, locale: StringName = &"") -> S
 	return translated if translated else str(action_set)
 
 
-
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
