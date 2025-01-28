@@ -206,14 +206,14 @@ jobs:
       # be run on release branches, it's better to just check all of them.
       - name: Validate translation files
         run: |
-          for f in $(ls project/locale --hide '*.mo'); do
+          for f in $(ls project/locale | grep -E '\.pot?$'); do
             msgfmt "project/locale/$f" --check
           done
 
       - name: Check for fuzzy translations before release
         if: "${{ contains( github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
         run: |
-          for f in $(ls --hide "*.pot" project/locale); do
+          for f in $(ls project/locale | grep -E '\.po$'); do
             if grep '#,' "project/locale/$f" >/dev/null; then
               echo "Error: found fuzzy translation in file: $f"
               exit 1
@@ -230,7 +230,7 @@ jobs:
         run: |
           cd project/locale
 
-          for f in $(ls --hide '*.pot' --hide 'en_US.po'); do
+          for f in $(ls | grep -E '\.po$'); do
             poswap en_US.po -t $f "$f.tmp"
             msgmerge --update --backup=none $f "$f.tmp"
             rm "$f.tmp"
