@@ -258,8 +258,12 @@ jobs:
         run: |
           files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
 
+          get_mo_filepath () {
+            echo "$(dirname "$1")/$(basename "$1" .po).mo"
+          }
+
           compile_po_file () {
-            msgfmt "$1" --no-hash -o "$(dirname "$1")/$(basename "$1" .po).mo"
+            msgfmt "$1" --no-hash -o "$(get_mo_filepath "$1")"
           }
 
           for f in $files; do
@@ -269,7 +273,7 @@ jobs:
             # stable. This prevents an edge case where changes are recursively made.
 
             compile_po_file "$f"
-            CHECKSUM=$(shasum -a1 "$(basename "$f" .po).mo")
+            CHECKSUM=$(shasum -a1 "$(get_mo_filepath "$f")")
 
             compile_po_file "$f"
             echo "$CHECKSUM" | shasum -a1 -c
