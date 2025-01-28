@@ -231,11 +231,9 @@ jobs:
           files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
 
           update_po_file () {
-            PO_FILE="${1}"
-
-            poswap project/locale/en_US.po -t "$PO_FILE" "${PO_FILE}.tmp"
-            msgmerge --update --backup=none "$PO_FILE" "${PO_FILE}.tmp"
-            rm "${PO_FILE}.tmp"
+            poswap project/locale/en_US.po -t "$1" "${1}.tmp"
+            msgmerge --update --backup=none "$1" "${1}.tmp"
+            rm "${1}.tmp"
           }
 
           for f in $files; do
@@ -243,16 +241,16 @@ jobs:
               continue
             fi
 
-            echo "Compiling translation file: $f"
+            echo "Updating translation file from template: $f"
 
             # NOTE: Each '.po' file is updated twice to verify that the change is
             # stable. This prevents an edge case where changes are recursively made.
 
             update_po_file "$f"
-            PO_FILE_CHECKSUM=$(shasum -a1 "$f")
+            CHECKSUM=$(shasum -a1 "$f")
 
             update_po_file "$f"
-            echo "$PO_FILE_CHECKSUM" | shasum -a1 -c
+            echo "$CHECKSUM" | shasum -a1 -c
           done
 
       - name: Compile modified 'po' files
@@ -260,10 +258,21 @@ jobs:
         run: |
           files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
 
+          compile_po_file () {
+            msgfmt "$1" --no-hash -o "$(dirname "$1")/$(basename "$1" .po).mo"
+          }
+
           for f in $files; do
             echo "Compiling translation file: $f"
 
-            msgfmt "$f" --no-hash -o "$(dirname "$f")/$(basename "$f" .po).mo"
+            # NOTE: Each '.po' file is compiled twice to verify that the change is
+            # stable. This prevents an edge case where changes are recursively made.
+
+            compile_po_file "$f"
+            CHECKSUM=$(shasum -a1 "$(basename "$f" .po).mo")
+
+            compile_po_file "$f"
+            echo "$CHECKSUM" | shasum -a1 -c
           done
 
       - uses: "coffeebeats/godot-infra/commit-changes@v1"
