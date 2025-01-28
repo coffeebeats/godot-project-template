@@ -234,7 +234,7 @@ jobs:
             rm "${1}.tmp"
           }
 
-          for f in $(ls project/locale | grep -E '*.po$'); do
+          for f in $(ls project/locale | grep -E '.po$'); do
             if [[ "$f" == "en_US.po" ]]; then
               continue
             fi
