@@ -15,4 +15,12 @@ func _can_modify() -> bool:
 
 
 func _get_value_from_config(_config: Config) -> Variant:
-	return TranslationServer.get_loaded_locales()
+	var options := PackedStringArray()
+
+	for locale in TranslationServer.get_loaded_locales():
+		if locale not in options:
+			options.append(locale)
+
+	options.sort()
+
+	return options
