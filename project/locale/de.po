@@ -47,8 +47,7 @@ msgstr ""
 
 #. Instructs the player to select which save slot to use.
 msgid "Choose a save slot — progress will be saved automatically"
-msgstr ""
-"Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
+msgstr "Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
 
 #. A label for the timestamp of when the particular save was last updated.
 msgid "Last updated:"
@@ -111,22 +110,20 @@ msgid "Interface"
 msgstr "Interface"
 
 #. Used as a category name for a group of settings related to display language.
-#, fuzzy
 msgid "Language"
-msgstr "Deutsch"
+msgstr "Sprache"
 
 #. Describes the setting which changes the display language of the game.
-#, fuzzy
 msgid "Display language"
-msgstr "Deutsch"
+msgstr "Anzeigesprache"
 
 #. Used as a category name for a group of settings related to text display.
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #. Describes the setting which changes the size of the text.
 msgid "Scale text size"
-msgstr ""
+msgstr "Textgröße skalieren"
 
 #. A tab within the game's options menu containing graphics/video-related settings.
 msgid "Display"
@@ -134,7 +131,7 @@ msgstr "Anzeige"
 
 #. Used as a category name for a group of settings related to graphics.
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. Describes the setting which toggles the size of the game between "windowed" and "fullscreen".
 msgid "Fullscreen"
