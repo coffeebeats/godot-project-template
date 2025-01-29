@@ -42,11 +42,14 @@ static func tr_action_set(action_set: StringName, locale: StringName = &"") -> S
 ## NOTE: This should be implemented within the engine; see
 ## https://github.com/godotengine/godot-proposals/issues/2378.
 static func tr_language(locale: StringName) -> String:
-	if locale.begins_with("en"):
-		return "English"
-
 	var translated := _translate(MSGID_LANGUAGE, &"", locale)
-	return translated if translated else str(locale)
+	match translated:
+		MSGID_LANGUAGE:
+			return "English"
+		"":
+			return str(locale)
+		_:
+			return translated
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #

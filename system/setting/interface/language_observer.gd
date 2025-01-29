@@ -23,6 +23,7 @@ const LanguageProperty := preload("language_property.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _custom_translations := {}
 var _logger := StdLogger.create(&"system/setting/language")
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -35,18 +36,11 @@ func _ready() -> void:
 		"invalid config: missing property",
 	)
 
+	_load_custom_translations()
+
 	language_property.initialize()
 
 	super._ready()
-
-
-# NOTE: Some operating systems may produce 'NOTIFICATION_APPLICATION_FOCUS_OUT'
-# multiple times on the same focus loss event. As a result, the handler must be
-# idempotent.
-func _notification(what: int) -> void:
-	match what:
-		NOTIFICATION_APPLICATION_FOCUS_IN, NOTIFICATION_APPLICATION_FOCUS_OUT:
-			pass
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -62,6 +56,41 @@ func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _load_custom_translations() -> void:
+	var path_dir := ProjectSettings.globalize_path("user://locale")
+
+	# NOTE: Because the file names are sorted alphabetically, `.mo` files will always be
+	# loaded before `.po` files, which is the desired behavior.
+	for filename in DirAccess.get_files_at(path_dir):
+		if not (filename.ends_with(&".po") or filename.ends_with(&".mo")):
+			continue
+
+		var path := path_dir.path_join(filename)
+		var logger := _logger.with({&"path": path})
+
+		var translation: Translation = load(path)
+		if not translation is Translation:
+			logger.warn("Failed to load custom translation file.")
+			continue
+
+		var locale := translation.locale  # Don't rely on the filename.
+		logger = logger.with({&"locale": translation.locale})
+
+		if locale in _custom_translations:
+			logger.warn("Ignoring duplicate custom translation file.")
+			continue
+
+		var current := TranslationServer.get_translation_object(locale)
+		if current and locale in TranslationServer.get_loaded_locales():
+			logger.debug("Overwriting existing translation with custom file.")
+			TranslationServer.remove_translation(current)
+
+		TranslationServer.add_translation(translation)
+		_custom_translations[locale] = translation
+
+		logger.info("Loaded custom translation file.")
 
 
 func _update_display_language(locale: String) -> void:
