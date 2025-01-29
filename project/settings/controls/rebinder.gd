@@ -19,6 +19,11 @@ const GROUP_REBINDER := &"project/settings:rebinder"
 const DEVICE_TYPE_KEYBOARD := StdInputDevice.DEVICE_TYPE_KEYBOARD
 const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
 
+const MSGCTXT_REBINDER_KEYBOARD := &"keyboard"
+const MSGCTXT_REBINDER_GAMEPAD := &"gamepad"
+const MSGID_REBINDER_TITLE := &"options_controls_rebinder_title"
+const MSGID_REBINDER_INSTRUCTIONS := &"options_controls_rebinder_bind_or_exit"
+
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## scope is a settings scope which contains input origin bindings for game actions.
@@ -36,7 +41,8 @@ var _player: int = -1
 
 @onready var _label_action: Label = %Action
 @onready var _label_glyph: StdInputGlyph = %Glyph
-@onready var _label_press: Label = %Press
+@onready var _label_instructions_pre: Label = %InstructionsPre
+@onready var _label_instructions_post: Label = %InstructionsPost
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
@@ -120,9 +126,6 @@ func stop() -> void:
 	_device = null
 	_player = -1
 
-	_label_action.text = ""
-	_label_press.text = ""
-
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
@@ -194,12 +197,22 @@ func _update_prompt() -> void:
 	_label_glyph.player_id = _player
 	_label_glyph.update()
 
-	_label_action.text = 'Bind "%s"' % _action
-	_label_press.text = (
-		"Press any key now or"
-		if _device.device_type == DEVICE_TYPE_KEYBOARD
-		else "Press any button now or"
+	_label_action.text = tr(MSGID_REBINDER_TITLE) % _action
+
+	var instructions_template := tr(
+		MSGID_REBINDER_INSTRUCTIONS,
+		(
+			MSGCTXT_REBINDER_KEYBOARD
+			if _device.device_type == DEVICE_TYPE_KEYBOARD
+			else MSGCTXT_REBINDER_GAMEPAD
+		),
 	)
+
+	var parts := instructions_template.split("%s", true, 1)
+	assert(parts.size() == 2, "invalid state; unrecognized template")
+
+	_label_instructions_pre.text = parts[0] if not parts.is_empty() else ""
+	_label_instructions_post.text = parts[1] if not parts.is_empty() else ""
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #

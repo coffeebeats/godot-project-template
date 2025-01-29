@@ -268,7 +268,12 @@ msgstr ""
 msgid "options_controls_rebinder_title"
 msgstr ""
 
-#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
+#. Instructs the user that they should now press the new keyboard button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
+msgctxt "keyboard"
 msgid "options_controls_rebinder_bind_or_exit"
 msgstr ""
 
+#. Instructs the user that they should now press the new keyboard button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
+msgctxt "gamepad"
+msgid "options_controls_rebinder_bind_or_exit"
+msgstr ""

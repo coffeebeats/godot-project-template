@@ -1,9 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=12 format=3 uid="uid://nqcb7t7nk8cn"]
 
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
-[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/rebinder.tscn" id="3_1lgqj"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_bhxpg"]
-[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="6_8400t"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="6_xrc8s"]
 [ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/settings/gameplay/gameplay.tscn" id="7_tg4wg"]
 [ext_resource type="PackedScene" uid="uid://dkt0y14cgygus" path="res://project/settings/sound/sound.tscn" id="8_q5vgy"]
@@ -38,10 +36,6 @@ action_set_layer = ExtResource("27_ma3b3")
 enable_on_enter = false
 enable_on_visible = true
 disable_on_hidden = true
-
-[node name="Rebinder" parent="." instance=ExtResource("3_1lgqj")]
-layout_mode = 2
-scope = ExtResource("6_8400t")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
