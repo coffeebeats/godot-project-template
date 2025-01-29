@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dm1yyvkqdxmqe"]
 
-[ext_resource type="Script" path="res://project/settings/rebinder.gd" id="1_lre2j"]
+[ext_resource type="Script" path="res://project/settings/controls/rebinder.gd" id="1_lre2j"]
 [ext_resource type="PackedScene" uid="uid://ddxioxjkv2o8j" path="res://project/ui/modal/scrim.tscn" id="2_dbjkr"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]

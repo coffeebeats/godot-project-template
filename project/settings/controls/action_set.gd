@@ -5,7 +5,7 @@
 ## action included in the specified `StdInputActionSet`.
 ##
 
-extends "group.gd"
+extends "../group.gd"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
@@ -14,8 +14,8 @@ const Locales := preload("res://project/locale/locales.gd")
 const BindingScene := preload("binding.tscn")
 const Reset := preload("reset.gd")
 const ResetScene := preload("reset.tscn")
-const Setting := preload("setting.gd")
-const SettingScene := preload("setting.tscn")
+const Setting := preload("../setting.gd")
+const SettingScene := preload("../setting.tscn")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
@@ -70,7 +70,7 @@ func _ready() -> void:
 	auto_translate_mode = AUTO_TRANSLATE_MODE_DISABLED
 
 	assert(action_set is StdInputActionSet, "invalid config; missing action set")
-	action_set = action_set  # Trigger 'label' update.
+	action_set = action_set # Trigger 'label' update.
 
 	_reset.action_set = action_set
 	_reset.player_id = player_id
