@@ -251,6 +251,12 @@ msgstr ""
 msgid "Bind “%s”"
 msgstr ""
 
-#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
+#. Instructs the user that they should now press the new keyboard button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
+msgctxt "keyboard"
 msgid "Press any key now or %s to cancel."
+msgstr ""
+
+#. Instructs the user that they should now press the new keyboard button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
+msgctxt "gamepad"
+msgid "Press any button now or %s to cancel."
 msgstr ""
