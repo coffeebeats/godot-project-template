@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="1_7freb"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
@@ -14,10 +14,15 @@
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="11_ph7kg"]
 [ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="12_jaj02"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_toggle_button.gd" id="13_662de"]
+[ext_resource type="PackedScene" uid="uid://jqrnk34kfw5u" path="res://project/ui/input/option_button.tscn" id="14_f6pwm"]
 [ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="14_rj08w"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="15_8qtro"]
+[ext_resource type="Script" path="res://addons/std/setting/controller_option_button_int.gd" id="15_f3d37"]
+[ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="16_11kx0"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="16_wymh8"]
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="17_0rlbk"]
+[ext_resource type="Resource" uid="uid://bndux72lth38k" path="res://system/setting/controls/glyph_type_options_property.tres" id="17_kswyw"]
+[ext_resource type="Resource" uid="uid://c750nhjvglhky" path="res://project/settings/controls/button_prompt_option_formatter.tres" id="18_8p5d5"]
 [ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="18_v42t3"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/controls/action_set.tscn" id="19_ngc7g"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="20_h7kk8"]
@@ -78,6 +83,19 @@ configurator = ExtResource("9_m5toj")
 [node name="Gamepad" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
 label = "options_controls_gamepad"
+
+[node name="ButtonPrompt" parent="Gamepad" instance=ExtResource("11_ph7kg")]
+layout_mode = 2
+label = "options_controls_button_prompt"
+
+[node name="OptionButton" parent="Gamepad/ButtonPrompt" instance=ExtResource("14_f6pwm")]
+layout_mode = 2
+
+[node name="StdSettingsControllerOptionButtonInt" type="Node" parent="Gamepad/ButtonPrompt/OptionButton"]
+script = ExtResource("15_f3d37")
+property = ExtResource("16_11kx0")
+options_property = ExtResource("17_kswyw")
+formatter = ExtResource("18_8p5d5")
 
 [node name="DisableVibration" parent="Gamepad" instance=ExtResource("11_ph7kg")]
 layout_mode = 2
