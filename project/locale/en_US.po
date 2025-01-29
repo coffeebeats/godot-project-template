@@ -157,6 +157,40 @@ msgstr "Controls"
 msgid "options_controls_gamepad"
 msgstr "Gamepads"
 
+#. Describes the setting used to change which gamepad type a visual gamepad button icon uses.
+msgid "options_controls_button_prompt"
+msgstr "Button prompts"
+
+#. Describes one possible option in the button prompt setting; allows the game to automatically pick the best option.
+msgctxt "button_prompt"
+msgid "options_controls_button_prompt_auto"
+msgstr "Auto"
+
+#. Describes one possible option in the button prompt setting; fixes gamepad icons to use the keyboard and mouse style.
+msgctxt "button_prompt"
+msgid "options_controls_button_prompt_kbm"
+msgstr "KB&M"
+
+#. Describes one possible option in the button prompt setting; fixes gamepad icons to use an Microsoft Xbox style.
+msgctxt "button_prompt"
+msgid "options_controls_button_prompt_xbox"
+msgstr "Xbox"
+
+#. Describes one possible option in the button prompt setting; fixes gamepad icons to use a Sony PlayStation style.
+msgctxt "button_prompt"
+msgid "options_controls_button_prompt_ps"
+msgstr "PlayStation"
+
+#. Describes one possible option in the button prompt setting; fixes gamepad icons to use a Nintendo Switch style.
+msgctxt "button_prompt"
+msgid "options_controls_button_prompt_switch"
+msgstr "Switch"
+
+#. Describes one possible option in the button prompt setting; fixes gamepad icons to use a Valve Steam style.
+msgctxt "button_prompt"
+msgid "options_controls_button_prompt_steam"
+msgstr "Steam"
+
 #. Describes the setting which disables controller vibration feedback.
 msgid "options_controls_disable_vibration"
 msgstr "Disable vibration"
