@@ -20,12 +20,21 @@ extends StdSettingsPropertyString
 func initialize() -> void:
 	assert(scope, "invalid state; missing scope")
 	assert(default == "", "invalid state; has this property already been initialized?")
+	assert(
+		scope.get_repository() and scope.get_repository().is_node_ready(),
+		"invalid state; setting not hydrated yet",
+	)
 
 	default = _find_matching_locale(OS.get_locale())
 
-	if scope.config.get_string(category, name, "") == default:
-		scope.config.erase(category, name)
+	var current := scope.config.get_string(category, name, "")
 
+	if (
+		current == default
+		or current not in language_options_property.get_value()
+	):
+		scope.config.erase(category, name)
+	
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
