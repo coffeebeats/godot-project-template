@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=8 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="3_2fhwa"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
 [ext_resource type="Script" path="res://project/ui/modal/modal.gd" id="4_y3h4b"]
 [ext_resource type="PackedScene" uid="uid://nqcb7t7nk8cn" path="res://project/settings/menu.tscn" id="5_46s0c"]
+[ext_resource type="PackedScene" uid="uid://bf20ftpryfaqx" path="res://project/main/credit/credits.tscn" id="7_8akfk"]
 [ext_resource type="PackedScene" uid="uid://bs5nke3386ggd" path="res://project/save/save_slots.tscn" id="7_u240f"]
 
 [node name="MainMenu" type="Control"]
@@ -168,3 +169,6 @@ offset_left = -752.0
 offset_top = -297.5
 offset_right = 752.0
 offset_bottom = 297.5
+
+[node name="Credits" parent="." instance=ExtResource("7_8akfk")]
+layout_mode = 1
