@@ -144,6 +144,7 @@ func _get_device_type() -> DeviceType:
 					else _slot.device_type
 				)
 
+	# gdlint:ignore=max-returns
 	return (
 		property_value if property_value != DEVICE_TYPE_UNKNOWN else _slot.device_type
 	)
