@@ -29,12 +29,9 @@ func initialize() -> void:
 
 	var current := scope.config.get_string(category, name, "")
 
-	if (
-		current == default
-		or current not in language_options_property.get_value()
-	):
+	if current == default or current not in language_options_property.get_value():
 		scope.config.erase(category, name)
-	
+
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 

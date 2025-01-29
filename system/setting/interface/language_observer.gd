@@ -42,6 +42,7 @@ func _ready() -> void:
 
 	super._ready()
 
+
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
 
@@ -56,11 +57,12 @@ func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
+
 func _load_custom_translations() -> void:
 	var path_dir := ProjectSettings.globalize_path("user://locale")
 
 	# NOTE: Because the file names are sorted alphabetically, `.mo` files will always be
-	# loaded before `.po` files, which is the desired behavior. 
+	# loaded before `.po` files, which is the desired behavior.
 	for filename in DirAccess.get_files_at(path_dir):
 		if not (filename.ends_with(&".po") or filename.ends_with(&".mo")):
 			continue
@@ -73,7 +75,7 @@ func _load_custom_translations() -> void:
 			logger.warn("Failed to load custom translation file.")
 			continue
 
-		var locale := translation.locale # Don't rely on the filename.
+		var locale := translation.locale  # Don't rely on the filename.
 		logger = logger.with({&"locale": translation.locale})
 
 		if locale in _custom_translations:

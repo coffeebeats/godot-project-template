@@ -51,6 +51,7 @@ static func tr_language(locale: StringName) -> String:
 		_:
 			return translated
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
