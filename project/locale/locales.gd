@@ -15,7 +15,6 @@ const MSGID_ACTION_PREFIX := &"actions_"
 const MSGID_ACTION_SET_PREFIX := &"options_controls_"
 const MSGID_LANGUAGE := &"locale_language"
 
-
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
@@ -48,6 +47,7 @@ static func tr_language(locale: StringName) -> String:
 
 	var translated := _translate(MSGID_LANGUAGE, &"", locale)
 	return translated if translated else str(locale)
+
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 

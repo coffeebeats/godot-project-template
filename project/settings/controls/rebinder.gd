@@ -163,7 +163,7 @@ func _input(event: InputEvent) -> void:
 
 	(
 		Bindings
-		.bind_action(
+		. bind_action(
 			scope,
 			_action_set,
 			_action,
@@ -186,7 +186,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	super._ready() # gdlint:ignore=private-method-call
+	super._ready()  # gdlint:ignore=private-method-call
 	set_process_input(false)
 
 
