@@ -21,11 +21,11 @@ theme_type_variation = &"Body"
 
 [node name="Language" parent="." instance=ExtResource("1_o8m7n")]
 layout_mode = 2
-label = "Language"
+label = "options_interface_language"
 
 [node name="DisplayLanguage" parent="Language" instance=ExtResource("2_a2kj5")]
 layout_mode = 2
-label = "Display language"
+label = "options_interface_language_display"
 
 [node name="OptionButton" parent="Language/DisplayLanguage" instance=ExtResource("3_hhi86")]
 layout_mode = 2
@@ -36,19 +36,19 @@ property = ExtResource("5_6gc1x")
 options_property = ExtResource("6_gtfy5")
 formatter = ExtResource("7_2xg5l")
 
-[node name="Font" parent="." instance=ExtResource("1_o8m7n")]
+[node name="Text" parent="." instance=ExtResource("1_o8m7n")]
 layout_mode = 2
-label = "Text"
+label = "options_interface_text"
 
-[node name="FontScaling" parent="Font" instance=ExtResource("2_a2kj5")]
+[node name="TextScaling" parent="Text" instance=ExtResource("2_a2kj5")]
 layout_mode = 2
-label = "Text Scaling"
+label = "options_interface_text_scaling"
 
-[node name="Slider" parent="Font/FontScaling" instance=ExtResource("2_81g61")]
+[node name="Slider" parent="Text/TextScaling" instance=ExtResource("2_81g61")]
 layout_mode = 2
 precision = 2
 
-[node name="StdSettingsControllerRange" type="Node" parent="Font/FontScaling/Slider"]
+[node name="StdSettingsControllerRange" type="Node" parent="Text/TextScaling/Slider"]
 script = ExtResource("4_be8bq")
 property = ExtResource("5_217en")
 target = NodePath("../HSlider")

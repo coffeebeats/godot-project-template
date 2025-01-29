@@ -109,6 +109,14 @@ msgstr "Mute in background"
 msgid "options_interface"
 msgstr "Interface"
 
+#. Used as a category name for a group of settings related to display language.
+msgid "options_interface_language"
+msgstr "Language"
+
+#. Describes the setting which changes the display language of the game.
+msgid "options_interface_language_display"
+msgstr "Display language"
+
 #. Used as a category name for a group of settings related to text display.
 msgid "options_interface_text"
 msgstr "Text"

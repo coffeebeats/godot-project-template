@@ -122,6 +122,14 @@ msgstr ""
 msgid "options_interface"
 msgstr ""
 
+#. Used as a category name for a group of settings related to display language.
+msgid "options_interface_language"
+msgstr ""
+
+#. Describes the setting which changes the display language of the game.
+msgid "options_interface_language_display"
+msgstr ""
+
 #. Used as a category name for a group of settings related to text display.
 msgid "options_interface_text"
 msgstr ""
