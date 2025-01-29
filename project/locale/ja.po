@@ -12,8 +12,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
+#. The native name of the language. This will be presented as an option in the language settings menu.
+msgid "locale_language"
+msgstr "日本語"
+
 #. The title of the game, located on the main menu.
-#. No translation found in en_US.po
+#. No translation found in project/locale/en_US.po
 msgid "main_game_title"
 msgstr ""
 
@@ -104,6 +108,16 @@ msgstr ""
 #. A tab within the game's options menu containing settings for interacting with the game. This menu includes things like text size, changing the game's display language, etc.
 msgid "Interface"
 msgstr ""
+
+#. Used as a category name for a group of settings related to display language.
+#, fuzzy
+msgid "Language"
+msgstr "日本語"
+
+#. Describes the setting which changes the display language of the game.
+#, fuzzy
+msgid "Display language"
+msgstr "日本語"
 
 #. Used as a category name for a group of settings related to text display.
 msgid "Text"
@@ -237,6 +251,6 @@ msgstr ""
 msgid "Bind “%s”"
 msgstr ""
 
-#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with the translated name of the game action.
+#. Instructs the user that they should now press the new controller button or exit the operation. Here, the '%s' placeholder will be replaced with an icon of the controller button to press.
 msgid "Press any key now or %s to cancel."
 msgstr ""

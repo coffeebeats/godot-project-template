@@ -206,14 +206,14 @@ jobs:
       # be run on release branches, it's better to just check all of them.
       - name: Validate translation files
         run: |
-          for f in $(ls project/locale --hide '*.mo'); do
+          for f in $(ls project/locale | grep -E '\.pot?$'); do
             msgfmt "project/locale/$f" --check
           done
 
       - name: Check for fuzzy translations before release
         if: "${{ contains( github.event.pull_request.labels.*.name, 'autorelease: pending') }}"
         run: |
-          for f in $(ls --hide "*.pot" project/locale); do
+          for f in $(ls project/locale | grep -E '\.po$'); do
             if grep '#,' "project/locale/$f" >/dev/null; then
               echo "Error: found fuzzy translation in file: $f"
               exit 1
@@ -228,12 +228,29 @@ jobs:
       - name: Update modified 'po' files
         if: needs.changes.outputs.has_pot_change == 'true'
         run: |
-          cd project/locale
+          update_po_file () {
+            poswap project/locale/en_US.po -t "$1" "${1}.tmp"
+            msgmerge --update --backup=none "$1" "${1}.tmp"
+            rm "${1}.tmp"
+          }
 
-          for f in $(ls --hide '*.pot' --hide 'en_US.po'); do
-            poswap en_US.po -t $f "$f.tmp"
-            msgmerge --update --backup=none $f "$f.tmp"
-            rm "$f.tmp"
+          for f in $(ls project/locale | grep -E '.po$'); do
+            if [[ "$f" == "en_US.po" ]]; then
+              continue
+            fi
+
+            echo "Updating translation file from template: $f"
+
+            # NOTE: Each '.po' file is updated twice to verify that the change is
+            # stable. This prevents an edge case where changes are recursively made.
+
+            f="project/locale/$f"
+
+            update_po_file "$f"
+            CHECKSUM=$(shasum -a1 "$f")
+
+            update_po_file "$f"
+            echo "$CHECKSUM" | shasum -a1 -c
           done
 
       - name: Compile modified 'po' files
@@ -241,10 +258,41 @@ jobs:
         run: |
           files="$(echo "${{ needs.changes.outputs.changed-po-files }}" | xargs)"
 
+          get_mo_filepath () {
+            echo "$(dirname "$1")/$(basename "$1" .po).mo"
+          }
+
+          compile_po_file () {
+            if [[ "$(basename "$1")" == "en_US.po" ]]; then
+              msgfmt --no-hash "$1" -o "$(get_mo_filepath "$1")"
+              return
+            fi
+
+            # Prior to compiling, reverse the file's message ID fields to match
+            # the base template. This is a reversal of the initial swap. Note
+            # that this should *not* be done for the 'en_US.po' file.
+            poswap --reverse "$(dirname "$1")/en_US.po" -t "$1" -o "${1}.tmp"
+
+            # poswap drops the header, so merge it into the swapped file.
+            msgmerge "$1" "${1}.tmp" -o "${1}.tmp"
+
+            # NOTE: Merging the header in the above step results in some
+            # translations being marked fuzzy; pass '-f' to keep using them.
+            msgfmt --no-hash -f "${1}.tmp" -o "$(get_mo_filepath "$1")"
+            rm "${1}.tmp"
+          }
+
           for f in $files; do
             echo "Compiling translation file: $f"
 
-            msgfmt "$f" --no-hash -o "$(dirname "$f")/$(basename "$f" .po).mo"
+            # NOTE: Each '.po' file is compiled twice to verify that the change is
+            # stable. This prevents an edge case where changes are recursively made.
+
+            compile_po_file "$f"
+            CHECKSUM=$(shasum -a1 "$(get_mo_filepath "$f")")
+
+            compile_po_file "$f"
+            echo "$CHECKSUM" | shasum -a1 -c
           done
 
       - uses: "coffeebeats/godot-infra/commit-changes@v1"

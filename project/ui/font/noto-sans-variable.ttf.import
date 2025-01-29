@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dob5jlfv5m46h"
-path="res://.godot/imported/tilt-warp-regular.ttf-78a697c44b99d9e89674d57353271d7a.fontdata"
+uid="uid://j8l6efem00x4"
+path="res://.godot/imported/noto-sans-variable.ttf-6ae0e2f30500119bf302742204b25ecd.fontdata"
 
 [deps]
 
-source_file="res://project/ui/font/tilt-warp-regular.ttf"
-dest_files=["res://.godot/imported/tilt-warp-regular.ttf-78a697c44b99d9e89674d57353271d7a.fontdata"]
+source_file="res://project/ui/font/noto-sans-variable.ttf"
+dest_files=["res://.godot/imported/noto-sans-variable.ttf-6ae0e2f30500119bf302742204b25ecd.fontdata"]
 
 [params]
 
@@ -21,7 +21,7 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
-hinting=1
+hinting=2
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
