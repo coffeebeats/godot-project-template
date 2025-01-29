@@ -263,18 +263,23 @@ jobs:
           }
 
           compile_po_file () {
+            if [[ "$(basename "$1")" == "en_US.po" ]]; then
+              msgfmt --no-hash "$1" -o "$(get_mo_filepath "$1")"
+              return
+            fi
+
             # Prior to compiling, reverse the file's message ID fields to match
             # the base template. This is a reversal of the initial swap. Note
             # that this should *not* be done for the 'en_US.po' file.
-            src="$1"
-            if [[ "$(basename "$1")" != "en_US.po" ]]; then
-              src="${1}.tmp"
-              poswap --reverse "$(dirname "$1")/en_US.po" -t "$1" -o "$src"
-            fi
+            poswap --reverse "$(dirname "$1")/en_US.po" -t "$1" -o "${1}.tmp"
 
-            msgfmt "$src" --no-hash -o "$(get_mo_filepath "$1")"
+            # poswap drops the header, so merge it into the swapped file.
+            msgmerge "$1" "${1}.tmp" -o "${1}.tmp"
 
-            if [[ "$src" != "$1" ]]; then rm "$src"; fi
+            # NOTE: Merging the header in the above step results in some
+            # translations being marked fuzzy; pass '-f' to keep using them.
+            msgfmt --no-hash -f "${1}.tmp" -o "$(get_mo_filepath "$1")"
+            rm "${1}.tmp"
           }
 
           for f in $files; do
