@@ -40,13 +40,18 @@ extends StdInputGlyph
 ## hide_if_kbm_active controls whether this glyph is displayed when the active device is
 ## a keyboard and mouse. Note that this applies regardless of whether `always_show_kbm`
 ## is selected.
-
 @export var hide_if_kbm_active: bool = false
 
 ## hide_if_joy_active controls whether this glyph is displayed when the active device is
 ## a joypad. Note that this applies regardless of whether `always_show_joy`
 ## is selected.
 @export var hide_if_joy_active: bool = false
+
+## restrict_glyph_type_to_device_category controls whether the displayed glyph type
+## should be constrained to the active device's category. Effectively, this means that
+## glyph type overrides will be ignored if they don't pertain to the active device
+## category (i.e. keyboard vs. joypad).
+@export var restrict_glyph_type_to_device_category: bool = false
 
 @export_subgroup("Labels")
 
@@ -88,7 +93,7 @@ var _custom_minimum_size: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	_custom_minimum_size = custom_minimum_size
 
-	super._ready()  # gdlint:ignore=private-method-call
+	super._ready() # gdlint:ignore=private-method-call
 
 	if Engine.is_editor_hint():
 		return
@@ -125,8 +130,22 @@ func _get_device_type() -> DeviceType:
 		var connected := _slot.get_connected_devices(false)
 		return connected[0].device_type if connected else DeviceType.GENERIC
 
+	if restrict_glyph_type_to_device_category:
+		match _slot.device_category:
+			DEVICE_TYPE_UNKNOWN, DEVICE_TYPE_KEYBOARD:
+				return _slot.device_type # Both categories only have one type.
+			DEVICE_TYPE_GENERIC:
+				var property_category := StdInputDevice.get_device_category(property_value)
+				return (
+					property_value
+					if property_category == DEVICE_TYPE_GENERIC
+					else _slot.device_type
+				)
+
 	return (
-		property_value if property_value != DEVICE_TYPE_UNKNOWN else _slot.device_type
+		property_value
+		if property_value != DEVICE_TYPE_UNKNOWN
+		else _slot.device_type
 	)
 
 
@@ -149,7 +168,7 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	if not should_hide:
 		texture_rect.texture = (
 			_slot
-			. get_action_glyph(
+			.get_action_glyph(
 				action_set,
 				action,
 				binding_index,
@@ -174,7 +193,7 @@ func _update_glyph(device_type: DeviceType) -> bool:
 		):
 			label.text = (
 				_slot
-				. get_action_origin_label(
+				.get_action_origin_label(
 					action_set,
 					action,
 					binding_index,
