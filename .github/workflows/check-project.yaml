@@ -271,15 +271,28 @@ jobs:
             # Prior to compiling, reverse the file's message ID fields to match
             # the base template. This is a reversal of the initial swap. Note
             # that this should *not* be done for the 'en_US.po' file.
-            poswap --reverse "$(dirname "$1")/en_US.po" -t "$1" -o "${1}.tmp"
+            poswap --reverse "$(dirname "$1")/en_US.po" -t "$1" -o "${1}.tr.tmp"
+
+            PY_EXTRACT_HEADER=$(cat <<EOF
+            import sys
+            
+            header = ""
+            with open(sys.argv[1], "r") as f:
+              for l in f:
+                if l.strip() == "" and "msgid" in header:
+                  break
+                header += l
+
+              print(header)
+            EOF
+            )
 
             # poswap drops the header, so merge it into the swapped file.
-            msgmerge "$1" "${1}.tmp" -o "${1}.tmp"
+            python3 -c "$PY_EXTRACT_HEADER" "$1" > "${1}.tmp"
+            cat "${1}.tr.tmp" >> "${1}.tmp"
 
-            # NOTE: Merging the header in the above step results in some
-            # translations being marked fuzzy; pass '-f' to keep using them.
-            msgfmt --no-hash -f "${1}.tmp" -o "$(get_mo_filepath "$1")"
-            rm "${1}.tmp"
+            msgfmt --no-hash "${1}.tmp" -o "$(get_mo_filepath "$1")"
+            rm "*.tmp"
           }
 
           for f in $files; do
