@@ -13,6 +13,14 @@ extends StdInputGlyph
 
 @export_group("Display")
 
+## restrict_glyph_type_to_device_category controls whether the displayed glyph type
+## should be constrained to the active device's category. Effectively, this means that
+## glyph type overrides will be ignored if they don't pertain to the active device
+## category (i.e. keyboard vs. joypad).
+@export var restrict_glyph_type_to_device_category: bool = false
+
+@export_subgroup("Device type")
+
 ## always_show_kbm forcibly shows glyph information for keyboard and mouse devices. When
 ## enabled, `device_type_override` will be ignored.
 ##
@@ -37,6 +45,13 @@ extends StdInputGlyph
 		if value and always_show_kbm:
 			always_show_kbm = false
 
+@export_subgroup("Force hide")
+
+## hide_if_cursor_visible controls whether this glyph is hidden upon the cursor being
+## made visible. This is to enable keyboard and mouse-only glyphs being shown only when
+## the game is using "focus" mode navigation.
+@export var hide_if_cursor_visible: bool = false
+
 ## hide_if_kbm_active controls whether this glyph is displayed when the active device is
 ## a keyboard and mouse. Note that this applies regardless of whether `always_show_kbm`
 ## is selected.
@@ -46,12 +61,6 @@ extends StdInputGlyph
 ## a joypad. Note that this applies regardless of whether `always_show_joy`
 ## is selected.
 @export var hide_if_joy_active: bool = false
-
-## restrict_glyph_type_to_device_category controls whether the displayed glyph type
-## should be constrained to the active device's category. Effectively, this means that
-## glyph type overrides will be ignored if they don't pertain to the active device
-## category (i.e. keyboard vs. joypad).
-@export var restrict_glyph_type_to_device_category: bool = false
 
 @export_subgroup("Labels")
 
@@ -158,11 +167,12 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	texture_rect.texture = null
 
 	var should_hide := (
-		(_slot.device_type == DEVICE_TYPE_KEYBOARD and hide_if_kbm_active)
+		(hide_if_kbm_active and _slot.device_type == DEVICE_TYPE_KEYBOARD)
+		or (hide_if_joy_active and _slot.device_category == DEVICE_TYPE_GENERIC)
 		or (
-			_slot.device_type != DEVICE_TYPE_KEYBOARD
-			and _slot.device_type != DEVICE_TYPE_UNKNOWN
-			and hide_if_joy_active
+			hide_if_cursor_visible
+			and _slot.cursor is StdInputCursor
+			and _slot.cursor.get_is_visible()
 		)
 	)
 

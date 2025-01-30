@@ -64,6 +64,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 10
+hide_if_cursor_visible = true
 action_set = ExtResource("27_ma3b3")
 action = &"ui_tab_prev"
 
@@ -87,6 +88,7 @@ tab_4/title = "options_controls"
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 2
+hide_if_cursor_visible = true
 action_set = ExtResource("27_ma3b3")
 action = &"ui_tab_next"
 
