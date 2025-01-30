@@ -30,6 +30,9 @@ label = "options_interface_language_display"
 [node name="OptionButton" parent="Language/DisplayLanguage" instance=ExtResource("3_hhi86")]
 layout_mode = 2
 
+[node name="StdInputCursorFocusHandler" parent="Language/DisplayLanguage/OptionButton" index="1"]
+use_as_anchor = true
+
 [node name="StdSettingsControllerOptionButtonString" type="Node" parent="Language/DisplayLanguage/OptionButton"]
 script = ExtResource("4_c64ob")
 property = ExtResource("5_6gc1x")
@@ -52,3 +55,5 @@ precision = 2
 script = ExtResource("4_be8bq")
 property = ExtResource("5_217en")
 target = NodePath("../HSlider")
+
+[editable path="Language/DisplayLanguage/OptionButton"]
