@@ -79,7 +79,7 @@ func _load_custom_translations() -> void:
 			logger.warn("Failed to load custom translation file.")
 			continue
 
-		var locale := translation.locale # Don't rely on the filename.
+		var locale := translation.locale  # Don't rely on the filename.
 		logger = logger.with({&"locale": translation.locale})
 
 		if locale in _custom_translations:
