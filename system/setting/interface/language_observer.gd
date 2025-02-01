@@ -60,6 +60,11 @@ func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void
 
 func _load_custom_translations() -> void:
 	var path_dir := ProjectSettings.globalize_path("user://locale")
+	var logger := _logger.with({&"directory": path_dir})
+
+	if not DirAccess.dir_exists_absolute(path_dir):
+		logger.info("Custom locale directory doesn't exist; skipping locale import.")
+		return
 
 	# NOTE: Because the file names are sorted alphabetically, `.mo` files will always be
 	# loaded before `.po` files, which is the desired behavior.
@@ -67,10 +72,9 @@ func _load_custom_translations() -> void:
 		if not (filename.ends_with(&".po") or filename.ends_with(&".mo")):
 			continue
 
-		var path := path_dir.path_join(filename)
-		var logger := _logger.with({&"path": path})
+		logger = logger.with({&"file": filename})
 
-		var translation: Translation = load(path)
+		var translation: Translation = load(path_dir.path_join(filename))
 		if not translation is Translation:
 			logger.warn("Failed to load custom translation file.")
 			continue
@@ -96,6 +100,6 @@ func _load_custom_translations() -> void:
 func _update_display_language(locale: String) -> void:
 	assert(locale != "", "invalid argument; missing locale")
 
-	_logger.debug("Updating display language.", {&"locale": locale})
+	_logger.info("Updating display language.", {&"locale": locale})
 
 	TranslationServer.set_locale(locale)
