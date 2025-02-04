@@ -79,9 +79,14 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 
 @export_subgroup("Hover")
 
-## hover_delay is a wait time prior to starting the "show" tooltip animation when the
-## action is triggered by the hover target. Ignored when `show_when_hovered` is `false`.
-@export var hover_delay: float = 0.0
+## hover_hide_delay is a wait time prior to starting the "hide" tooltip animation. This
+## is to allow time for the cursor to hover over the tooltip.
+@export var hover_hide_delay: float = 0.0
+
+## hover_show_delay is a wait time prior to starting the "show" tooltip animation when
+## the action is triggered by the hover target. Ignored when `show_when_hovered` is
+## `false`.
+@export var hover_show_delay: float = 0.0
 
 ## hover_target is an alternative `CanvasItem` node which, when hovered, will reveal the
 ## tooltip. Ignored if `show_when_hovered` is set to `false`.
@@ -89,6 +94,10 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 ## NOTE: If set, the `anchor` node will *not* be listened to for hover events. Ignored
 ## when `show_when_hovered` is `false`.
 @export var hover_target: CanvasItem = null
+
+## keep_open_when_tooltip_hovered controls whether the tooltip will remain open when the
+## user hovers over it.
+@export var keep_open_when_tooltip_hovered: bool = true
 
 ## show_when_hovered controls whether the tooltip will be revealed by hovering over the
 ## anchor node (or `hover_target` if set).
@@ -115,25 +124,29 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _is_focused: bool = false
-var _is_hovered: bool = false
+var _is_hover_target_hovered: bool = false
+var _is_tooltip_hovered: bool = false
 var _is_visible: bool = false
+var _is_waiting_to_hide: bool = false
 var _tween: Tween = null
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
-
-## hide_tooltip hides the tooltip after animating its outgoing effects.
+## hide_tooltip hides the tooltip after animating its outgoing effects. If `animate` is
+## `false`, then animations will be skipped.
 ##
-## NOTE: This method should be preferred over `hide`, which will immediately toggle
-## visibility - ignoring animations.
-func hide_tooltip() -> void:
+## NOTE: This method should be preferred over `hide`, which won't handle animations.
+func hide_tooltip(delay: float = 0.0, animate: bool = true) -> void:
 	if not _is_visible:
 		return
 
 	_reset_animation()
 	_is_visible = false
 
-	_hide_tooltip()
+	if animate:
+		_hide_tooltip(delay)
+	else:
+		visible = false
 
 	tooltip_closed.emit()
 
@@ -149,7 +162,6 @@ func show_tooltip(delay: float = 0.0) -> void:
 	_reset_animation()
 	_is_visible = true
 
-	_reposition()
 	_show_tooltip(delay)
 
 	tooltip_opened.emit()
@@ -167,6 +179,11 @@ func _ready() -> void:
 	assert(anchor.is_inside_tree(), "invalid state; node must be in scene tree")
 
 	Signals.connect_safe(anchor.item_rect_changed, _on_anchor_rect_changed)
+	Signals.connect_safe(anchor.visibility_changed, _on_anchor_visibility_changed)
+
+	if keep_open_when_tooltip_hovered:
+		Signals.connect_safe(mouse_entered, _on_tooltip_mouse_entered)
+		Signals.connect_safe(mouse_exited, _on_tooltip_mouse_exited)
 
 	if show_when_hovered:
 		var hover_node := hover_target if hover_target else anchor
@@ -182,6 +199,8 @@ func _ready() -> void:
 		var focus_node := focus_target if focus_target else anchor
 		Signals.connect_safe(focus_node.focus_entered, _on_focus_target_focus_entered)
 		Signals.connect_safe(focus_node.focus_exited, _on_focus_target_focus_exited)
+
+	_reposition.call_deferred()
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -253,13 +272,17 @@ func _get_target_tooltip_global_position() -> Vector2:
 	)
 
 
-func _hide_tooltip() -> void:
+func _hide_tooltip(delay: float) -> void:
 	assert(not _is_visible, "invalid state; conflicting visible state")
 
 	_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_BOUND)
 
+	_is_waiting_to_hide = true
+	_tween.tween_interval(delay)
+	_tween.tween_callback(func (): _is_waiting_to_hide = false)
+
 	if fade_out:
-		fade_out.apply_tween_property(_tween, self, 0)
+		fade_out.apply_tween_property(_tween, self, 0, false)
 
 	if slide_out:
 		var animation_offset := _get_slide_offset(slide_out)
@@ -270,6 +293,7 @@ func _hide_tooltip() -> void:
 				_tween,
 				self,
 				_get_target_tooltip_global_position() + animation_offset,
+				fade_out != null,
 			)
 		)
 
@@ -331,9 +355,22 @@ func _on_anchor_rect_changed() -> void:
 
 
 func _on_anchor_visibility_changed() -> void:
-	if not _get_target_canvas_item().visible and _is_visible:
-		_reset_animation()
-		visible = false
+	var anchor := _get_target_canvas_item()
+	assert(anchor is CanvasItem, "invalid state; missing node")
+	assert(anchor.is_inside_tree(), "invalid state; node must be in scene tree")
+
+	if _is_visible and not anchor.visible:
+		hide_tooltip(0.0, false)
+
+	elif not _is_visible and anchor.visible:
+		var anchor_rect: Rect2 = anchor.get_global_rect()
+		var global_mouse_position := get_global_mouse_position()
+
+		# FIXME(https://github.com/godotengine/godot/issues/87203): Remove workaround.
+		# Note that this solution fails if the anchor is blocked by another node.
+		if anchor_rect.has_point(global_mouse_position):
+			_reposition()
+			_on_hover_target_mouse_entered()
 
 
 func _on_focus_target_focus_entered() -> void:
@@ -344,17 +381,38 @@ func _on_focus_target_focus_entered() -> void:
 
 func _on_focus_target_focus_exited() -> void:
 	_is_focused = false
-	if not _is_hovered and _is_visible:
+	if not _is_hover_target_hovered and not _is_tooltip_hovered and _is_visible:
 		hide_tooltip()
 
 
 func _on_hover_target_mouse_entered() -> void:
-	_is_hovered = true
+	_is_hover_target_hovered = true
+
+	if _is_waiting_to_hide:
+		assert(visible, "invalid state; expected visible tooltip")
+		
+		_is_visible = true
+		_reset_animation()
+
 	if not _is_visible:
-		show_tooltip(hover_delay)
+		show_tooltip(hover_show_delay)
 
 
 func _on_hover_target_mouse_exited() -> void:
-	_is_hovered = false
+	_is_hover_target_hovered = false
 	if not _is_focused and _is_visible:
-		hide_tooltip()
+		hide_tooltip(hover_hide_delay)
+
+func _on_tooltip_mouse_entered() -> void:
+	_is_tooltip_hovered = true
+
+	if _is_waiting_to_hide:
+		assert(visible, "invalid state; expected visible tooltip")
+
+		_is_visible = true
+		_reset_animation()
+
+func _on_tooltip_mouse_exited() -> void:
+	_is_tooltip_hovered = false
+	if not _is_focused and not _is_hover_target_hovered and _is_visible:
+		hide_tooltip(hover_hide_delay)
