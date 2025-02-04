@@ -35,7 +35,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 ## TooltipPosition defines one of the four faces of the anchor node's bounding box to
 ## which the tooltip can be anchored.
-enum TooltipPosition {
+enum TooltipPosition {  # gdlint:ignore=class-definitions-order
 	ABOVE = 0,
 	RIGHT = 1,
 	BELOW = 2,
@@ -60,23 +60,35 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 ## tooltip_offset is a positional offset from the anchor when the tooltip is shown.
 @export var tooltip_offset: Vector2 = Vector2.ZERO
 
-@export_subgroup("Visibility")
+@export_subgroup("Focus")
+
+## focus_delay is a wait time prior to starting the "show" tooltip animation when the
+## action is triggered by the focus target. Ignored when `show_when_focused` is `false`.
+@export var focus_delay: float = 0.0
 
 ## focus_target is an alternative `Control` node which, when it grabs focus, will reveal
 ## the tooltip. Ignored if `show_when_focused` is set to `false`.
 ##
-## NOTE: If set, the `anchor` node will *not* be listened to for hover events.
+## NOTE: If set, the `anchor` node will *not* be listened to for hover events. Ignored
+## when `show_when_focused` is `false`.
 @export var focus_target: Control = null
-
-## hover_target is an alternative `CanvasItem` node which, when hovered, will reveal the
-## tooltip. Ignored if `show_when_hovered` is set to `false`.
-##
-## NOTE: If set, the `anchor` node will *not* be listened to for hover events.
-@export var hover_target: CanvasItem = null
 
 ## show_when_focused controls whether the tooltip will be revealed by focusing the
 ## anchor node (or `focus_target` if set).
 @export var show_when_focused: bool = true
+
+@export_subgroup("Hover")
+
+## hover_delay is a wait time prior to starting the "show" tooltip animation when the
+## action is triggered by the hover target. Ignored when `show_when_hovered` is `false`.
+@export var hover_delay: float = 0.0
+
+## hover_target is an alternative `CanvasItem` node which, when hovered, will reveal the
+## tooltip. Ignored if `show_when_hovered` is set to `false`.
+##
+## NOTE: If set, the `anchor` node will *not* be listened to for hover events. Ignored
+## when `show_when_hovered` is `false`.
+@export var hover_target: CanvasItem = null
 
 ## show_when_hovered controls whether the tooltip will be revealed by hovering over the
 ## anchor node (or `hover_target` if set).
@@ -130,7 +142,7 @@ func hide_tooltip() -> void:
 ##
 ## NOTE: This method should be preferred over `show`, which will immediately toggle
 ## visibility - ignoring animations.
-func show_tooltip() -> void:
+func show_tooltip(delay: float = 0.0) -> void:
 	if _is_visible:
 		return
 
@@ -138,7 +150,7 @@ func show_tooltip() -> void:
 	_is_visible = true
 
 	_reposition()
-	_show_tooltip()
+	_show_tooltip(delay)
 
 	tooltip_opened.emit()
 
@@ -170,8 +182,6 @@ func _ready() -> void:
 		var focus_node := focus_target if focus_target else anchor
 		Signals.connect_safe(focus_node.focus_entered, _on_focus_target_focus_entered)
 		Signals.connect_safe(focus_node.focus_exited, _on_focus_target_focus_exited)
-
-	_update()
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -246,7 +256,7 @@ func _get_target_tooltip_global_position() -> Vector2:
 func _hide_tooltip() -> void:
 	assert(not _is_visible, "invalid state; conflicting visible state")
 
-	_tween = create_tween()
+	_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_BOUND)
 
 	if fade_out:
 		fade_out.apply_tween_property(_tween, self, 0)
@@ -268,6 +278,7 @@ func _hide_tooltip() -> void:
 
 
 func _reposition() -> void:
+	# TODO: This can be relaxed through use of `Tween.interpolate_value`.
 	assert(not _tween, "invalid state; can't reposition during animation")
 
 	var target_position := _get_target_tooltip_global_position()
@@ -284,17 +295,18 @@ func _reset_animation() -> void:
 	_tween = null
 
 
-func _show_tooltip() -> void:
+func _show_tooltip(delay: float) -> void:
 	assert(_is_visible, "invalid state; conflicting visible state")
 
 	modulate.a = 1  # Ensure the alpha value has been restored.
 	show()
 
-	_tween = create_tween()
+	_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_BOUND)
+	_tween.tween_interval(delay)
 
 	if fade_in:
 		modulate.a = 0
-		fade_in.apply_tween_property(_tween, self, 1)
+		fade_in.apply_tween_property(_tween, self, 1, false)
 
 	if slide_in:
 		(
@@ -303,20 +315,11 @@ func _show_tooltip() -> void:
 				_tween,
 				self,
 				_get_target_tooltip_global_position(),
+				fade_in != null,
 			)
 		)
 
 	_tween.chain().tween_callback(_reset_animation)
-
-
-func _update() -> void:
-	if not _is_focused and not _is_hovered and _is_visible:
-		hide_tooltip()
-		return
-
-	if (_is_focused or _is_hovered) and not _is_visible:
-		show_tooltip()
-		return
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
@@ -335,19 +338,23 @@ func _on_anchor_visibility_changed() -> void:
 
 func _on_focus_target_focus_entered() -> void:
 	_is_focused = true
-	_update()
+	if not _is_visible:
+		show_tooltip(focus_delay)
 
 
 func _on_focus_target_focus_exited() -> void:
 	_is_focused = false
-	_update()
+	if not _is_hovered and _is_visible:
+		hide_tooltip()
 
 
 func _on_hover_target_mouse_entered() -> void:
 	_is_hovered = true
-	_update()
+	if not _is_visible:
+		show_tooltip(hover_delay)
 
 
 func _on_hover_target_mouse_exited() -> void:
 	_is_hovered = false
-	_update()
+	if not _is_focused and _is_visible:
+		hide_tooltip()
