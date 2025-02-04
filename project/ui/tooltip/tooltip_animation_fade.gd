@@ -24,6 +24,7 @@ func _apply_tween_property(
 	(
 		tween
 		. tween_property(target, ^"modulate:a", value, animation_duration)
+		. set_delay(animation_delay)
 		. set_ease(animation_ease)
 		. set_trans(animation_transition)
 	)

@@ -39,6 +39,7 @@ func _apply_tween_property(
 			value,
 			animation_duration,
 		)
+		. set_delay(animation_delay)
 		. set_ease(animation_ease)
 		. set_trans(animation_transition)
 	)

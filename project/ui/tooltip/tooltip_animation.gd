@@ -10,6 +10,9 @@ extends Resource
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
+## animation_delay is the duration of time prior to starting the animation.
+@export var animation_delay: float = 0.0
+
 ## animation_duration is the duration (in seconds) over which the animation plays.
 @export var animation_duration: float = 0.0
 
