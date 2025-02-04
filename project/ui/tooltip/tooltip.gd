@@ -36,14 +36,16 @@ const Signals := preload("res://addons/std/event/signal.gd")
 ## TooltipPosition defines one of the four faces of the anchor node's bounding box to
 ## which the tooltip can be anchored.
 enum TooltipPosition {  # gdlint:ignore=class-definitions-order
-	ABOVE = 0,
-	RIGHT = 1,
-	BELOW = 2,
-	LEFT = 3,
+	CENTERED = 0,
+	ABOVE = 1,
+	RIGHT = 2,
+	BELOW = 3,
+	LEFT = 4,
 }
 
 const TOOLTIP_POSITION_ABOVE := TooltipPosition.ABOVE
 const TOOLTIP_POSITION_BELOW := TooltipPosition.BELOW
+const TOOLTIP_POSITION_CENTERED := TooltipPosition.CENTERED
 const TOOLTIP_POSITION_LEFT := TooltipPosition.LEFT
 const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 
@@ -128,6 +130,7 @@ var _is_hover_target_hovered: bool = false
 var _is_tooltip_hovered: bool = false
 var _is_visible: bool = false
 var _is_waiting_to_hide: bool = false
+var _mouse_filter: MouseFilter = MouseFilter.MOUSE_FILTER_IGNORE
 var _tween: Tween = null
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
@@ -172,6 +175,9 @@ func show_tooltip(delay: float = 0.0) -> void:
 
 
 func _ready() -> void:
+	_mouse_filter = mouse_filter
+	mouse_filter = MOUSE_FILTER_IGNORE
+
 	visible = false
 	top_level = true
 
@@ -200,11 +206,6 @@ func _ready() -> void:
 		var focus_node := focus_target if focus_target else anchor
 		Signals.connect_safe(focus_node.focus_entered, _on_focus_target_focus_entered)
 		Signals.connect_safe(focus_node.focus_exited, _on_focus_target_focus_exited)
-
-	if anchor.is_node_ready():
-		_reposition()
-	else:
-		Signals.connect_safe(anchor.ready, _reposition, CONNECT_ONE_SHOT)
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -235,12 +236,14 @@ func _get_slide_offset(animation: TooltipAnimationSlide) -> Vector2:
 	var motion := animation.animation_translation
 
 	match tooltip_position:
+		TOOLTIP_POSITION_CENTERED:
+			animation_offset = motion
 		TOOLTIP_POSITION_ABOVE:
 			animation_offset = Vector2(motion.y, -motion.x)
 		TOOLTIP_POSITION_BELOW:
 			animation_offset = Vector2(motion.y, motion.x)
 		TOOLTIP_POSITION_RIGHT:
-			animation_offset = Vector2(motion.x, motion.y)
+			animation_offset = motion
 		TOOLTIP_POSITION_LEFT:
 			animation_offset = Vector2(-motion.x, motion.y)
 
@@ -259,6 +262,8 @@ func _get_target_tooltip_global_position() -> Vector2:
 	var distance := (target_rect.size / 2.0) + (tooltip_rect.size / 2.0)
 
 	match tooltip_position:
+		TOOLTIP_POSITION_CENTERED:
+			distance = Vector2.ZERO
 		TOOLTIP_POSITION_ABOVE:
 			distance = Vector2(0.0, -distance.y)
 		TOOLTIP_POSITION_RIGHT:
@@ -277,8 +282,10 @@ func _get_target_tooltip_global_position() -> Vector2:
 
 
 func _hide_tooltip(delay: float) -> void:
+	assert(not _tween, "invalid state; already animatint")
 	assert(not _is_visible, "invalid state; conflicting visible state")
 
+	var parallel: bool = false
 	_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_BOUND)
 
 	_is_waiting_to_hide = true
@@ -289,6 +296,7 @@ func _hide_tooltip(delay: float) -> void:
 		fade_out.apply_tween_property(_tween, self, 0, false)
 
 	if slide_out:
+		parallel = fade_out != null
 		var animation_offset := _get_slide_offset(slide_out)
 
 		(
@@ -297,12 +305,16 @@ func _hide_tooltip(delay: float) -> void:
 				_tween,
 				self,
 				_get_target_tooltip_global_position() + animation_offset,
-				fade_out != null,
+				parallel,
 			)
 		)
 
-	_tween.chain().tween_callback(hide)
-	_tween.chain().tween_callback(_reset_animation)
+	if parallel:
+		_tween.chain()
+
+	_tween.tween_callback(func() -> void: mouse_filter = MOUSE_FILTER_IGNORE)
+	_tween.tween_callback(hide)
+	_tween.tween_callback(_reset_animation)  # Kills tween so must be last.
 
 
 func _reposition() -> void:
@@ -326,11 +338,15 @@ func _reset_animation() -> void:
 
 
 func _show_tooltip(delay: float) -> void:
+	assert(not _tween, "invalid state; already animatint")
 	assert(_is_visible, "invalid state; conflicting visible state")
+
+	_reposition()
 
 	modulate.a = 1  # Ensure the alpha value has been restored.
 	show()
 
+	var parallel: bool = false
 	_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_BOUND)
 	_tween.tween_interval(delay)
 
@@ -339,17 +355,23 @@ func _show_tooltip(delay: float) -> void:
 		fade_in.apply_tween_property(_tween, self, 1, false)
 
 	if slide_in:
+		parallel = fade_in != null
+
 		(
 			slide_in
 			. apply_tween_property(
 				_tween,
 				self,
 				_get_target_tooltip_global_position(),
-				fade_in != null,
+				parallel,
 			)
 		)
 
-	_tween.chain().tween_callback(_reset_animation)
+	if parallel:
+		_tween.chain()
+
+	_tween.tween_callback(func() -> void: mouse_filter = _mouse_filter)
+	_tween.tween_callback(_reset_animation)  # Kills tween so must be last.
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
