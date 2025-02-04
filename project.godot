@@ -26,12 +26,6 @@ config/project_settings_override.editor="res://settings.cfg"
 
 buses/default_bus_layout="res://system/audio/default_audio_bus_layout.tres"
 
-[autoload]
-
-Lifecycle="*res://project/main/lifecycle.gd"
-Platform="*res://platform/platform.tscn"
-System="*res://system/system.tscn"
-
 [display]
 
 window/size/viewport_width=1920

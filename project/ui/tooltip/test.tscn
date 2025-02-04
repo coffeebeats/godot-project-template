@@ -1,0 +1,127 @@
+[gd_scene load_steps=9 format=3 uid="uid://cvy6n03kbuu3i"]
+
+[ext_resource type="Script" path="res://project/ui/tooltip/test.gd" id="1_lrmll"]
+[ext_resource type="Script" path="res://project/ui/tooltip/tooltip_control.gd" id="2_nn2w4"]
+[ext_resource type="Script" path="res://project/ui/tooltip/tooltip_animation_slide.gd" id="3_epwft"]
+[ext_resource type="Script" path="res://project/ui/tooltip/tooltip_animation_fade.gd" id="4_4bm5d"]
+
+[sub_resource type="Resource" id="Resource_fpyo0"]
+script = ExtResource("4_4bm5d")
+animation_delay = 0.0
+animation_duration = 0.18
+animation_ease = 1
+animation_transition = 5
+
+[sub_resource type="Resource" id="Resource_6kuta"]
+script = ExtResource("4_4bm5d")
+animation_delay = 0.04
+animation_duration = 0.12
+animation_ease = 1
+animation_transition = 5
+
+[sub_resource type="Resource" id="Resource_t41s8"]
+script = ExtResource("3_epwft")
+animation_translation = Vector2(-6, 0)
+animation_delay = 0.0
+animation_duration = 0.18
+animation_ease = 1
+animation_transition = 5
+
+[sub_resource type="Resource" id="Resource_s3eeq"]
+script = ExtResource("3_epwft")
+animation_translation = Vector2(14, 0)
+animation_delay = 0.0
+animation_duration = 0.16
+animation_ease = 1
+animation_transition = 5
+
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lrmll")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4.0
+offset_right = 4.0
+offset_bottom = 8.0
+grow_horizontal = 2
+text = "PRESS"
+
+[node name="Body" type="CenterContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.0
+offset_top = -33.5
+offset_right = 132.0
+offset_bottom = 33.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sample" type="Label" parent="Body"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 48
+text = "Sample test
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tooltip" type="CenterContainer" parent="Body/Sample" node_paths=PackedStringArray("focus_target")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.5
+offset_top = -33.5
+offset_right = 175.5
+offset_bottom = 33.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(128, 0)
+script = ExtResource("2_nn2w4")
+tooltip_position = 0
+focus_delay = 0.32
+focus_target = NodePath("../../../Button")
+hover_hide_delay = 0.5
+hover_show_delay = 0.4
+fade_in = SubResource("Resource_fpyo0")
+fade_out = SubResource("Resource_6kuta")
+slide_in = SubResource("Resource_t41s8")
+slide_out = SubResource("Resource_s3eeq")
+
+[node name="PanelContainer" type="PanelContainer" parent="Body/Sample/Tooltip"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Body/Sample/Tooltip/PanelContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "This is a tooltip."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FPS" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 22.3333
+theme_override_font_sizes/font_size = 48
