@@ -132,6 +132,7 @@ var _tween: Tween = null
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## hide_tooltip hides the tooltip after animating its outgoing effects. If `animate` is
 ## `false`, then animations will be skipped.
 ##
@@ -200,7 +201,10 @@ func _ready() -> void:
 		Signals.connect_safe(focus_node.focus_entered, _on_focus_target_focus_entered)
 		Signals.connect_safe(focus_node.focus_exited, _on_focus_target_focus_exited)
 
-	_reposition.call_deferred()
+	if anchor.is_node_ready():
+		_reposition()
+	else:
+		Signals.connect_safe(anchor.ready, _reposition, CONNECT_ONE_SHOT)
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -279,7 +283,7 @@ func _hide_tooltip(delay: float) -> void:
 
 	_is_waiting_to_hide = true
 	_tween.tween_interval(delay)
-	_tween.tween_callback(func (): _is_waiting_to_hide = false)
+	_tween.tween_callback(func(): _is_waiting_to_hide = false)
 
 	if fade_out:
 		fade_out.apply_tween_property(_tween, self, 0, false)
@@ -312,6 +316,8 @@ func _reposition() -> void:
 
 
 func _reset_animation() -> void:
+	_is_waiting_to_hide = false
+
 	if not _tween:
 		return
 
@@ -390,7 +396,7 @@ func _on_hover_target_mouse_entered() -> void:
 
 	if _is_waiting_to_hide:
 		assert(visible, "invalid state; expected visible tooltip")
-		
+
 		_is_visible = true
 		_reset_animation()
 
@@ -403,6 +409,7 @@ func _on_hover_target_mouse_exited() -> void:
 	if not _is_focused and _is_visible:
 		hide_tooltip(hover_hide_delay)
 
+
 func _on_tooltip_mouse_entered() -> void:
 	_is_tooltip_hovered = true
 
@@ -411,6 +418,7 @@ func _on_tooltip_mouse_entered() -> void:
 
 		_is_visible = true
 		_reset_animation()
+
 
 func _on_tooltip_mouse_exited() -> void:
 	_is_tooltip_hovered = false
