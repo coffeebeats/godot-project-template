@@ -18,75 +18,103 @@ signal closed
 ## opened is emitted when the modal is opened.
 signal opened
 
+## clicked is emitted when the modal scrim receives a mouse button event.
+##
+## NOTE: This will be emitted prior to closing the modal if `scrim_click_to_close` is a
+## match. Manually consuming the event will prevent an otherwise matching "close" click
+## from being actioned on.
+signal clicked(event: InputEvent)
+
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## action_toggle is the name of an input action which will toggle the modal open and
-## closed. If empty, the 'Modal' must be manually closed by toggling 'visible'.
-##
-## NOTE: The modal will only detect shortcuts (i.e. keys and joypad buttons).
-@export var action_toggle: StringName = ""
+## float_under reparents this `Modal` node under the node specified by this path.
+@export var float_under: NodePath = ^""
 
-## floating controls whether this node is re-parented to the nearest `Viewport` node and
-## thus renders on top of the scene.
-@export var floating: bool = false
+@export_subgroup("Scrim")
+
+## scrim_enabled toggles the addition of a modal barrier underneath this node's
+## children. It can be tinted by specifying `scrim_color`, and mouse clicks on it can
+## close the modal if `scrim_click_to_close` matches the click's button index.
+@export var scrim_enabled: bool = true
+
+## scrim_click_to_close is a bitfield of `MouseButtonMask` values which, when the scrim
+## is clicked with one of the matching mouse buttons, will cause the `Modal` to close.
+@export_flags("Left", "Right", "Middle") var scrim_click_to_close: int = 0
+
+## scrim_color controls the color of the modal background.
+@export var scrim_color: Color = Color.TRANSPARENT
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
+
+static var _stack: Array[Modal] = []
+static var _logger := StdLogger.create(&"project/ui/modal")
 
 var _is_open: bool = false
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _exit_tree() -> void:
+	_stack.erase(self)
+
+
+# NOTE: Prefer this over `_unhandled_input` because this needs to be handled prior to
+# propagating through other input handling layers.
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):
+		accept_event()
+		hide()
+
+
+func _gui_input(event: InputEvent) -> void:
+	if not event is InputEventMouseButton:
+		return
+
+	if event.is_pressed() and not event.is_echo():
+		clicked.emit(event)
+
+	if (
+		(Input.get_mouse_button_mask() & scrim_click_to_close)
+		and not get_viewport().is_input_handled()
+	):
+		visible = false
+
+
 func _notification(what) -> void:
 	match what:
 		NOTIFICATION_VISIBILITY_CHANGED:
+			if not is_node_ready():
+				return
+
 			if _is_open and not visible:
+				_on_modal_closed()
 				closed.emit()
 			elif not _is_open and visible:
+				_on_modal_opened()
 				opened.emit()
 
 			_is_open = visible
 
 
 func _ready() -> void:
-	# TODO: Validate action is supported type for shortcuts.
-	assert(
-		not action_toggle or InputMap.has_action(action_toggle),
-		"invalid action: %s" % action_toggle,
-	)
+	set_process_input(visible)
 
-	if not action_toggle:
-		set_process_shortcut_input(false)
-
-	mouse_filter = MOUSE_FILTER_STOP
+	mouse_filter = MOUSE_FILTER_STOP if visible else MOUSE_FILTER_IGNORE
 	mouse_force_pass_scroll_events = false
 
-	if floating:
-		var parent_prev := get_parent()
-		var parent_next := get_viewport()
-
-		parent_prev.call_deferred(&"remove_child", self)
-		parent_next.call_deferred(&"add_child", self, false, INTERNAL_MODE_BACK)
-
-		Signals.connect_safe(parent_prev.tree_exiting, _cleanup, CONNECT_ONE_SHOT)
-
 	_is_open = visible
+	if visible:
+		_stack.append.call_deferred(self)
 
+	var scrim := _create_scrim()
+	add_child(scrim, false, INTERNAL_MODE_FRONT)
 
-func _shortcut_input(event: InputEvent) -> void:
-	if event.is_action_pressed(action_toggle):
-		assert(_is_open == visible, "state mismatch")
-
-		get_viewport().set_input_as_handled()
-
-		if _is_open:
-			visible = false
-		else:
-			visible = true
+	if float_under:
+		_reparent()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -100,3 +128,66 @@ func _cleanup() -> void:
 		parent.remove_child(self)
 
 	queue_free()
+
+
+func _create_scrim() -> ColorRect:
+	var scrim := ColorRect.new()
+	scrim.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	scrim.color = scrim_color
+	scrim.mouse_filter = MOUSE_FILTER_IGNORE
+	return scrim
+
+
+func _reparent() -> void:
+	var parent_prev := get_parent()
+	var parent_next := get_node(float_under)
+	assert(parent_next is Node, "invalid config; missing parent node")
+
+	if parent_next == parent_prev:
+		return
+
+	_logger.debug("Floating modal under new parent.", {&"parent": float_under})
+
+	parent_prev.remove_child.call_deferred(self)
+	parent_next.add_child.call_deferred(self, false)
+
+	Signals.connect_safe(parent_prev.tree_exiting, _cleanup, CONNECT_ONE_SHOT)
+
+
+# -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_modal_closed() -> void:
+	assert(not visible, "invalid state; expected hidden modal")
+	assert(self in _stack, "invalid state; is missing in modal stack")
+
+	set_process_input(false)
+
+	mouse_filter = MOUSE_FILTER_IGNORE
+
+	_stack.erase(self)
+	assert(self not in _stack, "invalid state; duplicated modal stack entry")
+
+	if not _stack:
+		System.input.set_focus_root(null)
+		return
+
+	var head: Modal = _stack.back()
+	System.input.set_focus_root(head)
+
+
+func _on_modal_opened() -> void:
+	assert(visible, "invalid state; expected visible modal")
+	assert(self not in _stack, "invalid state; already in modal stack")
+
+	System.input.set_focus_root(self)
+
+	set_process_input(true)
+
+	mouse_filter = MOUSE_FILTER_STOP
+	assert(not mouse_force_pass_scroll_events, "invalid state; scroll events passed")
+
+	_stack.append(self)
+
+	if float_under:
+		move_to_front()
