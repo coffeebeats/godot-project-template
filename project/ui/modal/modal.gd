@@ -50,8 +50,8 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var _logger := StdLogger.create(&"project/ui/modal")  # gdlint:ignore=class-definitions-order,max-line-length
-static var _stack: Array[Modal] = []  # gdlint:ignore=class-definitions-order
+static var _logger := StdLogger.create(&"project/ui/modal") # gdlint:ignore=class-definitions-order,max-line-length
+static var _stack: Array[Modal] = [] # gdlint:ignore=class-definitions-order
 
 var _is_open: bool = false
 
@@ -69,10 +69,8 @@ func _gui_input(event: InputEvent) -> void:
 	if event.is_pressed() and not event.is_echo():
 		clicked.emit(event)
 
-	if (
-		(Input.get_mouse_button_mask() & scrim_click_to_close)
-		and not get_viewport().is_input_handled()
-	):
+	if Input.get_mouse_button_mask() & scrim_click_to_close:
+		accept_event()
 		visible = false
 
 
