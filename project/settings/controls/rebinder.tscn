@@ -1,13 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dm1yyvkqdxmqe"]
+[gd_scene load_steps=5 format=3 uid="uid://dm1yyvkqdxmqe"]
 
 [ext_resource type="Script" path="res://project/settings/controls/rebinder.gd" id="1_lre2j"]
-[ext_resource type="PackedScene" uid="uid://ddxioxjkv2o8j" path="res://project/ui/modal/scrim.tscn" id="2_dbjkr"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
 
 [node name="BindingPrompt" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +13,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lre2j")
-floating = true
+float_under = NodePath("/root")
+scrim_color = Color(0, 0, 0, 0.607843)
 
 [node name="StdInputActionSetLoader" type="Control" parent="."]
 anchors_preset = 0
@@ -26,9 +25,6 @@ action_set_layer = ExtResource("3_nyt6g")
 enable_on_enter = false
 enable_on_visible = true
 disable_on_hidden = true
-
-[node name="Scrim" parent="." instance=ExtResource("2_dbjkr")]
-layout_mode = 1
 
 [node name="Bar" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(0, 256)

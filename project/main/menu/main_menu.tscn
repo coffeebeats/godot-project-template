@@ -1,11 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=17 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="3_2fhwa"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
-[ext_resource type="Script" path="res://project/ui/modal/modal.gd" id="4_y3h4b"]
+[ext_resource type="PackedScene" uid="uid://u0t3pwq31pyh" path="res://project/ui/modal/modal.tscn" id="4_cfkjs"]
 [ext_resource type="PackedScene" uid="uid://nqcb7t7nk8cn" path="res://project/settings/menu.tscn" id="5_46s0c"]
+[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="7_2ro8v"]
+[ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_b6iwl"]
 [ext_resource type="PackedScene" uid="uid://bs5nke3386ggd" path="res://project/save/save_slots.tscn" id="7_u240f"]
+[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="8_44ldu"]
+[ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="8_bavw3"]
+[ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="9_vcdle"]
+[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="10_k0l1f"]
+[ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="10_ux3tr"]
+[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="12_ypfyi"]
+[ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="13_tu2id"]
+
+[sub_resource type="Resource" id="Resource_doihw"]
+script = ExtResource("13_tu2id")
+block = ExtResource("12_ypfyi")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -119,51 +132,45 @@ layout_mode = 1
 offset_left = -96.0
 offset_top = -63.0
 
-[node name="Settings" type="Control" parent="."]
+[node name="Settings" parent="." instance=ExtResource("4_cfkjs")]
+layout_mode = 2
+anchors_preset = 0
+float_under = NodePath("..")
+
+[node name="CenterContainer" type="CenterContainer" parent="Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu" parent="Settings/CenterContainer" instance=ExtResource("5_46s0c")]
+custom_minimum_size = Vector2(1440, 810)
+layout_mode = 2
+
+[node name="SaveSlots" parent="." instance=ExtResource("4_cfkjs")]
+layout_mode = 2
+anchors_preset = 0
+float_under = NodePath("..")
+
+[node name="CenterContainer" type="CenterContainer" parent="SaveSlots"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SaveSlots" parent="SaveSlots/CenterContainer" instance=ExtResource("7_u240f")]
+layout_mode = 2
+
+[node name="StdConditionParent" type="Node" parent="."]
+script = ExtResource("7_b6iwl")
+expressions_allow = Array[ExtResource("8_bavw3")]([ExtResource("9_vcdle"), ExtResource("10_k0l1f"), ExtResource("10_ux3tr")])
+expressions_block = Array[ExtResource("8_bavw3")]([SubResource("Resource_doihw")])
+
+[node name="BindingPrompt" parent="StdConditionParent" instance=ExtResource("7_2ro8v")]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_y3h4b")
-action_toggle = &"ui_cancel"
-
-[node name="ColorRect" type="ColorRect" parent="Settings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.784314)
-
-[node name="Menu" parent="Settings" instance=ExtResource("5_46s0c")]
-layout_mode = 1
-
-[node name="SaveSlots" type="Control" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_y3h4b")
-
-[node name="ColorRect" type="ColorRect" parent="SaveSlots"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.784314)
-
-[node name="SaveSlots" parent="SaveSlots" instance=ExtResource("7_u240f")]
-layout_mode = 1
-offset_left = -752.0
-offset_top = -297.5
-offset_right = 752.0
-offset_bottom = 297.5
+scope = ExtResource("8_44ldu")
+float_under = NodePath("../..")

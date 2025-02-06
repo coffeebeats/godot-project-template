@@ -49,6 +49,9 @@ theme_override_constants/separation = 32
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="StdInputCursorFocusHandler" parent="MarginContainer/VBoxContainer/SlotButtons/SlotButton1" index="0"]
+use_as_anchor = true
+
 [node name="SlotButton2" parent="MarginContainer/VBoxContainer/SlotButtons" instance=ExtResource("2_gycxb")]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -93,3 +96,5 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "save_slots_delete"
+
+[editable path="MarginContainer/VBoxContainer/SlotButtons/SlotButton1"]
