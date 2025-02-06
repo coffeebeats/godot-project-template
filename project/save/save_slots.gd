@@ -37,14 +37,14 @@ func _ready():
 
 		button.pressed.connect(_on_slot_button_pressed.bind(button.slot))
 
+	var saves := Systems.saves()
+
 	for slot in _delete_buttons.get_child_count():
 		var button: Button = _delete_buttons.get_child(slot)
 		if not button is Button:
 			continue
 
-		button.disabled = (
-			System.saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY
-		)
+		button.disabled = (saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY)
 		button.pressed.connect(_on_delete_button_pressed.bind(button, slot))
 
 
@@ -52,17 +52,18 @@ func _ready():
 
 
 func _on_delete_button_pressed(button: Button, slot: int) -> void:
-	if System.saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
+	var saves := Systems.saves()
+	if saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
 		return
 
 	button.disabled = true
 
-	if not System.saves.erase_slot(slot):
+	if not saves.erase_slot(slot):
 		button.disabled = false
 
 
 func _on_slot_button_pressed(slot: int) -> void:
-	if not System.saves.activate_slot(slot):
+	if not Systems.saves().activate_slot(slot):
 		return
 
 	scene_handle.transition_to(^"Core/Loading/Scene")

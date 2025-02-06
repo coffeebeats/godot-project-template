@@ -32,9 +32,10 @@ var _save_data: ProjectSaveData = null
 func _ready():
 	assert(scene_handle is SceneHandle, "invalid config; missing scene handle")
 
-	_save_data = System.saves.create_new_save_data()
+	var saves := Systems.saves()
+	_save_data = saves.create_new_save_data()
 
-	if not System.saves.get_save_data(_save_data):
+	if not saves.get_save_data(_save_data):
 		# TODO: Return back to the main menu.
 		assert(false, "invalid state; missing save data")
 
@@ -73,7 +74,7 @@ func _on_return_pressed() -> void:
 func _on_save_pressed() -> void:
 	_save.disabled = true
 
-	if await System.saves.store_save_data(_save_data):
+	if await Systems.saves().store_save_data(_save_data):
 		_update_counter_label()
 
 	_save.disabled = false

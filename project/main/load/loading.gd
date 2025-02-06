@@ -36,9 +36,10 @@ func _ready() -> void:
 
 
 func _load_scene() -> void:
-	var data := System.saves.create_new_save_data()
+	var saves := Systems.saves()
+	var data := saves.create_new_save_data()
 
-	if not await System.saves.load_save_data(data):
+	if not await saves.load_save_data(data):
 		scene_handle.transition_to(scene_path_failed)
 		return
 
