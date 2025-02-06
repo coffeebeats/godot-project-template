@@ -73,7 +73,10 @@ func _gui_input(event: InputEvent) -> void:
 	if event.is_pressed() and not event.is_echo():
 		clicked.emit(event)
 
-	if Input.get_mouse_button_mask() & scrim_click_to_close:
+	if (
+		(Input.get_mouse_button_mask() & scrim_click_to_close)
+		and not get_viewport().is_input_handled()
+	):
 		visible = false
 
 		if scrim_click_consumes_input:
