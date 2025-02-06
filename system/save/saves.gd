@@ -355,6 +355,7 @@ func _enter_tree() -> void:
 	assert(StdGroup.is_empty(GROUP_SAVES_SHIM), "invalid state; duplicate node found")
 	StdGroup.with_id(GROUP_SAVES_SHIM).add_member(self)
 
+
 func _exit_tree() -> void:
 	StdGroup.with_id(GROUP_SAVES_SHIM).remove_member(self)
 

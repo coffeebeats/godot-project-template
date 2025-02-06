@@ -27,9 +27,11 @@ var _logger := StdLogger.create(&"project/main/lifecycle")
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## is_shutting_down returns whether a shutdown is in progress.
 func is_shutting_down() -> bool:
 	return _is_shutdown_requested
+
 
 ## shutdown gracefully shuts down the application, allowing all nodes in the scene the
 ## chance to respond to the shutdown notification.

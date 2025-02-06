@@ -17,9 +17,11 @@ const GROUP_INPUT_SHIM := &"system/input:shim"
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _enter_tree() -> void:
 	assert(StdGroup.is_empty(GROUP_INPUT_SHIM), "invalid state; duplicate node found")
 	StdGroup.with_id(GROUP_INPUT_SHIM).add_member(self)
+
 
 func _exit_tree() -> void:
 	StdGroup.with_id(GROUP_INPUT_SHIM).remove_member(self)
