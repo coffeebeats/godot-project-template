@@ -27,28 +27,16 @@ var _save_slot: SaveSlot = null
 @onready var _container_contents: Control = %Contents
 @onready var _label_last_updated: Label = %LastUpdated
 
-# NOTE: Accessing `Saves` via the `System` autoload works, but produces an error
-# (seemingly when this script is loaded on another thread). The workaround, fetching the
-# node via its path, prevents the error.
-@onready var _saves: Saves = get_node(^"/root/System/Saves")
-
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _exit_tree() -> void:
-	Signals.disconnect_safe(_saves.slot_activated, _on_save_slot_updated)
-	Signals.disconnect_safe(_saves.slot_deactivated, _on_save_slot_updated)
-	Signals.disconnect_safe(_saves.slot_erased, _on_save_slot_updated)
-	Signals.disconnect_safe(_save_slot.changed, _on_save_slot_changed)
-
-
 func _ready():
-	_save_slot = _saves.get_save_slot(slot)
+	_save_slot = System.saves.get_save_slot(slot)
 	assert(_save_slot is SaveSlot, "invalid state; missing save summary")
 
-	Signals.connect_safe(_saves.slot_activated, _on_save_slot_updated)
-	Signals.connect_safe(_saves.slot_deactivated, _on_save_slot_updated)
-	Signals.connect_safe(_saves.slot_erased, _on_save_slot_updated)
+	Signals.connect_safe(System.saves.slot_activated, _on_save_slot_updated)
+	Signals.connect_safe(System.saves.slot_deactivated, _on_save_slot_updated)
+	Signals.connect_safe(System.saves.slot_erased, _on_save_slot_updated)
 	Signals.connect_safe(_save_slot.changed, _on_save_slot_changed)
 
 	_update_contents()
@@ -67,7 +55,7 @@ func _update_contents() -> void:
 	)
 
 	_container_contents.visible = _save_slot.status == SaveSlot.STATUS_OK
-	_label_active.visible = slot == _saves.get_active_save_slot()
+	_label_active.visible = slot == System.saves.get_active_save_slot()
 	_label_empty.visible = is_empty
 	_label_broken.visible = is_broken
 

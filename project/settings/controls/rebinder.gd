@@ -85,13 +85,16 @@ func start(
 	_update_prompt()
 	visible = true
 
-	print(
-		"project/settings/rebinder.gd[",
-		get_instance_id(),
-		(
-			"]: started listening: %s"
-			% ("%s/%s" % [_action_set.name, _action] if _action_set else "")
-		),
+	(
+		_logger
+		. debug(
+			"Starting listening for new key binding.",
+			(
+				{&"action_set": _action_set.name, &"action": _action}
+				if _action_set
+				else {}
+			),
+		)
 	)
 
 	return true
@@ -109,13 +112,16 @@ func stop() -> void:
 		assert(false, "invalid state; missing input slot")
 		return
 
-	print(
-		"project/settings/rebinder.gd[",
-		get_instance_id(),
-		(
-			"]: stopped listening: %s"
-			% ("%s/%s" % [_action_set.name, _action] if _action_set else "")
-		),
+	(
+		_logger
+		. debug(
+			"Stopped listening for key bindings.",
+			(
+				{&"action_set": _action_set.name, &"action": _action}
+				if _action_set
+				else {}
+			),
+		)
 	)
 
 	Signals.disconnect_safe(slot.device_activated, _on_device_activated)
@@ -188,6 +194,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	super._ready()  # gdlint:ignore=private-method-call
 	set_process_input(false)
+
+	_logger = _logger.named(&"project/settings/rebind")
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #

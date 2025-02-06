@@ -18,12 +18,6 @@ extends OptionButton
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _exit_tree() -> void:
-	var popup_menu := get_popup()
-	if popup_menu.menu_changed.is_connected(_on_PopupMenu_menu_changed):
-		popup_menu.menu_changed.disconnect(_on_PopupMenu_menu_changed)
-
-
 func _ready():
 	assert(
 		not (checkable and radio_checkable),

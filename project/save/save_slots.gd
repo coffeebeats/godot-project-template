@@ -21,10 +21,6 @@ const SlotButton := preload("slot_button.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-# NOTE: Accessing `Saves` via the `System` autoload works, but produces an error
-# (seemingly when this script is loaded on another thread). The workaround, fetching the
-# node via its path, prevents the error.
-@onready var _saves: Saves = get_node(^"/root/System/Saves")
 @onready var _delete_buttons: Control = %DeleteButtons
 @onready var _slot_buttons: Control = %SlotButtons
 
@@ -46,7 +42,9 @@ func _ready():
 		if not button is Button:
 			continue
 
-		button.disabled = _saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY
+		button.disabled = (
+			System.saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY
+		)
 		button.pressed.connect(_on_delete_button_pressed.bind(button, slot))
 
 
@@ -54,17 +52,17 @@ func _ready():
 
 
 func _on_delete_button_pressed(button: Button, slot: int) -> void:
-	if _saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
+	if System.saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
 		return
 
 	button.disabled = true
 
-	if not _saves.erase_slot(slot):
+	if not System.saves.erase_slot(slot):
 		button.disabled = false
 
 
 func _on_slot_button_pressed(slot: int) -> void:
-	if not _saves.activate_slot(slot):
+	if not System.saves.activate_slot(slot):
 		return
 
 	scene_handle.transition_to(^"Core/Loading/Scene")
