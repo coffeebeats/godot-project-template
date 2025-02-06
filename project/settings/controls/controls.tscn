@@ -1,10 +1,9 @@
-[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=31 format=3 uid="uid://bd5fo51o6asi2"]
 
-[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="1_7freb"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
 [ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="3_6rqrp"]
-[ext_resource type="Script" path="res://addons/std/condition/expression_feature.gd" id="4_q1fih"]
+[ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="4_7dyaq"]
 [ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="5_73sma"]
 [ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="6_bdd3f"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_i8vxq"]
@@ -30,14 +29,6 @@
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
 
-[sub_resource type="Resource" id="Resource_d5xjy"]
-script = ExtResource("4_q1fih")
-feature = &"editor"
-
-[sub_resource type="Resource" id="Resource_00m0w"]
-script = ExtResource("6_bdd3f")
-block = ExtResource("5_73sma")
-
 [sub_resource type="Resource" id="Resource_pi47t"]
 script = ExtResource("6_bdd3f")
 allow = ExtResource("5_73sma")
@@ -54,15 +45,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"Body"
 
-[node name="Rebinder" parent="." instance=ExtResource("1_7freb")]
-layout_mode = 2
-scope = ExtResource("21_dqueq")
-
 [node name="Godot" type="Node" parent="." node_paths=PackedStringArray("targets")]
 script = ExtResource("1_slt8e")
 targets = [NodePath("../MenuControls"), NodePath("../MenuTabs"), NodePath("../MenuRebinding")]
-expressions_allow = Array[ExtResource("2_xiafk")]([ExtResource("3_6rqrp"), SubResource("Resource_d5xjy")])
-expressions_block = Array[ExtResource("2_xiafk")]([SubResource("Resource_00m0w")])
+expressions_allow = Array[ExtResource("2_xiafk")]([ExtResource("3_6rqrp"), ExtResource("4_7dyaq")])
 
 [node name="Steam" type="Node" parent="."]
 
