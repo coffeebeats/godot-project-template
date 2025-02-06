@@ -133,37 +133,30 @@ offset_left = -96.0
 offset_top = -63.0
 
 [node name="Settings" parent="." instance=ExtResource("4_cfkjs")]
+visible = false
 layout_mode = 2
 anchors_preset = 0
-float_under = NodePath("..")
+mouse_filter = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Settings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Menu" parent="Settings/CenterContainer" instance=ExtResource("5_46s0c")]
+[node name="Menu" parent="Settings" instance=ExtResource("5_46s0c")]
 custom_minimum_size = Vector2(1440, 810)
-layout_mode = 2
+layout_mode = 1
+offset_left = -720.0
+offset_top = -437.0
+offset_right = 720.0
+offset_bottom = 437.0
 
 [node name="SaveSlots" parent="." instance=ExtResource("4_cfkjs")]
+visible = false
 layout_mode = 2
 anchors_preset = 0
-float_under = NodePath("..")
 
-[node name="CenterContainer" type="CenterContainer" parent="SaveSlots"]
+[node name="SaveSlots" parent="SaveSlots" instance=ExtResource("7_u240f")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SaveSlots" parent="SaveSlots/CenterContainer" instance=ExtResource("7_u240f")]
-layout_mode = 2
+offset_left = -720.0
+offset_top = -405.0
+offset_right = 720.0
+offset_bottom = 405.0
 
 [node name="StdConditionParent" type="Node" parent="."]
 script = ExtResource("7_b6iwl")
