@@ -62,14 +62,6 @@ func _exit_tree() -> void:
 	_stack.erase(self)
 
 
-# NOTE: Prefer this over `_unhandled_input` because this needs to be handled prior to
-# propagating through other input handling layers.
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_cancel"):
-		accept_event()
-		hide()
-
-
 func _gui_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
 		return
@@ -82,6 +74,14 @@ func _gui_input(event: InputEvent) -> void:
 		and not get_viewport().is_input_handled()
 	):
 		visible = false
+
+
+# NOTE: Prefer this over `_unhandled_input` because this needs to be handled prior to
+# propagating through other input handling layers.
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):
+		accept_event()
+		hide()
 
 
 func _notification(what) -> void:
