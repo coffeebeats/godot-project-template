@@ -31,6 +31,8 @@ const SaveFileWriter := preload("writer.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
+const GROUP_SAVES_SHIM := &"system/saves:shim"
+
 const CATEGORY_SLOT_DATA := &"__slots__"
 const KEY_ACTIVE_SLOT := &"active"
 
@@ -347,6 +349,14 @@ func store_save_data(data: StdSaveData) -> bool:
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+
+func _enter_tree() -> void:
+	assert(StdGroup.is_empty(GROUP_SAVES_SHIM), "invalid state; duplicate node found")
+	StdGroup.with_id(GROUP_SAVES_SHIM).add_member(self)
+
+func _exit_tree() -> void:
+	StdGroup.with_id(GROUP_SAVES_SHIM).remove_member(self)
 
 
 func _ready() -> void:
