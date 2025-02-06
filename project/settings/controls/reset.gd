@@ -54,12 +54,6 @@ func _enter_tree() -> void:
 	assert(_slot is StdInputSlot, "invalid state; missing player slot")
 
 
-func _exit_tree() -> void:
-	Signals.disconnect_safe(_button.pressed, _on_pressed)
-	Signals.disconnect_safe(scope.config.changed, _on_config_changed)
-	Signals.disconnect_safe(_slot.device_activated, _on_device_activated)
-
-
 func _ready() -> void:
 	assert(scope is StdSettingsScope, "invalid config; missing scope")
 	assert(

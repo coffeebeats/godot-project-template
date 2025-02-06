@@ -61,10 +61,6 @@ const LOCALE_MSGID_ACTION_SET_PREFIX := &"options_controls_"
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _exit_tree() -> void:
-	_clear_settings()
-
-
 func _ready() -> void:
 	# This group uses manual translation calls, so prevent auto-translation.
 	auto_translate_mode = AUTO_TRANSLATE_MODE_DISABLED

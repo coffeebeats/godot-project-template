@@ -63,14 +63,6 @@ func reset() -> void:
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _exit_tree() -> void:
-	if Engine.is_editor_hint():
-		return
-
-	Signals.disconnect_safe(button.pressed, _on_button_pressed)
-	Signals.disconnect_safe(scope.config.changed, _on_bindings_changed)
-
-
 func _ready() -> void:
 	super._ready()
 
