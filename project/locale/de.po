@@ -217,11 +217,6 @@ msgctxt "actions_Menu"
 msgid "Accept"
 msgstr ""
 
-#. An input action that navigates (through a menu) back to the previous selected element.
-msgctxt "actions_Menu"
-msgid "Back"
-msgstr ""
-
 #. An input action used to navigate left within a game menu.
 msgctxt "actions_Menu"
 msgid "Left"
