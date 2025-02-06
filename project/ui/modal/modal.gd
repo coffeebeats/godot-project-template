@@ -168,19 +168,20 @@ func _on_modal_closed() -> void:
 	_stack.erase(self)
 	assert(self not in _stack, "invalid state; duplicated modal stack entry")
 
+	var input := Systems.input()
 	if not _stack:
-		System.input.set_focus_root(null)
+		input.set_focus_root(null)
 		return
 
 	var head: Modal = _stack.back()
-	System.input.set_focus_root(head)
+	input.set_focus_root(head)
 
 
 func _on_modal_opened() -> void:
 	assert(visible, "invalid state; expected visible modal")
 	assert(self not in _stack, "invalid state; already in modal stack")
 
-	System.input.set_focus_root(self)
+	Systems.input().set_focus_root(self)
 
 	set_process_input(true)
 
