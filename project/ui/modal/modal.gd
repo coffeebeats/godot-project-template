@@ -36,22 +36,26 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 @export_subgroup("Scrim")
 
-## scrim_enabled toggles the addition of a modal barrier underneath this node's
-## children. It can be tinted by specifying `scrim_color`, and mouse clicks on it can
-## close the modal if `scrim_click_to_close` matches the click's button index.
-@export var scrim_enabled: bool = true
-
 ## scrim_click_to_close is a bitfield of `MouseButtonMask` values which, when the scrim
 ## is clicked with one of the matching mouse buttons, will cause the `Modal` to close.
+## If this is left empty, then clicks cannot close the `Modal`, causing the scrim to act
+## as a modal barrier.
 @export_flags("Left", "Right", "Middle") var scrim_click_to_close: int = 0
+
+## scrim_click_consumes_input controls whether a mouse click that would close the scrim
+## should be consumed. If set to `false`, the mouse click would continue to propagate
+## through the scene tree.
+##
+## NOTE: This property is ignored if
+@export var scrim_click_consumes_input: bool = true
 
 ## scrim_color controls the color of the modal background.
 @export var scrim_color: Color = Color.TRANSPARENT
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var _logger := StdLogger.create(&"project/ui/modal") # gdlint:ignore=class-definitions-order,max-line-length
-static var _stack: Array[Modal] = [] # gdlint:ignore=class-definitions-order
+static var _logger := StdLogger.create(&"project/ui/modal")  # gdlint:ignore=class-definitions-order,max-line-length
+static var _stack: Array[Modal] = []  # gdlint:ignore=class-definitions-order
 
 var _is_open: bool = false
 
@@ -70,8 +74,10 @@ func _gui_input(event: InputEvent) -> void:
 		clicked.emit(event)
 
 	if Input.get_mouse_button_mask() & scrim_click_to_close:
-		accept_event()
 		visible = false
+
+		if scrim_click_consumes_input:
+			accept_event()
 
 
 # NOTE: Prefer this over `_unhandled_input` because this needs to be handled prior to
