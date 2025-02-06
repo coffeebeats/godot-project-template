@@ -1,24 +1,33 @@
 ##
 ## system/system.gd
 ##
-## System is an autoloaded singleton `Node` which serves as the root for all system-
-## related functionality (i.e. not game-specific).
+## A shared library for ...
+##
+## NOTE: This 'Object' should *not* be instanced and/or added to the 'SceneTree'. It is a
+## "static" library that can be imported at compile-time using 'preload'.
 ##
 
-extends Node
+class_name Systems
+extends Object
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const SystemInput := preload("input/input.gd")
-const SystemSaves := preload("save/saves.gd")
+const InputSystem := preload("res://system/input/input.gd")
+const SavesSystem := preload("res://system/save/saves.gd")
 
-# -- CONFIGURATION ------------------------------------------------------------------- #
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
 
-## input is the input system component.
-@export var input: SystemInput = null
+static func input() -> InputSystem:
+	return StdGroup.get_sole_member(InputSystem.GROUP_INPUT_SHIM)
 
-## saves is the save system component.
-@export var saves: SystemSaves = null
+static func saves() -> SavesSystem:
+	return StdGroup.get_sole_member(SavesSystem.GROUP_SAVES_SHIM)
 
-## setting is the settings system component.
-@export var setting: Node = null
+# -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+
+func _init() -> void:
+	assert(
+		not OS.is_debug_build(),
+		"Invalid config; this 'Object' should not be instantiated!"
+	)
