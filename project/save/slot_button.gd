@@ -31,12 +31,14 @@ var _save_slot: SaveSlot = null
 
 
 func _ready():
-	_save_slot = System.saves.get_save_slot(slot)
+	var saves := Systems.saves()
+
+	_save_slot = saves.get_save_slot(slot)
 	assert(_save_slot is SaveSlot, "invalid state; missing save summary")
 
-	Signals.connect_safe(System.saves.slot_activated, _on_save_slot_updated)
-	Signals.connect_safe(System.saves.slot_deactivated, _on_save_slot_updated)
-	Signals.connect_safe(System.saves.slot_erased, _on_save_slot_updated)
+	Signals.connect_safe(saves.slot_activated, _on_save_slot_updated)
+	Signals.connect_safe(saves.slot_deactivated, _on_save_slot_updated)
+	Signals.connect_safe(saves.slot_erased, _on_save_slot_updated)
 	Signals.connect_safe(_save_slot.changed, _on_save_slot_changed)
 
 	_update_contents()
@@ -55,7 +57,7 @@ func _update_contents() -> void:
 	)
 
 	_container_contents.visible = _save_slot.status == SaveSlot.STATUS_OK
-	_label_active.visible = slot == System.saves.get_active_save_slot()
+	_label_active.visible = slot == Systems.saves().get_active_save_slot()
 	_label_empty.visible = is_empty
 	_label_broken.visible = is_broken
 
