@@ -50,8 +50,8 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var _stack: Array[Modal] = []
-static var _logger := StdLogger.create(&"project/ui/modal")
+static var _logger := StdLogger.create(&"project/ui/modal")  # gdlint:ignore=class-definitions-order,max-line-length
+static var _stack: Array[Modal] = []  # gdlint:ignore=class-definitions-order
 
 var _is_open: bool = false
 
