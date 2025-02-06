@@ -18,12 +18,11 @@ signal closed
 ## opened is emitted when the modal is opened.
 signal opened
 
-## clicked is emitted when the modal scrim receives a mouse button event.
-##
-## NOTE: This will be emitted prior to closing the modal if `scrim_click_to_close` is a
-## match. Manually consuming the event will prevent an otherwise matching "close" click
-## from being actioned on.
-signal clicked(event: InputEvent)
+## mouse_click is emitted when the modal receives a mouse button event. The `closing`
+## parameter denotes whether the event will trigger the modal to be closed. Because this
+## is emitted prior to closure, observers can handle the event here to prevent the modal
+## from acting on the close event.
+signal mouse_click(event: InputEvent, closing: bool)
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
@@ -32,22 +31,18 @@ const Signals := preload("res://addons/std/event/signal.gd")
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## float_under reparents this `Modal` node under the node specified by this path.
-@export var float_under: NodePath = ^""
+@export var float_under: NodePath = ^".."
 
 @export_subgroup("Scrim")
 
-## scrim_click_to_close is a bitfield of `MouseButtonMask` values which, when the scrim
-## is clicked with one of the matching mouse buttons, will cause the `Modal` to close.
-## If this is left empty, then clicks cannot close the `Modal`, causing the scrim to act
-## as a modal barrier.
-@export_flags("Left", "Right", "Middle") var scrim_click_to_close: int = 0
-
-## scrim_click_consumes_input controls whether a mouse click that would close the scrim
-## should be consumed. If set to `false`, the mouse click would continue to propagate
-## through the scene tree.
+## scrim_click_to_close is a bitfield of `MouseButtonMask` values which, when the modal
+## is clicked with one of the matching mouse buttons, will cause the modal to close. If
+## this is left empty, then clicks cannot close the `Modal`.
 ##
-## NOTE: This property is ignored if
-@export var scrim_click_consumes_input: bool = true
+## NOTE: This property is dependent on the `Modal` receiving input (i.e. the
+## `mouse_filter` property must not be `MOUSE_FILTER_IGNORE`).
+@export_flags("Left:1", "Right:2", "Middle:4", "Extra1:128", "Extra2:256")
+var scrim_click_to_close: int = 0
 
 ## scrim_color controls the color of the modal background.
 @export var scrim_color: Color = Color.TRANSPARENT
@@ -58,6 +53,8 @@ static var _logger := StdLogger.create(&"project/ui/modal")  # gdlint:ignore=cla
 static var _stack: Array[Modal] = []  # gdlint:ignore=class-definitions-order
 
 var _is_open: bool = false
+var _last_focus: Control = null
+var _mouse_filter: MouseFilter = MOUSE_FILTER_STOP
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
@@ -67,20 +64,16 @@ func _exit_tree() -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if not event is InputEventMouseButton:
+	if not event is InputEventMouseButton or get_viewport().is_input_handled():
 		return
 
-	if event.is_pressed() and not event.is_echo():
-		clicked.emit(event)
+	var match := (
+		(Input.get_mouse_button_mask() & scrim_click_to_close) and event.is_pressed()
+	)
+	mouse_click.emit(event, match)
 
-	if (
-		(Input.get_mouse_button_mask() & scrim_click_to_close)
-		and not get_viewport().is_input_handled()
-	):
+	if match:
 		visible = false
-
-		if scrim_click_consumes_input:
-			accept_event()
 
 
 # NOTE: Prefer this over `_unhandled_input` because this needs to be handled prior to
@@ -108,20 +101,22 @@ func _notification(what) -> void:
 
 
 func _ready() -> void:
+	Signals.connect_safe(get_viewport().gui_focus_changed, _on_gui_focus_changed)
+	Signals.connect_safe(Systems.input().focus_root_changed, _on_focus_root_changed)
+
 	set_process_input(visible)
 
-	mouse_filter = MOUSE_FILTER_STOP if visible else MOUSE_FILTER_IGNORE
-	mouse_force_pass_scroll_events = false
-
 	_is_open = visible
+	_mouse_filter = mouse_filter
+	mouse_filter = _mouse_filter if visible else MOUSE_FILTER_IGNORE
+
 	if visible:
-		_stack.append.call_deferred(self)
+		_stack.append(self)
 
 	var scrim := _create_scrim()
 	add_child(scrim, false, INTERNAL_MODE_FRONT)
 
-	if float_under:
-		_reparent()
+	_reparent.call_deferred()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -145,6 +140,14 @@ func _create_scrim() -> ColorRect:
 	return scrim
 
 
+func _is_head_modal() -> bool:
+	if not _stack:
+		return false
+
+	var head: Modal = _stack.back()
+	return self == head
+
+
 func _reparent() -> void:
 	var parent_prev := get_parent()
 	var parent_next := get_node(float_under)
@@ -155,13 +158,38 @@ func _reparent() -> void:
 
 	_logger.debug("Floating modal under new parent.", {&"parent": float_under})
 
-	parent_prev.remove_child.call_deferred(self)
-	parent_next.add_child.call_deferred(self, false)
+	parent_prev.remove_child(self)
+	parent_next.add_child(self, false)
 
 	Signals.connect_safe(parent_prev.tree_exiting, _cleanup, CONNECT_ONE_SHOT)
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_focus_root_changed(root: Control) -> void:
+	if root != self:
+		return
+
+	if (
+		not _last_focus
+		or not is_instance_valid(_last_focus)
+		or not _last_focus.is_visible_in_tree()
+	):
+		_last_focus = null
+		return
+
+	if not Systems.input().is_using_focus_ui_navigation():
+		return
+
+	_logger.debug("Restoring last focused element.", {&"path": _last_focus.get_path()})
+	_last_focus.grab_focus()
+
+
+func _on_gui_focus_changed(node: Control) -> void:
+	if _is_head_modal() and is_ancestor_of(node):
+		_logger.debug("Storing last focused element.", {&"path": node.get_path()})
+		_last_focus = node
 
 
 func _on_modal_closed() -> void:
@@ -193,9 +221,6 @@ func _on_modal_opened() -> void:
 	set_process_input(true)
 
 	mouse_filter = MOUSE_FILTER_STOP
-	assert(not mouse_force_pass_scroll_events, "invalid state; scroll events passed")
 
 	_stack.append(self)
-
-	if float_under:
-		move_to_front()
+	move_to_front()
