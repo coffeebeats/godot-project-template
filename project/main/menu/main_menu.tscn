@@ -1,8 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=19 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
-[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="3_2fhwa"]
+[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
+[ext_resource type="Resource" uid="uid://kyseye3m4vnh" path="res://project/main/menu/music_sound_event.tres" id="2_8n3sl"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
+[ext_resource type="Resource" uid="uid://bi2wkhusq3mrv" path="res://project/main/menu/music_filter_param.tres" id="3_t2uy2"]
 [ext_resource type="PackedScene" uid="uid://u0t3pwq31pyh" path="res://project/ui/modal/modal.tscn" id="4_cfkjs"]
 [ext_resource type="PackedScene" uid="uid://nqcb7t7nk8cn" path="res://project/settings/menu.tscn" id="5_46s0c"]
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="7_2ro8v"]
@@ -28,6 +30,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8stub")
+music_sound_event = ExtResource("2_8n3sl")
+music_filter_param = ExtResource("3_t2uy2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -68,64 +72,52 @@ layout_mode = 2
 [node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../Options")
+focus_neighbor_top = NodePath("../Quit")
 theme_type_variation = &"main_menu_button"
 text = "main_play"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Play"]
-anchors_preset = 0
-script = ExtResource("3_2fhwa")
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" instance=ExtResource("2_1yx6u")]
 use_as_anchor = true
 
 [node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_top = NodePath("../Play")
-focus_neighbor_bottom = NodePath("../Credits")
 theme_type_variation = &"main_menu_button"
 text = "main_options"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Options"]
-anchors_preset = 0
-script = ExtResource("3_2fhwa")
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" instance=ExtResource("2_1yx6u")]
 
 [node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Options")
-focus_neighbor_bottom = NodePath("../Quit")
 theme_type_variation = &"main_menu_button"
 text = "main_patch_notes"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes"]
-anchors_preset = 0
-script = ExtResource("3_2fhwa")
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" instance=ExtResource("2_1yx6u")]
 
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Options")
-focus_neighbor_bottom = NodePath("../Quit")
 theme_type_variation = &"main_menu_button"
 text = "main_credits"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Credits"]
-anchors_preset = 0
-script = ExtResource("3_2fhwa")
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" instance=ExtResource("2_1yx6u")]
 
 [node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_top = NodePath("../Credits")
+focus_neighbor_bottom = NodePath("../Play")
 theme_type_variation = &"main_menu_button"
 text = "main_quit"
 alignment = 0
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="Buttons/VBoxContainer/VBoxContainer/Quit"]
-anchors_preset = 0
-script = ExtResource("3_2fhwa")
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" instance=ExtResource("2_1yx6u")]
+layout_mode = 2
+offset_top = -4.0
+offset_right = 496.0
+offset_bottom = -4.0
 
 [node name="Version" parent="." instance=ExtResource("3_b6tfj")]
 layout_mode = 1
