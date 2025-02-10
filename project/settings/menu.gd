@@ -101,7 +101,7 @@ func _on_cursor_visibility_changed(cursor_visible: bool) -> void:
 func _on_focus_handler_sound_group_reserved(instance: StdSoundInstance) -> void:
 	(
 		Signals
-		.connect_safe(
+		. connect_safe(
 			instance.done,
 			focus_handler_sound_group.unmute,
 			CONNECT_ONE_SHOT,
@@ -114,8 +114,8 @@ func _on_tabbar_tab_changed(index: int) -> void:
 		focus_handler_sound_group.mute()
 		(
 			focus_handler_sound_group
-			.reserved
-			.connect(
+			. reserved
+			. connect(
 				_on_focus_handler_sound_group_reserved,
 				CONNECT_ONE_SHOT | CONNECT_REFERENCE_COUNTED,
 			)
