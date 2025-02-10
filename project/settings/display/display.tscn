@@ -30,7 +30,7 @@ label = "options_display_video_fullscreen"
 [node name="Checkbox" parent="Video/Fullscreen" instance=ExtResource("3_mhfj1")]
 layout_mode = 2
 
-[node name="StdInputCursorFocusHandler" parent="Video/Fullscreen/Checkbox" index="0"]
+[node name="FocusHandler" parent="Video/Fullscreen/Checkbox" index="0"]
 use_as_anchor = true
 
 [node name="StdSettingsControllerToggleButton" type="Node" parent="Video/Fullscreen/Checkbox"]

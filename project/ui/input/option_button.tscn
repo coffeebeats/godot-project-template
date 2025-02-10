@@ -1,11 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://jqrnk34kfw5u"]
 
 [ext_resource type="Script" path="res://project/ui/input/option_button.gd" id="1_1sudd"]
-[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="2_4wi16"]
+[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_0ic2f"]
 
 [node name="OptionButton" type="OptionButton"]
 script = ExtResource("1_1sudd")
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="."]
-anchors_preset = 0
-script = ExtResource("2_4wi16")
+[node name="FocusHandler" parent="." instance=ExtResource("2_0ic2f")]

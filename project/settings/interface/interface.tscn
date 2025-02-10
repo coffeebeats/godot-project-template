@@ -30,7 +30,7 @@ label = "options_interface_language_display"
 [node name="OptionButton" parent="Language/DisplayLanguage" instance=ExtResource("3_hhi86")]
 layout_mode = 2
 
-[node name="StdInputCursorFocusHandler" parent="Language/DisplayLanguage/OptionButton" index="1"]
+[node name="FocusHandler" parent="Language/DisplayLanguage/OptionButton" index="1"]
 use_as_anchor = true
 
 [node name="StdSettingsControllerOptionButtonString" type="Node" parent="Language/DisplayLanguage/OptionButton"]

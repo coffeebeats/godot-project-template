@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bs5nke3386ggd"]
+[gd_scene load_steps=5 format=3 uid="uid://bs5nke3386ggd"]
 
 [ext_resource type="Script" path="res://project/save/save_slots.gd" id="2_cw46s"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="2_gycxb"]
 [ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_t2ksl"]
+[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_6g7my"]
 
 [node name="SaveSlots" type="PanelContainer" node_paths=PackedStringArray("scene_handle")]
 custom_minimum_size = Vector2(1440, 810)
@@ -49,7 +50,7 @@ theme_override_constants/separation = 32
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StdInputCursorFocusHandler" parent="MarginContainer/VBoxContainer/SlotButtons/SlotButton1" index="0"]
+[node name="FocusHandler" parent="MarginContainer/VBoxContainer/SlotButtons/SlotButton1" index="0"]
 use_as_anchor = true
 
 [node name="SlotButton2" parent="MarginContainer/VBoxContainer/SlotButtons" instance=ExtResource("2_gycxb")]
@@ -79,11 +80,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "save_slots_delete"
 
+[node name="FocusHandler" parent="MarginContainer/VBoxContainer/DeleteButtons/Button1" instance=ExtResource("4_6g7my")]
+
 [node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "save_slots_delete"
+
+[node name="FocusHandler" parent="MarginContainer/VBoxContainer/DeleteButtons/Button2" instance=ExtResource("4_6g7my")]
 
 [node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
 custom_minimum_size = Vector2(0, 64)
@@ -91,10 +96,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "save_slots_delete"
 
+[node name="FocusHandler" parent="MarginContainer/VBoxContainer/DeleteButtons/Button3" instance=ExtResource("4_6g7my")]
+
 [node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/DeleteButtons"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "save_slots_delete"
+
+[node name="FocusHandler" parent="MarginContainer/VBoxContainer/DeleteButtons/Button4" instance=ExtResource("4_6g7my")]
 
 [editable path="MarginContainer/VBoxContainer/SlotButtons/SlotButton1"]

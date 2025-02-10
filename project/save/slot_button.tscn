@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ig0aeexy2dcl"]
 
 [ext_resource type="Script" path="res://project/save/slot_button.gd" id="1_8gfwc"]
-[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="2_i4wqt"]
+[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_lulcq"]
 
 [node name="SlotButton" type="Button"]
 anchors_preset = 15
@@ -11,11 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8gfwc")
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("2_i4wqt")
+[node name="FocusHandler" parent="." instance=ExtResource("2_lulcq")]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
