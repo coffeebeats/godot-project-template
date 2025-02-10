@@ -1,6 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://nqcb7t7nk8cn"]
+[gd_scene load_steps=14 format=3 uid="uid://nqcb7t7nk8cn"]
 
+[ext_resource type="Resource" uid="uid://bus0xmb3pu8xp" path="res://project/settings/tab_sound_event.tres" id="2_0mcnl"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_7o7fm"]
+[ext_resource type="Resource" uid="uid://qhsnu8axd0er" path="res://project/ui/input/focus_handler_sound_group.tres" id="2_3142n"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_bhxpg"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="6_xrc8s"]
 [ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/settings/gameplay/gameplay.tscn" id="7_tg4wg"]
@@ -28,6 +30,8 @@ offset_bottom = 405.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_7o7fm")
+tab_switch_sound_event = ExtResource("2_0mcnl")
+focus_handler_sound_group = ExtResource("2_3142n")
 
 [node name="StdInputActionSetLoader" type="Control" parent="."]
 layout_mode = 2
@@ -73,12 +77,13 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-current_tab = 0
+current_tab = 1
 tab_alignment = 1
 clip_tabs = false
 scrolling_enabled = false
 tab_count = 5
 tab_0/title = "options_gameplay"
+tab_0/disabled = true
 tab_1/title = "options_sound"
 tab_2/title = "options_interface"
 tab_3/title = "options_display"
