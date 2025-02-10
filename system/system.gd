@@ -21,9 +21,11 @@ const AudioSystem := preload("res://system/audio/audio.gd")
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## audio returns the `Audio` system component.
 static func audio() -> AudioSystem:
 	return StdGroup.get_sole_member(AudioSystem.GROUP_AUDIO_SHIM)
+
 
 ## input returns the `Input` system component.
 static func input() -> InputSystem:

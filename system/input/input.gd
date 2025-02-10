@@ -40,6 +40,7 @@ var _ui_navigation_cooldown: float = 0.0
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## is_cursor_visible returns whether the cursor is currently visible. This can be used
 ## to check whether focus-based navigation is in effect.
 func is_cursor_visible() -> bool:
@@ -71,6 +72,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	StdGroup.with_id(GROUP_INPUT_SHIM).remove_member(self)
 
+
 func _input(event: InputEvent) -> void:
 	if not event.is_action_type():
 		return
@@ -98,6 +100,7 @@ func _process(delta: float) -> void:
 
 	_ui_navigation_cooldown -= delta
 
+
 func _ready() -> void:
 	assert(action_set_default is StdInputActionSet, "invalid state; missing action set")
 
@@ -105,7 +108,9 @@ func _ready() -> void:
 	assert(_cursor is StdInputCursor, "invalid state; missing input cursor")
 
 	# Forward the `StdInputCursor` events.
-	Signals.connect_safe(_cursor.cursor_visibility_changed, cursor_visibility_changed.emit)
+	Signals.connect_safe(
+		_cursor.cursor_visibility_changed, cursor_visibility_changed.emit
+	)
 	Signals.connect_safe(_cursor.focus_root_changed, focus_root_changed.emit)
 
 	for slot in StdInputSlot.all():
