@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StdSoundParamAudioEffect" load_steps=3 format=3 uid="uid://bi2wkhusq3mrv"]
+
+[ext_resource type="Script" path="res://addons/std/sound/param_audio_effect.gd" id="1_yib4l"]
+
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_ehxud"]
+cutoff_hz = 20500.0
+
+[resource]
+script = ExtResource("1_yib4l")
+enabled = false
+effect = SubResource("AudioEffectLowPassFilter_ehxud")

@@ -77,6 +77,9 @@ label = "options_controls_button_prompt"
 [node name="OptionButton" parent="Gamepad/ButtonPrompt" instance=ExtResource("14_f6pwm")]
 layout_mode = 2
 
+[node name="FocusHandler" parent="Gamepad/ButtonPrompt/OptionButton" index="1"]
+use_as_anchor = true
+
 [node name="StdSettingsControllerOptionButtonInt" type="Node" parent="Gamepad/ButtonPrompt/OptionButton"]
 script = ExtResource("15_f3d37")
 property = ExtResource("16_11kx0")
@@ -89,9 +92,6 @@ label = "options_controls_disable_vibration"
 
 [node name="Checkbox" parent="Gamepad/DisableVibration" instance=ExtResource("12_jaj02")]
 layout_mode = 2
-
-[node name="StdInputCursorFocusHandler" parent="Gamepad/DisableVibration/Checkbox" index="0"]
-use_as_anchor = true
 
 [node name="StdSettingsControllerToggleButton" type="Node" parent="Gamepad/DisableVibration/Checkbox"]
 script = ExtResource("13_662de")
@@ -146,4 +146,4 @@ scope = ExtResource("21_dqueq")
 player_id = null
 label = "options_controls_menu_binding"
 
-[editable path="Gamepad/DisableVibration/Checkbox"]
+[editable path="Gamepad/ButtonPrompt/OptionButton"]

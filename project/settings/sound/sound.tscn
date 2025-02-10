@@ -35,7 +35,7 @@ label = "options_sound_volume_master"
 [node name="Slider" parent="Volume/Master" instance=ExtResource("3_4ws2g")]
 layout_mode = 2
 
-[node name="StdInputCursorFocusHandler" parent="Volume/Master/Slider/HSlider" index="0"]
+[node name="FocusHandler" parent="Volume/Master/Slider/HSlider" index="0"]
 use_as_anchor = true
 
 [node name="StdSettingsControllerRange" type="Node" parent="Volume/Master/Slider"]
