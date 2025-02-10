@@ -17,9 +17,13 @@ extends Object
 
 const InputSystem := preload("res://system/input/input.gd")
 const SavesSystem := preload("res://system/save/saves.gd")
+const AudioSystem := preload("res://system/audio/audio.gd")
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+## audio returns the `Audio` system component.
+static func audio() -> AudioSystem:
+	return StdGroup.get_sole_member(AudioSystem.GROUP_AUDIO_SHIM)
 
 ## input returns the `Input` system component.
 static func input() -> InputSystem:
