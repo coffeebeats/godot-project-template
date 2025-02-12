@@ -31,7 +31,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## CloseReason is an enumeration of reasons for why the modal was hidden.
-enum CloseReason { # gdlint:ignore=class-definitions-order
+enum CloseReason {  # gdlint:ignore=class-definitions-order
 	## CLOSED means the user closed the modal without confirming or canceling a request.
 	## Scrim clicks which trigger modal closure will use this reason as well as pressing
 	## the `close_button`.
@@ -81,8 +81,8 @@ var scrim_click_to_close: int = 0
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var _logger := StdLogger.create(&"project/ui/modal") # gdlint:ignore=class-definitions-order,max-line-length
-static var _stack: Array[Modal] = [] # gdlint:ignore=class-definitions-order
+static var _logger := StdLogger.create(&"project/ui/modal")  # gdlint:ignore=class-definitions-order,max-line-length
+static var _stack: Array[Modal] = []  # gdlint:ignore=class-definitions-order
 
 var _reason: CloseReason = CLOSE_REASON_CLOSED
 var _is_open: bool = false
@@ -164,7 +164,7 @@ func _ready() -> void:
 	if cancel_button is BaseButton:
 		(
 			Signals
-			.connect_safe(
+			. connect_safe(
 				cancel_button.pressed,
 				_on_button_pressed.bind(CLOSE_REASON_CANCELED),
 			)
@@ -172,7 +172,7 @@ func _ready() -> void:
 	if confirm_button is BaseButton:
 		(
 			Signals
-			.connect_safe(
+			. connect_safe(
 				confirm_button.pressed,
 				_on_button_pressed.bind(CLOSE_REASON_CONFIRMED),
 			)
@@ -180,7 +180,7 @@ func _ready() -> void:
 	if close_button is BaseButton:
 		(
 			Signals
-			.connect_safe(
+			. connect_safe(
 				close_button.pressed,
 				_on_button_pressed.bind(CLOSE_REASON_CLOSED),
 			)
