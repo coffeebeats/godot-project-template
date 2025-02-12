@@ -55,7 +55,7 @@ func _ready() -> void:
 func _shortcut_input(event: InputEvent) -> void:
 	if not event.is_action_type():
 		return
-	
+
 	if event.is_action_pressed(&"ui_toggle_settings"):
 		get_viewport().set_input_as_handled()
 
@@ -63,6 +63,7 @@ func _shortcut_input(event: InputEvent) -> void:
 			_settings.visible = true
 		elif _settings.is_head_modal():
 			_settings.visible = false
+
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 

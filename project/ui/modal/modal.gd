@@ -31,7 +31,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## CloseReason is an enumeration of reasons for why the modal was hidden.
-enum CloseReason {
+enum CloseReason { # gdlint:ignore=class-definitions-order
 	## CLOSED means the user closed the modal without confirming or canceling a request.
 	## Scrim clicks which trigger modal closure will use this reason as well as pressing
 	## the `close_button`.
@@ -91,6 +91,7 @@ var _mouse_filter: MouseFilter = MOUSE_FILTER_STOP
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
+
 ## are_any_open returns whether any `Modal` nodes are currently visible.
 static func are_any_open() -> bool:
 	return not _stack.is_empty()
@@ -104,6 +105,7 @@ func is_head_modal() -> bool:
 
 	var head: Modal = _stack.back()
 	return self == head
+
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
@@ -160,21 +162,29 @@ func _ready() -> void:
 	Signals.connect_safe(Systems.input().focus_root_changed, _on_focus_root_changed)
 
 	if cancel_button is BaseButton:
-		Signals.connect_safe(
-			cancel_button.pressed,
-			_on_button_pressed.bind(CLOSE_REASON_CANCELED),
+		(
+			Signals
+			.connect_safe(
+				cancel_button.pressed,
+				_on_button_pressed.bind(CLOSE_REASON_CANCELED),
+			)
 		)
 	if confirm_button is BaseButton:
-		Signals.connect_safe(
-			confirm_button.pressed,
-			_on_button_pressed.bind(CLOSE_REASON_CONFIRMED),
+		(
+			Signals
+			.connect_safe(
+				confirm_button.pressed,
+				_on_button_pressed.bind(CLOSE_REASON_CONFIRMED),
+			)
 		)
 	if close_button is BaseButton:
-		Signals.connect_safe(
-			close_button.pressed,
-			_on_button_pressed.bind(CLOSE_REASON_CLOSED),
+		(
+			Signals
+			.connect_safe(
+				close_button.pressed,
+				_on_button_pressed.bind(CLOSE_REASON_CLOSED),
+			)
 		)
-
 
 	set_process_input(visible)
 
@@ -230,9 +240,11 @@ func _reparent() -> void:
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
+
 func _on_button_pressed(reason: CloseReason) -> void:
 	_reason = reason
 	visible = false
+
 
 func _on_focus_root_changed(root: Control) -> void:
 	if root != self:

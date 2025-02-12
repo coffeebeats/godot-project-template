@@ -62,6 +62,7 @@ func _shortcut_input(event: InputEvent) -> void:
 		_tab_bar.select_previous_available()
 		get_viewport().set_input_as_handled()
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
@@ -102,7 +103,7 @@ func _on_cursor_visibility_changed(cursor_visible: bool) -> void:
 func _on_focus_handler_sound_group_added(instance: StdSoundInstance) -> void:
 	(
 		Signals
-		.connect_safe(
+		. connect_safe(
 			instance.done,
 			focus_handler_sound_group.unmute,
 			CONNECT_ONE_SHOT,
@@ -115,8 +116,8 @@ func _on_tabbar_tab_changed(index: int) -> void:
 		focus_handler_sound_group.mute()
 		(
 			focus_handler_sound_group
-			.added
-			.connect(
+			. added
+			. connect(
 				_on_focus_handler_sound_group_added,
 				CONNECT_ONE_SHOT | CONNECT_REFERENCE_COUNTED,
 			)
