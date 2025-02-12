@@ -12,26 +12,58 @@ extends Control
 
 # -- SIGNALS ------------------------------------------------------------------------- #
 
-## closed is emitted when the modal is closed.
-signal closed
+## closed is emitted when the modal is closed, along with the reason it closed.
+signal closed(reason: CloseReason)
 
 ## opened is emitted when the modal is opened.
 signal opened
 
-## mouse_click is emitted when the modal receives a mouse button event. The `closing`
+## scrim_clicked is emitted when the modal receives a mouse button event. The `closing`
 ## parameter denotes whether the event will trigger the modal to be closed. Because this
 ## is emitted prior to closure, observers can handle the event here to prevent the modal
 ## from acting on the close event.
-signal mouse_click(event: InputEvent, closing: bool)
+signal scrim_clicked(event: InputEvent, closing: bool)
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
 
+# -- DEFINITIONS --------------------------------------------------------------------- #
+
+## CloseReason is an enumeration of reasons for why the modal was hidden.
+enum CloseReason {
+	## CLOSED means the user closed the modal without confirming or canceling a request.
+	## Scrim clicks which trigger modal closure will use this reason as well as pressing
+	## the `close_button`.
+	CLOSED,
+	## CANCELED is used when the user presses the configured `cancel_button`.
+	CANCELED,
+	## CONFIRMED is used when the user presses the configured `confirm_button`.
+	CONFIRMED,
+}
+
+const CLOSE_REASON_CLOSED := CloseReason.CLOSED
+const CLOSE_REASON_CANCELED := CloseReason.CANCELED
+const CLOSE_REASON_CONFIRMED := CloseReason.CONFIRMED
+
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## float_under reparents this `Modal` node under the node specified by this path.
 @export var float_under: NodePath = ^".."
+
+@export_subgroup("Buttons")
+
+## cancel_button is an optional button that, when pressed, will close the modal with the
+## `CANCELED` reason.
+@export var cancel_button: BaseButton = null
+
+## confirm_button is an optional button that, when pressed, will close the modal with
+## the `CONFIRMED` reason.
+@export var confirm_button: BaseButton = null
+
+## close_button is an optional button that, when pressed, will close the modal with the
+## default `CLOSED` reason.
+@export var close_button: BaseButton = null
 
 @export_subgroup("Scrim")
 
@@ -49,9 +81,10 @@ var scrim_click_to_close: int = 0
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var _logger := StdLogger.create(&"project/ui/modal")  # gdlint:ignore=class-definitions-order,max-line-length
-static var _stack: Array[Modal] = []  # gdlint:ignore=class-definitions-order
+static var _logger := StdLogger.create(&"project/ui/modal") # gdlint:ignore=class-definitions-order,max-line-length
+static var _stack: Array[Modal] = [] # gdlint:ignore=class-definitions-order
 
+var _reason: CloseReason = CLOSE_REASON_CLOSED
 var _is_open: bool = false
 var _last_focus: Control = null
 var _mouse_filter: MouseFilter = MOUSE_FILTER_STOP
@@ -70,7 +103,7 @@ func _gui_input(event: InputEvent) -> void:
 	var match := (
 		(Input.get_mouse_button_mask() & scrim_click_to_close) and event.is_pressed()
 	)
-	mouse_click.emit(event, match)
+	scrim_clicked.emit(event, match)
 
 	if match:
 		visible = false
@@ -92,9 +125,15 @@ func _notification(what) -> void:
 
 			if _is_open and not visible:
 				_on_modal_closed()
-				closed.emit()
+
+				var reason := _reason
+				_reason = CLOSE_REASON_CLOSED
+
+				closed.emit(reason)
 			elif not _is_open and visible:
+				assert(_reason == CLOSE_REASON_CLOSED, "found dangling close reason")
 				_on_modal_opened()
+
 				opened.emit()
 
 			_is_open = visible
@@ -103,6 +142,23 @@ func _notification(what) -> void:
 func _ready() -> void:
 	Signals.connect_safe(get_viewport().gui_focus_changed, _on_gui_focus_changed)
 	Signals.connect_safe(Systems.input().focus_root_changed, _on_focus_root_changed)
+
+	if cancel_button is BaseButton:
+		Signals.connect_safe(
+			cancel_button.pressed,
+			_on_button_pressed.bind(CLOSE_REASON_CANCELED),
+		)
+	if confirm_button is BaseButton:
+		Signals.connect_safe(
+			confirm_button.pressed,
+			_on_button_pressed.bind(CLOSE_REASON_CONFIRMED),
+		)
+	if close_button is BaseButton:
+		Signals.connect_safe(
+			close_button.pressed,
+			_on_button_pressed.bind(CLOSE_REASON_CLOSED),
+		)
+
 
 	set_process_input(visible)
 
@@ -166,6 +222,9 @@ func _reparent() -> void:
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
+func _on_button_pressed(reason: CloseReason) -> void:
+	_reason = reason
+	visible = false
 
 func _on_focus_root_changed(root: Control) -> void:
 	if root != self:
