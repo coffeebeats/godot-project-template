@@ -89,6 +89,22 @@ var _is_open: bool = false
 var _last_focus: Control = null
 var _mouse_filter: MouseFilter = MOUSE_FILTER_STOP
 
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+## are_any_open returns whether any `Modal` nodes are currently visible.
+static func are_any_open() -> bool:
+	return not _stack.is_empty()
+
+
+## is_head_modal returns whether this `Modal` instance is at the top of the visible
+## stack.
+func is_head_modal() -> bool:
+	if not _stack:
+		return false
+
+	var head: Modal = _stack.back()
+	return self == head
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -196,14 +212,6 @@ func _create_scrim() -> ColorRect:
 	return scrim
 
 
-func _is_head_modal() -> bool:
-	if not _stack:
-		return false
-
-	var head: Modal = _stack.back()
-	return self == head
-
-
 func _reparent() -> void:
 	var parent_prev := get_parent()
 	var parent_next := get_node(float_under)
@@ -246,7 +254,7 @@ func _on_focus_root_changed(root: Control) -> void:
 
 
 func _on_gui_focus_changed(node: Control) -> void:
-	if _is_head_modal() and is_ancestor_of(node):
+	if is_head_modal() and is_ancestor_of(node):
 		_logger.debug("Storing last focused element.", {&"path": node.get_path()})
 		_last_focus = node
 
