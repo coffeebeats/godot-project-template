@@ -54,11 +54,13 @@ func _ready():
 	_set_active_index(_tab_bar.current_tab)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _shortcut_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"ui_tab_next"):
 		_tab_bar.select_next_available()
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(&"ui_tab_prev"):
 		_tab_bar.select_previous_available()
+		get_viewport().set_input_as_handled()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -98,7 +100,7 @@ func _on_cursor_visibility_changed(cursor_visible: bool) -> void:
 		_tab_bar.focus_mode = FOCUS_NONE
 
 
-func _on_focus_handler_sound_group_reserved(instance: StdSoundInstance) -> void:
+func _on_focus_handler_sound_group_added(instance: StdSoundInstance) -> void:
 	(
 		Signals
 		. connect_safe(
@@ -114,9 +116,9 @@ func _on_tabbar_tab_changed(index: int) -> void:
 		focus_handler_sound_group.mute()
 		(
 			focus_handler_sound_group
-			. reserved
+			. added
 			. connect(
-				_on_focus_handler_sound_group_reserved,
+				_on_focus_handler_sound_group_added,
 				CONNECT_ONE_SHOT | CONNECT_REFERENCE_COUNTED,
 			)
 		)

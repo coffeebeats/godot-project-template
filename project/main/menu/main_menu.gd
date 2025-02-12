@@ -26,8 +26,8 @@ var _music_sound_instance: StdSoundInstance = null
 @onready var _options: Button = %Options
 @onready var _play: Button = %Play
 @onready var _quit: Button = %Quit
-@onready var _save_slots: Modal = $SaveSlots
-@onready var _settings: Modal = $Settings
+@onready var _saves: Modal = $SaveMenu
+@onready var _settings: Modal = $SettingsMenu
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
@@ -42,8 +42,8 @@ func _ready() -> void:
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
 	Signals.connect_safe(_play.pressed, _on_play_pressed)
 	Signals.connect_safe(_quit.pressed, _on_quit_pressed)
-	Signals.connect_safe(_save_slots.closed, _on_modal_closed)
-	Signals.connect_safe(_save_slots.opened, _on_modal_opened)
+	Signals.connect_safe(_saves.closed, _on_modal_closed)
+	Signals.connect_safe(_saves.opened, _on_modal_opened)
 	Signals.connect_safe(_settings.closed, _on_modal_closed)
 	Signals.connect_safe(_settings.opened, _on_modal_opened)
 
@@ -52,10 +52,23 @@ func _ready() -> void:
 		_music_sound_instance = audio.play(music_sound_event, 2, Tween.TRANS_LINEAR)
 
 
+func _shortcut_input(event: InputEvent) -> void:
+	if not event.is_action_type():
+		return
+
+	if event.is_action_pressed(&"ui_toggle_settings"):
+		get_viewport().set_input_as_handled()
+
+		if not Modal.are_any_open():
+			_settings.visible = true
+		elif _settings.is_head_modal():
+			_settings.visible = false
+
+
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
-func _on_modal_closed() -> void:
+func _on_modal_closed(_reason: Modal.CloseReason) -> void:
 	if music_filter_param:
 		music_filter_param.enabled = false
 
@@ -70,7 +83,7 @@ func _on_options_pressed() -> void:
 
 
 func _on_play_pressed() -> void:
-	_save_slots.visible = true
+	_saves.visible = true
 
 
 func _on_quit_pressed() -> void:

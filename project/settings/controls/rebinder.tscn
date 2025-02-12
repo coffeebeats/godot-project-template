@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
 
+
 [node name="BindingPrompt" type="Control"]
 layout_mode = 3
 anchors_preset = 15
