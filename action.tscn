@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr5huqco0t8ji"]
+
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="1_qr0ce"]
+[ext_resource type="Script" path="res://project/ui/glyph/action.gd" id="2_6akxb"]
+[ext_resource type="Resource" uid="uid://cwxarrdtgknf3" path="res://project/ui/glyph/action_border_fade_in.tres" id="3_nuqyi"]
+[ext_resource type="Resource" uid="uid://q35clnd6xfgg" path="res://project/ui/glyph/action_border_fade_out.tres" id="4_ld13b"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_hewxu"]
+
+[node name="Action" instance=ExtResource("1_qr0ce")]
+script = ExtResource("2_6akxb")
+emit_action_on_click = true
+button_mask = 1
+border_fade_in = ExtResource("3_nuqyi")
+border_fade_out = ExtResource("4_ld13b")
+action_set = ExtResource("5_hewxu")
+action = &"ui_cancel"
+
+[node name="PanelContainer" parent="." index="0"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0

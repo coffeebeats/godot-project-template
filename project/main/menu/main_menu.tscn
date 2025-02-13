@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=20 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
 [ext_resource type="Resource" uid="uid://kyseye3m4vnh" path="res://project/main/menu/music_sound_event.tres" id="2_8n3sl"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
 [ext_resource type="Resource" uid="uid://bi2wkhusq3mrv" path="res://project/main/menu/music_filter_param.tres" id="3_t2uy2"]
+[ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://project/ui/glyph/action.tscn" id="4_4ki2s"]
 [ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_46s0c"]
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="7_2ro8v"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_b6iwl"]
@@ -16,6 +17,19 @@
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="10_ux3tr"]
 [ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="12_ypfyi"]
 [ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="13_tu2id"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_as1tw"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="Resource" id="Resource_doihw"]
 script = ExtResource("13_tu2id")
@@ -40,6 +54,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -226.0
+offset_bottom = 90.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+
+[node name="Action" parent="MarginContainer" instance=ExtResource("4_4ki2s")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_as1tw")
+action = &"ui_toggle_settings"
 
 [node name="Buttons" type="MarginContainer" parent="."]
 layout_mode = 1
