@@ -254,7 +254,7 @@ msgstr "Cancel"
 #. An input action used to toggle open or closed the settings menu.
 msgctxt "actions_Menu"
 msgid "ui_toggle_settings"
-msgstr "Toggle settings menu"
+msgstr "Toggle settings"
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
 msgid "options_controls_MenuTabbed"
