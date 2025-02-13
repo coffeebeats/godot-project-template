@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=21 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://bi2wkhusq3mrv" path="res://project/main/menu/music_filter_param.tres" id="3_t2uy2"]
 [ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://project/ui/glyph/action.tscn" id="4_4ki2s"]
 [ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_46s0c"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_n2s48"]
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="7_2ro8v"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_b6iwl"]
 [ext_resource type="PackedScene" uid="uid://hbb2wxcb7sxf" path="res://project/save/menu.tscn" id="7_u240f"]
@@ -69,6 +70,7 @@ theme_override_constants/margin_right = 32
 [node name="Action" parent="MarginContainer" instance=ExtResource("4_4ki2s")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_as1tw")
+action_set = ExtResource("5_n2s48")
 action = &"ui_toggle_settings"
 
 [node name="Buttons" type="MarginContainer" parent="."]

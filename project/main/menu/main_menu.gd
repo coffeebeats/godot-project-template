@@ -38,6 +38,20 @@ func _exit_tree() -> void:
 		_music_sound_instance.stop(0.6, Tween.TRANS_LINEAR)
 
 
+func _input(event: InputEvent) -> void:
+	if not event.is_action_type():
+		return
+
+	if event.is_action_pressed(&"ui_toggle_settings"):
+		# NOTE: Don't handle this so that `Input` processors can see the action and hide
+		# the cursor, for example.
+
+		if not Modal.are_any_open():
+			_settings.visible = true
+		elif _settings.is_head_modal():
+			_settings.visible = false
+
+
 func _ready() -> void:
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
 	Signals.connect_safe(_play.pressed, _on_play_pressed)
@@ -50,19 +64,6 @@ func _ready() -> void:
 	if music_sound_event:
 		var audio := Systems.audio()
 		_music_sound_instance = audio.play(music_sound_event, 2, Tween.TRANS_LINEAR)
-
-
-func _shortcut_input(event: InputEvent) -> void:
-	if not event.is_action_type():
-		return
-
-	if event.is_action_pressed(&"ui_toggle_settings"):
-		get_viewport().set_input_as_handled()
-
-		if not Modal.are_any_open():
-			_settings.visible = true
-		elif _settings.is_head_modal():
-			_settings.visible = false
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #

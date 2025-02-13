@@ -303,3 +303,6 @@ func _on_modal_opened() -> void:
 
 	_stack.append(self)
 	move_to_front()
+
+	# Grab click focus so hovered elements below this `Modal` are updated.
+	grab_click_focus()

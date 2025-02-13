@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyiec01n3bxgf"]
+[gd_scene load_steps=7 format=3 uid="uid://dyiec01n3bxgf"]
 
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="1_4o3h4"]
 [ext_resource type="StyleBox" uid="uid://bp0s36ty6tyia" path="res://project/ui/glyph/action_stylebox.tres" id="1_8w7nx"]
 [ext_resource type="Script" path="res://project/ui/glyph/action.gd" id="1_eu016"]
 [ext_resource type="Resource" uid="uid://cwxarrdtgknf3" path="res://project/ui/glyph/action_border_fade_in.tres" id="2_lmvm6"]
 [ext_resource type="Resource" uid="uid://q35clnd6xfgg" path="res://project/ui/glyph/action_border_fade_out.tres" id="3_4b0ty"]
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="3_go341"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_mguvk"]
 
 [node name="Action" type="PanelContainer"]
@@ -22,8 +21,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_8w7nx")
 script = ExtResource("1_eu016")
-action_set = ExtResource("3_go341")
-action = &"ui_cancel"
 border_fade_in = ExtResource("2_lmvm6")
 border_fade_out = ExtResource("3_4b0ty")
 
@@ -47,8 +44,7 @@ custom_minimum_size = Vector2(64, 48)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-action_set = ExtResource("3_go341")
-action = &"ui_cancel"
+fallback_label = "--"
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -57,5 +53,3 @@ size_flags_horizontal = 6
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[editable path="MarginContainer/HBoxContainer/Glyph"]

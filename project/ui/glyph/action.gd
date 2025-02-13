@@ -107,7 +107,7 @@ var _tween: Tween = null
 func _gui_input(event: InputEvent) -> void:
 	if (
 		not event is InputEventMouseButton
-		or not _hovered
+		or not _hovered  # See https://github.com/godotengine/godot/issues/84466.
 		or get_viewport().is_input_handled()
 	):
 		return
@@ -129,6 +129,12 @@ func _gui_input(event: InputEvent) -> void:
 func _ready():
 	if Engine.is_editor_hint():
 		return
+
+	# Set these properties on the scen's `Glyph` node.
+	action_set = action_set
+	action = action
+	binding_index = binding_index
+	player_id = player_id
 
 	assert(_label is Label, "invalid state; missing label node")
 	_label.text = Locales.tr_action(action_set.name, action)
