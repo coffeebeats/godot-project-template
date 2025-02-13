@@ -72,6 +72,16 @@ extends StdInputGlyph
 ## there's no glyph icon available for joypad devices.
 @export var show_origin_label_as_fallback_joy: bool = false
 
+## origin_label_overrides is a lookup table of overrides for the origin label returned
+## by the input system. Use this to customize output (e.g. "Esc" instead of "Escape").
+##
+## See https://github.com/godotengine/godot/blob/master/core/os/keyboard.cpp for a list
+## of key labels.
+##
+## TODO: Replace this system with translations once localization of keys is supported;
+## see https://github.com/godotengine/godot-proposals/issues/10350.
+@export var origin_label_overrides: Dictionary = {}
+
 ## Fallback properties apply when neither a glyph or a label (if configured) are found
 ## for the configured action. When fallbacks are used, *both* of the label and textures
 ## are used if set.
@@ -88,12 +98,18 @@ extends StdInputGlyph
 ## label is the `Label` node which origin display names will be rendered in.
 @export var label: Label = null
 
+## panel_container is the `PanelContainer` node in which keyboard labels will be shown.
+@export var panel_container: PanelContainer = null
+
 ## texture_rect is the `TextureRect` node which the origin glyph icon will be rendered
 ## in.
 @export var texture_rect: TextureRect = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+static var _stylebox_empty := StyleBoxEmpty.new()
+
+var _stylebox: StyleBox = null
 var _custom_minimum_size: Vector2 = Vector2.ZERO
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -102,13 +118,17 @@ var _custom_minimum_size: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	_custom_minimum_size = custom_minimum_size
 
-	super._ready()  # gdlint:ignore=private-method-call
-
+	super._ready() # gdlint:ignore=private-method-call
+	
 	if Engine.is_editor_hint():
 		return
 
 	assert(label is Label, "invalid state; missing node")
+	assert(panel_container is PanelContainer, "invalid state; missing node")
 	assert(texture_rect is TextureRect, "invalid state; missing node")
+
+	_stylebox = panel_container.get_theme_stylebox(&"panel")
+	panel_container.add_theme_stylebox_override(&"panel", _stylebox_empty)
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -142,7 +162,7 @@ func _get_device_type() -> DeviceType:
 	if restrict_glyph_type_to_device_category:
 		match _slot.device_category:
 			DEVICE_TYPE_UNKNOWN, DEVICE_TYPE_KEYBOARD:
-				return _slot.device_type  # Both categories only have one type.
+				return _slot.device_type # Both categories only have one type.
 			DEVICE_TYPE_GENERIC:
 				var property_category := StdInputDevice.get_device_category(
 					property_value
@@ -177,9 +197,16 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	)
 
 	if not should_hide:
+		if device_type == DEVICE_TYPE_KEYBOARD:
+			if _stylebox:
+				panel_container.add_theme_stylebox_override(&"panel", _stylebox)
+			else:
+				panel_container.remove_theme_stylebox_override(&"panel")
+
+
 		texture_rect.texture = (
 			_slot
-			. get_action_glyph(
+			.get_action_glyph(
 				action_set,
 				action,
 				binding_index,
@@ -202,15 +229,17 @@ func _update_glyph(device_type: DeviceType) -> bool:
 				)
 			)
 		):
-			label.text = (
+			var origin_label := (
 				_slot
-				. get_action_origin_label(
+				.get_action_origin_label(
 					action_set,
 					action,
 					binding_index,
 					device_type,
 				)
 			)
+
+			label.text = origin_label_overrides.get(origin_label, origin_label)
 
 	if not should_hide and texture_rect.texture == null and label.text == "":
 		label.text = fallback_label
