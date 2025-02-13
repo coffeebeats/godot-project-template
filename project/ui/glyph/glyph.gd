@@ -107,6 +107,7 @@ extends StdInputGlyph
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+# gdlint:ignore=class-definitions-order
 static var _stylebox_empty := StyleBoxEmpty.new()
 
 var _stylebox: StyleBox = null
