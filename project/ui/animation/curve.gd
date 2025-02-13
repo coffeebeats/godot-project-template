@@ -44,7 +44,5 @@ func apply_tween_property(
 
 ## _apply_tween_property should be overridden by child classes to implement the
 ## animation effect on the provided tween.
-func _apply_tween_property(
-	_tween: Tween, _target, _value, _parallel: bool
-) -> void:
+func _apply_tween_property(_tween: Tween, _target, _value, _parallel: bool) -> void:
 	assert(false, "unimplemented")

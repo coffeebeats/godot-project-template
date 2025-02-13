@@ -37,13 +37,13 @@ func _apply_tween_property(
 
 	(
 		tween
-		.tween_property(
+		. tween_property(
 			target,
 			^"global_position" if use_global_position else ^"position",
 			value,
 			duration,
 		)
-		.set_delay(delay)
-		.set_ease(ease_type)
-		.set_trans(transition_type)
+		. set_delay(delay)
+		. set_ease(ease_type)
+		. set_trans(transition_type)
 	)

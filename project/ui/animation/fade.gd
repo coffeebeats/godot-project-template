@@ -22,8 +22,8 @@ func _apply_tween_property(
 
 	(
 		tween
-		.tween_property(target, ^"modulate:a", value, duration)
-		.set_delay(delay)
-		.set_ease(ease_type)
-		.set_trans(transition_type)
+		. tween_property(target, ^"modulate:a", value, duration)
+		. set_delay(delay)
+		. set_ease(ease_type)
+		. set_trans(transition_type)
 	)
