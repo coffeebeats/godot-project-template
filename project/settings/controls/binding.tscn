@@ -5,8 +5,7 @@
 [ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="2_vuau2"]
 [ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="3_ffo6a"]
 
-
-[node name="Binding" type="Control" node_paths=PackedStringArray("button", "label", "texture_rect")]
+[node name="Binding" type="Control" node_paths=PackedStringArray("button", "label", "panel_container", "texture_rect")]
 custom_minimum_size = Vector2(128, 48)
 layout_mode = 3
 anchors_preset = 15
@@ -20,7 +19,8 @@ button = NodePath("Prompt")
 restrict_glyph_type_to_device_category = true
 fallback_label = "--"
 label = NodePath("CenterContainer/Glyph/Label")
-texture_rect = NodePath("CenterContainer/Glyph/TextureRect")
+panel_container = NodePath("CenterContainer/Glyph/PanelContainer")
+texture_rect = NodePath("CenterContainer/Glyph/PanelContainer/MarginContainer/TextureRect")
 device_type_override = ExtResource("2_vuau2")
 
 [node name="Prompt" parent="." instance=ExtResource("3_ffo6a")]

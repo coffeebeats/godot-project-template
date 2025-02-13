@@ -1,0 +1,172 @@
+##
+## project/ui/glyph/action.gd
+##
+## GlyphAction is a UI element which displays a glyph with an action label, acting as a
+## prompt for an action that a user can also click to execute.
+##
+
+@tool
+extends PanelContainer
+
+# -- SIGNALS ------------------------------------------------------------------------- #
+
+## clicked is emitted when this action prompt is clicked. The `pressed` state denotes
+## whether the mouse click was pressed or released.
+signal clicked(pressed: bool)
+
+# -- DEPENDENCIES -------------------------------------------------------------------- #
+
+const Locales := preload("res://project/locale/locales.gd")
+const Signals := preload("res://addons/std/event/signal.gd")
+
+# -- CONFIGURATION ------------------------------------------------------------------- #
+
+## action_set is an input action set for the `Glyph`.
+@export var action_set: StdInputActionSet = null:
+	set(value):
+		action_set = value
+		if _glyph:
+			_glyph.action_set = value
+
+## action is an action within the action set for the `Glyph`.
+@export var action: StringName = "":
+	set(value):
+		action = value
+		if _glyph:
+			_glyph.action = value
+
+## binding_index is the index of the binding to show for the `Glyph`.
+@export var binding_index: int = 0:
+	set(value):
+		binding_index = value
+		if _glyph:
+			_glyph.binding_index = value
+
+## player_id is the player for which to show the origin binding for.
+@export var player_id: int = 1:
+	set(value):
+		player_id = value
+		if _glyph:
+			_glyph.player_id = value
+
+@export_subgroup("Behavior")
+
+## emit_action_on_click controls whether the configured action will be emitted to the
+## scene tree upon click. The `button_mask` property can be used to select which mouse
+## buttons can be used to click this action prompt.
+##
+## NOTE: If `button_mask` is empty, this property will be ignored.
+@export var emit_action_on_click: bool = true
+
+## button_mask is a bitfield of `MouseButtonMask` values which, when the action prompt
+## is clicked with one of the matching mouse buttons, will cause the action to be
+## emitted.
+##
+## NOTE: This property is dependent on the action prompt receiving input (i.e. the
+## `mouse_filter` property must not be `MOUSE_FILTER_IGNORE`).
+@export_flags("Left:1", "Right:2", "Middle:4", "Extra1:128", "Extra2:256")
+var button_mask: int = MOUSE_BUTTON_MASK_LEFT:
+	set(value):
+		if value <= 0 and emit_action_on_click:
+			emit_action_on_click = false
+
+		button_mask = value
+
+@export_group("Animation")
+
+@export_subgroup("Border Fade")
+
+## border_fade_in is an incoming fade animation to apply to the node's border. The
+## border color will be faded from transparent *to* the color set on the node's
+## `StyleboxFlat` theme override.
+##
+## NOTE: This property will have no effect if the `panel`'s stylebox is not a
+## `StyleboxFlat`. Additionally, the `color` property will override the stylebox's.
+@export var border_fade_in: AnimationBorderFade = null
+
+## border_fade_out is an outgoing fade animation to apply to the node's border. The
+## border color will be faded from the color set on the node's `StyleboxFlat` theme
+## override *to* transparent.
+##
+## NOTE: This property will have no effect if the `panel`'s stylebox is not a
+## `StyleboxFlat`. Additionally, the `color` property will override the stylebox's.
+@export var border_fade_out: AnimationBorderFade = null
+
+# -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _border_color: Color = Color.TRANSPARENT
+var _hovered: bool = false
+var _tween: Tween = null
+
+@onready var _glyph: StdInputGlyph = %Glyph
+@onready var _label: Label = %Label
+
+# -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+
+func _gui_input(event: InputEvent) -> void:
+	if (
+		not event is InputEventMouseButton
+		or not _hovered
+		or get_viewport().is_input_handled()
+	):
+		return
+
+	var event_button_mask: int = 1 << (event.button_index - 1)
+	if event_button_mask & button_mask:
+		get_viewport().set_input_as_handled()
+		clicked.emit(event.is_pressed())
+
+		if emit_action_on_click and event.is_released():
+			var press_action := InputEventAction.new()
+			press_action.device = event.device
+			press_action.action = action
+			press_action.pressed = true
+
+			Input.parse_input_event(press_action)
+
+
+func _ready():
+	if Engine.is_editor_hint():
+		return
+
+	assert(_label is Label, "invalid state; missing label node")
+	_label.text = Locales.tr_action(action_set.name, action)
+
+	var stylebox: StyleBoxFlat = get_theme_stylebox(&"panel")
+	if stylebox is StyleBoxFlat and (border_fade_in or border_fade_out):
+		assert(mouse_filter == MOUSE_FILTER_STOP, "invalid config; wrong mouse filter")
+
+		_border_color = stylebox.border_color
+
+		Signals.connect_safe(mouse_entered, _on_mouse_state_changed.bind(true))
+		Signals.connect_safe(mouse_exited, _on_mouse_state_changed.bind(false))
+
+		if border_fade_out:
+			stylebox.border_color = border_fade_out.color
+
+
+# -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_mouse_state_changed(hovered: bool) -> void:
+	_hovered = hovered
+
+	if _tween:
+		_tween.kill()
+		_tween = null
+
+	var stylebox: StyleBoxFlat = get_theme_stylebox(&"panel")
+	assert(stylebox is StyleBoxFlat, "invalid state; missing stylebox")
+
+	if hovered and border_fade_in:
+		_tween = create_tween()
+		border_fade_in.apply_tween_property(_tween, stylebox, border_fade_in.color)
+		return
+
+	if not hovered and border_fade_out:
+		_tween = create_tween()
+		border_fade_out.apply_tween_property(_tween, stylebox, border_fade_out.color)
+		return
+
+	stylebox.border_color = _border_color
