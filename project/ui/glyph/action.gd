@@ -144,8 +144,6 @@ func _ready():
 
 	var stylebox: StyleBoxFlat = get_theme_stylebox(&"panel")
 	if stylebox is StyleBoxFlat and (border_fade_in or border_fade_out):
-		assert(mouse_filter == MOUSE_FILTER_STOP, "invalid config; wrong mouse filter")
-
 		_border_color = stylebox.border_color
 
 		Signals.connect_safe(mouse_entered, _on_mouse_state_changed.bind(true))
