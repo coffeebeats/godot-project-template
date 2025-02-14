@@ -1,12 +1,13 @@
 ##
 ## project/ui/glyph/glyph.gd
 ##
-## UiGlyph is an opinionated implementation of a dynamic origin icon which updates its
+## Glyph is an opinionated implementation of a dynamic origin icon which updates its
 ## contents based on what the action is currently bound to and which device the player
 ## is currently using.
 ##
 
 @tool
+class_name InputGlyph
 extends StdInputGlyph
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -82,6 +83,13 @@ extends StdInputGlyph
 ## see https://github.com/godotengine/godot-proposals/issues/10350.
 @export var origin_label_overrides: Dictionary = {}
 
+## label_stylebox is an optional stylebox to display the origin label within. If set,
+## this will override the default stylebox for the label's `PanelContainer`.
+##
+## NOTE: Both this stylebox and the default one set on `panel_container` will *only* be
+## shown when an origin label is set.
+@export var label_stylebox: StyleBox = null
+
 ## Fallback properties apply when neither a glyph or a label (if configured) are found
 ## for the configured action. When fallbacks are used, *both* of the label and textures
 ## are used if set.
@@ -128,8 +136,11 @@ func _ready() -> void:
 	assert(panel_container is PanelContainer, "invalid state; missing node")
 	assert(texture_rect is TextureRect, "invalid state; missing node")
 
-	_stylebox = panel_container.get_theme_stylebox(&"panel")
-	panel_container.add_theme_stylebox_override(&"panel", _stylebox_empty)
+	_stylebox = (
+		label_stylebox
+		if label_stylebox
+		else panel_container.get_theme_stylebox(&"panel")
+	)
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
@@ -198,12 +209,6 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	)
 
 	if not should_hide:
-		if device_type == DEVICE_TYPE_KEYBOARD:
-			if _stylebox:
-				panel_container.add_theme_stylebox_override(&"panel", _stylebox)
-			else:
-				panel_container.remove_theme_stylebox_override(&"panel")
-
 		texture_rect.texture = (
 			_slot
 			. get_action_glyph(
@@ -244,6 +249,13 @@ func _update_glyph(device_type: DeviceType) -> bool:
 	if not should_hide and texture_rect.texture == null and label.text == "":
 		label.text = fallback_label
 		texture_rect.texture = fallback_texture
+
+	if label.text == "":
+		panel_container.add_theme_stylebox_override(&"panel", _stylebox_empty)
+	elif _stylebox:
+		panel_container.add_theme_stylebox_override(&"panel", _stylebox)
+	else:
+		panel_container.remove_theme_stylebox_override(&"panel")
 
 	texture_rect.visible = texture_rect.texture != null
 	label.visible = label.text != ""

@@ -1,23 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg8wa8rp672rb"]
+[gd_scene load_steps=5 format=3 uid="uid://dg8wa8rp672rb"]
 
 [ext_resource type="Script" path="res://project/ui/glyph/glyph.gd" id="1_t2ikv"]
+[ext_resource type="StyleBox" uid="uid://dcqpwm8om51xm" path="res://project/ui/glyph/glyph_label_stylebox.tres" id="2_lvgs8"]
 [ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="3_jfinn"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bal5a"]
-bg_color = Color(0.0940323, 0.0940324, 0.0940323, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b5pxf"]
 
 [node name="Glyph" type="Control" node_paths=PackedStringArray("label", "panel_container", "texture_rect")]
-custom_minimum_size = Vector2(72, 36)
+custom_minimum_size = Vector2(64, 36)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -19.5
+offset_right = 32.0
+offset_bottom = 19.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -35,10 +35,24 @@ origin_label_overrides = {
 "ScrollLock": "ScrLk",
 "Windows": "Win"
 }
-label = NodePath("Label")
+label_stylebox = ExtResource("2_lvgs8")
+label = NodePath("PanelContainer/MarginContainer/Label")
 panel_container = NodePath("PanelContainer")
-texture_rect = NodePath("PanelContainer/MarginContainer/TextureRect")
+texture_rect = NodePath("TextureRect")
 device_type_override = ExtResource("3_jfinn")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+expand_mode = 3
+stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -48,29 +62,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_bal5a")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_b5pxf")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
-mouse_filter = 2
-expand_mode = 3
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 1
 horizontal_alignment = 1
 vertical_alignment = 1
