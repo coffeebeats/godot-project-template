@@ -55,13 +55,10 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	# Move to front of parent's children so system components see events first.
-	get_viewport().move_child.call_deferred(self, 0)
-
 	if toggle_settings_action_prompt:
 		(
 			Signals
-			. connect_safe(
+			.connect_safe(
 				toggle_settings_action_prompt.pressed,
 				_on_settings_prompt_pressed,
 			)
