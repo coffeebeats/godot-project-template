@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://q35clnd6xfgg" path="res://project/ui/glyph/action_border_fade_out.tres" id="3_4b0ty"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_mguvk"]
 
-[node name="Action" type="PanelContainer"]
+[node name="InputActionPrompt" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

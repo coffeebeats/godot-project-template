@@ -1,18 +1,19 @@
 ##
 ## project/ui/glyph/action.gd
 ##
-## GlyphAction is a UI element which displays a glyph with an action label, acting as a
-## prompt for an action that a user can also click to execute.
+## InputActionPrompt is a UI element which displays a glyph with an action label, acting
+## as a prompt for an action that a user can also click to execute.
 ##
 
 @tool
+class_name InputActionPrompt
 extends PanelContainer
 
 # -- SIGNALS ------------------------------------------------------------------------- #
 
-## clicked is emitted when this action prompt is clicked. The `pressed` state denotes
-## whether the mouse click was pressed or released.
-signal clicked(pressed: bool)
+## pressed is emitted when this action prompt is pressed. This will be emitted just
+## prior to the action being sent to the scene tree if `emit_action_on_press` is set.
+signal pressed
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
@@ -51,12 +52,12 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 @export_subgroup("Behavior")
 
-## emit_action_on_click controls whether the configured action will be emitted to the
+## emit_action_on_press controls whether the configured action will be emitted to the
 ## scene tree upon click. The `button_mask` property can be used to select which mouse
 ## buttons can be used to click this action prompt.
 ##
 ## NOTE: If `button_mask` is empty, this property will be ignored.
-@export var emit_action_on_click: bool = true
+@export var emit_action_on_press: bool = false
 
 ## button_mask is a bitfield of `MouseButtonMask` values which, when the action prompt
 ## is clicked with one of the matching mouse buttons, will cause the action to be
@@ -67,8 +68,8 @@ const Signals := preload("res://addons/std/event/signal.gd")
 @export_flags("Left:1", "Right:2", "Middle:4", "Extra1:128", "Extra2:256")
 var button_mask: int = MOUSE_BUTTON_MASK_LEFT:
 	set(value):
-		if value <= 0 and emit_action_on_click:
-			emit_action_on_click = false
+		if value <= 0 and emit_action_on_press:
+			emit_action_on_press = false
 
 		button_mask = value
 
@@ -98,32 +99,34 @@ var _border_color: Color = Color.TRANSPARENT
 var _hovered: bool = false
 var _tween: Tween = null
 
-@onready var _glyph: StdInputGlyph = %Glyph
+@onready var _glyph: InputGlyph = %Glyph
 @onready var _label: Label = %Label
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
 func _gui_input(event: InputEvent) -> void:
-	if (
-		not event is InputEventMouseButton
-		or not _hovered  # See https://github.com/godotengine/godot/issues/84466.
-		or get_viewport().is_input_handled()
-	):
+	if not event is InputEventMouseButton or get_viewport().is_input_handled():
+		return
+
+	# See https://github.com/godotengine/godot/issues/84466.
+	if not _hovered:
 		return
 
 	var event_button_mask: int = 1 << (event.button_index - 1)
 	if event_button_mask & button_mask:
 		get_viewport().set_input_as_handled()
-		clicked.emit(event.is_pressed())
 
-		if emit_action_on_click and event.is_released():
-			var press_action := InputEventAction.new()
-			press_action.device = event.device
-			press_action.action = action
-			press_action.pressed = true
+		if event.is_released():
+			pressed.emit()
 
-			Input.parse_input_event(press_action)
+			if emit_action_on_press:
+				var press_action := InputEventAction.new()
+				press_action.device = event.device
+				press_action.action = action
+				press_action.pressed = true
+
+				Input.parse_input_event(press_action)
 
 
 func _ready():
