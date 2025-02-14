@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://cm4b566x6ped8"]
+[gd_scene load_steps=14 format=3 uid="uid://cm4b566x6ped8"]
 
 [ext_resource type="PackedScene" uid="uid://du65ljq0jsyh" path="res://project/ui/modal/menu.tscn" id="1_cdunp"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_j2ecv"]
 [ext_resource type="Resource" uid="uid://bus0xmb3pu8xp" path="res://project/settings/tab_sound_event.tres" id="3_gh6u1"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_m4kg3"]
-[ext_resource type="Resource" uid="uid://qhsnu8axd0er" path="res://project/ui/input/focus_handler_sound_group.tres" id="4_nhs0g"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="4_s0nl3"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="5_xbtwd"]
 [ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/settings/gameplay/gameplay.tscn" id="6_7qgxw"]
@@ -22,7 +21,6 @@
 [node name="PanelContainer" parent="CenterContainer" index="0"]
 script = ExtResource("2_j2ecv")
 tab_switch_sound_event = ExtResource("3_gh6u1")
-focus_handler_sound_group = ExtResource("4_nhs0g")
 
 [node name="StdInputActionSetLoader" type="Control" parent="CenterContainer/PanelContainer" index="0"]
 layout_mode = 2

@@ -1,23 +1,27 @@
 ##
-## project/ui/tooltip_animation_slide.gd
+## project/ui/animation/slide.gd
 ##
-## TooltipAnimationSlide specifies a `Tooltip` slide animation that can be used to add
-## motion to the incoming or outgoing tooltip node.
+## AnimationSlide specifies a slide animation that can be used to add motion to canvas
+## elements.
 ##
 
-class_name TooltipAnimationSlide
-extends TooltipAnimation
+class_name AnimationSlide
+extends AnimationCurve
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## animation_translation is the motion vector defining the slide animation.
+## translation is the motion vector defining the slide animation.
 ##
 ## Here, the `x` value represents the primary axis (formed between the anchor's center
 ## and the tooltip's center), while the `y` value is the perpendicular axis. Values
 ## along the primary axis should be negative if they move towards the anchor and
 ## positive if they move away. Perpendicular axis values are applied directly (i.e. they
 ## aren't changed).
-@export var animation_translation: Vector2 = Vector2.ZERO
+@export var translation: Vector2 = Vector2.ZERO
+
+## use_global_position defines whether the animated node's `global_position` will be
+## animated instead of its `position` property.
+@export var use_global_position: bool = false
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 
@@ -35,11 +39,11 @@ func _apply_tween_property(
 		tween
 		. tween_property(
 			target,
-			^"global_position",
+			^"global_position" if use_global_position else ^"position",
 			value,
-			animation_duration,
+			duration,
 		)
-		. set_delay(animation_delay)
-		. set_ease(animation_ease)
-		. set_trans(animation_transition)
+		. set_delay(delay)
+		. set_ease(ease_type)
+		. set_trans(transition_type)
 	)

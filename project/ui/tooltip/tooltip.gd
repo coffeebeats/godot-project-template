@@ -109,19 +109,19 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 
 @export_subgroup("Fade")
 
-## fade_out is an incoming fade animation to apply to the tooltip.
-@export var fade_in: TooltipAnimationFade = null
+## fade_in is an incoming fade animation to apply to the tooltip.
+@export var fade_in: AnimationFade = null
 
 ## fade_out is an outgoing fade animation to apply to the tooltip.
-@export var fade_out: TooltipAnimationFade = null
+@export var fade_out: AnimationFade = null
 
 @export_subgroup("Slide")
 
 ## slide_in is an incoming slide animation to apply to the tooltip.
-@export var slide_in: TooltipAnimationSlide = null
+@export var slide_in: AnimationSlide = null
 
 ## slide_out is an outgoing slide animation to apply to the tooltip.
-@export var slide_out: TooltipAnimationSlide = null
+@export var slide_out: AnimationSlide = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -228,12 +228,12 @@ func _get_target_global_rect() -> Rect2:
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
-func _get_slide_offset(animation: TooltipAnimationSlide) -> Vector2:
+func _get_slide_offset(animation: AnimationSlide) -> Vector2:
 	if not animation:
 		return Vector2.ZERO
 
 	var animation_offset: Vector2
-	var motion := animation.animation_translation
+	var motion := animation.translation
 
 	match tooltip_position:
 		TOOLTIP_POSITION_CENTERED:

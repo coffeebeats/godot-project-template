@@ -8,6 +8,8 @@ extends Node
 
 # -- SIGNALS ------------------------------------------------------------------------- #
 
+signal about_to_grab_focus(node: Control, trigger: StringName)
+
 ## cursor_visibility_changed is emitted when the visibility of the application's cursor
 ## changes.
 signal cursor_visibility_changed(visible: bool)
@@ -29,6 +31,9 @@ const GROUP_INPUT_SHIM := &"system/input:shim"
 ## action_set_default is a default action set that will be loaded after starting up.
 @export var action_set_default: StdInputActionSet = null
 
+## focused_sound_group is the sound group used for focused UI elements.
+@export var focused_sound_group: StdSoundGroup = null
+
 ## ui_navigation_cooldown is a wait period after inputting a UI navigation action that
 ## must elapse prior to another one being accepted.
 @export var ui_navigation_cooldown: float = 0.08
@@ -41,6 +46,23 @@ var _ui_navigation_cooldown: float = 0.0
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
+## get_active_device returns the currently active input device for the specified player.
+func get_active_device(player_id: int = 0) -> StdInputDevice:
+	var slot := StdInputSlot.for_player(player_id)
+	if not slot:
+		assert(false, "invalid state; missing input slot for player")
+		return null
+
+	var device := slot.get_active_device()
+	assert(device, "invalid state; missing device for input slot")
+	return device
+
+
+## get_input_slot returns the input slot for the specified player.
+func get_input_slot(player_id: int = 0) -> StdInputSlot:
+	return StdInputSlot.for_player(player_id)
+
+
 ## is_cursor_visible returns whether the cursor is currently visible. This can be used
 ## to check whether focus-based navigation is in effect.
 func is_cursor_visible() -> bool:
@@ -51,6 +73,22 @@ func is_cursor_visible() -> bool:
 ## UI navigation (i.e. the mouse cursor is hidden).
 func is_using_focus_ui_navigation() -> bool:
 	return not _cursor.get_is_visible()
+
+
+## mute_next_focus_sound_event is used to mute the next occurrence of a sound event
+## that would trigger due to a focus change.
+func mute_next_focus_sound_event() -> void:
+	if not focused_sound_group:
+		assert(false, "invalid config; missing focused sound group")
+		return
+
+	focused_sound_group.mute()
+
+	Signals.connect_safe(
+		get_viewport().gui_focus_changed,
+		func(_node: Control) -> void: focused_sound_group.unmute.call_deferred(),
+		CONNECT_ONE_SHOT,
+	)
 
 
 ## set_focus_root restricts UI focus to be under the scene subtree rooted at `root`.
@@ -108,6 +146,7 @@ func _ready() -> void:
 	assert(_cursor is StdInputCursor, "invalid state; missing input cursor")
 
 	# Forward the `StdInputCursor` events.
+	Signals.connect_safe(_cursor.about_to_grab_focus, about_to_grab_focus.emit)
 	Signals.connect_safe(
 		_cursor.cursor_visibility_changed, cursor_visibility_changed.emit
 	)

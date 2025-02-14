@@ -27,6 +27,11 @@ func _exit_tree() -> void:
 		ProjectSettings.settings_changed.disconnect(_update_color)
 
 
+func _ready() -> void:
+	# Move to front of parent's children so system components see events first.
+	get_viewport().move_child.call_deferred(self, 0)
+
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 

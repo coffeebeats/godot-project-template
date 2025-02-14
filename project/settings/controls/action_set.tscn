@@ -27,4 +27,5 @@ size_flags_horizontal = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
+size_flags_vertical = 8
 scope = ExtResource("4_ifr1x")

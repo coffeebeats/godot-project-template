@@ -254,7 +254,7 @@ msgstr ""
 
 #. An input action used to toggle open or closed the settings menu.
 msgctxt "actions_Menu"
-msgid "Toggle settings menu"
+msgid "Toggle settings"
 msgstr ""
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.

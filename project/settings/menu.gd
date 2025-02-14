@@ -18,16 +18,14 @@ const Signals := preload("res://addons/std/event/signal.gd")
 ## tab_switch_sound_event is a sound event which will be played when switching tabs.
 @export var tab_switch_sound_event: StdSoundEvent1D = null
 
-## focus_handler_sound_group is a sound group for focused UI element sound effects. This
-## will be muted upon switching tabs to avoid overlapping sounds.
-@export var focus_handler_sound_group: StdSoundGroup = null
-
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _active: Control = null
 var _cursor_visible: bool = false
+var _tab_bar_default_index: int = 0
 var _tab_bar_focus_mode: FocusMode = FOCUS_NONE
 var _tab_bar_mouse_filter: MouseFilter = MOUSE_FILTER_IGNORE
+var _tab_switch_muted: bool = false
 
 @onready var _tab_bar: TabBar = %TabBar
 @onready var _tab_contents: Control = %TabContents
@@ -35,9 +33,20 @@ var _tab_bar_mouse_filter: MouseFilter = MOUSE_FILTER_IGNORE
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_VISIBILITY_CHANGED:
+			# Reset the selected tab upon the menu being shown.
+			if is_visible_in_tree():
+				_tab_switch_muted = true
+				_tab_bar.current_tab = _tab_bar_default_index
+				(func(): _tab_switch_muted = false).call_deferred()
+
+
 func _ready():
 	assert(not is_layout_rtl(), "invalid state: validate support for RTL")
 
+	_tab_bar_default_index = _tab_bar.current_tab
 	_tab_bar_focus_mode = _tab_bar.focus_mode
 	_tab_bar_mouse_filter = _tab_bar.mouse_filter
 
@@ -48,9 +57,7 @@ func _ready():
 	for child in _tab_contents.get_children():
 		child.visible = false
 
-	var err := _tab_bar.tab_changed.connect(_on_tabbar_tab_changed)
-	assert(err == OK, "failed to connect to signal")
-
+	Signals.connect_safe(_tab_bar.tab_changed, _on_tabbar_tab_changed)
 	_set_active_index(_tab_bar.current_tab)
 
 
@@ -100,30 +107,11 @@ func _on_cursor_visibility_changed(cursor_visible: bool) -> void:
 		_tab_bar.focus_mode = FOCUS_NONE
 
 
-func _on_focus_handler_sound_group_added(instance: StdSoundInstance) -> void:
-	(
-		Signals
-		. connect_safe(
-			instance.done,
-			focus_handler_sound_group.unmute,
-			CONNECT_ONE_SHOT,
-		)
-	)
-
-
 func _on_tabbar_tab_changed(index: int) -> void:
-	if focus_handler_sound_group and not _cursor_visible:
-		focus_handler_sound_group.mute()
-		(
-			focus_handler_sound_group
-			. added
-			. connect(
-				_on_focus_handler_sound_group_added,
-				CONNECT_ONE_SHOT | CONNECT_REFERENCE_COUNTED,
-			)
-		)
+	if not _cursor_visible:
+		Systems.input().mute_next_focus_sound_event()
 
 	_set_active_index(index)
 
-	if tab_switch_sound_event:
+	if not _tab_switch_muted and tab_switch_sound_event:
 		Systems.audio().play(tab_switch_sound_event)
