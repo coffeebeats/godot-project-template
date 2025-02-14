@@ -4,11 +4,11 @@
 ## Binding is a button node which allows a user to rebind an action.
 ##
 
-@tool
-extends "res://project/ui/glyph/glyph.gd"
+extends Control
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
+const Signals := preload("res://addons/std/event/signal.gd")
 const Bindings := preload("res://addons/std/input/godot/binding.gd")
 const Rebinder := preload("rebinder.gd")
 
@@ -16,6 +16,11 @@ const Rebinder := preload("rebinder.gd")
 
 ## scope is the settings scope in which binding overrides will be stored.
 @export var scope: StdSettingsScope = null
+
+@export_subgroup("Components")
+
+## glyph is the `InputGlyph` node which displays the current origin binding.
+@export var glyph: InputGlyph = null
 
 ## button is the `Button` node which, when pressed, will open the `Rebinder` panel.
 @export var button: Button = null
@@ -26,7 +31,7 @@ const Rebinder := preload("rebinder.gd")
 ## has_user_override returns whether the input binding has a user-specified value (i.e.
 ## a non-default origin).
 func has_user_override() -> bool:
-	var active_device := _slot.get_active_device()
+	var active_device := Systems.input().get_active_device(glyph.player_id)
 	if not active_device:
 		return false
 
@@ -34,17 +39,17 @@ func has_user_override() -> bool:
 		Bindings
 		. action_has_user_override(
 			scope,
-			action_set,
-			action,
+			glyph.action_set,
+			glyph.action,
 			active_device.device_category,
-			binding_index,
+			glyph.binding_index,
 		)
 	)
 
 
 ## reset returns the input binding back to its default value.
 func reset() -> void:
-	var active_device := _slot.get_active_device()
+	var active_device := Systems.input().get_active_device(glyph.player_id)
 	if not active_device:
 		return
 
@@ -52,10 +57,10 @@ func reset() -> void:
 		Bindings
 		. reset_action(
 			scope,
-			action_set,
-			action,
+			glyph.action_set,
+			glyph.action,
 			active_device.device_category,
-			binding_index,
+			glyph.binding_index,
 		)
 	)
 
@@ -64,15 +69,11 @@ func reset() -> void:
 
 
 func _ready() -> void:
-	super._ready()
-
-	if Engine.is_editor_hint():
-		return
-
+	assert(glyph is InputGlyph, "invalid state; missing node")
 	assert(button is Button, "invalid state; missing node")
-	Signals.connect_safe(button.pressed, _on_button_pressed)
-
 	assert(scope is StdSettingsScope, "invalid config; missing scope")
+
+	Signals.connect_safe(button.pressed, _on_button_pressed)
 	Signals.connect_safe(scope.config.changed, _on_bindings_changed)
 
 
@@ -80,22 +81,24 @@ func _ready() -> void:
 
 
 func _on_bindings_changed(category: StringName, key: StringName) -> void:
-	var active_device := _slot.get_active_device()
+	var active_device := Systems.input().get_active_device(glyph.player_id)
 	if not active_device:
 		return
 
 	if (
 		category
-		!= Bindings.get_action_set_category(action_set, active_device.device_category)
+		!= Bindings.get_action_set_category(
+			glyph.action_set, active_device.device_category
+		)
 	):
 		return
 
-	if key != Bindings.get_action_key(action, binding_index):
+	if key != Bindings.get_action_key(glyph.action, glyph.binding_index):
 		return
 
-	_handle_update()
+	glyph.update()
 
 
 func _on_button_pressed() -> void:
 	var rebinder: Rebinder = Rebinder.find_in_scene()
-	rebinder.start(action_set, action, binding_index, player_id)
+	rebinder.start(glyph.action_set, glyph.action, glyph.binding_index, glyph.player_id)

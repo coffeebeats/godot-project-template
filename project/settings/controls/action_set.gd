@@ -95,18 +95,18 @@ func _generate_settings() -> void:
 
 	for action in action_set.list_action_names():
 		var primary := BindingScene.instantiate()
-		primary.action = action
-		primary.action_set = action_set
-		primary.binding_index = StdInputDeviceActions.BINDING_INDEX_PRIMARY
-		primary.player_id = player_id
 		primary.scope = scope
+		primary.glyph.action = action
+		primary.glyph.action_set = action_set
+		primary.glyph.binding_index = StdInputDeviceActions.BINDING_INDEX_PRIMARY
+		primary.glyph.player_id = player_id
 
 		var secondary := BindingScene.instantiate()
-		secondary.action = action
-		secondary.action_set = action_set
-		secondary.binding_index = StdInputDeviceActions.BINDING_INDEX_SECONDARY
-		secondary.player_id = player_id
 		secondary.scope = scope
+		secondary.glyph.action = action
+		secondary.glyph.action_set = action_set
+		secondary.glyph.binding_index = StdInputDeviceActions.BINDING_INDEX_SECONDARY
+		secondary.glyph.player_id = player_id
 
 		var reset := ResetScene.instantiate()
 		reset.scope = scope
