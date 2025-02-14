@@ -6,6 +6,6 @@
 script = ExtResource("1_jefyy")
 color = Color(1, 1, 1, 1)
 delay = 0.0
-duration = 0.14
+duration = 0.16
 ease_type = 1
-transition_type = 7
+transition_type = 3
