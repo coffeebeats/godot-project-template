@@ -28,10 +28,11 @@ var _save_data: ProjectSaveData = null
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
+
 func _input(event: InputEvent) -> void:
 	if not event.is_action_type():
 		return
-	
+
 	if event.is_action_pressed(&"ui_toggle_settings"):
 		get_viewport().set_input_as_handled()
 
@@ -61,6 +62,7 @@ func _ready():
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
 
 func _update_counter_label() -> void:
 	_counter.text = str(_save_data.example.count)
