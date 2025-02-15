@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.5.0 (2025-02-15)
+
+## What's Changed
+* chore(addons): update `std` to `v1.15.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/243
+* chore(addons): update `std` to `v1.15.1` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/245
+* feat(platform): integrate statistics support (e.g. achievements, leaderboards, and stats) by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/246
+* chore(addons): update `std` to `v1.15.3` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/247
+* fix(system): check for custom locale directory before attempting to read it by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/248
+* feat(project): create `Tooltip` class for animated UI popovers  by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/249
+* chore(project): remove redundant `ui_back` action by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/250
+* chore(addons): update `std` to `v1.15.4` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/251
+* fix(project): remove unnecessary signal disconnection; update default settings tab by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/252
+* fix(system): create a `Systems` shim which allows globally accessing system components by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/253
+* chore(addons): update `std` to `v1.15.5` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/254
+* fix(project): revamp `Modal` to better handle stacking and focus by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/255
+* feat(system): create an `Audio` system component using `std` types by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/256
+* feat(project): add menu sounds and a main menu background music track by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/257
+* fix(project): add dialog behavior to `Modal`; refactor main menu modals by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/258
+* fix(project): implement an action prompt `Glyph` variant by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/259
+* chore(addons): update `phantom_camera` to `0.8.2.3` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/260
+* chore(addons): update addons to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/261
+* chore(addons): update `std` and `gut` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/262
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.4.0...v1.5.0
+
 ## 1.4.0 (2025-01-30)
 
 ## What's Changed
