@@ -48,16 +48,8 @@ jobs:
 
       matrix:
         include:
-          - arch: universal
-            platform: macos
-            storefront: unknown
-
           - arch: wasm32
             platform: web
-            storefront: unknown
-
-          - arch: x86_64
-            platform: windows
             storefront: unknown
 
     uses: "./.github/workflows/export-project.yaml"
