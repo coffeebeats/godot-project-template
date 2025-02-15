@@ -23,10 +23,22 @@ var _save_data: ProjectSaveData = null
 @onready var _counter: Label = %Counter
 @onready var _increment: Button = %Increment
 @onready var _reset: Button = %Reset
-@onready var _return: Button = %Return
 @onready var _save: Button = %Save
+@onready var _settings_menu: Modal = %SettingsMenu
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+func _input(event: InputEvent) -> void:
+	if not event.is_action_type():
+		return
+	
+	if event.is_action_pressed(&"ui_toggle_settings"):
+		get_viewport().set_input_as_handled()
+
+		if not Modal.are_any_open():
+			_settings_menu.visible = true
+		elif _settings_menu.is_head_modal():
+			_settings_menu.visible = false
 
 
 func _ready():
@@ -35,20 +47,20 @@ func _ready():
 	var saves := Systems.saves()
 	_save_data = saves.create_new_save_data()
 
+	saves.activate_slot(0)
+
 	if not saves.get_save_data(_save_data):
-		# TODO: Return back to the main menu.
-		assert(false, "invalid state; missing save data")
+		var success := await saves.load_save_data(_save_data)
+		assert(success, "failed to load save data")
 
 	Signals.connect_safe(_increment.pressed, _on_increment_pressed)
 	Signals.connect_safe(_reset.pressed, _on_reset_pressed)
-	Signals.connect_safe(_return.pressed, _on_return_pressed)
 	Signals.connect_safe(_save.pressed, _on_save_pressed)
 
 	_update_counter_label()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
-
 
 func _update_counter_label() -> void:
 	_counter.text = str(_save_data.example.count)
