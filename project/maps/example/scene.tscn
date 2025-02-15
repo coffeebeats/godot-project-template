@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1c0jg2hh82bk"]
+[gd_scene load_steps=5 format=3 uid="uid://b1c0jg2hh82bk"]
 
 [ext_resource type="Script" path="res://project/maps/example/scene.gd" id="1_knflt"]
 [ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_fl1o7"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="2_g63gs"]
+[ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="4_50tpk"]
 
 [node name="Scene" type="Control" node_paths=PackedStringArray("scene_handle")]
 layout_mode = 3
@@ -27,13 +28,6 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-
-[node name="Return" type="Button" parent="CenterContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-text = "BACK TO MENU"
 
 [node name="Counter" type="Label" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -88,3 +82,8 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_g63gs")
+
+[node name="SettingsMenu" parent="." instance=ExtResource("4_50tpk")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
