@@ -49,13 +49,6 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="Return" type="Button" parent="CenterContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-text = "BACK TO MENU"
-
 [node name="Counter" type="Label" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -109,3 +102,8 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_g63gs")
+
+[node name="SettingsMenu" parent="." instance=ExtResource("4_50tpk")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
