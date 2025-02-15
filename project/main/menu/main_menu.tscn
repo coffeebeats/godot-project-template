@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_scene load_steps=23 format=3 uid="uid://cfm42l5k4okh8"]
+=======
+[gd_scene load_steps=17 format=3 uid="uid://cfm42l5k4okh8"]
+>>>>>>> f90c7de (chore(prototype): remove Steam-related features (#264))
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
@@ -15,11 +19,13 @@
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="8_44ldu"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="8_bavw3"]
 [ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="9_vcdle"]
-[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="10_k0l1f"]
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="10_ux3tr"]
+<<<<<<< HEAD
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
 [ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="12_ypfyi"]
 [ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="13_tu2id"]
+=======
+>>>>>>> f90c7de (chore(prototype): remove Steam-related features (#264))
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_as1tw"]
 resource_local_to_scene = true
@@ -33,10 +39,6 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-
-[sub_resource type="Resource" id="Resource_doihw"]
-script = ExtResource("13_tu2id")
-block = ExtResource("12_ypfyi")
 
 [node name="MainMenu" type="Control" node_paths=PackedStringArray("toggle_settings_action_prompt")]
 layout_mode = 3
@@ -194,8 +196,7 @@ enable_on_hidden = true
 
 [node name="StdConditionParent" type="Node" parent="."]
 script = ExtResource("7_b6iwl")
-expressions_allow = Array[ExtResource("8_bavw3")]([ExtResource("9_vcdle"), ExtResource("10_k0l1f"), ExtResource("10_ux3tr")])
-expressions_block = Array[ExtResource("8_bavw3")]([SubResource("Resource_doihw")])
+expressions_allow = Array[ExtResource("8_bavw3")]([ExtResource("9_vcdle"), ExtResource("10_ux3tr")])
 
 [node name="BindingPrompt" parent="StdConditionParent" instance=ExtResource("7_2ro8v")]
 visible = false

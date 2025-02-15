@@ -6,7 +6,6 @@
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="6_xmapc"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="23_8ojx1"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_loader.gd" id="24_hk8cf"]
-[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="24_o5jdq"]
 
 [node name="Input" type="Node"]
 script = ExtResource("1_sl0pi")
@@ -16,8 +15,3 @@ focused_sound_group = ExtResource("3_360wj")
 script = ExtResource("24_hk8cf")
 scene = "res://system/input/unknown/input.tscn"
 expressions_allow = Array[ExtResource("23_8ojx1")]([ExtResource("5_gdf77"), ExtResource("6_xmapc")])
-
-[node name="IfSteam" type="Node" parent="."]
-script = ExtResource("24_hk8cf")
-scene = "res://system/input/steam/input.tscn"
-expressions_allow = Array[ExtResource("23_8ojx1")]([ExtResource("24_o5jdq")])

@@ -1,14 +1,9 @@
-[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=26 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
 [ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="3_6rqrp"]
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="4_7dyaq"]
-[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="5_73sma"]
-[ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="6_bdd3f"]
-[ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_i8vxq"]
-[ext_resource type="Script" path="res://project/settings/controls/configurator.gd" id="9_d7lqc"]
-[ext_resource type="PackedScene" uid="uid://dm7wsbaixmu22" path="res://project/settings/controls/configurator.tscn" id="9_m5toj"]
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="10_heyw7"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="11_ph7kg"]
 [ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="12_jaj02"]
@@ -22,23 +17,14 @@
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="17_0rlbk"]
 [ext_resource type="Resource" uid="uid://bndux72lth38k" path="res://system/setting/controls/glyph_type_options_property.tres" id="17_kswyw"]
 [ext_resource type="Resource" uid="uid://c750nhjvglhky" path="res://project/settings/controls/button_prompt_option_formatter.tres" id="18_8p5d5"]
-[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="18_v42t3"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/game.tres" id="19_3vbem"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/controls/action_set.tscn" id="19_ngc7g"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="20_h7kk8"]
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="21_dqueq"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/game_options.tres" id="21_lyge1"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
-[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/game.tres" id="25_xpu0l"]
-[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/game_options.tres" id="27_5ipvy"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
-
-[sub_resource type="Resource" id="Resource_pi47t"]
-script = ExtResource("6_bdd3f")
-allow = ExtResource("5_73sma")
-
-[sub_resource type="Resource" id="Resource_jhqli"]
-script = ExtResource("6_bdd3f")
-allow = ExtResource("5_73sma")
 
 [node name="Controls" type="VBoxContainer"]
 anchors_preset = 15
@@ -52,22 +38,6 @@ theme_type_variation = &"Body"
 script = ExtResource("1_slt8e")
 targets = [NodePath("../MenuControls"), NodePath("../MenuTabs"), NodePath("../MenuRebinding")]
 expressions_allow = Array[ExtResource("2_xiafk")]([ExtResource("3_6rqrp"), ExtResource("4_7dyaq")])
-
-[node name="Steam" type="Node" parent="."]
-
-[node name="StdConditionTarget2D" type="Node" parent="Steam" node_paths=PackedStringArray("targets")]
-script = ExtResource("1_slt8e")
-targets = [NodePath("../../Bindings")]
-expressions_allow = Array[ExtResource("2_xiafk")]([SubResource("Resource_pi47t")])
-
-[node name="StdConditionParent" type="Node" parent="Steam"]
-script = ExtResource("7_i8vxq")
-expressions_allow = Array[ExtResource("2_xiafk")]([SubResource("Resource_jhqli")])
-
-[node name="SteamConfigurator" type="Node" parent="Steam/StdConditionParent" node_paths=PackedStringArray("button")]
-script = ExtResource("9_d7lqc")
-button = NodePath("../../../Bindings/Configurator/Prompt")
-configurator = ExtResource("9_m5toj")
 
 [node name="Gamepad" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
@@ -113,30 +83,15 @@ property = ExtResource("17_0rlbk")
 target = NodePath("../HSlider")
 disabled = ExtResource("14_rj08w")
 
-[node name="Bindings" parent="." instance=ExtResource("10_heyw7")]
+[node name="GameControls" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
-label = "options_controls_steam"
-
-[node name="Configurator" parent="Bindings" instance=ExtResource("11_ph7kg")]
-unique_name_in_owner = true
-layout_mode = 2
-label = "options_controls_steam_configurator"
-
-[node name="Prompt" parent="Bindings/Configurator" instance=ExtResource("18_v42t3")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 48)
-layout_mode = 2
-text = "OPEN"
-
-[node name="Game" parent="." instance=ExtResource("19_ngc7g")]
-layout_mode = 2
-action_set = ExtResource("25_xpu0l")
+action_set = ExtResource("19_3vbem")
 scope = ExtResource("21_dqueq")
 label = "options_controls_game"
 
 [node name="GameOptions" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
-action_set = ExtResource("27_5ipvy")
+action_set = ExtResource("21_lyge1")
 scope = ExtResource("21_dqueq")
 label = "options_controls_game_options"
 
