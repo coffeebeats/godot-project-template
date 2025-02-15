@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhyjkxpbfsy81"]
+[gd_scene load_steps=9 format=3 uid="uid://dhyjkxpbfsy81"]
 
 [ext_resource type="Script" path="res://project/main/main.gd" id="1_gcs5q"]
 [ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="1_vu0ul"]
@@ -7,8 +7,7 @@
 [ext_resource type="Script" path="res://addons/std/scene/state/auto_transition.gd" id="4_phfq2"]
 [ext_resource type="Script" path="res://addons/std/scene/state/fade.gd" id="4_vah31"]
 [ext_resource type="Script" path="res://addons/std/scene/state/playable.gd" id="5_wtlwn"]
-[ext_resource type="Script" path="res://addons/std/scene/state/splash.gd" id="6_stj23"]
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="7_camuk"]
+[ext_resource type="Resource" uid="uid://cdnn7qb7386hj" path="res://project/input/actions/game.tres" id="7_7m3p5"]
 
 [node name="Main" type="ColorRect"]
 anchors_preset = 15
@@ -25,83 +24,24 @@ script = ExtResource("1_gcs5q")
 [node name="Scene" type="Node" parent="."]
 script = ExtResource("2_e2317")
 game_root = NodePath("../GameRoot")
-initial = NodePath("Boot/Init")
+initial = NodePath("Core/Init")
 compact = false
 process_callback = 1
 
-[node name="Boot" type="Node" parent="Scene"]
-script = ExtResource("3_t3x0b")
-track_direct_only = false
-track_extra = Array[NodePath]([NodePath("../Main")])
-
-[node name="Init" type="Node" parent="Scene/Boot"]
-script = ExtResource("4_phfq2")
-to = NodePath("../Studio/Transition")
-
-[node name="Studio" type="Node" parent="Scene/Boot"]
-script = ExtResource("3_t3x0b")
-
-[node name="Transition" type="Node" parent="Scene/Boot/Studio"]
-script = ExtResource("4_vah31")
-fade_in = false
-to = NodePath("../Splash")
-
-[node name="Splash" type="Node" parent="Scene/Boot/Studio"]
-script = ExtResource("6_stj23")
-to = NodePath("../../Godot/Transition")
-duration_minimum_enabled = false
-action_set = ExtResource("7_camuk")
-scene = "res://project/main/splash/studio.tscn"
-
-[node name="Godot" type="Node" parent="Scene/Boot"]
-script = ExtResource("3_t3x0b")
-
-[node name="Transition" type="Node" parent="Scene/Boot/Godot"]
-script = ExtResource("4_vah31")
-to = NodePath("../Splash")
-
-[node name="Splash" type="Node" parent="Scene/Boot/Godot"]
-script = ExtResource("6_stj23")
-to = NodePath("../../../Main/Transition")
-duration_minimum_enabled = false
-action_set = ExtResource("7_camuk")
-scene = "res://project/main/splash/godot.tscn"
-
-[node name="Main" type="Node" parent="Scene"]
-script = ExtResource("3_t3x0b")
-
-[node name="Transition" type="Node" parent="Scene/Main"]
-script = ExtResource("4_vah31")
-fade_out_duration = 0.45
-to = NodePath("../Menu")
-
-[node name="Menu" type="Node" parent="Scene/Main"]
-script = ExtResource("5_wtlwn")
-action_set = ExtResource("7_camuk")
-scene = "res://project/main/menu/main_menu.tscn"
-
 [node name="Core" type="Node" parent="Scene"]
 script = ExtResource("3_t3x0b")
-track_extra = Array[NodePath]([NodePath("Map/Scene")])
+track_extra = Array[NodePath]([NodePath("Scene")])
 
-[node name="Loading" type="Node" parent="Scene/Core"]
-script = ExtResource("3_t3x0b")
+[node name="Init" type="Node" parent="Scene/Core"]
+script = ExtResource("4_phfq2")
+to = NodePath("../Transition")
 
-[node name="Transition" type="Node" parent="Scene/Core/Loading"]
+[node name="Transition" type="Node" parent="Scene/Core"]
 script = ExtResource("4_vah31")
-
-[node name="Scene" type="Node" parent="Scene/Core/Loading"]
-script = ExtResource("5_wtlwn")
-scene = "res://project/main/load/loading.tscn"
-
-[node name="Map" type="Node" parent="Scene/Core"]
-script = ExtResource("3_t3x0b")
-
-[node name="Transition" type="Node" parent="Scene/Core/Map"]
-script = ExtResource("4_vah31")
-fade_out_duration = 0.45
+fade_in = false
 to = NodePath("../Scene")
 
-[node name="Scene" type="Node" parent="Scene/Core/Map"]
+[node name="Scene" type="Node" parent="Scene/Core"]
 script = ExtResource("5_wtlwn")
+action_set = ExtResource("7_7m3p5")
 scene = "res://project/maps/example/scene.tscn"
