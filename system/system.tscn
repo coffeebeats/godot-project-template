@@ -8,9 +8,9 @@
 [node name="System" type="Node"]
 process_mode = 3
 
-[node name="Settings" parent="." instance=ExtResource("1_8d1ab")]
-
 [node name="Input" parent="." instance=ExtResource("2_u77o4")]
+
+[node name="Settings" parent="." instance=ExtResource("1_8d1ab")]
 
 [node name="Audio" parent="." instance=ExtResource("3_fh0pe")]
 
