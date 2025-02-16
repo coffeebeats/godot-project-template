@@ -20,6 +20,11 @@ signal focus_root_changed(root: Control)
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
+# NOTE: Shadowing this variable prevents an error observed when returning this type from
+# a function. The error, "ERROR: Condition "p_elem->_root != this" is true.", is only
+# seen during tests and re-importing project resources.
+@warning_ignore("SHADOWED_GLOBAL_IDENTIFIER")
+const StdInputDevice := preload("res://addons/std/input/device.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
