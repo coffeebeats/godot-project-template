@@ -1,9 +1,6 @@
-[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=23 format=3 uid="uid://bd5fo51o6asi2"]
 
-[ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
-[ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
-[ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="3_6rqrp"]
-[ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="4_7dyaq"]
+[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="1_id3sp"]
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="10_heyw7"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="11_ph7kg"]
 [ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="12_jaj02"]
@@ -15,27 +12,16 @@
 [ext_resource type="Resource" uid="uid://dyuvr6ililvtc" path="res://system/setting/controls/glyph_type_property.tres" id="16_11kx0"]
 [ext_resource type="Script" path="res://addons/std/setting/controller_range.gd" id="16_wymh8"]
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="17_0rlbk"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="17_b0ocw"]
 [ext_resource type="Resource" uid="uid://bndux72lth38k" path="res://system/setting/controls/glyph_type_options_property.tres" id="17_kswyw"]
 [ext_resource type="Resource" uid="uid://c750nhjvglhky" path="res://project/settings/controls/button_prompt_option_formatter.tres" id="18_8p5d5"]
-[ext_resource type="Resource" uid="uid://cdnn7qb7386hj" path="res://project/input/actions/game.tres" id="19_3vbem"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/controls/action_set.tscn" id="19_ngc7g"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="20_h7kk8"]
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="21_dqueq"]
-[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/game_options.tres" id="21_lyge1"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
-[ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="25_xpu0l"]
-[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="27_5ipvy"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
-
-[sub_resource type="Resource" id="Resource_pi47t"]
-script = ExtResource("6_bdd3f")
-allow = ExtResource("5_73sma")
-
-[sub_resource type="Resource" id="Resource_jhqli"]
-script = ExtResource("6_bdd3f")
-allow = ExtResource("5_73sma")
 
 [node name="Controls" type="VBoxContainer"]
 anchors_preset = 15
@@ -45,10 +31,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"Body"
 
-[node name="Godot" type="Node" parent="." node_paths=PackedStringArray("targets")]
-script = ExtResource("1_slt8e")
-targets = [NodePath("../MenuControls"), NodePath("../MenuTabs"), NodePath("../MenuRebinding")]
-expressions_allow = Array[ExtResource("2_xiafk")]([ExtResource("3_6rqrp"), ExtResource("4_7dyaq")])
+[node name="BindingPrompt" parent="." instance=ExtResource("1_id3sp")]
+visible = false
+top_level = true
+layout_mode = 2
+scope = ExtResource("21_dqueq")
+float_under = NodePath("..")
 
 [node name="Gamepad" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
@@ -94,18 +82,6 @@ property = ExtResource("17_0rlbk")
 target = NodePath("../HSlider")
 disabled = ExtResource("14_rj08w")
 
-[node name="GameControls" parent="." instance=ExtResource("19_ngc7g")]
-layout_mode = 2
-action_set = ExtResource("19_3vbem")
-scope = ExtResource("21_dqueq")
-label = "options_controls_game"
-
-[node name="GameOptions" parent="." instance=ExtResource("19_ngc7g")]
-layout_mode = 2
-action_set = ExtResource("21_lyge1")
-scope = ExtResource("21_dqueq")
-label = "options_controls_game_options"
-
 [node name="Gameplay" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("25_xpu0l")
@@ -113,7 +89,7 @@ scope = ExtResource("21_dqueq")
 
 [node name="GameplayOptions" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
-action_set = ExtResource("27_5ipvy")
+action_set = ExtResource("17_b0ocw")
 scope = ExtResource("21_dqueq")
 
 [node name="MenuControls" parent="." instance=ExtResource("19_ngc7g")]
@@ -127,13 +103,6 @@ layout_mode = 2
 action_set = ExtResource("22_6tsaj")
 scope = ExtResource("21_dqueq")
 player_id = null
-label = "options_controls_menu_tabbed"
-
-[node name="MenuOptions" parent="." instance=ExtResource("19_ngc7g")]
-layout_mode = 2
-action_set = ExtResource("28_8eihr")
-scope = ExtResource("21_dqueq")
-label = "options_controls_menu_options"
 
 [node name="MenuOptions" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2

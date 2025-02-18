@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://addons/std/scene/state/auto_transition.gd" id="4_phfq2"]
 [ext_resource type="Script" path="res://addons/std/scene/state/fade.gd" id="4_vah31"]
 [ext_resource type="Script" path="res://addons/std/scene/state/playable.gd" id="5_wtlwn"]
-[ext_resource type="Resource" uid="uid://cdnn7qb7386hj" path="res://project/input/actions/game.tres" id="7_7m3p5"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="8_i2245"]
 
 [node name="Main" type="ColorRect"]
 anchors_preset = 15
@@ -43,5 +43,5 @@ to = NodePath("../Scene")
 
 [node name="Scene" type="Node" parent="Scene/Core"]
 script = ExtResource("5_wtlwn")
-action_set = ExtResource("7_7m3p5")
+action_set = ExtResource("8_i2245")
 scene = "res://project/maps/example/scene.tscn"

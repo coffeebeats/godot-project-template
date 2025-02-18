@@ -6,8 +6,7 @@
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_qs6w1"]
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="4_w0qnl"]
 [ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_dn1hj"]
-[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="6_qem4v"]
-
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="6_y54oa"]
 
 [node name="Scene" type="Control" node_paths=PackedStringArray("scene_handle")]
 layout_mode = 3
@@ -34,7 +33,7 @@ offset_bottom = 40.0
 script = ExtResource("3_qs6w1")
 action_set = ExtResource("4_w0qnl")
 load_on_hidden = true
-action_set_layer = ExtResource("6_qem4v")
+action_set_layer = ExtResource("6_y54oa")
 disable_on_exit = false
 disable_on_visible = true
 enable_on_hidden = true
