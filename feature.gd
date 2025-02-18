@@ -13,7 +13,7 @@ extends Object
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## HostPlatform enumerates the set of OS/platforms which this game might target.
-enum HostPlatform {UNKNOWN, MACOS, WEB, WINDOWS}
+enum HostPlatform { UNKNOWN, MACOS, WEB, WINDOWS }
 
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {
@@ -35,6 +35,7 @@ static func get_platform() -> HostPlatform:
 		return HostPlatform.WEB
 
 	return HostPlatform.UNKNOWN
+
 
 ## is_editor_build returns whether the game is running via the Godot editor.
 static func is_editor_build() -> bool:

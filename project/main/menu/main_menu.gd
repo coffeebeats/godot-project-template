@@ -45,7 +45,7 @@ func _ready() -> void:
 	if toggle_settings_action_prompt:
 		(
 			Signals
-			.connect_safe(
+			. connect_safe(
 				toggle_settings_action_prompt.pressed,
 				_on_settings_prompt_pressed,
 			)
