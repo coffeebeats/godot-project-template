@@ -41,24 +41,11 @@ func _exit_tree() -> void:
 		_music_sound_instance.stop(0.6, Tween.TRANS_LINEAR)
 
 
-func _input(event: InputEvent) -> void:
-	if not event.is_action_type():
-		return
-
-	if event.is_action_pressed(&"ui_toggle_settings"):
-		get_viewport().set_input_as_handled()
-
-		if not Modal.are_any_open():
-			_settings.visible = true
-		elif _settings.is_head_modal():
-			_settings.visible = false
-
-
 func _ready() -> void:
 	if toggle_settings_action_prompt:
 		(
 			Signals
-			. connect_safe(
+			.connect_safe(
 				toggle_settings_action_prompt.pressed,
 				_on_settings_prompt_pressed,
 			)
@@ -92,19 +79,11 @@ func _handle_first_focused_sound_event_mute() -> void:
 
 
 func _on_modal_closed(_reason: Modal.CloseReason) -> void:
-	var input := Systems.input()
-	if not input.is_cursor_visible():
-		input.mute_next_focus_sound_event()
-
 	if music_filter_param:
 		music_filter_param.enabled = false
 
 
 func _on_modal_opened() -> void:
-	var input := Systems.input()
-	if not input.is_cursor_visible():
-		input.mute_next_focus_sound_event()
-
 	if music_filter_param:
 		music_filter_param.enabled = true
 
