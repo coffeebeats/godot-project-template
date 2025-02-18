@@ -207,6 +207,19 @@ msgstr "Steam Input"
 msgid "options_controls_steam_configurator"
 msgstr "Controller layout"
 
+#. Used as a category name for a group of input actions related to gameplay input.
+msgid "options_controls_Gameplay"
+msgstr "Gameplay"
+
+#. Used as a category name for a group of input actions related to gameplay options.
+msgid "options_controls_GameplayOptions"
+msgstr "Gameplay options"
+
+#. An input action that opens the settings menu during gameplay.
+msgctxt "actions_GameplayOptions"
+msgid "ui_toggle_settings"
+msgstr "Options"
+
 #. Used as a category name for a group of input actions related to menu navigation.
 msgid "options_controls_Menu"
 msgstr "Menus"
@@ -251,10 +264,14 @@ msgctxt "actions_Menu"
 msgid "ui_cancel"
 msgstr "Cancel"
 
-#. An input action used to toggle open or closed the settings menu.
-msgctxt "actions_Menu"
+#. Used as a category name for a group of input actions related to the options menu.
+msgid "options_controls_MenuOptions"
+msgstr "Menu options"
+
+#. An input action that opens the settings menu when the player is on a menu screen.
+msgctxt "actions_MenuOptions"
 msgid "ui_toggle_settings"
-msgstr "Toggle settings"
+msgstr "Options"
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
 msgid "options_controls_MenuTabbed"
