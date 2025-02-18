@@ -17,7 +17,6 @@ signal pressed
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Locales := preload("res://project/locale/locales.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -140,7 +139,7 @@ func _ready():
 	player_id = player_id
 
 	assert(_label is Label, "invalid state; missing label node")
-	_label.text = Locales.tr_action(action_set.name, action)
+	_label.text = action
 
 	var stylebox: StyleBoxFlat = get_theme_stylebox(&"panel")
 	if stylebox is StyleBoxFlat and (border_fade_in or border_fade_out):
