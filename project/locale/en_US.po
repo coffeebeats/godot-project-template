@@ -209,11 +209,11 @@ msgstr "Controller layout"
 
 #. Used as a category name for a group of input actions related to gameplay input.
 msgid "options_controls_Gameplay"
-msgstr "Gameplay"
+msgstr "In-game actions"
 
 #. Used as a category name for a group of input actions related to gameplay options.
 msgid "options_controls_GameplayOptions"
-msgstr "Gameplay options"
+msgstr "In-game options"
 
 #. An input action that opens the settings menu during gameplay.
 msgctxt "actions_GameplayOptions"
