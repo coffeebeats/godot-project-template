@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.5.1 (2025-02-18)
+
+## What's Changed
+* chore(addons): update `std`, `gut`, and `phantom_camera` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/266
+* fix(system): work around import error likely resulting from engine bug by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/268
+* fix(project): improve action set loading in main menu and placeholder game scene by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/269
+* fix(project): translate new gameplay action sets by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/277
+* chore(ci): disable `web` releases by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/278
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.5.0...v1.5.1
+
 ## 1.5.0 (2025-02-15)
 
 ## What's Changed
