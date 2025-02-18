@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="StdInputActionSetLayer" load_steps=3 format=3 uid="uid://bcsts082smqrp"]
+[gd_resource type="Resource" script_class="StdInputActionSetLayer" load_steps=3 format=3 uid="uid://cochnwdj5p8h5"]
 
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="1_o1u2k"]
-[ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="1_wuq6f"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="1_3132b"]
+[ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="1_ajvvg"]
 
 [resource]
-script = ExtResource("1_wuq6f")
-parent = ExtResource("1_o1u2k")
-name = &"MenuOptions"
+script = ExtResource("1_ajvvg")
+parent = ExtResource("1_3132b")
+name = &"GameplayOptions"
 actions_analog_1d = Array[StringName]([])
 actions_analog_2d = Array[StringName]([])
 actions_digital = Array[StringName]([&"ui_toggle_settings"])

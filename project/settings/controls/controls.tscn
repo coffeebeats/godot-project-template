@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
@@ -25,6 +25,17 @@
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="25_xpu0l"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="27_5ipvy"]
+[ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
+
+[sub_resource type="Resource" id="Resource_pi47t"]
+script = ExtResource("6_bdd3f")
+allow = ExtResource("5_73sma")
+
+[sub_resource type="Resource" id="Resource_jhqli"]
+script = ExtResource("6_bdd3f")
+allow = ExtResource("5_73sma")
 
 [node name="Controls" type="VBoxContainer"]
 anchors_preset = 15
@@ -95,12 +106,21 @@ action_set = ExtResource("21_lyge1")
 scope = ExtResource("21_dqueq")
 label = "options_controls_game_options"
 
+[node name="Gameplay" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("25_xpu0l")
+scope = ExtResource("21_dqueq")
+
+[node name="GameplayOptions" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("27_5ipvy")
+scope = ExtResource("21_dqueq")
+
 [node name="MenuControls" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("20_h7kk8")
 scope = ExtResource("21_dqueq")
 player_id = null
-label = "options_controls_menu"
 
 [node name="MenuTabs" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
@@ -115,11 +135,15 @@ action_set = ExtResource("28_8eihr")
 scope = ExtResource("21_dqueq")
 label = "options_controls_menu_options"
 
+[node name="MenuOptions" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("28_8eihr")
+scope = ExtResource("21_dqueq")
+
 [node name="MenuRebinding" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("23_ahsqh")
 scope = ExtResource("21_dqueq")
 player_id = null
-label = "options_controls_menu_binding"
 
 [editable path="Gamepad/ButtonPrompt/OptionButton"]

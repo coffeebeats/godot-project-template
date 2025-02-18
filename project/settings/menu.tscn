@@ -38,6 +38,9 @@ disable_on_exit = false
 disable_on_hidden = true
 enable_on_visible = true
 
+[node name="PanelContainer" parent="CenterContainer" index="0"]
+custom_minimum_size = Vector2(1440, 648)
+
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="0"]
 layout_mode = 2
 theme_override_constants/margin_left = 32
