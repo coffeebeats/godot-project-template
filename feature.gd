@@ -13,7 +13,7 @@ extends Object
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 ## HostPlatform enumerates the set of OS/platforms which this game might target.
-enum HostPlatform { UNKNOWN, MACOS, WEB, WINDOWS }
+enum HostPlatform {UNKNOWN, MACOS, WEB, WINDOWS}
 
 ## Storefront enumerates the set of storefronts on which this game might be published.
 enum Storefront {
@@ -36,20 +36,24 @@ static func get_platform() -> HostPlatform:
 
 	return HostPlatform.UNKNOWN
 
+## is_editor_build returns whether the game is running via the Godot editor.
+static func is_editor_build() -> bool:
+	return OS.has_feature(&"editor")
+
 
 ## is_macos_platform returns whether this game is running on macOS.
 static func is_macos_platform() -> bool:
-	return OS.has_feature("macos")
+	return OS.has_feature(&"macos")
 
 
 ## is_web_platform returns whether this game is running on a web browser.
 static func is_web_platform() -> bool:
-	return OS.has_feature("web")
+	return OS.has_feature(&"web")
 
 
 ## is_windows_platform returns whether this game is running on Windows.
 static func is_windows_platform() -> bool:
-	return OS.has_feature("windows")
+	return OS.has_feature(&"windows")
 
 
 ## get_storefront returns the 'Storefront' targeted by the current game build.
@@ -66,12 +70,12 @@ static func get_storefront() -> Storefront:
 
 ## is_steam_enabled returns whether the game build is targeting the Steam 'Storefront'.
 static func is_steam_storefront_enabled() -> bool:
-	return OS.has_feature("storefront:steam")
+	return OS.has_feature(&"storefront:steam")
 
 
 ## is_gog_enabled returns whether the game build is targeting the GOG 'Storefront'.
 static func is_gog_storefront_enabled() -> bool:
-	return OS.has_feature("storefront:gog")
+	return OS.has_feature(&"storefront:gog")
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
