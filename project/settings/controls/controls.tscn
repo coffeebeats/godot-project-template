@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
@@ -28,6 +28,9 @@
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="21_dqueq"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/game.tres" id="25_xpu0l"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/game_options.tres" id="27_5ipvy"]
+[ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
 
 [sub_resource type="Resource" id="Resource_pi47t"]
 script = ExtResource("6_bdd3f")
@@ -125,6 +128,18 @@ custom_minimum_size = Vector2(128, 48)
 layout_mode = 2
 text = "OPEN"
 
+[node name="Game" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("25_xpu0l")
+scope = ExtResource("21_dqueq")
+label = "options_controls_game"
+
+[node name="GameOptions" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("27_5ipvy")
+scope = ExtResource("21_dqueq")
+label = "options_controls_game_options"
+
 [node name="MenuControls" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("20_h7kk8")
@@ -138,6 +153,12 @@ action_set = ExtResource("22_6tsaj")
 scope = ExtResource("21_dqueq")
 player_id = null
 label = "options_controls_menu_tabbed"
+
+[node name="MenuOptions" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("28_8eihr")
+scope = ExtResource("21_dqueq")
+label = "options_controls_menu_options"
 
 [node name="MenuRebinding" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2

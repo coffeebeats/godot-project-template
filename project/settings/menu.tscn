@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://cm4b566x6ped8"]
+[gd_scene load_steps=15 format=3 uid="uid://cm4b566x6ped8"]
 
 [ext_resource type="PackedScene" uid="uid://du65ljq0jsyh" path="res://project/ui/modal/menu.tscn" id="1_cdunp"]
 [ext_resource type="Script" path="res://project/settings/menu.gd" id="2_j2ecv"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="3_7ixv1"]
 [ext_resource type="Resource" uid="uid://bus0xmb3pu8xp" path="res://project/settings/tab_sound_event.tres" id="3_gh6u1"]
 [ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_m4kg3"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="4_s0nl3"]
@@ -17,20 +18,27 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhy4h"]
 
 [node name="SettingsMenu" instance=ExtResource("1_cdunp")]
-
-[node name="PanelContainer" parent="CenterContainer" index="0"]
 script = ExtResource("2_j2ecv")
 tab_switch_sound_event = ExtResource("3_gh6u1")
 
-[node name="StdInputActionSetLoader" type="Control" parent="CenterContainer/PanelContainer" index="0"]
+[node name="StdInputActionSetLoader" type="Control" parent="." index="0"]
 layout_mode = 2
+anchors_preset = 0
+offset_left = 384.0
+offset_top = 103.0
+offset_right = 1536.0
+offset_bottom = 977.0
 script = ExtResource("3_m4kg3")
+action_set = ExtResource("3_7ixv1")
+load_on_enter = false
+load_on_visible = true
 action_set_layer = ExtResource("4_s0nl3")
 enable_on_enter = false
-enable_on_visible = true
+disable_on_exit = false
 disable_on_hidden = true
+enable_on_visible = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="0"]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
@@ -113,10 +121,10 @@ visible = false
 layout_mode = 2
 
 [node name="Sound" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="1" instance=ExtResource("7_x3q0k")]
-visible = false
 layout_mode = 2
 
 [node name="Interface" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="2" instance=ExtResource("8_kkqby")]
+visible = false
 layout_mode = 2
 
 [node name="Display" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="3" instance=ExtResource("9_vwbdl")]
@@ -124,4 +132,5 @@ visible = false
 layout_mode = 2
 
 [node name="Controls" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="4" instance=ExtResource("10_46fy4")]
+visible = false
 layout_mode = 2

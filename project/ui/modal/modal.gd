@@ -130,7 +130,7 @@ func _gui_input(event: InputEvent) -> void:
 # NOTE: Prefer this over `_unhandled_input` because this needs to be handled prior to
 # propagating through other input handling layers.
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_cancel"):
+	if visible and is_head_modal() and event.is_action_pressed(&"ui_cancel"):
 		accept_event()
 		hide()
 
@@ -185,8 +185,6 @@ func _ready() -> void:
 				_on_button_pressed.bind(CLOSE_REASON_CLOSED),
 			)
 		)
-
-	set_process_input(visible)
 
 	_is_open = visible
 	_mouse_filter = mouse_filter
@@ -275,8 +273,6 @@ func _on_modal_closed() -> void:
 	assert(not visible, "invalid state; expected hidden modal")
 	assert(self in _stack, "invalid state; is missing in modal stack")
 
-	set_process_input(false)
-
 	mouse_filter = MOUSE_FILTER_IGNORE
 
 	_stack.erase(self)
@@ -296,8 +292,6 @@ func _on_modal_opened() -> void:
 	assert(self not in _stack, "invalid state; already in modal stack")
 
 	Systems.input().set_focus_root(self)
-
-	set_process_input(true)
 
 	mouse_filter = MOUSE_FILTER_STOP
 

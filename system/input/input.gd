@@ -33,9 +33,6 @@ const GROUP_INPUT_SHIM := &"system/input:shim"
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## action_set_default is a default action set that will be loaded after starting up.
-@export var action_set_default: StdInputActionSet = null
-
 ## focused_sound_group is the sound group used for focused UI elements.
 @export var focused_sound_group: StdSoundGroup = null
 
@@ -145,8 +142,6 @@ func _process(delta: float) -> void:
 
 
 func _ready() -> void:
-	assert(action_set_default is StdInputActionSet, "invalid state; missing action set")
-
 	_cursor = StdGroup.get_sole_member(StdInputCursor.GROUP_INPUT_CURSOR)
 	assert(_cursor is StdInputCursor, "invalid state; missing input cursor")
 
@@ -156,6 +151,3 @@ func _ready() -> void:
 		_cursor.cursor_visibility_changed, cursor_visibility_changed.emit
 	)
 	Signals.connect_safe(_cursor.focus_root_changed, focus_root_changed.emit)
-
-	for slot in StdInputSlot.all():
-		slot.load_action_set(action_set_default)

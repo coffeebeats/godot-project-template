@@ -36,8 +36,15 @@ func _ready():
 	_save_data = saves.create_new_save_data()
 
 	if not saves.get_save_data(_save_data):
-		# TODO: Return back to the main menu.
-		assert(false, "invalid state; missing save data")
+		if not Feature.is_editor_build():
+			scene_handle.transition_to(^"Main/Transition")
+			return
+
+		var success := saves.activate_slot(0)
+		assert(success, "failed to load save data")
+
+		success = await saves.load_save_data(_save_data)
+		assert(success, "failed to load save data")
 
 	Signals.connect_safe(_increment.pressed, _on_increment_pressed)
 	Signals.connect_safe(_reset.pressed, _on_reset_pressed)

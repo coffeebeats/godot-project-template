@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene load_steps=23 format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
 [ext_resource type="Resource" uid="uid://bi2wkhusq3mrv" path="res://project/main/menu/music_filter_param.tres" id="3_t2uy2"]
 [ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://project/ui/glyph/action.tscn" id="4_4ki2s"]
+[ext_resource type="Script" path="res://addons/std/input/loader.gd" id="4_sdqe3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_5fewj"]
 [ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_46s0c"]
 [ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="7_2ro8v"]
@@ -16,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="9_vcdle"]
 [ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="10_k0l1f"]
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="10_ux3tr"]
+[ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
 [ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="12_ypfyi"]
 [ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="13_tu2id"]
 
@@ -48,6 +50,13 @@ music_sound_event = ExtResource("2_8n3sl")
 music_filter_param = ExtResource("3_t2uy2")
 toggle_settings_action_prompt = NodePath("MarginContainer/SettingsActionPrompt")
 
+[node name="StdInputActionSetLoader" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_sdqe3")
+action_set = ExtResource("5_5fewj")
+
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -56,6 +65,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="SettingsMenu" parent="." instance=ExtResource("5_46s0c")]
+visible = false
+layout_mode = 1
+
+[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_sdqe3")
+action_set_layer = ExtResource("10_y5hy5")
+disable_on_exit = false
+disable_on_visible = true
+enable_on_hidden = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -71,7 +94,7 @@ theme_override_constants/margin_right = 32
 [node name="SettingsActionPrompt" parent="MarginContainer" instance=ExtResource("4_4ki2s")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_as1tw")
-action_set = ExtResource("5_5fewj")
+action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_settings"
 
 [node name="Buttons" type="MarginContainer" parent="."]
@@ -156,13 +179,18 @@ layout_mode = 1
 offset_left = -96.0
 offset_top = -63.0
 
-[node name="SettingsMenu" parent="." instance=ExtResource("5_46s0c")]
-visible = false
-layout_mode = 1
-
 [node name="SaveMenu" parent="." instance=ExtResource("7_u240f")]
 visible = false
 layout_mode = 1
+
+[node name="StdInputActionSetLoader" type="Control" parent="SaveMenu"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_sdqe3")
+action_set_layer = ExtResource("10_y5hy5")
+disable_on_visible = true
+enable_on_hidden = true
 
 [node name="StdConditionParent" type="Node" parent="."]
 script = ExtResource("7_b6iwl")
