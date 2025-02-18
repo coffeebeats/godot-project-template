@@ -4,11 +4,9 @@ on:
   pull_request:
     branches:
       - main
-      - prototype
   push:
     branches:
       - main
-      - prototype
 
 permissions:
   contents: write
