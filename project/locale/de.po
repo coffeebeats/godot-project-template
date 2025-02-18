@@ -47,8 +47,7 @@ msgstr ""
 
 #. Instructs the player to select which save slot to use.
 msgid "Choose a save slot — progress will be saved automatically"
-msgstr ""
-"Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
+msgstr "Wähle einen speicherplatz – dein fortschritt wird automatisch gespeichert"
 
 #. A label for the timestamp of when the particular save was last updated.
 msgid "Last updated:"
@@ -208,6 +207,19 @@ msgstr ""
 msgid "Controller layout"
 msgstr ""
 
+#. Used as a category name for a group of input actions related to gameplay input.
+msgid "In-game actions"
+msgstr ""
+
+#. Used as a category name for a group of input actions related to gameplay options.
+msgid "In-game options"
+msgstr ""
+
+#. An input action that opens the settings menu during gameplay.
+msgctxt "actions_GameplayOptions"
+msgid "Options"
+msgstr "Optionen"
+
 #. Used as a category name for a group of input actions related to menu navigation.
 msgid "Menus"
 msgstr ""
@@ -252,10 +264,14 @@ msgctxt "actions_Menu"
 msgid "Cancel"
 msgstr ""
 
-#. An input action used to toggle open or closed the settings menu.
-msgctxt "actions_Menu"
-msgid "Toggle settings"
-msgstr ""
+#. Used as a category name for a group of input actions related to the options menu.
+msgid "Menu options"
+msgstr "Optionen"
+
+#. An input action that opens the settings menu when the player is on a menu screen.
+msgctxt "actions_MenuOptions"
+msgid "Options"
+msgstr "Optionen"
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
 msgid "Menu tabs"

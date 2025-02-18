@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_tj0kr")
-name = &"game"
+name = &"Gameplay"
 actions_analog_1d = Array[StringName]([])
 actions_analog_2d = Array[StringName]([])
 actions_digital = Array[StringName]([])
