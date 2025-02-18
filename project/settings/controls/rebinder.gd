@@ -19,11 +19,6 @@ const GROUP_REBINDER := &"project/settings:rebinder"
 const DEVICE_TYPE_KEYBOARD := StdInputDevice.DEVICE_TYPE_KEYBOARD
 const DEVICE_TYPE_UNKNOWN := StdInputDevice.DEVICE_TYPE_UNKNOWN
 
-const MSGCTXT_REBINDER_KEYBOARD := &"keyboard"
-const MSGCTXT_REBINDER_GAMEPAD := &"gamepad"
-const MSGID_REBINDER_TITLE := &"options_controls_rebinder_title"
-const MSGID_REBINDER_INSTRUCTIONS := &"options_controls_rebinder_bind_or_exit"
-
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## scope is a settings scope which contains input origin bindings for game actions.
@@ -87,7 +82,7 @@ func start(
 
 	(
 		_logger
-		. debug(
+		.debug(
 			"Starting listening for new key binding.",
 			(
 				{&"action_set": _action_set.name, &"action": _action}
@@ -114,7 +109,7 @@ func stop() -> void:
 
 	(
 		_logger
-		. debug(
+		.debug(
 			"Stopped listening for key bindings.",
 			(
 				{&"action_set": _action_set.name, &"action": _action}
@@ -169,7 +164,7 @@ func _input(event: InputEvent) -> void:
 
 	(
 		Bindings
-		. bind_action(
+		.bind_action(
 			scope,
 			_action_set,
 			_action,
@@ -192,7 +187,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	super._ready()  # gdlint:ignore=private-method-call
+	super._ready() # gdlint:ignore=private-method-call
 	set_process_input(false)
 
 	_logger = _logger.named(&"project/settings/rebind")
@@ -205,17 +200,14 @@ func _update_prompt() -> void:
 	_label_glyph.player_id = _player
 	_label_glyph.update()
 
-	_label_action.text = tr(MSGID_REBINDER_TITLE) % _action
+	_label_action.text = "Bind “%s”" % _action
 
-	var instructions_template := tr(
-		MSGID_REBINDER_INSTRUCTIONS,
-		(
-			MSGCTXT_REBINDER_KEYBOARD
-			if _device.device_type == DEVICE_TYPE_KEYBOARD
-			else MSGCTXT_REBINDER_GAMEPAD
-		),
+	var instructions_template := (
+		"Press any key now or %s to cancel."
+		if _device.device_type == DEVICE_TYPE_KEYBOARD
+		else "Press any button now or %s to cancel."
 	)
-
+	
 	var parts := instructions_template.split("%s", true, 1)
 	assert(parts.size() == 2, "invalid state; unrecognized template")
 
