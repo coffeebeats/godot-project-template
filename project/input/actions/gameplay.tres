@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="StdInputActionSet" load_steps=2 format=3 uid="uid://cdnn7qb7386hj"]
+[gd_resource type="Resource" script_class="StdInputActionSet" load_steps=2 format=3 uid="uid://c6ihq60tiqoap"]
 
-[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="1_rq0gj"]
+[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="1_tj0kr"]
 
 [resource]
-script = ExtResource("1_rq0gj")
-name = &"game"
+script = ExtResource("1_tj0kr")
+name = &"Gameplay"
 actions_analog_1d = Array[StringName]([])
 actions_analog_2d = Array[StringName]([])
 actions_digital = Array[StringName]([])
