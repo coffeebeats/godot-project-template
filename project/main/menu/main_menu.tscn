@@ -183,6 +183,15 @@ offset_top = -63.0
 visible = false
 layout_mode = 1
 
+[node name="StdInputActionSetLoader" type="Control" parent="SaveMenu"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_sdqe3")
+action_set_layer = ExtResource("10_y5hy5")
+disable_on_visible = true
+enable_on_hidden = true
+
 [node name="StdConditionParent" type="Node" parent="."]
 script = ExtResource("7_b6iwl")
 expressions_allow = Array[ExtResource("8_bavw3")]([ExtResource("9_vcdle"), ExtResource("10_k0l1f"), ExtResource("10_ux3tr")])
