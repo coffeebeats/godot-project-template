@@ -24,22 +24,8 @@ var _save_data: ProjectSaveData = null
 @onready var _increment: Button = %Increment
 @onready var _reset: Button = %Reset
 @onready var _save: Button = %Save
-@onready var _settings_menu: Modal = %SettingsMenu
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
-
-
-func _input(event: InputEvent) -> void:
-	if not event.is_action_type():
-		return
-
-	if event.is_action_pressed(&"ui_toggle_settings"):
-		get_viewport().set_input_as_handled()
-
-		if not Modal.are_any_open():
-			_settings_menu.visible = true
-		elif _settings_menu.is_head_modal():
-			_settings_menu.visible = false
 
 
 func _ready():
@@ -86,10 +72,6 @@ func _on_increment_pressed() -> void:
 func _on_reset_pressed() -> void:
 	_save_data.example.count = 0
 	_update_counter_label()
-
-
-func _on_return_pressed() -> void:
-	scene_handle.transition_to(^"Main/Transition")
 
 
 func _on_save_pressed() -> void:
