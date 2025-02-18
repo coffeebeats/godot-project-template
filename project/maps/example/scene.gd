@@ -51,7 +51,14 @@ func _ready():
 	saves.activate_slot(0)
 
 	if not saves.get_save_data(_save_data):
-		var success := await saves.load_save_data(_save_data)
+		if not Feature.is_editor_build():
+			scene_handle.transition_to(^"Main/Transition")
+			return
+
+		var success := saves.activate_slot(0)
+		assert(success, "failed to load save data")
+
+		success = await saves.load_save_data(_save_data)
 		assert(success, "failed to load save data")
 
 	Signals.connect_safe(_increment.pressed, _on_increment_pressed)

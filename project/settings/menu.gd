@@ -1,15 +1,11 @@
 ##
 ## project/settings/menu.gd
 ##
-## SettingsMenu is a full settings menu with the ability to read and write user/game
-## preferences. This is intended to be opened in a separate `Modal` or `Container`.
+## SettingsMenu is a full settings menu (within a `Modal`) with the ability to read and
+## write user/game preferences.
 ##
 
-extends PanelContainer
-
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const Signals := preload("res://addons/std/event/signal.gd")
+extends Modal
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -33,17 +29,45 @@ var _tab_switch_muted: bool = false
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _input(event: InputEvent) -> void:
+	super._input(event)
+
+	if not event.is_action_type() or get_viewport().is_input_handled():
+		return
+
+	if event.is_action_pressed(&"ui_toggle_settings"):
+		get_viewport().set_input_as_handled()
+
+		if not Modal.are_any_open():
+			visible = true
+		elif is_head_modal():
+			visible = false
+
+
 func _notification(what: int) -> void:
+	super._notification(what)
+
+	if not is_node_ready():
+		return
+
 	match what:
 		NOTIFICATION_VISIBILITY_CHANGED:
-			# Reset the selected tab upon the menu being shown.
-			if is_visible_in_tree():
-				_tab_switch_muted = true
-				_tab_bar.current_tab = _tab_bar_default_index
-				(func(): _tab_switch_muted = false).call_deferred()
+			match is_visible_in_tree():
+				false:
+					_maybe_mute_next_focus_sound_event()
+				true:
+					_maybe_mute_next_focus_sound_event()
+
+					# Reset the selected tab upon the menu being shown.
+					if is_visible_in_tree():
+						_tab_switch_muted = true
+						_tab_bar.current_tab = _tab_bar_default_index
+						(func(): _tab_switch_muted = false).call_deferred()
 
 
 func _ready():
+	super._ready()
+
 	assert(not is_layout_rtl(), "invalid state: validate support for RTL")
 
 	_tab_bar_default_index = _tab_bar.current_tab
@@ -71,6 +95,12 @@ func _shortcut_input(event: InputEvent) -> void:
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _maybe_mute_next_focus_sound_event() -> void:
+	var input := Systems.input()
+	if not input.is_cursor_visible():
+		input.mute_next_focus_sound_event()
 
 
 func _set_active_index(index: int) -> void:

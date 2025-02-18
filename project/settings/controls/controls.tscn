@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=26 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
@@ -17,11 +17,14 @@
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="17_0rlbk"]
 [ext_resource type="Resource" uid="uid://bndux72lth38k" path="res://system/setting/controls/glyph_type_options_property.tres" id="17_kswyw"]
 [ext_resource type="Resource" uid="uid://c750nhjvglhky" path="res://project/settings/controls/button_prompt_option_formatter.tres" id="18_8p5d5"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/game.tres" id="19_3vbem"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/controls/action_set.tscn" id="19_ngc7g"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="20_h7kk8"]
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="21_dqueq"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/game_options.tres" id="21_lyge1"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="22_6tsaj"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="23_ahsqh"]
+[ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="28_8eihr"]
 
 [node name="Controls" type="VBoxContainer"]
 anchors_preset = 15
@@ -80,6 +83,18 @@ property = ExtResource("17_0rlbk")
 target = NodePath("../HSlider")
 disabled = ExtResource("14_rj08w")
 
+[node name="GameControls" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("19_3vbem")
+scope = ExtResource("21_dqueq")
+label = "options_controls_game"
+
+[node name="GameOptions" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("21_lyge1")
+scope = ExtResource("21_dqueq")
+label = "options_controls_game_options"
+
 [node name="MenuControls" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2
 action_set = ExtResource("20_h7kk8")
@@ -93,6 +108,12 @@ action_set = ExtResource("22_6tsaj")
 scope = ExtResource("21_dqueq")
 player_id = null
 label = "options_controls_menu_tabbed"
+
+[node name="MenuOptions" parent="." instance=ExtResource("19_ngc7g")]
+layout_mode = 2
+action_set = ExtResource("28_8eihr")
+scope = ExtResource("21_dqueq")
+label = "options_controls_menu_options"
 
 [node name="MenuRebinding" parent="." instance=ExtResource("19_ngc7g")]
 layout_mode = 2

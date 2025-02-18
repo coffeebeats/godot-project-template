@@ -1,7 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bexeoi21tf2v2"]
 
 [ext_resource type="Script" path="res://system/input/input.gd" id="1_sl0pi"]
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="2_0k85f"]
 [ext_resource type="Resource" uid="uid://qhsnu8axd0er" path="res://project/ui/input/focus_handler_sound_group.tres" id="3_360wj"]
 [ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="5_gdf77"]
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="6_xmapc"]
@@ -10,7 +9,6 @@
 
 [node name="Input" type="Node"]
 script = ExtResource("1_sl0pi")
-action_set_default = ExtResource("2_0k85f")
 focused_sound_group = ExtResource("3_360wj")
 
 [node name="IfGodot" type="Node" parent="."]

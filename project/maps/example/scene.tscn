@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1c0jg2hh82bk"]
+[gd_scene load_steps=8 format=3 uid="uid://b1c0jg2hh82bk"]
 
 [ext_resource type="Script" path="res://project/maps/example/scene.gd" id="1_knflt"]
 [ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_fl1o7"]
 [ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="2_g63gs"]
-[ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="4_50tpk"]
+[ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_qs6w1"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/game.tres" id="4_w0qnl"]
+[ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_dn1hj"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/game_options.tres" id="6_qem4v"]
 
 [node name="Scene" type="Control" node_paths=PackedStringArray("scene_handle")]
 layout_mode = 3
@@ -17,6 +20,23 @@ scene_handle = NodePath("SceneHandle")
 
 [node name="SceneHandle" type="Node" parent="."]
 script = ExtResource("2_fl1o7")
+
+[node name="SettingsMenu" parent="." instance=ExtResource("5_dn1hj")]
+visible = false
+layout_mode = 1
+float_under = NodePath("/root")
+
+[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_qs6w1")
+action_set = ExtResource("4_w0qnl")
+load_on_hidden = true
+action_set_layer = ExtResource("6_qem4v")
+disable_on_exit = false
+disable_on_visible = true
+enable_on_hidden = true
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
