@@ -7,10 +7,6 @@
 
 extends StdSettingsControllerOptionButtonFormatter
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const Locales := preload("res://project/locale/locales.gd")
-
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
 const MSGCTXT_BUTTON_PROMPT := &"button_prompt"

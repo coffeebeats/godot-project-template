@@ -140,10 +140,6 @@ ui_toggle_settings={
 ]
 }
 
-[internationalization]
-
-locale/translations=PackedStringArray("res://project/locale/de.mo", "res://project/locale/en_US.mo", "res://project/locale/es_ES.mo", "res://project/locale/fr.mo", "res://project/locale/ja.mo", "res://project/locale/ko.mo", "res://project/locale/pl.mo", "res://project/locale/pt_BR.mo", "res://project/locale/ru.mo", "res://project/locale/tr.mo", "res://project/locale/uk.mo", "res://project/locale/zh_CN.mo", "res://project/locale/zh_TW.mo")
-
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true

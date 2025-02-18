@@ -10,7 +10,6 @@ extends "../group.gd"
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Bindings := preload("res://addons/std/input/godot/binding.gd")
-const Locales := preload("res://project/locale/locales.gd")
 const BindingScene := preload("binding.tscn")
 const Reset := preload("reset.gd")
 const ResetScene := preload("reset.tscn")
@@ -32,7 +31,7 @@ const LOCALE_MSGID_ACTION_SET_PREFIX := &"options_controls_"
 		action_set = value
 
 		if value is StdInputActionSet:
-			label = Locales.tr_action_set(value.name)
+			label = value.name
 
 @export_subgroup("Binding")
 
@@ -66,7 +65,7 @@ func _ready() -> void:
 	auto_translate_mode = AUTO_TRANSLATE_MODE_DISABLED
 
 	assert(action_set is StdInputActionSet, "invalid config; missing action set")
-	action_set = action_set  # Trigger 'label' update.
+	action_set = action_set # Trigger 'label' update.
 
 	_reset.action_set = action_set
 	_reset.player_id = player_id
@@ -113,7 +112,7 @@ func _generate_settings() -> void:
 		reset.bindings.append_array([primary, secondary])
 
 		var setting := SettingScene.instantiate()
-		setting.label = Locales.tr_action(action_set.name, action)
+		setting.label = action
 		setting.add_child(reset)
 		setting.add_child(primary)
 		setting.add_child(secondary)
