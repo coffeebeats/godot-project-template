@@ -3,6 +3,10 @@ name: "🤖 Export: Godot project"
 on:
   workflow_call:
     inputs:
+      ref:
+        type: string
+        description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
+        required: false
       platform:
         type: string
         required: true
@@ -25,6 +29,10 @@ on:
         value: ${{ jobs.package.outputs.artifact-name }}
   workflow_dispatch:
     inputs:
+      ref:
+        type: string
+        description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
+        required: false
       platform:
         type: choice
         description: "The platform to target."
@@ -77,6 +85,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
       - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@v1"
         id: version
@@ -102,6 +112,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
       - uses: "coffeebeats/godot-infra/compile-godot-export-template@v1"
         id: compile
@@ -173,6 +185,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.ref }}
           submodules: true
 
       - uses: actions/cache/restore@v4

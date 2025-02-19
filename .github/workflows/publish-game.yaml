@@ -102,8 +102,9 @@ jobs:
     with:
       arch: ${{ inputs.arch }}
       platform: ${{ inputs.platform }}
-      storefront: ${{ inputs.storefront }}
       profile: "release"
+      ref: ${{ inputs.release-tag }}
+      storefront: ${{ inputs.storefront }}
 
   publish:
     needs: ["export"]
