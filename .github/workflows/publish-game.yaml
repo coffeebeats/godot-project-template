@@ -134,6 +134,9 @@ jobs:
             chmod +x *.app/Contents/MacOS/*
           fi
 
+      - name: Inspect game artifacts
+        run: "tree -lha --dirsfirst -I .git"
+
       - name: Publish to 'itch.io'
         if: fromJson(inputs.publish-to-itchio)
         uses: "coffeebeats/godot-infra/publish-project-itchio@v1"
