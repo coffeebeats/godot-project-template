@@ -34,8 +34,9 @@ on:
     inputs:
       release-tag:
         type: string
-        description: "The release tag from which to download release assets."
+        description: "The release tag at which to build and publish the game."
         required: true
+        default: "v1.5.1" # x-release-please-version
       platform:
         type: choice
         description: "The platform of the exported game."
