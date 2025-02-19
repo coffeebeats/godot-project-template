@@ -97,7 +97,17 @@ defaults:
     shell: bash
 
 jobs:
+  export:
+    uses: "./.github/workflows/export-project.yaml"
+    with:
+      arch: ${{ inputs.arch }}
+      platform: ${{ inputs.platform }}
+      storefront: ${{ inputs.storefront }}
+      profile: "release"
+
   publish:
+    needs: ["export"]
+
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
