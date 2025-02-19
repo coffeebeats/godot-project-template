@@ -38,7 +38,7 @@ jobs:
           RELEASE_INFO: ${{ toJson(steps.release.outputs) }}
         run: echo $RELEASE_INFO
 
-  export:
+  publish:
     needs: ["release-please"]
     if: needs.release-please.outputs.release-created == 'true'
 
@@ -55,20 +55,29 @@ jobs:
           # - arch: wasm32
           #   platform: web
           #   storefront: unknown
+          #   publish-to-itchio: true
+          #   itchio-project: "Example" # FIXME: Change to current project name.
+          #   itchio-channel: "release"
 
           - arch: x86_64
             platform: windows
             storefront: unknown
 
-    uses: "./.github/workflows/export-project.yaml"
+    uses: "./.github/workflows/publish-game.yaml"
     with:
       arch: ${{ matrix.arch }}
       platform: ${{ matrix.platform }}
-      storefront: ${{ matrix.storefront }}
       profile: "release"
+      release-tag: ${{ needs.release-please.outputs.release-tag }}
+      storefront: ${{ matrix.storefront }}
+
+      # itch.io inputs
+      # publish-to-itchio: ${{ matrix.publish-to-itchio }}
+      # itchio-project: ${{ matrix.itchio-project }}
+      # itchio-channel: ${{ matrix.itchio-channel }}
 
   upload:
-    needs: ["release-please", "export"]
+    needs: ["release-please", "publish"]
     if: needs.release-please.outputs.release-created == 'true'
 
     runs-on: ubuntu-latest
@@ -104,21 +113,3 @@ jobs:
               ${{ needs.release-please.outputs.release-tag }} \
               $ASSET
           done
-
-  # publish-itchio:
-  #   needs: ["release-please", "upload"]
-  #   if: needs.release-please.outputs.release-created == 'true'
-
-  #   uses: "./.github/workflows/publish-game.yaml"
-  #   secrets: "inherit"
-  #   with:
-  #     release-tag: "${{ needs.release-please.outputs.release-tag }}"
-  #     platform: "web"
-  #     arch: "wasm32"
-  #     storefront: "unknown"
-  #     profile: "release"
-
-  #     # itch.io inputs
-  #     publish-to-itchio: true
-  #     itchio-project: "Example" # FIXME: Change to current project name.
-  #     itchio-channel: "release"
