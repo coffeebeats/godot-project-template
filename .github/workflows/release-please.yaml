@@ -20,6 +20,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # NOTE: Because 'release-please' is configured to update version text within
+          # '.github/workflows/publish-game.yaml', a PAT is required. This PAT must have
+          # 'contents:write' and 'workflows:write'; for details, see
+          # https://github.com/orgs/community/discussions/35410#discussioncomment-7645702.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
       - uses: googleapis/release-please-action@v4
         id: release
