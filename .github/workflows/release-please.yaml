@@ -5,10 +5,6 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -20,12 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          # NOTE: Because 'release-please' is configured to update version text within
-          # '.github/workflows/publish-game.yaml', a PAT is required. This PAT must have
-          # 'contents:write' and 'workflows:write'; for details, see
-          # https://github.com/orgs/community/discussions/35410#discussioncomment-7645702.
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
       - uses: googleapis/release-please-action@v4
         id: release
@@ -36,6 +26,12 @@ jobs:
           # NOTE: To handle releases on specific branches (e.g. a '1.X' release branch),
           # simply change the "branches" filter in the workflow's on-"push" trigger.
           target-branch: ${{ github.ref_name }}
+
+          # NOTE: Because 'release-please' is configured to update version text within
+          # '.github/workflows/publish-game.yaml', a PAT is required. This PAT must have
+          # 'contents:write' and 'workflows:write'; for details, see
+          # https://github.com/orgs/community/discussions/35410#discussioncomment-7645702.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
       - name: Log release-please action output
         shell: bash
