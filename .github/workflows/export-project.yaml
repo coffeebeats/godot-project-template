@@ -3,6 +3,10 @@ name: "🤖 Export: Godot project"
 on:
   workflow_call:
     inputs:
+      ref:
+        type: string
+        description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
+        required: false
       platform:
         type: string
         required: true
@@ -25,6 +29,10 @@ on:
         value: ${{ jobs.package.outputs.artifact-name }}
   workflow_dispatch:
     inputs:
+      ref:
+        type: string
+        description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
+        required: false
       platform:
         type: choice
         description: "The platform to target."
@@ -77,8 +85,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
-      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@v1"
+      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@main"
         id: version
         with:
           gdenv-pin-path: .godot-version
@@ -87,7 +97,7 @@ jobs:
         id: set-presets
         shell: bash
         run: |-
-          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep ${{ inputs.storefront }} | grep ${{ inputs.arch }}))
+          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep "${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"))
           echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
 
   compile:
@@ -102,8 +112,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
-      - uses: "coffeebeats/godot-infra/compile-godot-export-template@v1"
+      - uses: "coffeebeats/godot-infra/compile-godot-export-template@main"
         id: compile
         with:
           publish: ${{ inputs.publish-export-template }}
@@ -173,6 +185,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.ref }}
           submodules: true
 
       - uses: actions/cache/restore@v4
@@ -183,7 +196,7 @@ jobs:
       # ---------------------- Export required presets --------------------- #
 
       # Main executable
-      - uses: "coffeebeats/godot-infra/export-godot-project-preset@v1"
+      - uses: "coffeebeats/godot-infra/export-godot-project-preset@main"
         with:
           publish: true
           artifact-name: "export-${{ matrix.preset }}"
@@ -236,6 +249,10 @@ jobs:
           # jobs with different inputs.
           pattern: export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}
           merge-multiple: true
+
+      - name: Inspect game artifacts
+        shell: bash
+        run: tree -lha --dirsfirst ${{ runner.temp }}/presets
 
       - name: Assemble the final game artifact
         id: artifact

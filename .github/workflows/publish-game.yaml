@@ -34,8 +34,10 @@ on:
     inputs:
       release-tag:
         type: string
-        description: "The release tag from which to download release assets."
+        description: "The release tag at which to build and publish the game."
         required: true
+        default: "v1.5.1" # x-release-please-version
+
       platform:
         type: choice
         description: "The platform of the exported game."
@@ -51,6 +53,7 @@ on:
         required: true
         default: x86_64
         options:
+          - arm64
           - x86_64
           - universal
           - wasm32
@@ -71,6 +74,12 @@ on:
           - release
           - release_debug
           - debug
+
+      publish-export-template:
+        type: boolean
+        description: "Whether to publish the export template as an artifact."
+        required: false
+        default: false
 
       # itch.io inputs
       publish-to-itchio:
@@ -97,30 +106,39 @@ defaults:
     shell: bash
 
 jobs:
+  export:
+    uses: "./.github/workflows/export-project.yaml"
+    with:
+      arch: ${{ inputs.arch }}
+      platform: ${{ inputs.platform }}
+      profile: "release"
+      publish-export-template: ${{ inputs.publish-export-template }}
+      ref: ${{ inputs.release-tag }}
+      storefront: ${{ inputs.storefront }}
+
   publish:
+    needs: ["export"]
+
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Download export artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.export.outputs.name }}
 
-      - name: Download game artifact
+      - name: Extract game assets
         run: |-
-          gh release download \
-            --pattern game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}.tar.gz
-
           tar \
             -p \
             -xzvf \
-            game-*.tar.gz
+            ${{ needs.export.outputs.name }}.tar.gz
 
-          rm *.tar.gz
+          rm ${{ needs.export.outputs.name }}.tar.gz
 
-          # The '-p' flag does not reliably restore permissions, so as a
-          # workaround, restore the executable bit.
-          if [[ "${{ inputs.platform }}" == macos ]]; then
-            chmod +x *.app/Contents/MacOS/*
-          fi
+      - name: Inspect game artifacts
+        run: "tree -lha --dirsfirst -I .git"
 
       - name: Publish to 'itch.io'
         if: fromJson(inputs.publish-to-itchio)
