@@ -110,14 +110,12 @@ msgid "Interface"
 msgstr ""
 
 #. Used as a category name for a group of settings related to display language.
-#, fuzzy
 msgid "Language"
-msgstr "日本語"
+msgstr ""
 
 #. Describes the setting which changes the display language of the game.
-#, fuzzy
 msgid "Display language"
-msgstr "日本語"
+msgstr ""
 
 #. Used as a category name for a group of settings related to text display.
 msgid "Text"
