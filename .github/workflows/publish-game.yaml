@@ -137,12 +137,6 @@ jobs:
 
           rm ${{ needs.export.outputs.name }}.tar.gz
 
-          # The '-p' flag does not reliably restore permissions, so as a
-          # workaround, restore the executable bit.
-          if [[ "${{ inputs.platform }}" == macos ]]; then
-            chmod +x *.app/Contents/MacOS/*
-          fi
-
       - name: Inspect game artifacts
         run: "tree -lha --dirsfirst -I .git"
 
