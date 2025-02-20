@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+# NOTE: These permissions only affect the default `GITHUB_TOKEN`. These are left
+# here in case the `release-please` action no longer uses a PAT.
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
