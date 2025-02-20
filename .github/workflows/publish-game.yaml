@@ -53,6 +53,7 @@ on:
         required: true
         default: x86_64
         options:
+          - arm64
           - x86_64
           - universal
           - wasm32
