@@ -108,7 +108,8 @@ jobs:
 
     outputs:
       key: ${{ steps.cache.outputs.key }}
-      path: ${{ steps.cache.outputs.path }}
+      cache-path: ${{ steps.cache.outputs.path }}
+      export-template-filename: ${{ steps.compile.outputs.export-template-filename }}
 
     steps:
       - uses: actions/checkout@v4
@@ -138,31 +139,23 @@ jobs:
       # NOTE: Rather than pass the export template between jobs as an artifact,
       # use the 'actions/cache' action, which is faster for small files.
 
-      - name: Identify the export template file name
-        id: export-template
-        shell: bash
-        run: |-
-          TEMPLATE_NAME="$(basename ${{ steps.compile.outputs.path }})"
-
-          echo name="$TEMPLATE_NAME" >> $GITHUB_OUTPUT
-
       - name: Move the export template to the cache directory
         id: cache
         shell: bash
         run: |-
-          TARGET="${{ runner.temp }}/build/${{ steps.export-template.outputs.name }}"
+          TARGET="${{ runner.temp }}/build"
 
-          echo "Moving compiled export template to inter-job cache."
-          echo "Source file: ${{ steps.compile.outputs.path }}"
+          echo "Moving compiled export template artifacts to inter-job cache."
+          echo "Source directory: ${{ steps.compile.outputs.path-artifact-dir }}"
           echo "Destination file: $TARGET"
 
           mkdir -p ${{ runner.temp }}/build
-          sudo mv ${{ steps.compile.outputs.path }} ${{ runner.temp }}/build
+          sudo mv ${{ steps.compile.outputs.path-artifact-dir }} ${{ runner.temp }}/build
 
-          ls ${{ runner.temp }}/build
+          tree -lha --dirsfirst ${{ runner.temp }}/build
 
           echo path="$TARGET" >> $GITHUB_OUTPUT
-          echo key='compile-${{ github.run_id }}-${{ hashFiles(format('{0}/build/{1}', runner.temp, steps.export-template.outputs.name)) }}' >> $GITHUB_OUTPUT
+          echo key='compile-${{ github.run_id }}-${{ hashFiles(format('{0}/build/{1}', runner.temp, steps.compile.outputs.export-template-filename)) }}' >> $GITHUB_OUTPUT
 
       - name: Cache the export template to pass between jobs
         uses: actions/cache/save@v4
@@ -191,7 +184,11 @@ jobs:
       - uses: actions/cache/restore@v4
         with:
           key: ${{ needs.compile.outputs.key }}
-          path: ${{ needs.compile.outputs.path }}
+          path: ${{ needs.compile.outputs.cache-path }}
+
+      - name: Inspect transfered cache
+        shell: bash
+        run: tree -lha --dirsfirst ${{ needs.compile.outputs.cache-path }}
 
       # ---------------------- Export required presets --------------------- #
 
@@ -203,8 +200,8 @@ jobs:
 
           preset-name: "${{ matrix.preset }}"
 
-          godot-editor-version: ${{ needs.config.outputs.godot-version }}
-          export-template-path: ${{ needs.compile.outputs.path }}
+          godot-editor-version: "${{ needs.config.outputs.godot-version }}"
+          export-template-path: "${{ needs.compile.outputs.cache-path }}/${{ needs.compile.outputs.export-template-filename }}"
 
           profile: ${{ inputs.profile }}
 
