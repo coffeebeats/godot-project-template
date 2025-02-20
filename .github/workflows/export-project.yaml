@@ -186,6 +186,10 @@ jobs:
           key: ${{ needs.compile.outputs.key }}
           path: ${{ needs.compile.outputs.cache-path }}
 
+      - name: Inspect transfered cache
+        shell: bash
+        run: tree -lha --dirsfirst ${{ needs.compile.outputs.cache-path }}
+
       # ---------------------- Export required presets --------------------- #
 
       # Main executable
