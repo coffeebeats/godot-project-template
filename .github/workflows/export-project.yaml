@@ -250,6 +250,10 @@ jobs:
           pattern: export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}
           merge-multiple: true
 
+      - name: Inspect game artifacts
+        shell: bash
+        run: tree -lha --dirsfirst ${{ runner.temp }}/presets
+
       - name: Assemble the final game artifact
         id: artifact
         shell: bash
