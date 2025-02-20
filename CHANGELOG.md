@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.0 (2025-02-20)
+
+## What's Changed
+* feat(ci): make `publish-game` workflow standalone by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/280
+* fix(ci): use PAT for `release-please` workflow to allow workflow file updates by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/282
+* fix(ci): pass `RELEASE_PLEASE_TOKEN` to correct action by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/283
+* chore(ci): restore default `GITHUB_TOKEN` permissions as documentation by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/285
+* fix(project): remove incorrect, fuzzy translations of "Language" and "Display Language" by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/286
+* fix(ci): use latest `godot-infra` changes to transfer entire compilation output directory to `export` job by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/287
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.5.1...v1.6.0
+
 ## 1.5.1 (2025-02-18)
 
 ## What's Changed
