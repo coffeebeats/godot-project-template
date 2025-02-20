@@ -74,6 +74,12 @@ on:
           - release_debug
           - debug
 
+      publish-export-template:
+        type: boolean
+        description: "Whether to publish the export template as an artifact."
+        required: false
+        default: false
+
       # itch.io inputs
       publish-to-itchio:
         type: boolean
@@ -89,12 +95,6 @@ on:
         description: "The channel label to release the game to (e.g. 'beta')."
         required: false
         default: "release"
-
-      publish-export-template:
-        type: boolean
-        description: "Whether to publish the export template as an artifact."
-        required: false
-        default: false
 
 env:
   # This is required to use the 'gh' CLI in actions.
