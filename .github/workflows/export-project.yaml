@@ -190,7 +190,21 @@ jobs:
         shell: bash
         run: tree -lha --dirsfirst ${{ needs.compile.outputs.cache-path }}
 
-      # ---------------------- Export required presets --------------------- #
+      # ----------------------- Export required presets ---------------------- #
+
+      # NOTE: The 'compile' job outputs bundle filepaths relative to the cache
+      # directory. This step updates those filepaths to be absolute.
+      - name: Compute 'extra-bundled-files'
+        id: bundle
+        shell: bash
+        run: |
+          {
+            echo 'files<<EOM'
+            for pattern in ${{ needs.compile.outputs.extra-bundled-files }}; do
+              echo "${{ needs.compile.outputs.cache-path }}/$pattern"
+            done
+            echo EOM
+          } >> "$GITHUB_OUTPUT"
 
       # Main executable
       - uses: "coffeebeats/godot-infra/export-godot-project-preset@main"
@@ -202,7 +216,7 @@ jobs:
 
           godot-editor-version: ${{ needs.config.outputs.godot-version }}
           export-template-path: "${{ needs.compile.outputs.cache-path }}/${{ needs.compile.outputs.export-template-filename }}"
-          extra-bundled-files: ${{ needs.compile.outputs.extra-bundled-files }}
+          extra-bundled-files: ${{ steps.bundle.outputs.files }}
 
           profile: ${{ inputs.profile }}
 
