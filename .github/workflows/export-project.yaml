@@ -199,8 +199,9 @@ jobs:
 
           preset-name: "${{ matrix.preset }}"
 
-          godot-editor-version: "${{ needs.config.outputs.godot-version }}"
+          godot-editor-version: ${{ needs.config.outputs.godot-version }}
           export-template-path: "${{ needs.compile.outputs.cache-path }}/${{ needs.compile.outputs.export-template-filename }}"
+          extra-bundled-files: ${{ needs.compile.outputs.extra-bundled-files }}
 
           profile: ${{ inputs.profile }}
 
