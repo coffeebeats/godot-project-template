@@ -18,17 +18,20 @@ extends Node
 ## node, which must be present in the scene tree.
 @export var player_id: int = 1
 
-## configurator is a scene with a `StdInputSteamConfigurator` root node.
-@export var configurator: PackedScene = null
+## configurator is a path to a scene with a `StdInputSteamConfigurator` root node.
+@export_file("*.tscn") var configurator: String = ""
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
 func _ready() -> void:
 	assert(button is Button, "invalid config; missing button node")
-	assert(configurator is PackedScene, "invalid state; missing scene")
+	assert(configurator, "invalid state; missing scene")
 
-	var node := configurator.instantiate()
+	var packed_scene: PackedScene = load(configurator)
+	assert(packed_scene is PackedScene, "invalid config; missing configurator scene")
+
+	var node := packed_scene.instantiate()
 	if not node:
 		assert(false, "failed to load configurator resource")
 		return
