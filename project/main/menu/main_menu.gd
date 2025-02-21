@@ -65,6 +65,14 @@ func _ready() -> void:
 		var audio := Systems.audio()
 		_music_sound_instance = audio.play(music_sound_event, 2, Tween.TRANS_LINEAR)
 
+	Signals.connect_safe(
+		Lifecycle.shutdown_requested,
+		func(_exit_code: int):
+			if _music_sound_instance:
+				_music_sound_instance.stop(),
+		CONNECT_ONE_SHOT
+	)
+
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
