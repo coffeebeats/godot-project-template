@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bd5fo51o6asi2"]
+[gd_scene load_steps=33 format=3 uid="uid://bd5fo51o6asi2"]
 
 [ext_resource type="Script" path="res://addons/std/condition/condition_target.gd" id="1_slt8e"]
 [ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_xiafk"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://addons/std/condition/expression_settings_property.gd" id="6_bdd3f"]
 [ext_resource type="Script" path="res://addons/std/condition/condition_parent.gd" id="7_i8vxq"]
 [ext_resource type="Script" path="res://project/settings/controls/configurator.gd" id="9_d7lqc"]
-[ext_resource type="PackedScene" uid="uid://dm7wsbaixmu22" path="res://project/settings/controls/configurator.tscn" id="9_m5toj"]
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="10_heyw7"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="11_ph7kg"]
 [ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="12_jaj02"]
@@ -67,7 +66,7 @@ expressions_allow = Array[ExtResource("2_xiafk")]([SubResource("Resource_jhqli")
 [node name="SteamConfigurator" type="Node" parent="Steam/StdConditionParent" node_paths=PackedStringArray("button")]
 script = ExtResource("9_d7lqc")
 button = NodePath("../../../Bindings/Configurator/Prompt")
-configurator = ExtResource("9_m5toj")
+configurator = "res://project/settings/controls/configurator.tscn"
 
 [node name="Gamepad" parent="." instance=ExtResource("10_heyw7")]
 layout_mode = 2
