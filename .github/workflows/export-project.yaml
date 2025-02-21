@@ -200,7 +200,7 @@ jobs:
         run: |
           {
             echo 'files<<EOM'
-            for pattern in ${{ needs.compile.outputs.extra-bundled-files }}; do
+            for pattern in $(echo ${{ needs.compile.outputs.extra-bundled-files }}); do
               echo "${{ needs.compile.outputs.cache-path }}/$pattern"
             done
             echo EOM
