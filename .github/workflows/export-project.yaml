@@ -149,7 +149,6 @@ jobs:
           echo "Source directory: ${{ steps.compile.outputs.path-artifact-dir }}"
           echo "Destination file: $TARGET"
 
-          mkdir -p ${{ runner.temp }}/build
           sudo mv ${{ steps.compile.outputs.path-artifact-dir }} ${{ runner.temp }}/build
 
           tree -lha --dirsfirst ${{ runner.temp }}/build
