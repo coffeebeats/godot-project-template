@@ -68,7 +68,7 @@ func shutdown(exit_code: int = 0) -> void:
 	# NOTE: Defer these calls so any other deferred operations, like 'queue_free' can
 	# complete before exiting.
 
-	print_orphan_nodes.call_deferred() # Just prior to exit, record orphaned nodes.
+	print_orphan_nodes.call_deferred()  # Just prior to exit, record orphaned nodes.
 	get_tree().quit.call_deferred(exit_code)
 
 
