@@ -191,7 +191,9 @@ jobs:
           sudo apt-get install --no-install-recommends -y gettext
 
       - name: Install 'translate-toolkit' tools
-        if: needs.changes.outputs.has_pot_change == 'true'
+        if: |
+          needs.changes.outputs.has_pot_change == 'true' ||
+          needs.changes.outputs.has_po_change == 'true'
         run: |
           python3 -m pip install translate-toolkit
 
