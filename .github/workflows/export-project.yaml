@@ -199,11 +199,13 @@ jobs:
         shell: bash
         run: |
           {
-            echo 'files<<EOM'
-            for pattern in $(echo ${{ needs.compile.outputs.extra-bundled-files }}); do
-              echo "${{ needs.compile.outputs.cache-path }}/$pattern"
+            echo "files<<EOM"
+
+            for pattern in ${{ needs.compile.outputs.extra-bundled-files }}; do
+                echo "${{ needs.compile.outputs.cache-path }}/$pattern"
             done
-            echo EOM
+
+            echo "EOM"
           } >> "$GITHUB_OUTPUT"
 
       # Main executable
