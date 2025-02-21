@@ -110,6 +110,7 @@ jobs:
       key: ${{ steps.cache.outputs.key }}
       cache-path: ${{ steps.cache.outputs.path }}
       export-template-filename: ${{ steps.compile.outputs.export-template-filename }}
+      extra-bundled-files: ${{ steps.compile.outputs.extra-bundled-files }}
 
     steps:
       - uses: actions/checkout@v4
