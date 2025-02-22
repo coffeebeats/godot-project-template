@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.1 (2025-02-22)
+
+## What's Changed
+* fix(ci): set default value for `workflow_dispatch`-only input by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/297
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.0...v1.6.1
+
 ## 1.6.0 (2025-02-22)
 
 ## What's Changed
