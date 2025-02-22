@@ -97,10 +97,6 @@ on:
         required: false
         default: "release"
 
-env:
-  # This is required to use the 'gh' CLI in actions.
-  GH_TOKEN: ${{ github.token }}
-
 defaults:
   run:
     shell: bash
