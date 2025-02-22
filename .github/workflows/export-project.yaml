@@ -19,56 +19,14 @@ on:
       profile:
         type: string
         required: true
+      publish-export-template:
+        type: boolean
+        required: false
+        default: false
     outputs:
       name:
         description: "The name of the artifact containing the exported game."
         value: ${{ jobs.package.outputs.artifact-name }}
-  workflow_dispatch:
-    inputs:
-      ref:
-        type: string
-        description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
-        required: false
-      platform:
-        type: choice
-        description: "The platform to target."
-        required: true
-        default: windows
-        options:
-          - macos
-          - windows
-          - web
-      arch:
-        type: choice
-        description: "The CPU architecture to target."
-        required: true
-        default: x86_64
-        options:
-          - x86_64
-          - universal
-          - wasm32
-      storefront:
-        type: choice
-        description: "The distribution storefront to target."
-        required: true
-        default: unknown
-        options:
-          - unknown
-          - steam
-      profile:
-        type: choice
-        description: "The optimization profile of the compiled export template."
-        required: false
-        default: release
-        options:
-          - release
-          - release_debug
-          - debug
-      publish-export-template:
-        type: boolean
-        description: "Whether to publish the export template as an artifact."
-        required: false
-        default: false
 
 defaults:
   run:
@@ -119,7 +77,7 @@ jobs:
       - uses: "coffeebeats/godot-infra/compile-godot-export-template@v1"
         id: compile
         with:
-          publish: ${{ inputs.publish-export-template || false }}
+          publish: ${{ inputs.publish-export-template }}
 
           godot-src-rev: ${{ needs.config.outputs.godot-version }}
 
