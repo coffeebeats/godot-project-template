@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.3 (2025-02-22)
+
+## What's Changed
+* fix(ci): build for steam and web on new releases by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/301
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.2...v1.6.3
+
 ## 1.6.2 (2025-02-22)
 
 ## What's Changed
