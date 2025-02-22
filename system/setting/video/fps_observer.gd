@@ -33,6 +33,9 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 
 func _handle_value_change(property: StdSettingsProperty, value) -> void:
 	if property == vsync_property:
+		if Feature.is_web_platform():
+			return  # VSync is not supported on the Web platform.
+
 		var current_mode := DisplayServer.window_get_vsync_mode()
 
 		if value and current_mode != DisplayServer.VSYNC_ADAPTIVE:
