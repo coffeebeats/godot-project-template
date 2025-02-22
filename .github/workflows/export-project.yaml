@@ -155,7 +155,7 @@ jobs:
           tree -lha --dirsfirst ${{ runner.temp }}/build
 
           echo path="$TARGET" >> $GITHUB_OUTPUT
-          echo key='compile-${{ github.run_id }}-${{ hashFiles(format('{0}/build/{1}', runner.temp, steps.compile.outputs.export-template-filename)) }}' >> $GITHUB_OUTPUT
+          echo key='export-project-compile-${{ github.run_id }}-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}' >> $GITHUB_OUTPUT
 
       - name: Cache the export template to pass between jobs
         uses: actions/cache/save@v4
