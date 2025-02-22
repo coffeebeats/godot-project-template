@@ -27,52 +27,6 @@ on:
       name:
         description: "The name of the artifact containing the exported game."
         value: ${{ jobs.package.outputs.artifact-name }}
-  workflow_dispatch:
-    inputs:
-      ref:
-        type: string
-        description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
-        required: false
-      platform:
-        type: choice
-        description: "The platform to target."
-        required: true
-        default: windows
-        options:
-          - macos
-          - windows
-          - web
-      arch:
-        type: choice
-        description: "The CPU architecture to target."
-        required: true
-        default: x86_64
-        options:
-          - x86_64
-          - universal
-          - wasm32
-      storefront:
-        type: choice
-        description: "The distribution storefront to target."
-        required: true
-        default: unknown
-        options:
-          - unknown
-          - steam
-      profile:
-        type: choice
-        description: "The optimization profile of the compiled export template."
-        required: false
-        default: release
-        options:
-          - release
-          - release_debug
-          - debug
-      publish-export-template:
-        type: boolean
-        description: "Whether to publish the export template as an artifact."
-        required: false
-        default: false
 
 defaults:
   run:
@@ -247,7 +201,7 @@ jobs:
           notarization-apple-id-password: ""
 
   package:
-    needs: ["export"]
+    needs: ["config", "export"]
 
     outputs:
       artifact-name: ${{ env.ARTIFACT_NAME }}
@@ -259,16 +213,27 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Download all artifacts
+      - name: Compute export preset artifact pattern
+        id: export-preset-artifacts
+        # NOTE: This needs to match the 'export' job's artifact names because
+        # there's no easy way to reference the names exactly. If we don't do
+        # this then this step can accidentally download artifacts from other
+        # jobs with different inputs.
+        run: echo "pattern=export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}" >> "$GITHUB_OUTPUT"
+
+      - name: Download export preset artifacts
         uses: actions/download-artifact@v4
         with:
           path: ${{ runner.temp }}/presets
-          # NOTE: This needs to match the 'export' job's artifact names because
-          # there's no easy way to reference the names exactly. If we don't do
-          # this then this step can accidentally download artifacts from other
-          # jobs with different inputs.
-          pattern: export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}
+
+          pattern: ${{ steps.export-preset-artifacts.outputs.pattern }}
           merge-multiple: true
+
+      # NOTE: These are intermediate artifacts which don't need to be published.
+      - name: Delete export preset artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: ${{ steps.export-preset-artifacts.outputs.pattern }}
 
       - name: Inspect game artifacts
         run: tree -lha --dirsfirst ${{ runner.temp }}/presets
