@@ -112,7 +112,7 @@ jobs:
       arch: ${{ inputs.arch }}
       platform: ${{ inputs.platform }}
       profile: "release"
-      publish-export-template: ${{ inputs.publish-export-template || 'false' }}
+      publish-export-template: ${{ inputs.publish-export-template || false }}
       ref: ${{ inputs.release-tag }}
       storefront: ${{ inputs.storefront }}
 
