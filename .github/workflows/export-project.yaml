@@ -19,10 +19,6 @@ on:
       profile:
         type: string
         required: true
-      publish-export-template:
-        type: boolean
-        required: false
-        default: false
     outputs:
       name:
         description: "The name of the artifact containing the exported game."
@@ -123,7 +119,7 @@ jobs:
       - uses: "coffeebeats/godot-infra/compile-godot-export-template@v1"
         id: compile
         with:
-          publish: ${{ inputs.publish-export-template }}
+          publish: ${{ inputs.publish-export-template || false }}
 
           godot-src-rev: ${{ needs.config.outputs.godot-version }}
 
@@ -247,7 +243,7 @@ jobs:
           notarization-apple-id-password: ""
 
   package:
-    needs: ["export"]
+    needs: ["config", "export"]
 
     outputs:
       artifact-name: ${{ env.ARTIFACT_NAME }}
@@ -259,16 +255,27 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Download all artifacts
+      - name: Compute export preset artifact pattern
+        id: export-preset-artifacts
+        # NOTE: This needs to match the 'export' job's artifact names because
+        # there's no easy way to reference the names exactly. If we don't do
+        # this then this step can accidentally download artifacts from other
+        # jobs with different inputs.
+        run: echo "pattern=export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}" >> "$GITHUB_OUTPUT"
+
+      - name: Download export preset artifacts
         uses: actions/download-artifact@v4
         with:
           path: ${{ runner.temp }}/presets
-          # NOTE: This needs to match the 'export' job's artifact names because
-          # there's no easy way to reference the names exactly. If we don't do
-          # this then this step can accidentally download artifacts from other
-          # jobs with different inputs.
-          pattern: export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}
+
+          pattern: ${{ steps.export-preset-artifacts.outputs.pattern }}
           merge-multiple: true
+
+      # NOTE: These are intermediate artifacts which don't need to be published.
+      - name: Delete export preset artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: ${{ steps.export-preset-artifacts.outputs.pattern }}
 
       - name: Inspect game artifacts
         run: tree -lha --dirsfirst ${{ runner.temp }}/presets
