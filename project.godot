@@ -25,6 +25,7 @@ config/project_settings_override.editor="res://settings.cfg"
 [audio]
 
 buses/default_bus_layout="res://system/audio/default_audio_bus_layout.tres"
+general/default_playback_type.web=0
 
 [autoload]
 
