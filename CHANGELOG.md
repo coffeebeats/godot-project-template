@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.6.0 (2025-02-22)
+
+## What's Changed
+* feat(ci): make `publish-game` workflow standalone by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/280
+* fix(ci): use PAT for `release-please` workflow to allow workflow file updates by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/282
+* fix(ci): pass `RELEASE_PLEASE_TOKEN` to correct action by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/283
+* chore(ci): restore default `GITHUB_TOKEN` permissions as documentation by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/285
+* fix(project): remove incorrect, fuzzy translations of "Language" and "Display Language" by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/286
+* fix(ci): use latest `godot-infra` changes to transfer entire compilation output directory to `export` job by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/287
+* fix(ci): don't create cache directory now that source filepath is itself a directory by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/288
+* fix(ci): bundle Agility SDK when exporting for Windows by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/289
+* fix(ci): ensure `extra-bundled-files` is exported from `compile` job by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/290
+* fix(ci): make bundled filepaths relative by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/291
+* fix(ci): correctly loop over bundled files by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/292
+* fix(ci): update `bundle` step now that `compile` step output is space-delimited by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/293
+* fix(ci): revert pin of workflow actions to `main` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/281
+* fix(project): eliminate crashing and stray nodes on main menu scene by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/294
+* fix(project): eliminate `SteamConfigurator` errors by loading scene at runtime by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/295
+* fix(web): eliminate unsupported API calls, set correct audio playback type by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/296
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.5.1...v1.6.0
+
 ## 1.5.1 (2025-02-18)
 
 ## What's Changed
