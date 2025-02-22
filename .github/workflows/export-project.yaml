@@ -185,6 +185,7 @@ jobs:
         with:
           key: ${{ needs.compile.outputs.key }}
           path: ${{ needs.compile.outputs.cache-path }}
+          fail-on-cache-miss: true
 
       - name: Inspect transfered cache
         shell: bash
