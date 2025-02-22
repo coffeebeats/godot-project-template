@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.2 (2025-02-22)
+
+## What's Changed
+* fix(ci): use correct variable type by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/299
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.1...v1.6.2
+
 ## 1.6.1 (2025-02-22)
 
 ## What's Changed
