@@ -74,6 +74,10 @@ on:
         required: false
         default: false
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   config:
     runs-on: ubuntu-latest
@@ -95,7 +99,6 @@ jobs:
 
       - name: Evaluate presets
         id: set-presets
-        shell: bash
         run: |-
           PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep "${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"))
           echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
@@ -142,7 +145,6 @@ jobs:
 
       - name: Move the export template to the cache directory
         id: cache
-        shell: bash
         run: |-
           TARGET="${{ runner.temp }}/build"
 
@@ -187,8 +189,12 @@ jobs:
           path: ${{ needs.compile.outputs.cache-path }}
           fail-on-cache-miss: true
 
-      - name: Inspect transfered cache
-        shell: bash
+      - name: Delete 'compile' job cache
+        env:
+          GH_TOKEN: ${{ github.token }} # Required in order to use the 'gh' CLI.
+        run: gh cache delete "${{ needs.compile.outputs.key }}"
+
+      - name: Inspect compilation artifacts
         run: tree -lha --dirsfirst ${{ needs.compile.outputs.cache-path }}
 
       # ----------------------- Export required presets ---------------------- #
@@ -197,7 +203,6 @@ jobs:
       # directory. This step updates those filepaths to be absolute.
       - name: Compute 'extra-bundled-files'
         id: bundle
-        shell: bash
         run: |
           {
             echo "files<<EOM"
@@ -266,12 +271,10 @@ jobs:
           merge-multiple: true
 
       - name: Inspect game artifacts
-        shell: bash
         run: tree -lha --dirsfirst ${{ runner.temp }}/presets
 
       - name: Assemble the final game artifact
         id: artifact
-        shell: bash
         run: |-
           # Set options to enable more extensive globbing.
           shopt -s extglob
