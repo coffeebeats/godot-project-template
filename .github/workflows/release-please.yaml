@@ -60,16 +60,24 @@ jobs:
             platform: macos
             storefront: unknown
 
-          # - arch: wasm32
-          #   platform: web
-          #   storefront: unknown
-          #   publish-to-itchio: true
-          #   itchio-project: "Example" # FIXME: Change to current project name.
-          #   itchio-channel: "release"
+          - arch: universal
+            platform: macos
+            storefront: steam
+
+          - arch: wasm32
+            platform: web
+            storefront: unknown
+            publish-to-itchio: true
+            itchio-project: "Example" # FIXME: Change to current project name.
+            itchio-channel: "release"
 
           - arch: x86_64
             platform: windows
             storefront: unknown
+
+          - arch: x86_64
+            platform: windows
+            storefront: steam
 
     uses: "./.github/workflows/publish-game.yaml"
     with:
@@ -80,9 +88,9 @@ jobs:
       storefront: ${{ matrix.storefront }}
 
       # itch.io inputs
-      # publish-to-itchio: ${{ matrix.publish-to-itchio }}
-      # itchio-project: ${{ matrix.itchio-project }}
-      # itchio-channel: ${{ matrix.itchio-channel }}
+      publish-to-itchio: ${{ matrix.publish-to-itchio || false }}
+      itchio-project: ${{ matrix.itchio-project }}
+      itchio-channel: ${{ matrix.itchio-channel }}
 
   upload:
     needs: ["release-please", "publish"]
