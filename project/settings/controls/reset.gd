@@ -41,8 +41,8 @@ const Rebinder := preload("rebinder.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-var _category: StringName = &""
-var _key: StringName = &""
+var _prefix_category: StringName = &""
+var _prefix_key: StringName = &""
 var _slot: StdInputSlot = null
 
 @onready var _button: Button = get_node("Prompt")
@@ -82,16 +82,19 @@ func _ready() -> void:
 		)
 
 		assert(
-			not _category or binding.glyph.action_set.name + "/" == _category,
+			(
+				not _prefix_category
+				or binding.glyph.action_set.name + "/" == _prefix_category
+			),
 			"invalid config; conflicting binding",
 		)
-		_category = binding.glyph.action_set.name + "/"
+		_prefix_category = binding.glyph.action_set.name + "/"
 
 		assert(
-			not _key or binding.glyph.action + "/" == _key,
+			not _prefix_key or binding.glyph.action + "/" == _prefix_key,
 			"invalid config; conflicting binding",
 		)
-		_key = binding.glyph.action + "/"
+		_prefix_key = binding.glyph.action + "/"
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -126,7 +129,7 @@ func _update_visibility() -> void:
 
 
 func _on_config_changed(category: StringName, key: StringName) -> void:
-	if not category.begins_with(_category) or not key.begins_with(_key):
+	if not category.begins_with(_prefix_category) or not key.begins_with(_prefix_key):
 		return
 
 	if not visible:
