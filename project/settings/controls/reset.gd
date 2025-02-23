@@ -41,6 +41,7 @@ const Rebinder := preload("rebinder.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _is_update_handled: bool = false
 var _prefix_category: StringName = &""
 var _prefix_key: StringName = &""
 var _slot: StdInputSlot = null
@@ -131,31 +132,42 @@ func _on_config_changed(category: StringName, key: StringName) -> void:
 	if not category.begins_with(_prefix_category) or not key.begins_with(_prefix_key):
 		return
 
-	if not visible:
+	if not _is_update_handled:
 		_update_visibility()
 
 
 func _on_device_activated(_device: StdInputDevice) -> void:
-	_update_visibility.call_deferred()
+	_update_visibility()
 
 
 func _on_pressed() -> void:
+	var next_focus: Control = null
+
 	if action_set is StdInputActionSet:
 		var active_device := _slot.get_active_device()
 		if not active_device:
 			return
 
+		assert(not _is_update_handled, "invalid state; already handling update")
+		_is_update_handled = true
+
 		Bindings.reset_all_actions(scope, action_set, active_device.device_category)
+
+		next_focus = find_valid_focus_neighbor(SIDE_BOTTOM)
 	else:
+		assert(not _is_update_handled, "invalid state; already handling update")
+		_is_update_handled = true
+
 		for binding in bindings:
 			binding.reset()
 
-	var next := find_valid_focus_neighbor(SIDE_RIGHT)
-	if not next:
-		next = find_valid_focus_neighbor(SIDE_BOTTOM)
+		next_focus = find_valid_focus_neighbor(SIDE_RIGHT)
 
-	if not next:
+	_is_update_handled = false
+
+	if not next_focus is Control:
+		assert(false, "invalid state; missing target focus")
 		return
 
-	next.grab_focus()
+	next_focus.grab_focus()
 	_update_visibility()
