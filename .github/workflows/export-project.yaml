@@ -28,6 +28,9 @@ on:
         description: "The name of the artifact containing the exported game."
         value: ${{ jobs.package.outputs.artifact-name }}
 
+permissions:
+  actions: write # Allows this workflow to delete its temporary cache(s).
+
 defaults:
   run:
     shell: bash
