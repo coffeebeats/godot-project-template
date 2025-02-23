@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.5 (2025-02-23)
+
+## What's Changed
+* fix(ci): add missing `actions: write` permission during game publish by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/310
+* fix(ci): add requisite permissions to root release workflow by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/311
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.4...v1.6.5
+
 ## 1.6.4 (2025-02-23)
 
 ## What's Changed
