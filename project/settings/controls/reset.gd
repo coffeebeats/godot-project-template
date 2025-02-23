@@ -69,9 +69,6 @@ func _ready() -> void:
 
 	custom_minimum_size = custom_minimum_size.max(_icon.get_combined_minimum_size())
 
-	# Defer this call so parent nodes can set properties on this one.
-	call_deferred(&"_update_visibility")
-
 	for binding in bindings:
 		assert(binding is Binding, "invalid state; missing binding")
 		assert(binding.glyph is StdInputGlyph, "invalid state; missing glyph")
@@ -96,6 +93,8 @@ func _ready() -> void:
 		)
 		_prefix_key = binding.glyph.action + "/"
 
+	# Defer this call so parent nodes can set properties on this one.
+	call_deferred(&"_update_visibility")
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
@@ -108,7 +107,7 @@ func _update_visibility() -> void:
 
 		visible = (
 			Bindings
-			. category_has_user_override(
+			.category_has_user_override(
 				scope,
 				action_set,
 				active_device.device_category,
