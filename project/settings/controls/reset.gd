@@ -97,6 +97,7 @@ func _ready() -> void:
 	# Defer this call so parent nodes can set properties on this one.
 	call_deferred(&"_update_visibility")
 
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
@@ -108,7 +109,7 @@ func _update_visibility() -> void:
 
 		visible = (
 			Bindings
-			.category_has_user_override(
+			. category_has_user_override(
 				scope,
 				action_set,
 				active_device.device_category,
