@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.6 (2025-02-23)
+
+## What's Changed
+* fix(ci): ensure `publish-game` workflow call inherits secrets by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/313
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.5...v1.6.6
+
 ## 1.6.5 (2025-02-23)
 
 ## What's Changed
