@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.4 (2025-02-23)
+
+## What's Changed
+* fix(ci): ensure `compile` cache is unique for each build by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/303
+* fix(ci): delete temporary cache for transferring compilation artifacts to `export` job by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/305
+* fix(ci): delete intermediate export preset artifacts by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/306
+* fix(project): improve `Reset` buttons visibility and focus handling by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/307
+* chore(addons): update `std` to `v1.16.14` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/308
+* chore(addons): update `phantom_camera` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/309
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.3...v1.6.4
+
 ## 1.6.3 (2025-02-22)
 
 ## What's Changed
