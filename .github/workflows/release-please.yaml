@@ -70,7 +70,7 @@ jobs:
             storefront: unknown
             publish-to-itchio: true
             itchio-project: "Example" # FIXME: Change to current project name.
-            itchio-channel: "release"
+            itchio-label: ""
 
           - arch: x86_64
             platform: windows
@@ -81,6 +81,7 @@ jobs:
             storefront: steam
 
     uses: "./.github/workflows/publish-game.yaml"
+    secrets: inherit
     with:
       arch: ${{ matrix.arch }}
       platform: ${{ matrix.platform }}
@@ -91,7 +92,7 @@ jobs:
       # itch.io inputs
       publish-to-itchio: ${{ matrix.publish-to-itchio || false }}
       itchio-project: ${{ matrix.itchio-project }}
-      itchio-channel: ${{ matrix.itchio-channel }}
+      itchio-label: ${{ matrix.itchio-label }}
 
   upload:
     needs: ["release-please", "publish"]

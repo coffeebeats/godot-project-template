@@ -27,7 +27,7 @@ on:
       itchio-project:
         type: string
         required: false
-      itchio-channel:
+      itchio-label:
         type: string
         required: false
   workflow_dispatch:
@@ -107,7 +107,7 @@ jobs:
     with:
       arch: ${{ inputs.arch }}
       platform: ${{ inputs.platform }}
-      profile: "release"
+      profile: ${{ inputs.profile }}
       publish-export-template: ${{ inputs.publish-export-template || false }}
       ref: ${{ inputs.release-tag }}
       storefront: ${{ inputs.storefront }}
@@ -143,5 +143,5 @@ jobs:
           path: "./"
           version: ${{ inputs.release-tag }}
           itchio-project: ${{ contains(inputs.itchio-project, '/') && inputs.itchio-project || format('{0}/{1}', github.actor, inputs.itchio-project) }}
-          itchio-channel: ${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.itchio-label }}
+          itchio-channel: "${{ inputs.arch }}-${{ inputs.platform }}${{ inputs.itchio-label != '' && format('-{0}', inputs.itchio-label) || '' }}"
           api-key: ${{ secrets.BUTLER_API_KEY }}
