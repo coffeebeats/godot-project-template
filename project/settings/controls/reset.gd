@@ -41,6 +41,8 @@ const Rebinder := preload("rebinder.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _category: StringName = &""
+var _key: StringName = &""
 var _slot: StdInputSlot = null
 
 @onready var _button: Button = get_node("Prompt")
@@ -69,6 +71,27 @@ func _ready() -> void:
 
 	# Defer this call so parent nodes can set properties on this one.
 	call_deferred(&"_update_visibility")
+
+	for binding in bindings:
+		assert(binding is Binding, "invalid state; missing binding")
+		assert(binding.glyph is StdInputGlyph, "invalid state; missing glyph")
+		assert(binding.glyph.action, "invalid state; missing action")
+		assert(
+			binding.glyph.action_set is StdInputActionSet,
+			"invalid state; missing action set",
+		)
+
+		assert(
+			not _category or binding.glyph.action_set.name + "/" == _category,
+			"invalid config; conflicting binding",
+		)
+		_category = binding.glyph.action_set.name + "/"
+
+		assert(
+			not _key or binding.glyph.action + "/" == _key,
+			"invalid config; conflicting binding",
+		)
+		_key = binding.glyph.action + "/"
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -102,12 +125,16 @@ func _update_visibility() -> void:
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
-func _on_config_changed(_category: StringName, _key: StringName) -> void:
-	_update_visibility()
+func _on_config_changed(category: StringName, key: StringName) -> void:
+	if not category.begins_with(_category) or not key.begins_with(_key):
+		return
+
+	if not visible:
+		_update_visibility()
 
 
 func _on_device_activated(_device: StdInputDevice) -> void:
-	_update_visibility()
+	_update_visibility.call_deferred()
 
 
 func _on_pressed() -> void:
@@ -129,3 +156,4 @@ func _on_pressed() -> void:
 		return
 
 	next.grab_focus()
+	_update_visibility()
