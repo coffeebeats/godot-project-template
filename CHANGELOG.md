@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.7 (2025-02-23)
+
+## What's Changed
+* fix(ci): check out repository before uploading assets by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/315
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.6...v1.6.7
+
 ## 1.6.6 (2025-02-23)
 
 ## What's Changed
