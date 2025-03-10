@@ -138,7 +138,7 @@ jobs:
 
       - name: Publish to 'itch.io'
         if: fromJson(inputs.publish-to-itchio)
-        uses: "coffeebeats/godot-infra/publish-project-itchio@v1"
+        uses: "coffeebeats/godot-infra/publish-project-itchio@v2"
         with:
           path: "./"
           version: ${{ inputs.release-tag }}
