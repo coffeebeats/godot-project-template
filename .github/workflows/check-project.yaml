@@ -39,25 +39,25 @@ jobs:
 
       - name: Check for any non-source code changes
         id: check-non-source
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files_ignore: "**/*.gd"
 
       - name: Check for any source code changes
         id: check-source
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files: "**/*.gd"
 
       - name: Check for PNG image file changes
         id: check-png
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files: "**/*.png"
 
       - name: Check for template translation file changes
         id: check-pot
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files: |
             project/locale/*.pot
@@ -65,7 +65,7 @@ jobs:
 
       - name: Check for non-template translation file changes
         id: check-po
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files: "project/locale/*.po"
           files_ignore: "project/locale/*.pot"
