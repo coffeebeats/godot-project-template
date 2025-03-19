@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.0 (2025-03-19)
+
+## What's Changed
+* fix(ci): pin GitHub action versions to specific commits by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/319
+* chore(ci): don't automerge Dependabot PRs by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/320
+* chore!: update to Godot `v4.4` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/321
+* fix(project): only grab next focus on reset if using focus navigation by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/322
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v1.6.7...v2.0.0
+
 ## 1.6.7 (2025-02-23)
 
 ## What's Changed
