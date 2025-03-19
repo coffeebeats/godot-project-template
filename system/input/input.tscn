@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://bexeoi21tf2v2"]
 
-[ext_resource type="Script" path="res://system/input/input.gd" id="1_sl0pi"]
+[ext_resource type="Script" uid="uid://c53ct064cin6g" path="res://system/input/input.gd" id="1_sl0pi"]
 [ext_resource type="Resource" uid="uid://qhsnu8axd0er" path="res://project/ui/input/focus_handler_sound_group.tres" id="3_360wj"]
 [ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="5_gdf77"]
 [ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="6_xmapc"]
-[ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="23_8ojx1"]
-[ext_resource type="Script" path="res://addons/std/condition/condition_loader.gd" id="24_hk8cf"]
+[ext_resource type="Script" uid="uid://48iw4gb4fiaa" path="res://addons/std/condition/expression.gd" id="23_8ojx1"]
+[ext_resource type="Script" uid="uid://chh44t4c5vbax" path="res://addons/std/condition/condition_loader.gd" id="24_hk8cf"]
 [ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="24_o5jdq"]
 
 [node name="Input" type="Node"]

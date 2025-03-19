@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dq7pygi1scovr"]
 
-[ext_resource type="Script" path="res://project/main/splash/splash.gd" id="1_8c8m0"]
+[ext_resource type="Script" uid="uid://bx84q1fdpup1y" path="res://project/main/splash/splash.gd" id="1_8c8m0"]
 [ext_resource type="Texture2D" uid="uid://daqs208dteesh" path="res://project/main/splash/original-horizontal-light.svg" id="2_1jnaj"]
-[ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_jtjbe"]
+[ext_resource type="Script" uid="uid://dadf6tygbuahh" path="res://addons/std/scene/handle.gd" id="2_jtjbe"]
 
 [node name="Godot" type="Control"]
 layout_mode = 3

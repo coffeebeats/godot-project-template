@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdLeaderboard" load_steps=2 format=3 uid="uid://dwx8g06tihvx6"]
 
-[ext_resource type="Script" path="res://addons/std/statistic/leaderboard.gd" id="1_xbnmf"]
+[ext_resource type="Script" uid="uid://dt55pm1o0xbxd" path="res://addons/std/statistic/leaderboard.gd" id="1_xbnmf"]
 
 [resource]
 script = ExtResource("1_xbnmf")

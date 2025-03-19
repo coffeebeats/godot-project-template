@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdAchievement" load_steps=2 format=3 uid="uid://desufg5hvmh5q"]
 
-[ext_resource type="Script" path="res://addons/std/statistic/achievement.gd" id="1_ydnv4"]
+[ext_resource type="Script" uid="uid://bhjxnaybe3qi3" path="res://addons/std/statistic/achievement.gd" id="1_ydnv4"]
 
 [resource]
 script = ExtResource("1_ydnv4")

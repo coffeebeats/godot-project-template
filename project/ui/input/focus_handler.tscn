@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://11thq3wp16vi"]
 
-[ext_resource type="Script" path="res://addons/std/input/cursor_focus_handler.gd" id="1_ibi5b"]
+[ext_resource type="Script" uid="uid://dotdigavylfno" path="res://addons/std/input/cursor_focus_handler.gd" id="1_ibi5b"]
 [ext_resource type="Resource" uid="uid://d1a5t1bwsv3qw" path="res://project/ui/input/focus_handler_sound_event.tres" id="2_06wje"]
 
 [node name="FocusHandler" type="Control"]

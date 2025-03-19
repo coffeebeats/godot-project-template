@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://utcvvr2uv6jr"]
 
-[ext_resource type="Script" path="res://project/ui/input/slider.gd" id="1_7861e"]
+[ext_resource type="Script" uid="uid://invdsea0m26l" path="res://project/ui/input/slider.gd" id="1_7861e"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_5m6je"]
 
 [node name="Slider" type="HBoxContainer"]

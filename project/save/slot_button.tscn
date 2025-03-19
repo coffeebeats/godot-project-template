@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ig0aeexy2dcl"]
 
-[ext_resource type="Script" path="res://project/save/slot_button.gd" id="1_8gfwc"]
+[ext_resource type="Script" uid="uid://dfu2yjcfp0tjd" path="res://project/save/slot_button.gd" id="1_8gfwc"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_lulcq"]
 
 [node name="SlotButton" type="Button"]

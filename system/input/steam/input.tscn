@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://34h1c3iahd0p"]
 
-[ext_resource type="Script" path="res://system/input/steam/observer.gd" id="1_cx6kn"]
+[ext_resource type="Script" uid="uid://cltki5qvy6lgy" path="res://system/input/steam/observer.gd" id="1_cx6kn"]
 [ext_resource type="PackedScene" uid="uid://cqt14not5nr5d" path="res://system/input/unknown/input.tscn" id="1_stiaj"]
 [ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="2_4olke"]
-[ext_resource type="Script" path="res://addons/std/input/steam/joypad_monitor.gd" id="3_kpuj4"]
-[ext_resource type="Script" path="res://addons/std/input/steam/device_actions.gd" id="4_l5spr"]
+[ext_resource type="Script" uid="uid://c1058dber0oaf" path="res://addons/std/input/steam/joypad_monitor.gd" id="3_kpuj4"]
+[ext_resource type="Script" uid="uid://dv3qm33lt7ant" path="res://addons/std/input/steam/device_actions.gd" id="4_l5spr"]
 [ext_resource type="Resource" uid="uid://7d4i7q2cv413" path="res://project/input/steam_in_game_actions.tres" id="5_54bbq"]
-[ext_resource type="Script" path="res://addons/std/input/steam/device_glyphs.gd" id="6_62q7k"]
+[ext_resource type="Script" uid="uid://bw0qfu4ks2tf5" path="res://addons/std/input/steam/device_glyphs.gd" id="6_62q7k"]
 
 [node name="Input" type="Node"]
 

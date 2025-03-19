@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c7tg585pnpptu"]
 
-[ext_resource type="Script" path="res://project/main/menu/version.gd" id="1_mkj2u"]
+[ext_resource type="Script" uid="uid://dmh27g6qd5y6l" path="res://project/main/menu/version.gd" id="1_mkj2u"]
 
 [node name="Version" type="MarginContainer"]
 anchors_preset = 3

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdConditionExpressionFeature" load_steps=2 format=3 uid="uid://ci7xn7gttsuu2"]
 
-[ext_resource type="Script" path="res://addons/std/condition/expression_feature.gd" id="1_qofn3"]
+[ext_resource type="Script" uid="uid://dkusewwkv13ti" path="res://addons/std/condition/expression_feature.gd" id="1_qofn3"]
 
 [resource]
 script = ExtResource("1_qofn3")

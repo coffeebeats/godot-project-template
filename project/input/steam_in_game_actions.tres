@@ -1,11 +1,11 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://7d4i7q2cv413"]
 
-[ext_resource type="Script" path="res://addons/std/input/action_set_layer.gd" id="1_cs3a2"]
+[ext_resource type="Script" uid="uid://cvdkx1qjg3dyd" path="res://addons/std/input/action_set_layer.gd" id="1_cs3a2"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="2_5jpdx"]
-[ext_resource type="Script" path="res://addons/std/input/action_set.gd" id="3_e8ygo"]
+[ext_resource type="Script" uid="uid://t16fbgawji3k" path="res://addons/std/input/action_set.gd" id="3_e8ygo"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_kjexe"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="4_jtdgy"]
-[ext_resource type="Script" path="res://project/input/steam_in_game_actions.gd" id="6_yifha"]
+[ext_resource type="Script" uid="uid://es3o51v50c38" path="res://project/input/steam_in_game_actions.gd" id="6_yifha"]
 
 [resource]
 script = ExtResource("6_yifha")

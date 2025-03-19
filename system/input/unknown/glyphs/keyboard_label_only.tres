@@ -1,9 +1,7 @@
 [gd_resource type="Resource" script_class="StdInputGlyphSetKeyboard" load_steps=2 format=3 uid="uid://m5xu4s56rbbb"]
 
-[ext_resource type="Script" path="res://addons/std/input/godot/glyph_set_keyboard.gd" id="70_mp864"]
+[ext_resource type="Script" uid="uid://b0fgjh2h642sg" path="res://addons/std/input/godot/glyph_set_keyboard.gd" id="70_mp864"]
 
 [resource]
 script = ExtResource("70_mp864")
-include_label = true
-capitalize_label = true
 device_types = Array[int]([2])
