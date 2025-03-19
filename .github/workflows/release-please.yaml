@@ -22,9 +22,9 @@ jobs:
       release-tag: ${{ steps.release.outputs.tag_name }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445
         id: release
         with:
           config-file: .release-please/config.json
@@ -80,7 +80,7 @@ jobs:
             platform: windows
             storefront: steam
 
-    uses: "./.github/workflows/publish-game.yaml"
+    uses: ./.github/workflows/publish-game.yaml
     secrets: inherit
     with:
       arch: ${{ matrix.arch }}
@@ -102,9 +102,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@b14cf4c92620c250e1c074ab0a5800e37df86765
         with:
           pattern: "game-*" # NOTE: This pattern must match the prior workflow.
           path: ${{ runner.temp }}/dist

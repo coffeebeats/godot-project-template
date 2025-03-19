@@ -45,11 +45,11 @@ jobs:
       godot-version: "${{ steps.version.outputs.semantic }}"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ inputs.ref }}
 
-      - uses: "coffeebeats/godot-infra/.github/actions/parse-godot-version@v1"
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v1
         id: version
         with:
           gdenv-pin-path: .godot-version
@@ -73,11 +73,11 @@ jobs:
       extra-bundled-files: ${{ steps.compile.outputs.extra-bundled-files }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ inputs.ref }}
 
-      - uses: "coffeebeats/godot-infra/compile-godot-export-template@v1"
+      - uses: coffeebeats/godot-infra/compile-godot-export-template@v1
         id: compile
         with:
           publish: ${{ inputs.publish-export-template }}
@@ -117,7 +117,7 @@ jobs:
           echo key='export-project-compile-${{ github.run_id }}-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}' >> $GITHUB_OUTPUT
 
       - name: Cache the export template to pass between jobs
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           key: ${{ steps.cache.outputs.key }}
           path: ${{ steps.cache.outputs.path }}
@@ -135,12 +135,12 @@ jobs:
         preset: ${{ fromJson(needs.config.outputs.presets) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ inputs.ref }}
           submodules: true
 
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           key: ${{ needs.compile.outputs.key }}
           path: ${{ needs.compile.outputs.cache-path }}
@@ -172,7 +172,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       # Main executable
-      - uses: "coffeebeats/godot-infra/export-godot-project-preset@v1"
+      - uses: coffeebeats/godot-infra/export-godot-project-preset@v1
         with:
           publish: true
           artifact-name: "export-${{ matrix.preset }}"
@@ -225,7 +225,7 @@ jobs:
         run: echo "pattern=export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}" >> "$GITHUB_OUTPUT"
 
       - name: Download export preset artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@b14cf4c92620c250e1c074ab0a5800e37df86765
         with:
           path: ${{ runner.temp }}/presets
 
@@ -234,7 +234,7 @@ jobs:
 
       # NOTE: These are intermediate artifacts which don't need to be published.
       - name: Delete export preset artifacts
-        uses: geekyeggo/delete-artifact@v5
+        uses: geekyeggo/delete-artifact@f275313e70c08f6120db482d7a6b98377786765b
         with:
           name: ${{ steps.export-preset-artifacts.outputs.pattern }}
 
@@ -270,7 +270,7 @@ jobs:
           echo "label=$LABEL" >> $GITHUB_OUTPUT
           echo "path=$ARCHIVE_PATH" >> $GITHUB_OUTPUT
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         with:
           name: ${{ steps.artifact.outputs.label }}
           path: ${{ steps.artifact.outputs.path }}
