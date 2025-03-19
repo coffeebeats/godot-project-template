@@ -103,7 +103,7 @@ defaults:
 
 jobs:
   export:
-    uses: "./.github/workflows/export-project.yaml"
+    uses: ./.github/workflows/export-project.yaml
     with:
       arch: ${{ inputs.arch }}
       platform: ${{ inputs.platform }}
@@ -120,7 +120,7 @@ jobs:
 
     steps:
       - name: Download export artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@b14cf4c92620c250e1c074ab0a5800e37df86765
         with:
           name: ${{ needs.export.outputs.name }}
 
@@ -138,7 +138,7 @@ jobs:
 
       - name: Publish to 'itch.io'
         if: fromJson(inputs.publish-to-itchio)
-        uses: "coffeebeats/godot-infra/publish-project-itchio@v1"
+        uses: coffeebeats/godot-infra/publish-project-itchio@v1
         with:
           path: "./"
           version: ${{ inputs.release-tag }}
