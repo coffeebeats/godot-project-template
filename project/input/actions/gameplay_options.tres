@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="StdInputActionSetLayer" load_steps=3 format=3 uid="uid://cochnwdj5p8h5"]
 
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="1_3132b"]
-[ext_resource type="Script" uid="uid://cvdkx1qjg3dyd" path="res://addons/std/input/action_set_layer.gd" id="1_ajvvg"]
+[ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="1_ajvvg"]
 
 [resource]
 script = ExtResource("1_ajvvg")

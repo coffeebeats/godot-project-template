@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cwdhnh701t32s" path="res://system/save/saves.gd" id="1_5c4en"]
 [ext_resource type="Resource" uid="uid://bksg4w3cw6183" path="res://project/save/data/data.tres" id="2_uge4e"]
-[ext_resource type="Script" uid="uid://ck0d1v8wayfxr" path="res://addons/std/setting/repository.gd" id="2_v64up"]
+[ext_resource type="Script" uid="uid://c0mqssj1w0y7g" path="res://addons/std/setting/repository.gd" id="2_v64up"]
 [ext_resource type="Resource" uid="uid://h35tjkpwu3h1" path="res://system/save/scope.tres" id="3_nt0ca"]
 [ext_resource type="Resource" uid="uid://2jm3n21bmh6x" path="res://system/save/sync_target.tres" id="4_1qais"]
 [ext_resource type="Script" uid="uid://cc0rikwesesck" path="res://system/save/writer.gd" id="5_pfhtx"]

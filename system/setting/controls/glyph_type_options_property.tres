@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="StdSettingsPropertyIntList" load_steps=3 format=3 uid="uid://bndux72lth38k"]
 
 [ext_resource type="Resource" uid="uid://mwqxsj0u3y8u" path="res://system/setting/user_settings_scope.tres" id="1_a0jn2"]
-[ext_resource type="Script" uid="uid://7wntuh58kebg" path="res://addons/std/setting/property_int_list.gd" id="1_w72md"]
+[ext_resource type="Script" uid="uid://bdv005ngdt2l8" path="res://addons/std/setting/property_int_list.gd" id="1_w72md"]
 
 [resource]
 script = ExtResource("1_w72md")

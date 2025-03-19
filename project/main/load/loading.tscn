@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://nalgori3y7v6"]
 
 [ext_resource type="Script" uid="uid://dp8li3hu2pfhn" path="res://project/main/load/loading.gd" id="1_lmycx"]
-[ext_resource type="Script" uid="uid://dadf6tygbuahh" path="res://addons/std/scene/handle.gd" id="2_qpnxt"]
+[ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_qpnxt"]
 
 [node name="Loading" type="Control" node_paths=PackedStringArray("scene_handle")]
 layout_mode = 3

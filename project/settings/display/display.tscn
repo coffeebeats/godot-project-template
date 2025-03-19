@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://bxxweem4spjs8" path="res://project/settings/group.tscn" id="1_xfdfg"]
 [ext_resource type="PackedScene" uid="uid://dyoqungyuv513" path="res://project/settings/setting.tscn" id="2_gb8tg"]
 [ext_resource type="PackedScene" uid="uid://bq40qgckghub0" path="res://project/ui/input/checkbox.tscn" id="3_mhfj1"]
-[ext_resource type="Script" uid="uid://xatwcgct34yn" path="res://addons/std/setting/controller_toggle_button.gd" id="4_f57c6"]
+[ext_resource type="Script" uid="uid://sqle70s2tddg" path="res://addons/std/setting/controller_toggle_button.gd" id="4_f57c6"]
 [ext_resource type="Resource" uid="uid://bto0jfkd0pli7" path="res://system/setting/video/fullscreen.tres" id="5_ik6tg"]
 [ext_resource type="Resource" uid="uid://iw3u23yo0kyb" path="res://system/setting/video/borderless.tres" id="6_51jay"]
 [ext_resource type="PackedScene" uid="uid://utcvvr2uv6jr" path="res://project/ui/input/slider.tscn" id="7_bou38"]
-[ext_resource type="Script" uid="uid://cpofmj0pe0vg2" path="res://addons/std/setting/controller_range.gd" id="8_v2br7"]
+[ext_resource type="Script" uid="uid://bvaa5ha0vagj3" path="res://addons/std/setting/controller_range.gd" id="8_v2br7"]
 [ext_resource type="Resource" uid="uid://bohv6x4sod6oh" path="res://system/setting/video/frame_limit_property.tres" id="9_a1v7r"]
 [ext_resource type="Resource" uid="uid://cfoust4ehw0d1" path="res://system/setting/video/vsync_property.tres" id="10_atx4x"]
 

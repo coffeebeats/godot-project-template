@@ -1,9 +1,9 @@
 [gd_scene load_steps=29 format=3 uid="uid://cjb8nitks0be0"]
 
-[ext_resource type="Script" uid="uid://ck0d1v8wayfxr" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
+[ext_resource type="Script" uid="uid://c0mqssj1w0y7g" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/project_settings_scope.tres" id="3_q5d07"]
 [ext_resource type="Resource" uid="uid://mwqxsj0u3y8u" path="res://system/setting/user_settings_scope.tres" id="4_pkd6u"]
-[ext_resource type="Script" uid="uid://brajpr60olbqx" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
+[ext_resource type="Script" uid="uid://ftxn2k051mu5" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
 [ext_resource type="Script" uid="uid://buei4e05yx6mo" path="res://system/setting/audio/device/observer.gd" id="5_3q6ut"]
 [ext_resource type="Script" uid="uid://cnpacnkgat8mb" path="res://platform/profile/sync_target.gd" id="5_ndmkn"]
 [ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="6_tcob2"]

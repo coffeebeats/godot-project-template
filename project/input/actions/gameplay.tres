@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdInputActionSet" load_steps=2 format=3 uid="uid://c6ihq60tiqoap"]
 
-[ext_resource type="Script" uid="uid://t16fbgawji3k" path="res://addons/std/input/action_set.gd" id="1_tj0kr"]
+[ext_resource type="Script" uid="uid://cljg7byxqnq7d" path="res://addons/std/input/action_set.gd" id="1_tj0kr"]
 
 [resource]
 script = ExtResource("1_tj0kr")

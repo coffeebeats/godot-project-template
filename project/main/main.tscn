@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cpk1m72vbjxji" path="res://project/main/main.gd" id="1_gcs5q"]
 [ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="1_vu0ul"]
-[ext_resource type="Script" uid="uid://4akb4e7skg7u" path="res://addons/std/scene/scene.gd" id="2_e2317"]
-[ext_resource type="Script" uid="uid://d2wjwo4e2w4nw" path="res://addons/std/scene/state/track.gd" id="3_t3x0b"]
-[ext_resource type="Script" uid="uid://dlf51o6gm7p0s" path="res://addons/std/scene/state/auto_transition.gd" id="4_phfq2"]
-[ext_resource type="Script" uid="uid://0ukcivhjn50r" path="res://addons/std/scene/state/fade.gd" id="4_vah31"]
-[ext_resource type="Script" uid="uid://duun1nbxphjew" path="res://addons/std/scene/state/playable.gd" id="5_wtlwn"]
-[ext_resource type="Script" uid="uid://cqnto8f5o6pql" path="res://addons/std/scene/state/splash.gd" id="6_stj23"]
+[ext_resource type="Script" uid="uid://br56la7gn3kka" path="res://addons/std/scene/scene.gd" id="2_e2317"]
+[ext_resource type="Script" uid="uid://b24dlcs8yhqps" path="res://addons/std/scene/state/track.gd" id="3_t3x0b"]
+[ext_resource type="Script" uid="uid://b66rcu4efhtyf" path="res://addons/std/scene/state/auto_transition.gd" id="4_phfq2"]
+[ext_resource type="Script" uid="uid://dwudf8vu6vh5x" path="res://addons/std/scene/state/fade.gd" id="4_vah31"]
+[ext_resource type="Script" uid="uid://cnjio0uj37od0" path="res://addons/std/scene/state/playable.gd" id="5_wtlwn"]
+[ext_resource type="Script" uid="uid://cdc3tk0ddrr18" path="res://addons/std/scene/state/splash.gd" id="6_stj23"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="7_camuk"]
 
 [node name="Main" type="ColorRect"]

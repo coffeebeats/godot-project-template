@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdInputGlyphSetJoy" load_steps=17 format=3 uid="uid://b6swfasqq8m8i"]
 
-[ext_resource type="Script" uid="uid://665mpkebq7rk" path="res://addons/std/input/godot/glyph_set_joy.gd" id="1_6j68a"]
+[ext_resource type="Script" uid="uid://dwegvnph8yf3c" path="res://addons/std/input/godot/glyph_set_joy.gd" id="1_6j68a"]
 [ext_resource type="Texture2D" uid="uid://bcfobf86fsu6q" path="res://system/input/unknown/glyphs/switch/zl.png" id="1_ipwnw"]
 [ext_resource type="Texture2D" uid="uid://cnjl3afoi4k27" path="res://system/input/unknown/glyphs/switch/a.png" id="1_na2oh"]
 [ext_resource type="Texture2D" uid="uid://dlbr5uewaobwh" path="res://system/input/unknown/glyphs/switch/zr.png" id="2_1qrox"]

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdAudioBusDynamic" load_steps=3 format=3 uid="uid://gx272ks0sjxw"]
 
-[ext_resource type="Script" uid="uid://pnrvjykqbu41" path="res://addons/std/sound/bus_dynamic.gd" id="1_agnvo"]
+[ext_resource type="Script" uid="uid://u0rmresfafsr" path="res://addons/std/sound/bus_dynamic.gd" id="1_agnvo"]
 [ext_resource type="Resource" uid="uid://nopnvdj1mqwv" path="res://system/audio/bus/music.tres" id="2_qcpra"]
 
 [resource]
