@@ -67,7 +67,7 @@ func _ready() -> void:
 	auto_translate_mode = AUTO_TRANSLATE_MODE_DISABLED
 
 	assert(action_set is StdInputActionSet, "invalid config; missing action set")
-	action_set = action_set # Trigger 'label' update.
+	action_set = action_set  # Trigger 'label' update.
 
 	_reset.action_set = action_set
 	_reset.player_id = player_id
