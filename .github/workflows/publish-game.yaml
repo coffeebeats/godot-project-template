@@ -36,7 +36,7 @@ on:
         type: string
         description: "The release tag at which to build and publish the game."
         required: true
-        default: "v1.6.7" # x-release-please-version
+        default: "v2.0.0" # x-release-please-version
 
       platform:
         type: choice
