@@ -109,7 +109,7 @@ func _update_visibility() -> void:
 
 		visible = (
 			Bindings
-			.category_has_user_override(
+			. category_has_user_override(
 				scope,
 				action_set,
 				active_device.device_category,
