@@ -8,7 +8,7 @@ on:
 # NOTE: These permissions only affect the default `GITHUB_TOKEN`. These are left
 # here in case the `release-please` action no longer uses a PAT.
 permissions:
-  actions: write # Required by the 'export-project' workflow.
+  actions: write # Required by the 'publish' job.
   contents: write
   pull-requests: write
 

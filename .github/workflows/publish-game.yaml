@@ -97,6 +97,9 @@ on:
         required: false
         default: "release"
 
+permissions:
+  actions: write # Required by the 'export' job.
+
 defaults:
   run:
     shell: bash
