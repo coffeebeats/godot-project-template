@@ -1,19 +1,19 @@
 [submodule "addons/gut"]
 path = addons/gut
 url = https://github.com/coffeebeats/gut
-branch = godot-v4.3
+branch = godot-v4.4
 
 [submodule "addons/godotsteam"]
 path = addons/godotsteam
 url = https://github.com/coffeebeats/GodotSteam
-branch = godot-v4.3
+branch = godot-v4.4
 
 [submodule "addons/phantom_camera"]
 path = addons/phantom_camera
 url = https://github.com/coffeebeats/phantom-camera.git
-branch = godot-v4.3
+branch = godot-v4.4
 
 [submodule "addons/std"]
 path = addons/std
 url = git@github.com:coffeebeats/godot-plugin-std.git
-branch = godot-v4.3
+branch = godot-v4.4
