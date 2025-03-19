@@ -109,7 +109,7 @@ func _update_visibility() -> void:
 
 		visible = (
 			Bindings
-			. category_has_user_override(
+			.category_has_user_override(
 				scope,
 				action_set,
 				active_device.device_category,
@@ -166,9 +166,13 @@ func _on_pressed() -> void:
 
 	_is_update_handled = false
 
-	if not next_focus is Control:
+	# A new focus target is required if using focus-based navigation. If the
+	# reset button was clicked, then this doesn't matter.
+	if not next_focus is Control and not Systems.input().is_cursor_visible():
 		assert(false, "invalid state; missing target focus")
 		return
 
-	next_focus.grab_focus()
+	if next_focus:
+		next_focus.grab_focus()
+
 	_update_visibility()
