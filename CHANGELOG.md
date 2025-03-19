@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1 (2025-03-19)
+
+## What's Changed
+* fix(ci): restrict `publish-game.yaml` workflow permissions by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/324
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v2.0.0...v2.0.1
+
 ## 2.0.0 (2025-03-19)
 
 ## What's Changed
