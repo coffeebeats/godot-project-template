@@ -41,24 +41,28 @@ jobs:
         id: check-non-source
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
         with:
+          exclude_submodules: true
           files_ignore: "**/*.gd"
 
       - name: Check for any source code changes
         id: check-source
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
         with:
+          exclude_submodules: true
           files: "**/*.gd"
 
       - name: Check for PNG image file changes
         id: check-png
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
         with:
+          exclude_submodules: true
           files: "**/*.png"
 
       - name: Check for template translation file changes
         id: check-pot
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
         with:
+          exclude_submodules: true
           files: |
             project/locale/*.pot
             project/locale/en_US.po
@@ -67,6 +71,7 @@ jobs:
         id: check-po
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
         with:
+          exclude_submodules: true
           files: "project/locale/*.po"
           files_ignore: "project/locale/*.pot"
 
