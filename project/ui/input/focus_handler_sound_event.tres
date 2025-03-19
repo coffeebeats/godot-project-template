@@ -2,8 +2,8 @@
 
 [ext_resource type="Resource" uid="uid://br3g7kfafgo7o" path="res://system/audio/bus/sound_effects.tres" id="1_1pxhs"]
 [ext_resource type="Resource" uid="uid://qhsnu8axd0er" path="res://project/ui/input/focus_handler_sound_group.tres" id="2_303p0"]
-[ext_resource type="Script" path="res://addons/std/sound/param.gd" id="3_os8he"]
-[ext_resource type="Script" path="res://addons/std/sound/event_1d.gd" id="4_dnwgo"]
+[ext_resource type="Script" uid="uid://d1xoiydhcd054" path="res://addons/std/sound/param.gd" id="3_os8he"]
+[ext_resource type="Script" uid="uid://xnjd1n7phkp3" path="res://addons/std/sound/event_1d.gd" id="4_dnwgo"]
 [ext_resource type="AudioStream" uid="uid://c0eyjy6wudp07" path="res://project/ui/input/focus_handler_sound.ogg" id="5_uxobq"]
 
 [resource]

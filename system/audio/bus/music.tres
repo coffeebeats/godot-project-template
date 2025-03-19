@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdAudioBusStatic" load_steps=2 format=3 uid="uid://nopnvdj1mqwv"]
 
-[ext_resource type="Script" path="res://addons/std/sound/bus_static.gd" id="1_5k5t0"]
+[ext_resource type="Script" uid="uid://bplm5wcvhj6r2" path="res://addons/std/sound/bus_static.gd" id="1_5k5t0"]
 
 [resource]
 script = ExtResource("1_5k5t0")

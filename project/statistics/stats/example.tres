@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="StdStatInt" load_steps=2 format=3 uid="uid://dx30e7iexscvi"]
 
-[ext_resource type="Script" path="res://addons/std/statistic/int.gd" id="1_5agwp"]
+[ext_resource type="Script" uid="uid://b068qqf0jibq2" path="res://addons/std/statistic/int.gd" id="1_5agwp"]
 
 [resource]
 script = ExtResource("1_5agwp")

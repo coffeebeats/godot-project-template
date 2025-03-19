@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5i75icaahl6v"]
 
-[ext_resource type="Script" path="res://platform/profile/steam/profile.gd" id="1_xc0gc"]
-[ext_resource type="Script" path="res://addons/std/statistic/store.gd" id="2_1dpfe"]
+[ext_resource type="Script" uid="uid://bh5bmcos11md5" path="res://platform/profile/steam/profile.gd" id="1_xc0gc"]
+[ext_resource type="Script" uid="uid://b0s3tp2xjqc08" path="res://addons/std/statistic/store.gd" id="2_1dpfe"]
 
 [node name="Profile" type="Node"]
 script = ExtResource("1_xc0gc")

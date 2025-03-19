@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://hbb2wxcb7sxf"]
 
-[ext_resource type="Script" path="res://project/save/menu.gd" id="1_sihek"]
+[ext_resource type="Script" uid="uid://e65imwf654xt" path="res://project/save/menu.gd" id="1_sihek"]
 [ext_resource type="PackedScene" uid="uid://du65ljq0jsyh" path="res://project/ui/modal/menu.tscn" id="1_snn16"]
-[ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_bgb2t"]
+[ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_bgb2t"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="3_842n5"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_dj346"]
 

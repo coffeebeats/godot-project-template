@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://jqrnk34kfw5u"]
 
-[ext_resource type="Script" path="res://project/ui/input/option_button.gd" id="1_1sudd"]
+[ext_resource type="Script" uid="uid://dqu6rpexshtbj" path="res://project/ui/input/option_button.gd" id="1_1sudd"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_0ic2f"]
 
 [node name="OptionButton" type="OptionButton"]

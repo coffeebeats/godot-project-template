@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://723bxnvy4ipw"]
 
-[ext_resource type="Script" path="res://system/setting/interface/language_property.gd" id="1_0xotg"]
+[ext_resource type="Script" uid="uid://y7w3u03mxtlc" path="res://system/setting/interface/language_property.gd" id="1_0xotg"]
 [ext_resource type="Resource" uid="uid://ci5jo2fctxlbt" path="res://system/setting/interface/language_options_property.tres" id="1_7r2uc"]
 [ext_resource type="Resource" uid="uid://mwqxsj0u3y8u" path="res://system/setting/user_settings_scope.tres" id="1_hsq6x"]
 

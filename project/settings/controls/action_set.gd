@@ -5,6 +5,7 @@
 ## action included in the specified `StdInputActionSet`.
 ##
 
+@warning_ignore("MISSING_TOOL")
 extends "../group.gd"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #

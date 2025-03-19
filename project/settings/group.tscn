@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxxweem4spjs8"]
 
-[ext_resource type="Script" path="res://project/settings/group.gd" id="1_i23do"]
+[ext_resource type="Script" uid="uid://406uaivnixui" path="res://project/settings/group.gd" id="1_i23do"]
 
 [node name="Group" type="VBoxContainer"]
 anchors_preset = 15

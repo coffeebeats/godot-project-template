@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cmj05wt2sr1xs" path="res://system/input/unknown/glyphs/xbox/r_stick_click.png" id="14_wm25q"]
 [ext_resource type="Texture2D" uid="uid://b7p4suvqlu73x" path="res://system/input/unknown/glyphs/xbox/x.png" id="15_vuy1d"]
 [ext_resource type="Texture2D" uid="uid://cl4kfi7r3qwve" path="res://system/input/unknown/glyphs/xbox/y.png" id="16_m37b1"]
-[ext_resource type="Script" path="res://addons/std/input/godot/glyph_set_joy.gd" id="17_p3bob"]
+[ext_resource type="Script" uid="uid://dwegvnph8yf3c" path="res://addons/std/input/godot/glyph_set_joy.gd" id="17_p3bob"]
 [ext_resource type="Texture2D" uid="uid://bxip8fryjqus7" path="res://system/input/unknown/glyphs/xbox/l_stick.png" id="18_qayur"]
 [ext_resource type="Texture2D" uid="uid://cyi6ihf0l0wwl" path="res://system/input/unknown/glyphs/xbox/r_stick.png" id="19_qjb2e"]
 

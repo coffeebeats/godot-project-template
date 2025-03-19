@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://40v44woa2bub"]
 
-[ext_resource type="Script" path="res://project/main/splash/splash.gd" id="1_0cd10"]
-[ext_resource type="Script" path="res://addons/std/scene/handle.gd" id="2_xiiry"]
+[ext_resource type="Script" uid="uid://bx84q1fdpup1y" path="res://project/main/splash/splash.gd" id="1_0cd10"]
+[ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_xiiry"]
 
 [node name="Studio" type="Control"]
 layout_mode = 3

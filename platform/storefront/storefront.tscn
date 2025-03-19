@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://beb4vb4fgtaik"]
 
-[ext_resource type="Script" path="res://addons/std/condition/condition_loader.gd" id="1_0neaf"]
-[ext_resource type="Script" path="res://addons/std/condition/expression.gd" id="2_elne7"]
+[ext_resource type="Script" uid="uid://b48nei7xl0xrh" path="res://addons/std/condition/condition_loader.gd" id="1_0neaf"]
+[ext_resource type="Script" uid="uid://be11f4pqliry0" path="res://addons/std/condition/expression.gd" id="2_elne7"]
 [ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="3_loaae"]
 
 [node name="Storefront" type="Node"]

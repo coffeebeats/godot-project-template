@@ -1,10 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dm1yyvkqdxmqe"]
 
-[ext_resource type="Script" path="res://project/settings/controls/rebinder.gd" id="1_lre2j"]
+[ext_resource type="Script" uid="uid://dwru2ai0oafg" path="res://project/settings/controls/rebinder.gd" id="1_lre2j"]
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
-[ext_resource type="Script" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
+[ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
-
 
 [node name="BindingPrompt" type="Control"]
 layout_mode = 3
@@ -25,8 +24,8 @@ offset_bottom = 40.0
 script = ExtResource("3_rp1ye")
 action_set_layer = ExtResource("3_nyt6g")
 enable_on_enter = false
-enable_on_visible = true
 disable_on_hidden = true
+enable_on_visible = true
 
 [node name="Bar" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(0, 256)
