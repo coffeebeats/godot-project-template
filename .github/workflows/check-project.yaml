@@ -87,7 +87,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ env.ACTIONS_BOT_TOKEN }}
 
-      - uses: coffeebeats/godot-infra/check-godot-project@v1
+      - uses: coffeebeats/godot-infra/check-godot-project@v2
         with:
           ignore-lint-errors: false
           line-length-max: 88
@@ -115,12 +115,12 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ env.ACTIONS_BOT_TOKEN }}
 
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v1
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v2
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v1
+      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v2
         with:
           version: ${{ steps.version.outputs.semantic }}
 
@@ -143,7 +143,7 @@ jobs:
       - name: Import optimized images
         run: godot --verbose --headless --quit --import
 
-      - uses: coffeebeats/godot-infra/commit-changes@v1
+      - uses: coffeebeats/godot-infra/commit-changes@v2
         with:
           description: "optimizing PNG images"
 
@@ -297,7 +297,7 @@ jobs:
             echo "$CHECKSUM" | shasum -a1 -c
           done
 
-      - uses: coffeebeats/godot-infra/commit-changes@v1
+      - uses: coffeebeats/godot-infra/commit-changes@v2
         if: |
           needs.changes.outputs.has_pot_change == 'true' ||
           needs.changes.outputs.has_po_change == 'true'
@@ -316,12 +316,12 @@ jobs:
         with:
           submodules: true
 
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v1
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v2
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v1
+      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v2
         with:
           version: ${{ steps.version.outputs.semantic }}
 
