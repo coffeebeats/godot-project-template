@@ -97,6 +97,9 @@ on:
         required: false
         default: "release"
 
+permissions:
+  actions: write # Required by the 'export-project' workflow.
+
 defaults:
   run:
     shell: bash
