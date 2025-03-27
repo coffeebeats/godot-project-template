@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.2 (2025-03-27)
+
+## What's Changed
+* chore: update to Godot `v4.4.1-stable` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/326
+* chore(addons): update addons to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/328
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v2.0.1...v2.0.2
+
 ## 2.0.1 (2025-03-19)
 
 ## What's Changed
