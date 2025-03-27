@@ -64,7 +64,7 @@ jobs:
     needs: ["config"]
 
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 90
 
     outputs:
       key: ${{ steps.cache.outputs.key }}
