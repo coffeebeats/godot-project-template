@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.3 (2025-03-28)
+
+## What's Changed
+* fix(ci): increase export workflow timeout to 90 minutes by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/329
+* fix(ci): further increase `export-project` workflow timeout by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/331
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v2.0.2...v2.0.3
+
 ## 2.0.2 (2025-03-27)
 
 ## What's Changed
