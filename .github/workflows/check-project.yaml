@@ -39,28 +39,28 @@ jobs:
 
       - name: Check for any non-source code changes
         id: check-non-source
-        uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0
         with:
           exclude_submodules: true
           files_ignore: "**/*.gd"
 
       - name: Check for any source code changes
         id: check-source
-        uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0
         with:
           exclude_submodules: true
           files: "**/*.gd"
 
       - name: Check for PNG image file changes
         id: check-png
-        uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0
         with:
           exclude_submodules: true
           files: "**/*.png"
 
       - name: Check for template translation file changes
         id: check-pot
-        uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0
         with:
           exclude_submodules: true
           files: |
@@ -69,7 +69,7 @@ jobs:
 
       - name: Check for non-template translation file changes
         id: check-po
-        uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0
         with:
           exclude_submodules: true
           files: "project/locale/*.po"
