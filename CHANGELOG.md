@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.3 (2025-04-03)
+
+## What's Changed
+* fix(ci): increase export workflow timeout to 90 minutes by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/329
+* fix(ci): further increase `export-project` workflow timeout by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/331
+* chore(deps): bump tj-actions/changed-files from 46.0.1 to 46.0.3 by @dependabot in https://github.com/coffeebeats/godot-project-template/pull/335
+* chore(deps): bump actions/upload-artifact from 4.6.1 to 4.6.2 by @dependabot in https://github.com/coffeebeats/godot-project-template/pull/334
+* chore(deps): bump actions/download-artifact from 4.2.0 to 4.2.1 by @dependabot in https://github.com/coffeebeats/godot-project-template/pull/332
+* chore(deps): bump actions/cache from 4.2.2 to 4.2.3 by @dependabot in https://github.com/coffeebeats/godot-project-template/pull/333
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v2.0.2...v2.0.3
+
 ## 2.0.2 (2025-03-27)
 
 ## What's Changed
