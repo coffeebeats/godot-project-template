@@ -117,7 +117,7 @@ jobs:
           echo key='export-project-compile-${{ github.run_id }}-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}' >> $GITHUB_OUTPUT
 
       - name: Cache the export template to pass between jobs
-        uses: actions/cache/save@d4323d4df104b026a6aa633fdb11d772146be0bf
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684
         with:
           key: ${{ steps.cache.outputs.key }}
           path: ${{ steps.cache.outputs.path }}
@@ -140,7 +140,7 @@ jobs:
           ref: ${{ inputs.ref }}
           submodules: true
 
-      - uses: actions/cache/restore@d4323d4df104b026a6aa633fdb11d772146be0bf
+      - uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684
         with:
           key: ${{ needs.compile.outputs.key }}
           path: ${{ needs.compile.outputs.cache-path }}
