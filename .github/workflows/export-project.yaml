@@ -225,7 +225,7 @@ jobs:
         run: echo "pattern=export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}" >> "$GITHUB_OUTPUT"
 
       - name: Download export preset artifacts
-        uses: actions/download-artifact@b14cf4c92620c250e1c074ab0a5800e37df86765
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
         with:
           path: ${{ runner.temp }}/presets
 
