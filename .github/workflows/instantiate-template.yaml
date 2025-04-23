@@ -54,6 +54,10 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 env:
   description: "${{ inputs.description || 'A new Godot 4+ project.' }}"
   token: "${{ github.event_name == 'workflow_call' && inputs.token || secrets.REPO_CREATE_TOKEN }}"
@@ -65,7 +69,6 @@ jobs:
 
     steps:
       - name: Create the new repository
-        shell: bash
         env:
           GH_TOKEN: "${{ env.token }}" # Required in order to use the 'gh' CLI.
         run: |-
@@ -99,9 +102,14 @@ jobs:
           repository: coffeebeats/${{ inputs.name }}
           token: ${{ env.token }}
 
+      - name: "Configure Git user"
+        run: |
+          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3531273
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
       - name: Copy target ref to 'main'
         if: inputs.ref != 'main'
-        shell: bash
         run: |
           # Reset 'main' to the target ref
           git reset --hard ${{ inputs.ref }}
@@ -121,7 +129,6 @@ jobs:
           done
 
       - name: Update CHANGELOG and README
-        shell: bash
         run: |
           # Update CHANGELOG
           echo "# Changelog" > CHANGELOG.md
@@ -137,7 +144,6 @@ jobs:
           git commit --amend
 
       - name: Initialize project versioning
-        shell: bash
         run: |
           # Update 'release-please' manifest
           cat <<EOM > .release-please/manifest.json
@@ -162,7 +168,6 @@ jobs:
       - name: Create repository ruleset
         env:
           GH_TOKEN: "${{ env.token }}" # Required in order to use the 'gh' CLI.
-        shell: bash
         run: |
           cat << EOM | gh api --method POST -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --input - /repos/coffeebeats/${{ inputs.name }}/rulesets 
           {
