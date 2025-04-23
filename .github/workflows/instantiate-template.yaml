@@ -1,0 +1,148 @@
+name: "➕ Instantiate: New repository"
+
+# NOTE: This workflow only works for the owner of this repository due to its use
+# of a personal access token. Fork this repository to gain access to its capability.
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        type: string
+        description: "The name of the new repository."
+        required: true
+      description:
+        type: string
+        description: "A description for the new repository."
+        required: false
+      private:
+        type: boolean
+        description: "Whether to make the new repository private."
+        required: false
+        default: true
+      ref:
+        type: string
+        description: "The 'godot-project-template' ref name to copy into the new repository's 'main'."
+        required: true
+        default: main
+
+      token:
+        type: string
+        description: "The personal access token (PAT) used to create the new repository."
+        required: true
+
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+        description: "The name of the new repository."
+        required: true
+      description:
+        type: string
+        description: "A description for the new repository."
+        required: false
+      private:
+        type: boolean
+        description: "Whether to make the new repository private."
+        required: false
+        default: true
+      ref:
+        type: string
+        description: "The 'godot-project-template' ref name to copy into the new repository's 'main'."
+        required: true
+        default: main
+
+permissions:
+  contents: read
+
+env:
+  description: "${{ inputs.description || 'A new Godot 4+ project.' }}"
+  token: "${{ github.event_name == 'workflow_call' && inputs.token || secrets.REPO_CREATE_TOKEN }}"
+
+jobs:
+  instantiate-template:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Create the new repository
+        shell: bash
+        env:
+          GH_TOKEN: "${{ env.token }}" # Required in order to use the 'gh' CLI.
+        run: |-
+          # Check if the repository exists
+          if gh repo view coffeebeats/${{ inputs.name }} >/dev/null 2>&1; then
+            echo "Repository already exists; exiting without making changes."
+            exit 1
+          fi
+
+          # Create the new repository
+          gh repo create ${{ inputs.name }} \
+            --template coffeebeats/godot-project-template \
+            $([[ "${{ inputs.ref }}" != "main" ]] && echo "--include-all-branches" || :) \
+            $([[ "${{ inputs.private }}" == "true" ]] && echo "--private" || echo "--public") \
+            --description "${{ env.description }}"
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: inputs.ref != 'main'
+        with:
+          ref: "main"
+          repository: ${{ inputs.name }}
+          token: ${{ env.token }}
+
+      - name: Copy target ref to 'main'
+        if: inputs.ref != 'main'
+        shell: bash
+        run: |
+          # Reset 'main' to the target ref
+          git reset --hard ${{ inputs.ref }}
+
+          # Push changes to remote repository
+          echo "Updating remote branch 'main' to ref: ${{ inputs.ref }}"
+          git push -f origin main
+
+          # Delete other branches
+          for branch in $(git for-each-ref --format='%(refname:strip=2)' "refs/heads/$1"); do
+            if [[ "$branch" == "main" ]]; then
+              continue
+            fi
+
+            echo "Deleting branch on remote repository: $branch"
+            git push origin --delete "$branch"
+          done
+
+      - name: Update CHANGELOG and README
+        shell: bash
+        run: |
+          # Update CHANGELOG
+          echo "# Changelog" > CHANGELOG.md
+
+          # Update README
+          cat <<EOM > README.md
+          # ${{ inputs.name }}
+
+          ${{ env.description }}
+          EOM
+
+          git commit --amend .
+
+      - name: Initialize project versioning
+        shell: bash
+        run: |
+          # Update 'release-please' manifest
+          cat <<EOM > .release-please/manifest.json
+          {
+            ".": "0.1.0"
+          }
+          EOM
+
+          # Commit changes
+          git commit --amend .
+
+          # Push changes to remote repository
+          echo "Updating remote branch 'main' to ref: ${{ inputs.ref }}"
+          git push -f origin main
+
+          # Tag the initial commit
+          echo "Tagging initial commit: v0.1.0"
+          git tag v0.1.0
+          git push origin tag v0.1.0
