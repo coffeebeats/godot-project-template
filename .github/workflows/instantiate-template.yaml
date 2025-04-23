@@ -78,9 +78,20 @@ jobs:
           # Create the new repository
           gh repo create ${{ inputs.name }} \
             --template coffeebeats/godot-project-template \
-            $([[ "${{ inputs.ref }}" != "main" ]] && echo "--include-all-branches" || :) \
+            --description "${{ env.description }}" \
             $([[ "${{ inputs.private }}" == "true" ]] && echo "--private" || echo "--public") \
-            --description "${{ env.description }}"
+            $([[ "${{ inputs.ref }}" != "main" ]] && echo "--include-all-branches" || :) \
+            --disable-wiki
+
+          # Update repository settings
+          gh repo edit coffeebeats/${{ inputs.name }} \
+            --allow-update-branch \
+            --delete-branch-on-merge \
+            --enable-auto-merge \
+            --enable-squash-merge \
+            --enable-merge-commit=false \
+            --enable-rebase-merge=false \
+            --enable-projects=false
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
