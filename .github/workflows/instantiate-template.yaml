@@ -141,7 +141,7 @@ jobs:
           EOM
 
           git add CHANGELOG.md README.md
-          git commit --amend
+          git commit --amend --no-edit
 
       - name: Initialize project versioning
         run: |
@@ -154,7 +154,7 @@ jobs:
 
           # Commit changes
           git add .release-please/manifest.json
-          git commit --amend
+          git commit --amend --no-edit
 
           # Push changes to remote repository
           echo "Updating remote branch 'main' to ref: ${{ inputs.ref }}"
