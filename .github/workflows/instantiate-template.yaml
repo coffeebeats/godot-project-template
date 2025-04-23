@@ -133,7 +133,8 @@ jobs:
           ${{ env.description }}
           EOM
 
-          git commit --amend .
+          git add CHANGELOG.md README.md
+          git commit --amend
 
       - name: Initialize project versioning
         shell: bash
@@ -146,7 +147,8 @@ jobs:
           EOM
 
           # Commit changes
-          git commit --amend .
+          git add .release-please/manifest.json
+          git commit --amend
 
           # Push changes to remote repository
           echo "Updating remote branch 'main' to ref: ${{ inputs.ref }}"
