@@ -34,11 +34,12 @@ jobs:
           # simply change the "branches" filter in the workflow's on-"push" trigger.
           target-branch: ${{ github.ref_name }}
 
-          # NOTE: Because 'release-please' is configured to update version text within
-          # '.github/workflows/publish-game.yaml', a PAT is required. This PAT must have
+          # NOTE: If you want 'release-please' to update version text within
+          # '.github/workflows/publish-game.yaml' (e.g. to specify the version in
+          # a workflow field, a PAT is required. This PAT must have
           # 'contents:write' and 'workflows:write'; for details, see
           # https://github.com/orgs/community/discussions/35410#discussioncomment-7645702.
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || github.token }}
 
       - name: Log release-please action output
         shell: bash
