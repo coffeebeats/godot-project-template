@@ -165,6 +165,31 @@ jobs:
           git tag v0.1.0
           git push origin tag v0.1.0
 
+      - name: Update GitHub Actions permissions
+        env:
+          GH_TOKEN: "${{ env.token }}" # Required in order to use the 'gh' CLI.
+        run: |
+          cat << EOM | gh api --method PUT -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --input - /repos/coffeebeats/raid-sim-clicker/actions/permissions 
+          {
+            "enabled": true,
+            "allowed_actions": "selected"
+          }
+          EOM
+
+          cat << EOM | gh api --method PUT -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --input - /repos/coffeebeats/raid-sim-clicker/actions/permissions/selected-actions
+          {
+            "github_owned_allowed":true,
+            "verified_allowed":true
+          }
+          EOM
+
+          cat << EOM | gh api --method PUT -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --input - /repos/coffeebeats/raid-sim-clicker/actions/permissions/workflow
+          {
+            "default_workflow_permissions":"write",
+            "can_approve_pull_request_reviews":true
+          }
+          EOM
+
       - name: Create repository ruleset
         env:
           GH_TOKEN: "${{ env.token }}" # Required in order to use the 'gh' CLI.
