@@ -15,7 +15,7 @@ updates:
 
   # Update Git submodule dependencies
   - package-ecosystem: "gitsubmodule"
-    directory: "/addons"
+    directory: "/"
     reviewers:
       - coffeebeats
     schedule:
