@@ -172,14 +172,7 @@ jobs:
           cat << EOM | gh api --method PUT -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --input - /repos/coffeebeats/raid-sim-clicker/actions/permissions 
           {
             "enabled": true,
-            "allowed_actions": "selected"
-          }
-          EOM
-
-          cat << EOM | gh api --method PUT -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --input - /repos/coffeebeats/raid-sim-clicker/actions/permissions/selected-actions
-          {
-            "github_owned_allowed":true,
-            "verified_allowed":true
+            "allowed_actions": "all"
           }
           EOM
 
