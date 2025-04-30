@@ -1,4 +1,4 @@
-name: "🤖 Export: Godot project"
+name: "🎮 Export: Godot project"
 
 on:
   workflow_call:
