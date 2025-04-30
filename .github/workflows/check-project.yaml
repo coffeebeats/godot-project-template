@@ -1,4 +1,4 @@
-name: "✅ Check: Godot project"
+name: "🔎 Check: Godot project"
 
 on:
   pull_request:
