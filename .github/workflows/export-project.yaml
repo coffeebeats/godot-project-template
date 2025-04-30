@@ -1,4 +1,4 @@
-name: "🤖 Export: Godot project"
+name: "🎮 Export: Godot project"
 
 on:
   workflow_call:
@@ -83,6 +83,7 @@ jobs:
           publish: ${{ inputs.publish-export-template }}
 
           godot-src-rev: ${{ needs.config.outputs.godot-version }}
+          godot-patches: .patches/godotengine/godot/*
 
           platform: ${{ inputs.platform }}
           arch: ${{ inputs.arch }}

@@ -1,4 +1,4 @@
-name: "🎮 Publish: Godot game"
+name: "🌐 Publish: Godot game"
 
 on:
   workflow_call:
