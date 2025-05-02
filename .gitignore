@@ -1,6 +1,13 @@
 # Godot-specific files
 .godot/
 
+# Godot source/editor files
+godot/
+Godot.app
+godot.app
+Godot.exe
+godot.exe
+
 # Translation files
 *.translation
 messages.mo
