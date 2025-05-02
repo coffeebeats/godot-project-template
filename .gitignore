@@ -12,6 +12,13 @@ messages.mo
 ~*
 *.TMP
 
+# Godot source/editor files
+godot/
+Godot.app
+godot.app
+Godot.exe
+godot.exe
+
 # Testing-related files
 settings.cfg
 settings.dat
