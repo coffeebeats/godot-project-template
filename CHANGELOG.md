@@ -1,5 +1,46 @@
 # Changelog
 
+## 3.0.0 (2025-11-28)
+
+## What's Changed
+* fix(ci): increase export workflow timeout to 90 minutes by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/329
+* fix(ci): further increase `export-project` workflow timeout by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/331
+* chore(deps): bump tj-actions/changed-files from 46.0.1 to 46.0.3 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/335
+* chore(deps): bump actions/upload-artifact from 4.6.1 to 4.6.2 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/334
+* chore(deps): bump actions/download-artifact from 4.2.0 to 4.2.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/332
+* chore(deps): bump actions/cache from 4.2.2 to 4.2.3 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/333
+* feat(ci): create workflow to instantiate template repository by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/336
+* fix(ci): always check out new repository when instantiating template by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/337
+* chore(ci): bump `tj-actions/changed-files` from `46.0.3` to `46.0.5` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/338
+* fix(ci): use correct directory for dependabot `gitsubmodule` updates by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/339
+* fix(ci): update GitHub Actions permissions for instantiated repositories by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/340
+* fix(ci): allow all GitHub actions within instantiated repositories by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/341
+* chore: rerun blocked CI jobs by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/342
+* fix(ci): use calling actor as owner of new repository by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/343
+* chore(ci): remove redundant `instantiate-template` workflow by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/344
+* feat(ci): add a workflow to compile an editor build; support engine patches by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/345
+* chore(ci): update workflow icon to not confuse with status of workflow by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/346
+* chore(deps): bump actions/download-artifact from 4.2.1 to 4.3.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/347
+* fix(ci): add missing `issues:write` permission to `release-please` workflow by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/348
+* feat(ci): build editor on change to patch files by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/349
+* fix(ci): correctly set Godot revision in `compile-editor` workflow by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/350
+* chore(ci): update `compile-editor` workflow time limit by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/351
+* chore: ignore `godot/` directory and editor binaries by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/352
+* chore: add `.scons` to `.gitignore`; only ignore `godot/` at root by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/353
+* chore(deps): bump actions/download-artifact from 4.3.0 to 5.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/354
+* chore(deps): bump googleapis/release-please-action from 4.2.0 to 4.3.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/357
+* chore(deps): bump actions/checkout from 4.2.2 to 5.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/355
+* chore(deps): bump actions/cache from 4.2.3 to 4.2.4 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/356
+* chore(deps): bump actions/cache from 4.2.4 to 4.3.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/358
+* chore(deps): bump tj-actions/changed-files from 46.0.5 to 47.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/359
+* chore(deps): bump actions/upload-artifact from 4.6.2 to 5.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/362
+* chore(deps): bump actions/download-artifact from 5.0.0 to 6.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/361
+* chore(deps): bump googleapis/release-please-action from 4.3.0 to 4.4.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/360
+* chore!: update to Godot `v4.5` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/363
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v2.0.2...v3.0.0
+
 ## 2.0.2 (2025-03-27)
 
 ## What's Changed
