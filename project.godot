@@ -14,7 +14,7 @@ config/name="game"
 run/main_scene="res://project/main/main.tscn"
 config/use_custom_user_dir=true
 config/project_settings_override="user://settings.cfg"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 run/max_fps=120
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
@@ -50,9 +50,9 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [gui]
 
+theme/default_font_multichannel_signed_distance_field=true
 theme/custom="res://project/ui/theme.tres"
 theme/custom_font="res://project/ui/font/noto-sans-variable.ttf"
-theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 
@@ -149,3 +149,9 @@ locale/translations=PackedStringArray("res://project/locale/de.mo", "res://proje
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 environment/defaults/default_clear_color.editor=Color(0.301961, 0.301961, 0.301961, 1)
+
+[steam]
+
+initialization/app_id=0
+initialization/initialize_on_startup=false
+initialization/embed_callbacks=false
