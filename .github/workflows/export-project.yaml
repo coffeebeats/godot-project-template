@@ -45,7 +45,7 @@ jobs:
       godot-version: "${{ steps.version.outputs.semantic }}"
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           ref: ${{ inputs.ref }}
 
@@ -73,7 +73,7 @@ jobs:
       extra-bundled-files: ${{ steps.compile.outputs.extra-bundled-files }}
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           ref: ${{ inputs.ref }}
 
@@ -136,7 +136,7 @@ jobs:
         preset: ${{ fromJson(needs.config.outputs.presets) }}
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           ref: ${{ inputs.ref }}
           submodules: true
