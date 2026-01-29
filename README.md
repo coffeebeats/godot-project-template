@@ -64,9 +64,10 @@ MSDF rendering is recommended for fonts, but many fonts contain overlapping cont
 After instantiating a project from this template repository, the default GitHub actions and workflows require the following repository secrets to be set:
 
 - `BUTLER_API_KEY` - Used to authenticate the `butler` CLI tool with `itch.io`; required when publishing to `itch.io`.
-- `ACTIONS_BOT_TOKEN` - Used to commit formatting fixes to pull requests.
+- `GHA_TOKEN` - Used to commit formatting fixes to pull requests.
 - `GODOT_SCRIPT_ENCRYPTION_KEY` - Used to encrypt the export Game artifacts; recommended to create one per platform,channel pair.
 - Various - Update code-signing and notarization secrets once the project is ready for release.
+- `RELEASE_PLEASE_TOKEN` - Enables release pull requests to run CI/CD workflows.
 
 ### Customization
 
