@@ -90,7 +90,7 @@ jobs:
           # NOTE: Use repository secret to have new commit run workflows.
           token: ${{ secrets.GHA_TOKEN || github.token }}
 
-      - uses: coffeebeats/godot-infra/check-godot-project@v3
+      - uses: coffeebeats/godot-infra/check-godot-project@v4
         with:
           ignore-lint-errors: false
           line-length-max: 88
@@ -120,12 +120,12 @@ jobs:
           # NOTE: Use repository secret to have new commit run workflows.
           token: ${{ secrets.GHA_TOKEN || github.token }}
 
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v3
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v4
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v3
+      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v4
         with:
           version: ${{ steps.version.outputs.semantic }}
 
@@ -148,7 +148,7 @@ jobs:
       - name: Import optimized images
         run: godot --verbose --headless --quit --import
 
-      - uses: coffeebeats/godot-infra/commit-changes@v3
+      - uses: coffeebeats/godot-infra/commit-changes@v4
         with:
           description: "optimizing PNG images"
 
@@ -304,7 +304,7 @@ jobs:
             echo "$CHECKSUM" | shasum -a1 -c
           done
 
-      - uses: coffeebeats/godot-infra/commit-changes@v3
+      - uses: coffeebeats/godot-infra/commit-changes@v4
         if: |
           needs.changes.outputs.has_pot_change == 'true' ||
           needs.changes.outputs.has_po_change == 'true'
@@ -323,12 +323,12 @@ jobs:
         with:
           submodules: true
 
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v3
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v4
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v3
+      - uses: coffeebeats/godot-infra/.github/actions/setup-godot@v4
         with:
           version: ${{ steps.version.outputs.semantic }}
 
