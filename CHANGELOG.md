@@ -1,5 +1,24 @@
 # Changelog
 
+## 4.0.0 (2026-01-30)
+
+## What's Changed
+* chore(addons): update `Gut` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/367
+* chore(addons): update `std` to `v3.0.1` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/369
+* chore(addons): update `std` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/370
+* chore(deps): bump actions/download-artifact from 6.0.0 to 7.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/374
+* chore(deps): bump actions/cache from 4.3.0 to 5.0.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/373
+* chore(deps): bump tj-actions/changed-files from 47.0.0 to 47.0.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/372
+* chore(deps): bump actions/upload-artifact from 5.0.0 to 6.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/371
+* chore!: update to Godot `v4.6` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/375
+* fix(system): migrate to new deep duplication function by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/376
+* fix(system): properly handle integer divison truncation by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/377
+* chore(addons): update `std` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/378
+* chore: update asset import properties for `v4.6` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/379
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v3.0.1...v4.0.0
+
 ## 3.0.1 (2025-12-11)
 
 ## What's Changed
