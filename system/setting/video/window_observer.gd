@@ -139,7 +139,10 @@ func _center_window(window_id: int = 0) -> void:
 	(
 		DisplayServer
 		. window_set_position(
-			(size_screen / 2 - size_window / 2) + Vector2i(0, size_title.y),
+			(
+				Vector2i((size_screen / 2.0 - size_window / 2.0).round())
+				+ Vector2i(0, size_title.y)
+			),
 			window_id,
 		)
 	)
@@ -207,8 +210,8 @@ func _set_window_mode(mode: DisplayServer.WindowMode, window_id: int = 0) -> voi
 
 
 func _shrink_window(window_id: int = 0) -> void:
-	var size := DisplayServer.get_display_safe_area().size / 2
-	if size == DisplayServer.window_get_size(window_id):
+	var size := DisplayServer.get_display_safe_area().size / 2.0
+	if Vector2i(size.round()) == DisplayServer.window_get_size(window_id):
 		return
 
 	DisplayServer.window_set_size(size, window_id)
