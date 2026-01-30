@@ -215,7 +215,7 @@ func get_save_slot(index: int) -> SaveSlot:
 
 ## create_new_save_data creates a new, empty instance of the save data resource.
 func create_new_save_data() -> StdSaveData:
-	var data: StdSaveData = schema.duplicate(true)
+	var data: StdSaveData = schema.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
 	data.reset()
 	return data
 
