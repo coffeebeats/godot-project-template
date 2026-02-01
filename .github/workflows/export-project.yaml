@@ -45,7 +45,7 @@ jobs:
       godot-version: "${{ steps.version.outputs.semantic }}"
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           ref: ${{ inputs.ref }}
 
@@ -76,7 +76,7 @@ jobs:
       - name: Reclaim disk space
         uses: coffeebeats/godot-infra/.github/actions/setup-runner@v4
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           ref: ${{ inputs.ref }}
 
@@ -139,7 +139,7 @@ jobs:
         preset: ${{ fromJson(needs.config.outputs.presets) }}
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           ref: ${{ inputs.ref }}
           submodules: true
