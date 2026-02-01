@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.2 (2026-02-01)
+
+## What's Changed
+* chore(deps): bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/383
+* chore(deps): bump actions/cache from 5.0.1 to 5.0.3 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/384
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.0.1...v4.0.2
+
 ## 4.0.1 (2026-02-01)
 
 ## What's Changed
