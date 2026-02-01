@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdInputGlyphSetJoy" load_steps=20 format=3 uid="uid://c762oejwi8vb3"]
+[gd_resource type="Resource" script_class="StdInputGlyphSetJoy" format=3 uid="uid://c762oejwi8vb3"]
 
 [ext_resource type="Texture2D" uid="uid://o2sk63mdbgqm" path="res://system/input/unknown/glyphs/xbox/lt.png" id="1_hqbur"]
 [ext_resource type="Texture2D" uid="uid://c4ccmawnv2aos" path="res://system/input/unknown/glyphs/xbox/rt.png" id="2_3xapu"]

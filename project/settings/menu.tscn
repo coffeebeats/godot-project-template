@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cm4b566x6ped8"]
+[gd_scene format=3 uid="uid://cm4b566x6ped8"]
 
 [ext_resource type="PackedScene" uid="uid://du65ljq0jsyh" path="res://project/ui/modal/menu.tscn" id="1_cdunp"]
 [ext_resource type="Script" uid="uid://dsjja8jln6cnn" path="res://project/settings/menu.gd" id="2_j2ecv"]
@@ -17,12 +17,11 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhy4h"]
 
-[node name="SettingsMenu" instance=ExtResource("1_cdunp")]
+[node name="SettingsMenu" unique_id=1390660035 instance=ExtResource("1_cdunp")]
 script = ExtResource("2_j2ecv")
 tab_switch_sound_event = ExtResource("3_gh6u1")
 
-[node name="StdInputActionSetLoader" type="Control" parent="." index="0"]
-layout_mode = 2
+[node name="StdInputActionSetLoader" type="Control" parent="." index="0" unique_id=1816058772]
 anchors_preset = 0
 offset_left = 384.0
 offset_top = 103.0
@@ -38,33 +37,33 @@ disable_on_exit = false
 disable_on_hidden = true
 enable_on_visible = true
 
-[node name="PanelContainer" parent="CenterContainer" index="0"]
+[node name="PanelContainer" parent="CenterContainer" parent_id_path=PackedInt32Array(1908670846) index="0" unique_id=2143531255]
 custom_minimum_size = Vector2(1440, 648)
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="0" unique_id=2095869003]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" index="0" unique_id=211679428]
 custom_minimum_size = Vector2(810, 810)
 layout_mode = 2
 
-[node name="Header" type="PanelContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" index="0"]
+[node name="Header" type="PanelContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" index="0" unique_id=1387565190]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_w1p03")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header" index="0" unique_id=1446533943]
 layout_mode = 2
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer" index="0" unique_id=1713862341]
 layout_mode = 2
 
-[node name="GlyphTabPrev" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" index="0" instance=ExtResource("5_xbtwd")]
+[node name="GlyphTabPrev" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" index="0" unique_id=638678077 instance=ExtResource("5_xbtwd")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -72,7 +71,7 @@ hide_if_cursor_visible = true
 action_set = ExtResource("4_s0nl3")
 action = &"ui_tab_prev"
 
-[node name="TabBar" type="TabBar" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" index="1"]
+[node name="TabBar" type="TabBar" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" index="1" unique_id=1755946263]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -89,7 +88,7 @@ tab_2/title = "options_interface"
 tab_3/title = "options_display"
 tab_4/title = "options_controls"
 
-[node name="GlyphTabNext" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" index="2" instance=ExtResource("5_xbtwd")]
+[node name="GlyphTabNext" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" index="2" unique_id=1308133983 instance=ExtResource("5_xbtwd")]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 2
@@ -97,19 +96,19 @@ hide_if_cursor_visible = true
 action_set = ExtResource("4_s0nl3")
 action = &"ui_tab_next"
 
-[node name="Body" type="PanelContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" index="1"]
+[node name="Body" type="PanelContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" index="1" unique_id=275716900]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_dhy4h")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body" index="0" unique_id=1891900026]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer" index="0"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer" index="0" unique_id=1105892989]
 layout_mode = 2
 follow_focus = true
 
-[node name="TabContents" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer" index="0"]
+[node name="TabContents" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer" index="0" unique_id=195815818]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -119,21 +118,21 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 128
 theme_override_constants/margin_bottom = 16
 
-[node name="Gameplay" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="0" instance=ExtResource("6_7qgxw")]
+[node name="Gameplay" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="0" unique_id=2060792667 instance=ExtResource("6_7qgxw")]
 visible = false
 layout_mode = 2
 
-[node name="Sound" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="1" instance=ExtResource("7_x3q0k")]
+[node name="Sound" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="1" unique_id=1132784759 instance=ExtResource("7_x3q0k")]
 layout_mode = 2
 
-[node name="Interface" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="2" instance=ExtResource("8_kkqby")]
+[node name="Interface" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="2" unique_id=1820515731 instance=ExtResource("8_kkqby")]
 visible = false
 layout_mode = 2
 
-[node name="Display" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="3" instance=ExtResource("9_vwbdl")]
+[node name="Display" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="3" unique_id=390838346 instance=ExtResource("9_vwbdl")]
 visible = false
 layout_mode = 2
 
-[node name="Controls" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="4" instance=ExtResource("10_46fy4")]
+[node name="Controls" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" index="4" unique_id=623235079 instance=ExtResource("10_46fy4")]
 visible = false
 layout_mode = 2

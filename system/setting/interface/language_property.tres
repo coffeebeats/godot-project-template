@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=4 format=3 uid="uid://723bxnvy4ipw"]
+[gd_resource type="Resource" format=3 uid="uid://723bxnvy4ipw"]
 
 [ext_resource type="Script" uid="uid://y7w3u03mxtlc" path="res://system/setting/interface/language_property.gd" id="1_0xotg"]
 [ext_resource type="Resource" uid="uid://ci5jo2fctxlbt" path="res://system/setting/interface/language_options_property.tres" id="1_7r2uc"]
@@ -7,8 +7,6 @@
 [resource]
 script = ExtResource("1_0xotg")
 language_options_property = ExtResource("1_7r2uc")
-default = ""
 category = &"interface"
 name = &"language/language_code"
-readonly = false
 scope = ExtResource("1_hsq6x")

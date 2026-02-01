@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cfm42l5k4okh8"]
+[gd_scene format=3 uid="uid://cfm42l5k4okh8"]
 
 [ext_resource type="Script" uid="uid://bcpoamsgr0mbv" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
@@ -21,7 +21,7 @@
 [ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="12_ypfyi"]
 [ext_resource type="Script" uid="uid://d0x6ukvhyecfa" path="res://addons/std/condition/expression_settings_property.gd" id="13_tu2id"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_as1tw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhdsk"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 3
@@ -38,7 +38,7 @@ corner_radius_bottom_left = 8
 script = ExtResource("13_tu2id")
 block = ExtResource("12_ypfyi")
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("toggle_settings_action_prompt")]
+[node name="MainMenu" type="Control" unique_id=1731668465 node_paths=PackedStringArray("toggle_settings_action_prompt")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,14 +50,14 @@ music_sound_event = ExtResource("2_8n3sl")
 music_filter_param = ExtResource("3_t2uy2")
 toggle_settings_action_prompt = NodePath("MarginContainer/SettingsActionPrompt")
 
-[node name="StdInputActionSetLoader" type="Control" parent="."]
+[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=2136765376]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1653980891]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,11 +66,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="SettingsMenu" parent="." instance=ExtResource("5_46s0c")]
+[node name="SettingsMenu" parent="." unique_id=978719157 instance=ExtResource("5_46s0c")]
 visible = false
 layout_mode = 1
 
-[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu"]
+[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu" unique_id=331264269]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -80,7 +80,7 @@ disable_on_exit = false
 disable_on_visible = true
 enable_on_hidden = true
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1098207534]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -91,13 +91,13 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 
-[node name="SettingsActionPrompt" parent="MarginContainer" instance=ExtResource("4_4ki2s")]
+[node name="SettingsActionPrompt" parent="MarginContainer" unique_id=849370084 instance=ExtResource("4_4ki2s")]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_as1tw")
+theme_override_styles/panel = SubResource("StyleBoxFlat_bhdsk")
 action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_settings"
 
-[node name="Buttons" type="MarginContainer" parent="."]
+[node name="Buttons" type="MarginContainer" parent="." unique_id=251079390]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -108,23 +108,23 @@ offset_bottom = 62.0
 grow_vertical = 2
 theme_override_constants/margin_left = 48
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Buttons"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons" unique_id=994662135]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Buttons/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Buttons/VBoxContainer" unique_id=1444573680]
 layout_mode = 2
 theme_override_constants/margin_bottom = 32
 
-[node name="Label" type="Label" parent="Buttons/VBoxContainer/MarginContainer"]
+[node name="Label" type="Label" parent="Buttons/VBoxContainer/MarginContainer" unique_id=1128677992]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.401239, 0.456438, 1)
 theme_override_font_sizes/font_size = 64
 text = "main_game_title"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer" unique_id=1611516152]
 layout_mode = 2
 
-[node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=934534422]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Quit")
@@ -132,35 +132,39 @@ theme_type_variation = &"main_menu_button"
 text = "main_play"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" unique_id=809080187 instance=ExtResource("2_1yx6u")]
+layout_mode = 0
 use_as_anchor = true
 
-[node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+[node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=843018477]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"main_menu_button"
 text = "main_options"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" unique_id=462314953 instance=ExtResource("2_1yx6u")]
+layout_mode = 0
 
-[node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+[node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1594725188]
 layout_mode = 2
 theme_type_variation = &"main_menu_button"
 text = "main_patch_notes"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" unique_id=1060823701 instance=ExtResource("2_1yx6u")]
+layout_mode = 0
 
-[node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+[node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1463398586]
 layout_mode = 2
 theme_type_variation = &"main_menu_button"
 text = "main_credits"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" unique_id=1178672076 instance=ExtResource("2_1yx6u")]
+layout_mode = 0
 
-[node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1451101804]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../Play")
@@ -168,22 +172,22 @@ theme_type_variation = &"main_menu_button"
 text = "main_quit"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" instance=ExtResource("2_1yx6u")]
-layout_mode = 2
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" unique_id=184426901 instance=ExtResource("2_1yx6u")]
+layout_mode = 0
 offset_top = -4.0
 offset_right = 496.0
 offset_bottom = -4.0
 
-[node name="Version" parent="." instance=ExtResource("3_b6tfj")]
+[node name="Version" parent="." unique_id=1355348733 instance=ExtResource("3_b6tfj")]
 layout_mode = 1
 offset_left = -96.0
 offset_top = -63.0
 
-[node name="SaveMenu" parent="." instance=ExtResource("7_u240f")]
+[node name="SaveMenu" parent="." unique_id=1328042051 instance=ExtResource("7_u240f")]
 visible = false
 layout_mode = 1
 
-[node name="StdInputActionSetLoader" type="Control" parent="SaveMenu"]
+[node name="StdInputActionSetLoader" type="Control" parent="SaveMenu" unique_id=1108649804]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -192,12 +196,12 @@ action_set_layer = ExtResource("10_y5hy5")
 disable_on_visible = true
 enable_on_hidden = true
 
-[node name="StdConditionParent" type="Node" parent="."]
+[node name="StdConditionParent" type="Node" parent="." unique_id=1706218356]
 script = ExtResource("7_b6iwl")
 expressions_allow = Array[ExtResource("8_bavw3")]([ExtResource("9_vcdle"), ExtResource("10_k0l1f"), ExtResource("10_ux3tr")])
 expressions_block = Array[ExtResource("8_bavw3")]([SubResource("Resource_doihw")])
 
-[node name="BindingPrompt" parent="StdConditionParent" instance=ExtResource("7_2ro8v")]
+[node name="BindingPrompt" parent="StdConditionParent" unique_id=914367542 instance=ExtResource("7_2ro8v")]
 visible = false
 scope = ExtResource("8_44ldu")
 float_under = NodePath("../..")

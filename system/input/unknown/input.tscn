@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cqt14not5nr5d"]
+[gd_scene format=3 uid="uid://cqt14not5nr5d"]
 
 [ext_resource type="Script" uid="uid://c0mqssj1w0y7g" path="res://addons/std/setting/repository.gd" id="1_o5lxa"]
 [ext_resource type="Resource" uid="uid://cdtwq6ojt5vvn" path="res://system/input/scope.tres" id="2_wy44a"]
@@ -26,18 +26,18 @@
 script = ExtResource("8_4utim")
 path = "bindings.dat"
 
-[node name="Input" type="Node"]
+[node name="Input" type="Node" unique_id=652922554]
 
-[node name="StdSettingsRepository" type="Node" parent="."]
+[node name="StdSettingsRepository" type="Node" parent="." unique_id=143911216]
 script = ExtResource("1_o5lxa")
 scope = ExtResource("2_wy44a")
 
-[node name="InputCursor" type="Node" parent="."]
+[node name="InputCursor" type="Node" parent="." unique_id=1318947749]
 script = ExtResource("3_vy78x")
 
-[node name="InputSlots" type="Node" parent="."]
+[node name="InputSlots" type="Node" parent="." unique_id=1793035678]
 
-[node name="Player1" type="Node" parent="InputSlots" node_paths=PackedStringArray("cursor", "joypad_monitor", "actions_kbm", "glyphs_kbm", "haptics_kbm", "actions_joy", "glyphs_joy", "haptics_joy")]
+[node name="Player1" type="Node" parent="InputSlots" unique_id=329427534 node_paths=PackedStringArray("cursor", "joypad_monitor", "actions_kbm", "glyphs_kbm", "haptics_kbm", "actions_joy", "glyphs_joy", "haptics_joy")]
 script = ExtResource("4_l68v1")
 haptics_disabled_property = ExtResource("5_4h4lb")
 haptics_strength_property = ExtResource("6_6x4ah")
@@ -50,26 +50,26 @@ actions_joy = NodePath("../../Godot/Components/Actions")
 glyphs_joy = NodePath("../../Godot/Components/Glyphs")
 haptics_joy = NodePath("../../Godot/Components/Haptics")
 
-[node name="Godot" type="Node" parent="."]
+[node name="Godot" type="Node" parent="." unique_id=45334316]
 
-[node name="StdSettingsRepository" type="Node" parent="Godot"]
+[node name="StdSettingsRepository" type="Node" parent="Godot" unique_id=1458938025]
 script = ExtResource("1_o5lxa")
 scope = ExtResource("7_b8ikv")
 sync_target = SubResource("Resource_x0eet")
 
-[node name="JoypadMonitor" type="Node" parent="Godot"]
+[node name="JoypadMonitor" type="Node" parent="Godot" unique_id=1934607391]
 script = ExtResource("9_lnlo2")
 
-[node name="Components" type="Node" parent="Godot"]
+[node name="Components" type="Node" parent="Godot" unique_id=1006044869]
 
-[node name="Actions" type="Node" parent="Godot/Components"]
+[node name="Actions" type="Node" parent="Godot/Components" unique_id=1996828273]
 script = ExtResource("10_nwnd3")
 scope = ExtResource("7_b8ikv")
 
-[node name="Glyphs" type="Node" parent="Godot/Components"]
+[node name="Glyphs" type="Node" parent="Godot/Components" unique_id=753274331]
 script = ExtResource("11_jrs12")
 scope = ExtResource("7_b8ikv")
 glyph_sets = Array[ExtResource("12_u23yc")]([ExtResource("13_fgh4t"), ExtResource("14_dt76g"), ExtResource("15_eiij3"), ExtResource("16_l7ind"), ExtResource("17_68hgc"), ExtResource("18_prtsx"), ExtResource("19_r1fof"), ExtResource("20_fkhpl")])
 
-[node name="Haptics" type="Node" parent="Godot/Components"]
+[node name="Haptics" type="Node" parent="Godot/Components" unique_id=164391042]
 script = ExtResource("21_wqjmf")

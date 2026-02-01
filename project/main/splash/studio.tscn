@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://40v44woa2bub"]
+[gd_scene format=3 uid="uid://40v44woa2bub"]
 
 [ext_resource type="Script" uid="uid://bx84q1fdpup1y" path="res://project/main/splash/splash.gd" id="1_0cd10"]
 [ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_xiiry"]
 
-[node name="Studio" type="Control"]
+[node name="Studio" type="Control" unique_id=1948946235]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,10 +14,10 @@ mouse_force_pass_scroll_events = false
 script = ExtResource("1_0cd10")
 scene_handle = NodePath("SceneHandle")
 
-[node name="SceneHandle" type="Node" parent="."]
+[node name="SceneHandle" type="Node" parent="." unique_id=462135045]
 script = ExtResource("2_xiiry")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1387041511]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="ColorRect"]
+[node name="Label" type="Label" parent="ColorRect" unique_id=1201767323]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

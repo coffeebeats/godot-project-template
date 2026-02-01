@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdSoundGroup" load_steps=2 format=3 uid="uid://qhsnu8axd0er"]
+[gd_resource type="Resource" script_class="StdSoundGroup" format=3 uid="uid://qhsnu8axd0er"]
 
 [ext_resource type="Script" uid="uid://ca8ufw3i0ul2m" path="res://addons/std/sound/group.gd" id="1_4w8xf"]
 

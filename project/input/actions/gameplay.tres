@@ -1,21 +1,7 @@
-[gd_resource type="Resource" script_class="StdInputActionSet" load_steps=2 format=3 uid="uid://c6ihq60tiqoap"]
+[gd_resource type="Resource" script_class="StdInputActionSet" format=3 uid="uid://c6ihq60tiqoap"]
 
 [ext_resource type="Script" uid="uid://cljg7byxqnq7d" path="res://addons/std/input/action_set.gd" id="1_tj0kr"]
 
 [resource]
 script = ExtResource("1_tj0kr")
 name = &"Gameplay"
-actions_analog_1d = Array[StringName]([])
-actions_analog_2d = Array[StringName]([])
-actions_digital = Array[StringName]([])
-cursor_confined = false
-cursor_captured = false
-cursor_activates_kbm = 0
-cursor_hide_actions = Array[StringName]([])
-cursor_hide_actions_if_hovered = Array[StringName]([])
-cursor_hide_delay = 0.0
-cursor_reveal_mouse_buttons = Array[int]([1, 2])
-cursor_reveal_distance_minimum = Vector2(0, 0)
-action_absolute_mouse = &""
-version_major = 0
-version_minor = 0

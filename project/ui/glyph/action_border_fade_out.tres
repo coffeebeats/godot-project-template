@@ -1,11 +1,8 @@
-[gd_resource type="Resource" script_class="AnimationBorderFade" load_steps=2 format=3 uid="uid://q35clnd6xfgg"]
+[gd_resource type="Resource" script_class="AnimationBorderFade" format=3 uid="uid://q35clnd6xfgg"]
 
 [ext_resource type="Script" uid="uid://cp3bmhip3v3go" path="res://project/ui/animation/border_fade.gd" id="1_4s1tv"]
 
 [resource]
 script = ExtResource("1_4s1tv")
-color = Color(1, 1, 1, 0)
-delay = 0.0
 duration = 0.16
-ease_type = 1
 transition_type = 3

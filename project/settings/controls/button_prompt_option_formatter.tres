@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c750nhjvglhky"]
+[gd_resource type="Resource" format=3 uid="uid://c750nhjvglhky"]
 
 [ext_resource type="Script" uid="uid://dpslqbfno12hr" path="res://project/settings/controls/button_prompt_option_formatter.gd" id="1_xyhvm"]
 

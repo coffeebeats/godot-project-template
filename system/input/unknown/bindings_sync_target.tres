@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdSettingsSyncTargetFile" load_steps=2 format=3 uid="uid://bf20k1naxk6qi"]
+[gd_resource type="Resource" script_class="StdSettingsSyncTargetFile" format=3 uid="uid://bf20k1naxk6qi"]
 
 [ext_resource type="Script" uid="uid://b06ciwqtuf5kw" path="res://addons/std/setting/sync_target_file.gd" id="1_b5575"]
 

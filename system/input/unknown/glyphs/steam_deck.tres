@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdInputGlyphSetJoy" load_steps=19 format=3 uid="uid://mdxuupb3ney"]
+[gd_resource type="Resource" script_class="StdInputGlyphSetJoy" format=3 uid="uid://mdxuupb3ney"]
 
 [ext_resource type="Texture2D" uid="uid://dfy2qw73mqyxc" path="res://system/input/unknown/glyphs/steam_deck/l2.png" id="1_bos43"]
 [ext_resource type="Script" uid="uid://dwegvnph8yf3c" path="res://addons/std/input/godot/glyph_set_joy.gd" id="1_c61uw"]

@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3mphbwxprcqi"]
+[gd_scene format=3 uid="uid://d3mphbwxprcqi"]
 
 [ext_resource type="PackedScene" uid="uid://beb4vb4fgtaik" path="res://platform/storefront/storefront.tscn" id="1_dcwh7"]
 [ext_resource type="Script" uid="uid://dusjuft4fhdos" path="res://platform/platform.gd" id="1_k54xk"]
 [ext_resource type="PackedScene" uid="uid://d11g4egdkq7ws" path="res://platform/profile/profile.tscn" id="3_w460j"]
 
-[node name="Platform" type="Node"]
+[node name="Platform" type="Node" unique_id=1200287253]
 process_mode = 3
 script = ExtResource("1_k54xk")
 
-[node name="Storefront" parent="." instance=ExtResource("1_dcwh7")]
+[node name="Storefront" parent="." unique_id=417149032 instance=ExtResource("1_dcwh7")]
 
-[node name="Profile" parent="." instance=ExtResource("3_w460j")]
+[node name="Profile" parent="." unique_id=1114742428 instance=ExtResource("3_w460j")]
