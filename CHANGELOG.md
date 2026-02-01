@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.1 (2026-02-01)
+
+## What's Changed
+* chore(addons): update `std` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/380
+* chore: upgrade project files by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/382
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.0.0...v4.0.1
+
 ## 4.0.0 (2026-01-30)
 
 ## What's Changed
