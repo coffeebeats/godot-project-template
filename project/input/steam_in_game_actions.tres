@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=7 format=3 uid="uid://7d4i7q2cv413"]
+[gd_resource type="Resource" format=3 uid="uid://7d4i7q2cv413"]
 
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="1_cs3a2"]
 [ext_resource type="Resource" uid="uid://dp0wxxg20ablh" path="res://project/input/actions/menu_tabbed.tres" id="2_5jpdx"]
@@ -9,7 +9,6 @@
 
 [resource]
 script = ExtResource("6_yifha")
-app_id = 480
 action_sets = Array[ExtResource("3_e8ygo")]([ExtResource("4_jtdgy")])
 action_set_layers = Array[ExtResource("1_cs3a2")]([ExtResource("3_kjexe"), ExtResource("2_5jpdx")])
 locales = {

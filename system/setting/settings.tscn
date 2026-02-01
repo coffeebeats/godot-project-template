@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cjb8nitks0be0"]
+[gd_scene format=3 uid="uid://cjb8nitks0be0"]
 
 [ext_resource type="Script" uid="uid://c0mqssj1w0y7g" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/project_settings_scope.tres" id="3_q5d07"]
@@ -34,71 +34,71 @@ script = ExtResource("4_v73tc")
 script = ExtResource("5_ndmkn")
 path = "settings.dat"
 
-[node name="Settings" type="Node"]
+[node name="Settings" type="Node" unique_id=263457730]
 
-[node name="ProjectSettingsScope" type="Node" parent="."]
+[node name="ProjectSettingsScope" type="Node" parent="." unique_id=1739494578]
 script = ExtResource("2_0mjau")
 scope = ExtResource("3_q5d07")
 sync_target = SubResource("Resource_017p8")
 
-[node name="UserSettingsScope" type="Node" parent="."]
+[node name="UserSettingsScope" type="Node" parent="." unique_id=1518754609]
 script = ExtResource("2_0mjau")
 scope = ExtResource("4_pkd6u")
 sync_target = SubResource("Resource_6qwa4")
 
-[node name="Observers" type="Node" parent="."]
+[node name="Observers" type="Node" parent="." unique_id=1597625148]
 
-[node name="Audio" type="Node" parent="Observers"]
+[node name="Audio" type="Node" parent="Observers" unique_id=2020556870]
 
-[node name="SoundDevice" type="Node" parent="Observers/Audio"]
+[node name="SoundDevice" type="Node" parent="Observers/Audio" unique_id=1761083423]
 script = ExtResource("5_3q6ut")
 output_device = ExtResource("6_tcob2")
 
-[node name="Mute" type="Node" parent="Observers/Audio"]
+[node name="Mute" type="Node" parent="Observers/Audio" unique_id=1606389061]
 script = ExtResource("7_nt3tl")
 background_property = ExtResource("8_fchdv")
 global_property = ExtResource("9_qp2op")
 
-[node name="Volume" type="Node" parent="Observers/Audio"]
+[node name="Volume" type="Node" parent="Observers/Audio" unique_id=1100638547]
 
-[node name="Master" type="Node" parent="Observers/Audio/Volume"]
+[node name="Master" type="Node" parent="Observers/Audio/Volume" unique_id=1966514014]
 script = ExtResource("9_2opf3")
 bus = &"Master"
 property = ExtResource("10_edgrp")
 
-[node name="Music" type="Node" parent="Observers/Audio/Volume"]
+[node name="Music" type="Node" parent="Observers/Audio/Volume" unique_id=1990203540]
 script = ExtResource("9_2opf3")
 bus = &"music"
 property = ExtResource("11_1jdvh")
 
-[node name="SoundEffects" type="Node" parent="Observers/Audio/Volume"]
+[node name="SoundEffects" type="Node" parent="Observers/Audio/Volume" unique_id=1508808641]
 script = ExtResource("9_2opf3")
 bus = &"sound_effects"
 property = ExtResource("12_hl0tw")
 
-[node name="Voice" type="Node" parent="Observers/Audio/Volume"]
+[node name="Voice" type="Node" parent="Observers/Audio/Volume" unique_id=258614105]
 script = ExtResource("9_2opf3")
 bus = &"voice"
 property = ExtResource("13_luwqe")
 
-[node name="Video" type="Node" parent="Observers"]
+[node name="Video" type="Node" parent="Observers" unique_id=1937229921]
 
-[node name="FPS" type="Node" parent="Observers/Video"]
+[node name="FPS" type="Node" parent="Observers/Video" unique_id=1722014008]
 script = ExtResource("15_rqncv")
 vsync_property = ExtResource("16_hkpcf")
 frame_limit_property = ExtResource("17_s141t")
 
-[node name="WindowMode" type="Node" parent="Observers/Video"]
+[node name="WindowMode" type="Node" parent="Observers/Video" unique_id=973592453]
 script = ExtResource("18_d4nyg")
 fullscreen_property = ExtResource("19_sp5q8")
 borderless_property = ExtResource("20_pmh6n")
 window_mode_property = ExtResource("21_75euv")
 
-[node name="Interface" type="Node" parent="Observers"]
+[node name="Interface" type="Node" parent="Observers" unique_id=806725068]
 
-[node name="FontScalingObserver" parent="Observers/Interface" instance=ExtResource("23_hkn71")]
+[node name="FontScalingObserver" parent="Observers/Interface" unique_id=1736083344 instance=ExtResource("23_hkn71")]
 
-[node name="LanguageObserver" type="Node" parent="Observers/Interface"]
+[node name="LanguageObserver" type="Node" parent="Observers/Interface" unique_id=561636359]
 script = ExtResource("24_5inwc")
 language_property = ExtResource("25_3mnqu")
 language_options_property = ExtResource("26_juwf4")

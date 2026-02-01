@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://utcvvr2uv6jr"]
+[gd_scene format=3 uid="uid://utcvvr2uv6jr"]
 
 [ext_resource type="Script" uid="uid://invdsea0m26l" path="res://project/ui/input/slider.gd" id="1_7861e"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_5m6je"]
 
-[node name="Slider" type="HBoxContainer"]
+[node name="Slider" type="HBoxContainer" unique_id=808693403]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,15 +13,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 script = ExtResource("1_7861e")
 
-[node name="HSlider" type="HSlider" parent="."]
+[node name="HSlider" type="HSlider" parent="." unique_id=2127934768]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 9.0
 
-[node name="FocusHandler" parent="HSlider" instance=ExtResource("2_5m6je")]
+[node name="FocusHandler" parent="HSlider" unique_id=1272590389 instance=ExtResource("2_5m6je")]
+layout_mode = 0
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1886732228]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"

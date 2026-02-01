@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdInputGlyphSetKeyboard" load_steps=6 format=3 uid="uid://b44qdvqphojjq"]
+[gd_resource type="Resource" script_class="StdInputGlyphSetKeyboard" format=3 uid="uid://b44qdvqphojjq"]
 
 [ext_resource type="Script" uid="uid://hlx0eyayl8kx" path="res://addons/std/input/godot/glyph_set_keyboard.gd" id="1_0lsdi"]
 [ext_resource type="Texture2D" uid="uid://bs2yk443qpqe0" path="res://system/input/unknown/glyphs/keyboard/arrow_down.png" id="1_iu2x6"]

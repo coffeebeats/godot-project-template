@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhyjkxpbfsy81"]
+[gd_scene format=3 uid="uid://dhyjkxpbfsy81"]
 
 [ext_resource type="Script" uid="uid://cpk1m72vbjxji" path="res://project/main/main.gd" id="1_gcs5q"]
 [ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="1_vu0ul"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://cdc3tk0ddrr18" path="res://addons/std/scene/state/splash.gd" id="6_stj23"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="7_camuk"]
 
-[node name="Main" type="ColorRect"]
+[node name="Main" type="ColorRect" unique_id=1019467248]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,88 +20,88 @@ theme = ExtResource("1_vu0ul")
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_gcs5q")
 
-[node name="GameRoot" type="Node" parent="."]
+[node name="GameRoot" type="Node" parent="." unique_id=233593833]
 
-[node name="Scene" type="Node" parent="."]
+[node name="Scene" type="Node" parent="." unique_id=773462381]
 script = ExtResource("2_e2317")
 game_root = NodePath("../GameRoot")
 initial = NodePath("Boot/Init")
 compact = false
 process_callback = 1
 
-[node name="Boot" type="Node" parent="Scene"]
+[node name="Boot" type="Node" parent="Scene" unique_id=1895923738]
 script = ExtResource("3_t3x0b")
 track_direct_only = false
 track_extra = Array[NodePath]([NodePath("../Main")])
 
-[node name="Init" type="Node" parent="Scene/Boot"]
+[node name="Init" type="Node" parent="Scene/Boot" unique_id=285257368]
 script = ExtResource("4_phfq2")
 to = NodePath("../Studio/Transition")
 
-[node name="Studio" type="Node" parent="Scene/Boot"]
+[node name="Studio" type="Node" parent="Scene/Boot" unique_id=257058037]
 script = ExtResource("3_t3x0b")
 
-[node name="Transition" type="Node" parent="Scene/Boot/Studio"]
+[node name="Transition" type="Node" parent="Scene/Boot/Studio" unique_id=654751356]
 script = ExtResource("4_vah31")
 fade_in = false
 to = NodePath("../Splash")
 
-[node name="Splash" type="Node" parent="Scene/Boot/Studio"]
+[node name="Splash" type="Node" parent="Scene/Boot/Studio" unique_id=1951619536]
 script = ExtResource("6_stj23")
 to = NodePath("../../Godot/Transition")
 duration_minimum_enabled = false
 action_set = ExtResource("7_camuk")
 scene = "res://project/main/splash/studio.tscn"
 
-[node name="Godot" type="Node" parent="Scene/Boot"]
+[node name="Godot" type="Node" parent="Scene/Boot" unique_id=652671801]
 script = ExtResource("3_t3x0b")
 
-[node name="Transition" type="Node" parent="Scene/Boot/Godot"]
+[node name="Transition" type="Node" parent="Scene/Boot/Godot" unique_id=1150679326]
 script = ExtResource("4_vah31")
 to = NodePath("../Splash")
 
-[node name="Splash" type="Node" parent="Scene/Boot/Godot"]
+[node name="Splash" type="Node" parent="Scene/Boot/Godot" unique_id=700904787]
 script = ExtResource("6_stj23")
 to = NodePath("../../../Main/Transition")
 duration_minimum_enabled = false
 action_set = ExtResource("7_camuk")
 scene = "res://project/main/splash/godot.tscn"
 
-[node name="Main" type="Node" parent="Scene"]
+[node name="Main" type="Node" parent="Scene" unique_id=1410499686]
 script = ExtResource("3_t3x0b")
 
-[node name="Transition" type="Node" parent="Scene/Main"]
+[node name="Transition" type="Node" parent="Scene/Main" unique_id=867881160]
 script = ExtResource("4_vah31")
 fade_out_duration = 0.45
 to = NodePath("../Menu")
 
-[node name="Menu" type="Node" parent="Scene/Main"]
+[node name="Menu" type="Node" parent="Scene/Main" unique_id=1450684892]
 script = ExtResource("5_wtlwn")
 action_set = ExtResource("7_camuk")
 scene = "res://project/main/menu/main_menu.tscn"
 
-[node name="Core" type="Node" parent="Scene"]
+[node name="Core" type="Node" parent="Scene" unique_id=1603459682]
 script = ExtResource("3_t3x0b")
 track_extra = Array[NodePath]([NodePath("Map/Scene")])
 
-[node name="Loading" type="Node" parent="Scene/Core"]
+[node name="Loading" type="Node" parent="Scene/Core" unique_id=635590119]
 script = ExtResource("3_t3x0b")
 
-[node name="Transition" type="Node" parent="Scene/Core/Loading"]
+[node name="Transition" type="Node" parent="Scene/Core/Loading" unique_id=746031691]
 script = ExtResource("4_vah31")
 
-[node name="Scene" type="Node" parent="Scene/Core/Loading"]
+[node name="Scene" type="Node" parent="Scene/Core/Loading" unique_id=811759997]
 script = ExtResource("5_wtlwn")
 scene = "res://project/main/load/loading.tscn"
 
-[node name="Map" type="Node" parent="Scene/Core"]
+[node name="Map" type="Node" parent="Scene/Core" unique_id=1626251773]
 script = ExtResource("3_t3x0b")
 
-[node name="Transition" type="Node" parent="Scene/Core/Map"]
+[node name="Transition" type="Node" parent="Scene/Core/Map" unique_id=217960821]
 script = ExtResource("4_vah31")
 fade_out_duration = 0.45
 to = NodePath("../Scene")
 
-[node name="Scene" type="Node" parent="Scene/Core/Map"]
+[node name="Scene" type="Node" parent="Scene/Core/Map" unique_id=1355124457]
 script = ExtResource("5_wtlwn")
 scene = "res://project/maps/example/scene.tscn"

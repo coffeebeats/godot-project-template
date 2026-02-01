@@ -1,21 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://duam2ndvsfv4n"]
+[gd_scene format=3 uid="uid://duam2ndvsfv4n"]
 
 [ext_resource type="StyleBox" uid="uid://jmrm1ys43asj" path="res://project/ui/input/prompt_focus_stylebox.tres" id="2_c4fog"]
 [ext_resource type="StyleBox" uid="uid://cisw7f1h6xhg6" path="res://project/ui/input/prompt_disabled_stylebox.tres" id="3_w0nrd"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_v3lm1"]
 [ext_resource type="StyleBox" uid="uid://djr3hwo2qfl8c" path="res://project/ui/input/prompt_normal_stylebox.tres" id="4_wx8g5"]
 
-[node name="Prompt" type="Button"]
+[node name="Prompt" type="Button" unique_id=570963603]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/focus = ExtResource("2_c4fog")
-theme_override_styles/disabled = ExtResource("3_w0nrd")
-theme_override_styles/hover = ExtResource("2_c4fog")
-theme_override_styles/pressed = ExtResource("2_c4fog")
 theme_override_styles/normal = ExtResource("4_wx8g5")
+theme_override_styles/pressed = ExtResource("2_c4fog")
+theme_override_styles/hover = ExtResource("2_c4fog")
+theme_override_styles/disabled = ExtResource("3_w0nrd")
+theme_override_styles/focus = ExtResource("2_c4fog")
 action_mode = 0
 
-[node name="FocusHandler" parent="." instance=ExtResource("4_v3lm1")]
+[node name="FocusHandler" parent="." unique_id=976075707 instance=ExtResource("4_v3lm1")]
+layout_mode = 0

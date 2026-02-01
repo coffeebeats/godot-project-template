@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1c0jg2hh82bk"]
+[gd_scene format=3 uid="uid://b1c0jg2hh82bk"]
 
 [ext_resource type="Script" uid="uid://bpv2u2634wwd8" path="res://project/maps/example/scene.gd" id="1_knflt"]
 [ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_fl1o7"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_dn1hj"]
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="6_qem4v"]
 
-[node name="Scene" type="Control" node_paths=PackedStringArray("scene_handle")]
+[node name="Scene" type="Control" unique_id=39035883 node_paths=PackedStringArray("scene_handle")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,15 +18,15 @@ grow_vertical = 2
 script = ExtResource("1_knflt")
 scene_handle = NodePath("SceneHandle")
 
-[node name="SceneHandle" type="Node" parent="."]
+[node name="SceneHandle" type="Node" parent="." unique_id=946670774]
 script = ExtResource("2_fl1o7")
 
-[node name="SettingsMenu" parent="." instance=ExtResource("5_dn1hj")]
+[node name="SettingsMenu" parent="." unique_id=1872942141 instance=ExtResource("5_dn1hj")]
 visible = false
 layout_mode = 1
 float_under = NodePath("/root")
 
-[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu"]
+[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu" unique_id=1571438221]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -38,7 +38,7 @@ disable_on_exit = false
 disable_on_visible = true
 enable_on_hidden = true
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=205331159]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,17 +46,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=707813991]
 layout_mode = 2
 
-[node name="Return" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Return" type="Button" parent="CenterContainer/VBoxContainer" unique_id=308746856]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 text = "BACK TO MENU"
 
-[node name="Counter" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Counter" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2050461000]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 96
@@ -64,47 +64,45 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1836064892]
 layout_mode = 2
 theme_override_constants/separation = 128
 
-[node name="Reset" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="Reset" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=220443106]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "RESET"
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer/Reset"]
+[node name="StdInputCursorFocusHandler" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer/Reset" unique_id=1820484797]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_g63gs")
 
-[node name="Increment" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="Increment" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1004891501]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "INCREMENT"
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer/Increment"]
-layout_mode = 3
+[node name="StdInputCursorFocusHandler" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer/Increment" unique_id=41566275]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_g63gs")
 use_as_anchor = true
 
-[node name="Save" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="Save" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1665016289]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SAVE"
 
-[node name="StdInputCursorFocusHandler" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer/Save"]
-layout_mode = 3
+[node name="StdInputCursorFocusHandler" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer/Save" unique_id=964783613]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

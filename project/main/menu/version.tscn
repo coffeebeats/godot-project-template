@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7tg585pnpptu"]
+[gd_scene format=3 uid="uid://c7tg585pnpptu"]
 
 [ext_resource type="Script" uid="uid://dmh27g6qd5y6l" path="res://project/main/menu/version.gd" id="1_mkj2u"]
 
-[node name="Version" type="MarginContainer"]
+[node name="Version" type="MarginContainer" unique_id=798310517]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -16,7 +16,7 @@ theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 script = ExtResource("1_mkj2u")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=417231823]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.87451, 0.87451, 0.87451, 1)
 theme_override_font_sizes/font_size = 24

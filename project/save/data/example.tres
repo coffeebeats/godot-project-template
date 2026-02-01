@@ -1,7 +1,6 @@
-[gd_resource type="Resource" script_class="ProjectExampleData" load_steps=2 format=3 uid="uid://d03xbqr7d6ook"]
+[gd_resource type="Resource" script_class="ProjectExampleData" format=3 uid="uid://d03xbqr7d6ook"]
 
 [ext_resource type="Script" uid="uid://da2igekcwq22n" path="res://project/save/data/example.gd" id="1_4bm2m"]
 
 [resource]
 script = ExtResource("1_4bm2m")
-count = 0

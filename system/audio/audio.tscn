@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://0ngaobv7ydln"]
+[gd_scene format=3 uid="uid://0ngaobv7ydln"]
 
 [ext_resource type="Script" uid="uid://c5vcj0wbm2cuv" path="res://system/audio/audio.gd" id="1_k2ot4"]
 [ext_resource type="Script" uid="uid://jawae4cgr3ug" path="res://addons/std/sound/pool_1d.gd" id="2_rkmwc"]
 [ext_resource type="Script" uid="uid://dgdx1r08mvcut" path="res://addons/std/sound/pool_2d.gd" id="3_sjdwr"]
 
-[node name="Audio" type="Node" node_paths=PackedStringArray("pool_1d", "pool_2d")]
+[node name="Audio" type="Node" unique_id=1647920501 node_paths=PackedStringArray("pool_1d", "pool_2d")]
 script = ExtResource("1_k2ot4")
 pool_1d = NodePath("StdAudioStreamPlayerPool1D")
 pool_2d = NodePath("StdAudioStreamPlayerPool2D")
 
-[node name="StdAudioStreamPlayerPool1D" type="Node" parent="."]
+[node name="StdAudioStreamPlayerPool1D" type="Node" parent="." unique_id=1249368829]
 script = ExtResource("2_rkmwc")
 size = 16
 
-[node name="StdAudioStreamPlayerPool2D" type="Node" parent="."]
+[node name="StdAudioStreamPlayerPool2D" type="Node" parent="." unique_id=278484702]
 script = ExtResource("3_sjdwr")
 size = 32

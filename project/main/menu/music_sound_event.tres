@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdSoundEvent1D" load_steps=6 format=3 uid="uid://kyseye3m4vnh"]
+[gd_resource type="Resource" script_class="StdSoundEvent1D" format=3 uid="uid://kyseye3m4vnh"]
 
 [ext_resource type="Script" uid="uid://d1xoiydhcd054" path="res://addons/std/sound/param.gd" id="1_8v2j8"]
 [ext_resource type="Resource" uid="uid://gx272ks0sjxw" path="res://project/main/menu/music_bus.tres" id="1_g5bha"]
@@ -8,8 +8,6 @@
 
 [resource]
 script = ExtResource("2_2bfv3")
-mix_target = 0
-pitch_scale = 1.0
 stream = ExtResource("3_prly7")
 volume_db = -5.377
 bus = ExtResource("1_g5bha")
