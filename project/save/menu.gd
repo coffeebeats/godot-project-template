@@ -1,5 +1,5 @@
 ##
-## project/save/save_slots.gd
+## project/save/menu.gd
 ##
 ## SaveSlots is a menu which displays save slot information and, upon selecting one,
 ## proceeds to load the game scene.
@@ -9,15 +9,7 @@ extends PanelContainer
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const SceneHandle := preload("res://addons/std/scene/handle.gd")
-const Saves := preload("res://system/save/saves.gd")
 const SlotButton := preload("slot_button.gd")
-
-# -- CONFIGURATION ------------------------------------------------------------------- #
-
-## scene_handle is an `std` scene handle used to emit transition events to the main
-## scene state machine.
-@export var scene_handle: SceneHandle = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -28,8 +20,6 @@ const SlotButton := preload("slot_button.gd")
 
 
 func _ready():
-	assert(scene_handle is SceneHandle, "invalid state; missing node")
-
 	for child in _slot_buttons.get_children():
 		var button: SlotButton = child
 		if not button is SlotButton:
@@ -44,7 +34,7 @@ func _ready():
 		if not button is Button:
 			continue
 
-		button.disabled = (saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY)
+		button.disabled = saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY
 		button.pressed.connect(_on_delete_button_pressed.bind(button, slot))
 
 
@@ -63,7 +53,4 @@ func _on_delete_button_pressed(button: Button, slot: int) -> void:
 
 
 func _on_slot_button_pressed(slot: int) -> void:
-	if not Systems.saves().activate_slot(slot):
-		return
-
-	scene_handle.transition_to(^"Core/Loading/Scene")
+	Main.load_game(slot)

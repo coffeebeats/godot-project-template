@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://40v44woa2bub"]
 
 [ext_resource type="Script" uid="uid://bx84q1fdpup1y" path="res://project/main/splash/splash.gd" id="1_0cd10"]
-[ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_xiiry"]
+[ext_resource type="Resource" uid="uid://dya1kttgcn4aq" path="res://project/input/actions/splash.tres" id="2_splash"]
 
 [node name="Studio" type="Control" unique_id=1948946235]
 layout_mode = 3
@@ -12,10 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_0cd10")
-scene_handle = NodePath("SceneHandle")
-
-[node name="SceneHandle" type="Node" parent="." unique_id=462135045]
-script = ExtResource("2_xiiry")
+action_set = ExtResource("2_splash")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1387041511]
 layout_mode = 1
