@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StdScreen" format=3 uid="uid://csn4p8wrtq2la"]
+
+[ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
+[ext_resource type="Script" uid="uid://dtp4i5p0uy2l6" path="res://addons/std/screen/transitions/fade.gd" id="2_fade"]
+
+[sub_resource type="Resource" id="SubResource_enter"]
+script = ExtResource("2_fade")
+
+[sub_resource type="Resource" id="SubResource_exit"]
+script = ExtResource("2_fade")
+ease_type = 1
+
+[resource]
+script = ExtResource("1_screen")
+scene_path = "res://project/main/splash/godot.tscn"
+transition_enter = SubResource("SubResource_enter")
+transition_exit = SubResource("SubResource_exit")
