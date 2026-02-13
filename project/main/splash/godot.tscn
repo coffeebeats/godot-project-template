@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bx84q1fdpup1y" path="res://project/main/splash/splash.gd" id="1_8c8m0"]
 [ext_resource type="Texture2D" uid="uid://daqs208dteesh" path="res://project/main/splash/original-horizontal-light.svg" id="2_1jnaj"]
-[ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_jtjbe"]
+[ext_resource type="Resource" uid="uid://dya1kttgcn4aq" path="res://project/input/actions/splash.tres" id="3_splash"]
 
 [node name="Godot" type="Control" unique_id=779243180]
 layout_mode = 3
@@ -13,10 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_8c8m0")
-scene_handle = NodePath("SceneHandle")
-
-[node name="SceneHandle" type="Node" parent="." unique_id=1894343906]
-script = ExtResource("2_jtjbe")
+action_set = ExtResource("3_splash")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=790969715]
 layout_mode = 1

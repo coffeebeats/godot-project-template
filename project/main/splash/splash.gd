@@ -1,51 +1,103 @@
 ##
 ## project/main/splash/splash.gd
 ##
-## Splash implements a splash screen scene.
+## Splash implements a splash screen scene. It emits a signal when the splash advances,
+## either by user input or after a timeout.
 ##
 
 extends Control
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
+# -- SIGNALS ------------------------------------------------------------------------- #
 
-const AdvanceEvent := preload("res://addons/std/scene/event/advance.gd")
-const SceneHandle := preload("res://addons/std/scene/handle.gd")
+## advanced is emitted once when the splash advances (user input or timeout).
+signal advanced
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## scene_handle is a node path to a 'godot-plugin-std' scene handle used to emit
-## transition events to the main scene state machine.
-@export_node_path var scene_handle := NodePath()
+## action_set is the input action set loaded during the splash screen. All digital
+## actions in it trigger advancement.
+@export var action_set: StdInputActionSet = null
 
-## actions_advance is the list of action names which, when activated, will advance the
-## splash screen to the next scene state.
-@export var actions_advance := PackedStringArray(["ui_accept", "ui_cancel"])
+## player_id is the player whose input slot loads the action set.
+@export var player_id: int = 1
+
+@export_group("Duration")
+
+## duration is the auto-advance timeout in seconds. Floored to 'duration_min'.
+@export var duration: float = 3.0:
+	set(value):
+		duration = maxf(value, duration_min)
+
+## duration_min is the minimum elapsed time before user input can advance the splash.
+## Capped to 'duration'.
+@export var duration_min: float = 0.5:
+	set(value):
+		duration_min = minf(value, duration)
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-@onready var _scene_handle: SceneHandle = get_node_or_null(scene_handle)
+var _elapsed: float = 0.0
+var _has_advanced: bool = false
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
 func _gui_input(event: InputEvent) -> void:
+	if _has_advanced:
+		return
+
+	if _elapsed < duration_min:
+		return
+
 	if (
 		event is InputEventMouseButton
 		and event.button_index == MOUSE_BUTTON_LEFT
 		and event.pressed
 	):
 		accept_event()
-		_scene_handle.advance()
+		_advance()
 
 
-func _input(event: InputEvent) -> void:
-	if (
-		(event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT)
-		or Array(actions_advance).any(func(a): return event.is_action_pressed(a))
-	):
-		get_viewport().set_input_as_handled()
-		_scene_handle.advance()
+func _unhandled_input(event: InputEvent) -> void:
+	if _has_advanced or _elapsed < duration_min:
+		return
+
+	if not action_set:
+		assert(false, "invalid state; missing action set")
+		return
+
+	for action in action_set.actions_digital:
+		if event.is_action_pressed(action):
+			if _elapsed < duration_min:
+				return
+
+			get_viewport().set_input_as_handled()
+			_advance()
+			return
+
+
+func _process(delta: float) -> void:
+	_elapsed += delta
 
 
 func _ready() -> void:
-	assert(_scene_handle, "invalid config; missing scene handle")
+	assert(action_set is StdInputActionSet, "invalid config; missing action set")
+
+	var slot := StdInputSlot.for_player(player_id)
+	if slot:
+		slot.load_action_set(action_set)
+
+	get_tree().create_timer(duration).timeout.connect(_advance)
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _advance() -> void:
+	if _has_advanced:
+		return
+
+	set_process_unhandled_input(false)
+
+	_has_advanced = true
+	advanced.emit()
