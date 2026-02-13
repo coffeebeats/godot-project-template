@@ -2,20 +2,15 @@
 
 [ext_resource type="Script" uid="uid://e65imwf654xt" path="res://project/save/menu.gd" id="1_sihek"]
 [ext_resource type="PackedScene" uid="uid://du65ljq0jsyh" path="res://project/ui/modal/menu.tscn" id="1_snn16"]
-[ext_resource type="Script" uid="uid://c84mmkfcun3hb" path="res://addons/std/scene/handle.gd" id="2_bgb2t"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="3_842n5"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_dj346"]
 
 [node name="SaveMenu" unique_id=1378050496 instance=ExtResource("1_snn16")]
 
-[node name="PanelContainer" parent="CenterContainer" parent_id_path=PackedInt32Array(1908670846) index="0" unique_id=2143531255 node_paths=PackedStringArray("scene_handle")]
+[node name="PanelContainer" parent="CenterContainer" parent_id_path=PackedInt32Array(1908670846) index="0" unique_id=2143531255]
 script = ExtResource("1_sihek")
-scene_handle = NodePath("SceneHandle")
 
-[node name="SceneHandle" type="Node" parent="CenterContainer/PanelContainer" index="0" unique_id=653485449]
-script = ExtResource("2_bgb2t")
-
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="1" unique_id=2108103297]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" index="0" unique_id=2108103297]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32

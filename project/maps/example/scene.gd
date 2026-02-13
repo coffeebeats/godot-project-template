@@ -9,12 +9,6 @@ extends Control
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
-const SceneHandle := preload("res://addons/std/scene/handle.gd")
-
-# -- CONFIGURATION ------------------------------------------------------------------- #
-
-## scene_handle is a scene handle used to navigate back to the main menu.
-@export var scene_handle: SceneHandle = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -30,21 +24,10 @@ var _save_data: ProjectSaveData = null
 
 
 func _ready():
-	assert(scene_handle is SceneHandle, "invalid config; missing scene handle")
-
-	var saves := Systems.saves()
-	_save_data = saves.create_new_save_data()
-
-	if not saves.get_save_data(_save_data):
-		if not Feature.is_editor_build():
-			scene_handle.transition_to(^"Main/Transition")
-			return
-
-		var success := saves.activate_slot(0)
-		assert(success, "failed to load save data")
-
-		success = await saves.load_save_data(_save_data)
-		assert(success, "failed to load save data")
+	_save_data = Main.get_active_save_data()
+	if not _save_data:
+		Main.go_to_main_menu()
+		return
 
 	Signals.connect_safe(_increment.pressed, _on_increment_pressed)
 	Signals.connect_safe(_reset.pressed, _on_reset_pressed)
@@ -75,7 +58,7 @@ func _on_reset_pressed() -> void:
 
 
 func _on_return_pressed() -> void:
-	scene_handle.transition_to(^"Main/Transition")
+	Main.go_to_main_menu()
 
 
 func _on_save_pressed() -> void:
