@@ -15,3 +15,4 @@ script = ExtResource("1_screen")
 scene_path = "res://project/main/load/loading.tscn"
 transition_enter = SubResource("SubResource_enter")
 transition_exit = SubResource("SubResource_exit")
+block_on_exit = true

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StdScreen" format=3 uid="uid://bm0iks22glme0"]
+[gd_resource type="Resource" script_class="StdScreen" format=3 uid="uid://xplpe85m2hqe"]
 
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
 [ext_resource type="Script" uid="uid://dtp4i5p0uy2l6" path="res://addons/std/screen/transitions/fade.gd" id="2_fade"]
@@ -13,6 +13,7 @@ ease_type = 1
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/main/menu/main_menu.tscn"
+scene_path = "res://project/maps/example/scene.tscn"
 transition_enter = SubResource("SubResource_enter")
 transition_exit = SubResource("SubResource_exit")
+block_on_exit = true
