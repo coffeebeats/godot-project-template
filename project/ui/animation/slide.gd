@@ -6,7 +6,7 @@
 ##
 
 class_name AnimationSlide
-extends AnimationCurve
+extends StdTweenCurve
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -23,27 +23,24 @@ extends AnimationCurve
 ## animated instead of its `position` property.
 @export var use_global_position: bool = false
 
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
-func _apply_tween_property(
+## apply_tween_property configures a slide animation on the specified `target` node
+## using the provided `tween` instance. Set `parallel` to true to have this operation
+## run in parallel with other tween properties on the instance.
+func apply_tween_property(
 	tween: Tween,
 	target: CanvasItem,
 	value: Vector2,
-	parallel: bool,
+	parallel: bool = true,
 ) -> void:
 	if parallel:
 		tween.parallel()
 
-	(
-		tween
-		. tween_property(
-			target,
-			^"global_position" if use_global_position else ^"position",
-			value,
-			duration,
-		)
-		. set_delay(delay)
-		. set_ease(ease_type)
-		. set_trans(transition_type)
+	tween_property(
+		tween,
+		target,
+		^"global_position" if use_global_position else ^"position",
+		value,
 	)

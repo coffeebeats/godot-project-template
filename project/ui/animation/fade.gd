@@ -6,24 +6,25 @@
 ##
 
 class_name AnimationFade
-extends AnimationCurve
+extends StdTweenCurve
 
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+# -- CONFIGURATION ------------------------------------------------------------------- #
+
+## value is the target alpha for the animation.
+@export_range(0.0, 1.0) var value: float = 1.0
+
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
-func _apply_tween_property(
+## apply_tween_property configures a fade animation on the specified `target` node using
+## the provided `tween` instance. Set `parallel` to true to have this operation run in
+## parallel with other tween properties on the instance.
+func apply_tween_property(
 	tween: Tween,
 	target: CanvasItem,
-	value: float,
-	parallel: bool,
+	parallel: bool = true,
 ) -> void:
 	if parallel:
 		tween.parallel()
 
-	(
-		tween
-		. tween_property(target, ^"modulate:a", value, duration)
-		. set_delay(delay)
-		. set_ease(ease_type)
-		. set_trans(transition_type)
-	)
+	tween_property(tween, target, ^"modulate:a", value)
