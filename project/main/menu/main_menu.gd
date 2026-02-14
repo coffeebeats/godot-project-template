@@ -38,7 +38,10 @@ var _music_sound_instance: StdSoundInstance = null
 func _exit_tree() -> void:
 	if _music_sound_instance:
 		# NOTE: The fade-out duration should match the scene fade transition length.
-		_music_sound_instance.stop(0.6, Tween.TRANS_LINEAR)
+		var fade_out := StdTweenCurve.new()
+		fade_out.duration = 0.6
+		fade_out.transition_type = Tween.TRANS_LINEAR
+		_music_sound_instance.stop(fade_out)
 
 
 func _ready() -> void:
@@ -63,7 +66,10 @@ func _ready() -> void:
 
 	if music_sound_event:
 		var audio := Systems.audio()
-		_music_sound_instance = audio.play(music_sound_event, 2, Tween.TRANS_LINEAR)
+		var fade_in := StdTweenCurve.new()
+		fade_in.duration = 2
+		fade_in.transition_type = Tween.TRANS_LINEAR
+		_music_sound_instance = audio.play(music_sound_event, fade_in)
 
 	Signals.connect_safe(
 		Lifecycle.shutdown_requested,

@@ -2,13 +2,26 @@
 
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
 [ext_resource type="Script" uid="uid://dtp4i5p0uy2l6" path="res://addons/std/screen/transitions/fade.gd" id="2_fade"]
+[ext_resource type="Script" uid="uid://biupfx6h42h8k" path="res://addons/std/tween/curve.gd" id="3_curve"]
+
+[sub_resource type="Resource" id="SubResource_enter_curve"]
+script = ExtResource("3_curve")
+duration = 0.6
+ease_type = 0
+transition_type = 7
 
 [sub_resource type="Resource" id="SubResource_enter"]
 script = ExtResource("2_fade")
+curve = SubResource("SubResource_enter_curve")
+
+[sub_resource type="Resource" id="SubResource_exit_curve"]
+script = ExtResource("3_curve")
+duration = 0.6
+transition_type = 7
 
 [sub_resource type="Resource" id="SubResource_exit"]
 script = ExtResource("2_fade")
-ease_type = 1
+curve = SubResource("SubResource_exit_curve")
 
 [resource]
 script = ExtResource("1_screen")

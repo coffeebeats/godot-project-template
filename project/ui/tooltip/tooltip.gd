@@ -293,7 +293,7 @@ func _hide_tooltip(delay: float) -> void:
 	_tween.tween_callback(func(): _is_waiting_to_hide = false)
 
 	if fade_out:
-		fade_out.apply_tween_property(_tween, self, 0, false)
+		fade_out.apply_tween_property(_tween, self, false)
 
 	if slide_out:
 		parallel = fade_out != null
@@ -352,7 +352,7 @@ func _show_tooltip(delay: float) -> void:
 
 	if fade_in:
 		modulate.a = 0
-		fade_in.apply_tween_property(_tween, self, 1, false)
+		fade_in.apply_tween_property(_tween, self, false)
 
 	if slide_in:
 		parallel = fade_in != null

@@ -1,5 +1,5 @@
 ##
-## project/ui/animation/fade.gd
+## project/ui/animation/border_fade.gd
 ##
 ## AnimationBorderFade specifies a fade animation that can be applied to `StyleboxFlat`
 ## resources. Note that this resource can be used for both fade in or fade out
@@ -7,29 +7,25 @@
 ##
 
 class_name AnimationBorderFade
-extends AnimationCurve
+extends StdTweenCurve
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## color is the target color for the animation.
 @export var color: Color = Color.TRANSPARENT
 
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
-func _apply_tween_property(
+## apply_tween_property configures a border fade animation on the specified `target`
+## node using the provided `tween` instance. Set `parallel` to true to have this
+## operation run in parallel with other tween properties on the instance.
+func apply_tween_property(
 	tween: Tween,
 	target: StyleBoxFlat,
-	value: Color,
-	parallel: bool,
+	parallel: bool = true,
 ) -> void:
 	if parallel:
 		tween.parallel()
 
-	(
-		tween
-		. tween_property(target, ^"border_color", value, duration)
-		. set_delay(delay)
-		. set_ease(ease_type)
-		. set_trans(transition_type)
-	)
+	tween_property(tween, target, ^"border_color", color)

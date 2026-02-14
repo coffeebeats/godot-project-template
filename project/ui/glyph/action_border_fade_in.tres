@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_jefyy")
-color = Color(1, 1, 1, 1)
 duration = 0.16
 transition_type = 3
+color = Color(1, 1, 1, 1)
