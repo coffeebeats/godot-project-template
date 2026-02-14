@@ -2,20 +2,30 @@
 
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
 [ext_resource type="Script" uid="uid://dtp4i5p0uy2l6" path="res://addons/std/screen/transitions/fade.gd" id="2_fade"]
+[ext_resource type="Script" uid="uid://biupfx6h42h8k" path="res://addons/std/tween/curve.gd" id="3_curve"]
 
-[sub_resource type="Resource" id="Resource_pic87"]
-script = ExtResource("2_fade")
+[sub_resource type="Resource" id="SubResource_enter_curve"]
+script = ExtResource("3_curve")
 duration = 0.75
-metadata/_custom_type_script = "uid://dtp4i5p0uy2l6"
+ease_type = 0
+transition_type = 7
+
+[sub_resource type="Resource" id="SubResource_enter"]
+script = ExtResource("2_fade")
+curve = SubResource("SubResource_enter_curve")
+
+[sub_resource type="Resource" id="SubResource_exit_curve"]
+script = ExtResource("3_curve")
+duration = 0.75
+transition_type = 7
 
 [sub_resource type="Resource" id="SubResource_exit"]
 script = ExtResource("2_fade")
-duration = 0.75
-ease_type = 1
+curve = SubResource("SubResource_exit_curve")
 
 [resource]
 script = ExtResource("1_screen")
 scene_path = "res://project/main/splash/studio.tscn"
-transition_enter = SubResource("Resource_pic87")
+transition_enter = SubResource("SubResource_enter")
 transition_exit = SubResource("SubResource_exit")
 block_on_exit = true

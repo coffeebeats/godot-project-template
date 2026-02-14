@@ -168,12 +168,12 @@ func _on_mouse_state_changed(hovered: bool) -> void:
 
 	if hovered and border_fade_in:
 		_tween = create_tween()
-		border_fade_in.apply_tween_property(_tween, stylebox, border_fade_in.color)
+		border_fade_in.apply_tween_property(_tween, stylebox)
 		return
 
 	if not hovered and border_fade_out:
 		_tween = create_tween()
-		border_fade_out.apply_tween_property(_tween, stylebox, border_fade_out.color)
+		border_fade_out.apply_tween_property(_tween, stylebox)
 		return
 
 	stylebox.border_color = _border_color
