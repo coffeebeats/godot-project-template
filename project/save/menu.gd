@@ -53,4 +53,5 @@ func _on_delete_button_pressed(button: Button, slot: int) -> void:
 
 
 func _on_slot_button_pressed(slot: int) -> void:
+	# TODO: Close the save menu on error.
 	Main.load_game(slot)

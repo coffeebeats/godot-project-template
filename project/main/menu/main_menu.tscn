@@ -124,6 +124,19 @@ text = "main_game_title"
 [node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer" unique_id=1611516152]
 layout_mode = 2
 
+[node name="Continue" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1419076257]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"main_menu_button"
+text = "main_continue"
+alignment = 0
+
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Continue" unique_id=78783749 instance=ExtResource("2_1yx6u")]
+layout_mode = 0
+use_as_anchor = true
+priority = 1
+
 [node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=934534422]
 unique_name_in_owner = true
 layout_mode = 2

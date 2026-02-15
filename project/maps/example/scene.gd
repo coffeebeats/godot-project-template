@@ -64,7 +64,7 @@ func _on_return_pressed() -> void:
 func _on_save_pressed() -> void:
 	_save.disabled = true
 
-	if await Systems.saves().store_save_data(_save_data):
+	# TODO: Show a save game overlay.
+	if await Main.save_game():
 		_update_counter_label()
-
 	_save.disabled = false
