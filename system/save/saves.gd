@@ -115,8 +115,11 @@ func activate_slot(index: int) -> bool:
 	_writer.slot = index
 	_save_data = null
 
-	if not slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, index):
-		logger.warn("Found stored value for active slot already updated.")
+	# Only persist the active slot when there's existing save data. Empty slots will be
+	# persisted after a successful save in 'store_save_data'.
+	if _save_slots[index].status == SaveSlot.STATUS_OK:
+		if not slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, index):
+			logger.warn("Found stored value for active slot already updated.")
 
 	if slot_previous != -1:
 		slot_deactivated.emit(slot_previous)
@@ -367,6 +370,7 @@ func store_save_data(data: StdSaveData) -> bool:
 	match save_slot.status:
 		SaveSlot.STATUS_OK:
 			logger.info("Successfully saved game.")
+			slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, index)
 			slot_saved.emit.call_deferred(index, OK)
 			return true
 
