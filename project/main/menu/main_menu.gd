@@ -26,6 +26,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 var _music_sound_instance: StdSoundInstance = null
 
+@onready var _continue: Button = %Continue
 @onready var _options: Button = %Options
 @onready var _play: Button = %Play
 @onready var _quit: Button = %Quit
@@ -56,6 +57,7 @@ func _ready() -> void:
 
 	_handle_first_focused_sound_event_mute.call_deferred()
 
+	Signals.connect_safe(_continue.pressed, _on_continue_pressed)
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
 	Signals.connect_safe(_play.pressed, _on_play_pressed)
 	Signals.connect_safe(_quit.pressed, _on_quit_pressed)
@@ -63,6 +65,10 @@ func _ready() -> void:
 	Signals.connect_safe(_saves.opened, _on_modal_opened)
 	Signals.connect_safe(_settings.closed, _on_modal_closed)
 	Signals.connect_safe(_settings.opened, _on_modal_opened)
+
+	var saves := Systems.saves()
+	Signals.connect_safe(saves.slot_activated, _on_slot_activated)
+	Signals.connect_safe(saves.slot_deactivated, _on_slot_deactivated)
 
 	if music_sound_event:
 		var audio := Systems.audio()
@@ -79,6 +85,8 @@ func _ready() -> void:
 		CONNECT_ONE_SHOT
 	)
 
+	_setup_continue_button()
+
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
@@ -89,7 +97,25 @@ func _handle_first_focused_sound_event_mute() -> void:
 		input.mute_next_focus_sound_event()
 
 
+func _setup_continue_button() -> void:
+	var slot := Systems.saves().get_active_save_slot()
+
+	if slot > -1:
+		_continue.visible = true
+		_continue.focus_neighbor_top = _continue.get_path_to(_quit)
+		_quit.focus_neighbor_bottom = _quit.get_path_to(_continue)
+		_play.focus_neighbor_top = _play.get_path_to(_continue)
+	else:
+		_continue.visible = false
+		_play.focus_neighbor_top = _play.get_path_to(_quit)
+		_quit.focus_neighbor_bottom = _quit.get_path_to(_play)
+
+
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_continue_pressed() -> void:
+	Main.load_game(Systems.saves().get_active_save_slot())
 
 
 func _on_modal_closed(_reason: Modal.CloseReason) -> void:
@@ -110,9 +136,17 @@ func _on_play_pressed() -> void:
 	_saves.visible = true
 
 
+func _on_quit_pressed() -> void:
+	Lifecycle.shutdown()
+
+
 func _on_settings_prompt_pressed() -> void:
 	_settings.visible = true
 
 
-func _on_quit_pressed() -> void:
-	Lifecycle.shutdown()
+func _on_slot_activated(_index: int) -> void:
+	_setup_continue_button()
+
+
+func _on_slot_deactivated(_index: int) -> void:
+	_setup_continue_button()
