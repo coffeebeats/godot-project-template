@@ -27,6 +27,22 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
 - **`script_templates/`** — GDScript file templates enforcing project structure (Node, Object, Resource, test, library).
 - **`.github/workflows/`** — CI/CD: format/lint checks, tests, multi-platform export (macOS/Windows/Web), release-please automation.
 
+Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or wiring nodes typically requires touching both.
+
+## Common Workflows
+
+- **Adding a setting** — Create a `StdSettingsProperty*` resource in `system/setting/<category>/`. Add an observer (extends `StdSettingsObserver`) to react to value changes. Add UI in `project/settings/<tab>/` using `setting.tscn` and a controller node (e.g., `StdSettingsControllerRange`). Wire the observer into `system/setting/settings.tscn`.
+- **Adding a save data field** — Create a class extending `StdConfigItem` in `project/save/data/`. Add an `@export` for it in `data.gd` and register it in `data.tres`. Access at runtime via `Main.get_active_save_data()`. If migrating existing saves, bump the version in `ProjectSaveData` and add a `StdConfigSchemaMigration`.
+- **Adding a screen** — Create a `.tscn` scene and `.gd` script. Create a `StdScreen` resource (`.tres`) pointing to the scene with transition config. Export or preload the resource in `main.gd`. Navigate via `Main.screens().push()`, `.replace()`, `.pop()`, or `.reset()`.
+- **Adding a translatable string** — Add `msgid` entry to `project/locale/messages.pot` with a `#.` context comment. Add English translation to `en_US.po`. Reference in scenes via the `text` property or in code via `tr()`. CI auto-updates other `.po` files and compiles `.mo` files.
+- **Adding an input action** — Add the action to a `StdInputActionSet` resource in `project/input/actions/`. Add default binding in `project.godot` under `[input]`. Add translation with `msgctxt "actions_<SetName>"` to `messages.pot` and `en_US.po`. Scenes load action sets via `StdInputActionSetLoader` nodes.
+- **Adding a sound** — Place audio file in `project/`. Create a `StdSoundEvent1D` resource (`.tres`) referencing the file and a bus from `system/audio/bus/`. Play via `Systems.audio().play(event)`. For concurrency limits, also create a `StdSoundGroup` resource.
+
+## Pitfalls
+
+- `Systems.*()` accessors only work after autoloads finish `_ready()`.
+- Save schema changes without a version bump will silently drop fields from old saves.
+
 ## Commands
 
 ```bash
