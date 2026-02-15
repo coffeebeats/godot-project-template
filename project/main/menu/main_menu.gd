@@ -98,9 +98,10 @@ func _handle_first_focused_sound_event_mute() -> void:
 
 
 func _setup_continue_button() -> void:
-	var slot := Systems.saves().get_active_save_slot()
+	var saves := Systems.saves()
+	var slot := saves.get_active_save_slot()
 
-	if slot > -1:
+	if slot > -1 and saves.get_save_slot(slot).status == SaveSlot.STATUS_OK:
 		_continue.visible = true
 		_continue.focus_neighbor_top = _continue.get_path_to(_quit)
 		_quit.focus_neighbor_bottom = _quit.get_path_to(_continue)
