@@ -1,6 +1,32 @@
 # AGENTS.md
 
-Godot 4+ plugin providing a standard library of reusable GDScript utilities for game development.
+Godot 4+ project template for 2D games with save systems, settings, input handling, screen management, localization, Steam integration, and CI/CD. Game logic goes in `project/`; reusable infrastructure lives in `system/` (autoloads) and `addons/std/` (standard library, a git submodule). Three autoloads bootstrap the app in order: `Lifecycle`, `Platform`, `System`.
+
+## Project Structure
+
+- **`project/`** — Game-specific code and assets.
+  - **`core/`** — Game logic (empty by default; extend here).
+  - **`main/`** — Main scene and app orchestration. `lifecycle.gd` is an autoload that coordinates shutdown. `main.gd` manages screen flow (splash → menu → game) via `StdScreenManager`.
+  - **`main/menu/`** — Main menu (Continue/Play/Options/Quit) with background music.
+  - **`maps/`** — Game scenes/levels. `example/` demonstrates save data integration.
+  - **`save/`** — Save data schemas. `ProjectSaveData` extends `StdSaveData`; `ProjectSaveSummary` extends `StdSaveSummary`. UI for save slot selection.
+  - **`settings/`** — Settings menu with tabs for display, gameplay, sound, interface, and input rebinding.
+  - **`input/`** — Input action definitions, including Steam Input actions.
+  - **`locale/`** — i18n with 13 pre-configured languages (`.pot` template, `.po`/`.mo` per language).
+  - **`ui/`** — Shared UI: screen transitions (fade, slide), input glyphs, modals, tooltips, theme, font.
+- **`system/`** — Game-agnostic autoloaded subsystems (the `System` autoload). Accessed via static methods on `Systems`: `Systems.audio()`, `Systems.input()`, `Systems.saves()`.
+  - **`audio/`** — Sound event player, audio bus layout.
+  - **`input/`** — Focus-based UI navigation, cursor management, gamepad support, controller glyphs, Steam Input backend.
+  - **`save/`** — Multi-slot save system (4 slots). Async save/load via background worker. Slot status tracking (OK/EMPTY/BROKEN).
+  - **`setting/`** — Setting observers that sync `ProjectSettings` with UI (audio, video, interface).
+- **`platform/`** — Platform abstraction (the `Platform` autoload). User profiles and storefront integration with Steam and fallback backends.
+- **`addons/std/`** — Standard library (git submodule). Self-contained modules under subdirectories (e.g., `config/`, `fsm/`, `screen/`, `sound/`). Classes use the `Std` prefix. Explore subdirectories for available utilities.
+- **`addons/gut/`** — GUT testing framework.
+- **`addons/phantom_camera/`** — Camera plugin (submodule).
+- **`script_templates/`** — GDScript file templates enforcing project structure (Node, Object, Resource, test, static library).
+- **`custom.py`** — Engine build config optimized for 2D (disables 3D, networking, VR/XR).
+- **`.github/workflows/`** — CI/CD: format/lint checks, tests, multi-platform export (macOS/Windows/Web), release-please automation, itch.io publishing.
+- **`.patches/`** — Custom Godot engine patches applied during export template compilation.
 
 ## Commands
 
