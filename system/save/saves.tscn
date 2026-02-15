@@ -21,3 +21,4 @@ sync_target = ExtResource("4_1qais")
 [node name="SaveFileWriter" type="Node" parent="." unique_id=1899381289]
 script = ExtResource("5_pfhtx")
 path = "save.dat"
+backup_count = 1
