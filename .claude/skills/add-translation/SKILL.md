@@ -1,10 +1,20 @@
 ---
 name: add-translation
 description: Add a new translatable string to the project. Use when adding UI elements, buttons, labels, or any user-facing text that needs localization.
-allowed-tools: Read, Edit, Bash, Grep, Glob
+user-invokable: true
+argument-hint: "<msgid_key> <English text>"
 ---
 
-Add a translatable string to the project. Only edit two files: `project/locale/messages.pot` and `project/locale/en_US.po`. Other locale files are updated automatically by a propagation command.
+Add a translatable string to the project. Only edit two files: `project/locale/messages.pot` and `project/locale/en_US.po`. Other locale files are updated automatically by a propagation command. Binary `.mo` files are compiled by CI — do not edit them.
+
+## Prerequisites
+
+Steps 4–5 require `poswap` (from Python's `translate-toolkit`) and `msgfmt`/`msgmerge` (from `gettext`). If these are not installed locally, prompt the user to install them:
+
+```sh
+pip install translate-toolkit  # provides poswap
+# gettext: apt-get install gettext (Linux), brew install gettext (macOS), or pacman -S gettext (MSYS2/Windows)
+```
 
 ## Translation file format
 
@@ -14,7 +24,7 @@ Each entry has a `#.` translator comment explaining what the string is and where
 
 ## Steps
 
-1. **Read both files** to find the correct insertion point. Place the new entry near related entries (group by UI area).
+1. **Read both files** to find the correct insertion point. Place the new entry near related entries (group by UI area). Match the surrounding whitespace in each file — `messages.pot` uses extra blank lines between section groups while `en_US.po` uses single blank lines throughout.
 
 2. **Edit `messages.pot`** — add the entry with an empty `msgstr`:
 
@@ -43,10 +53,10 @@ Each entry has a `#.` translator comment explaining what the string is and where
    done
    ```
 
-5. **Validate** all translation files:
+5. **Validate** all `.po` files:
 
    ```sh
-   for f in project/locale/*.pot project/locale/*.po; do
+   for f in project/locale/*.po; do
      msgfmt "$f" --check
    done
    ```
@@ -54,5 +64,6 @@ Each entry has a `#.` translator comment explaining what the string is and where
 ## Reference the key
 
 Use the **key-based `msgid`** (not the English text) when referencing the string:
+
 - In `.tscn` scene files: set `text = "my_new_key"`
 - In GDScript: `tr("my_new_key")`
