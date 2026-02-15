@@ -21,6 +21,10 @@ msgstr "locale_language"
 msgid "main_game_title"
 msgstr ""
 
+#. A button to continue a previously saved game, located on the main menu.
+msgid "main_continue"
+msgstr "Continue"
+
 #. A "play game" button, located on the main menu.
 msgid "main_play"
 msgstr "Play"
