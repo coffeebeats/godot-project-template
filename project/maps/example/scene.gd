@@ -29,6 +29,8 @@ func _ready():
 		Main.go_to_main_menu()
 		return
 
+	Main.connect_saved(_on_game_saved)
+
 	Signals.connect_safe(_increment.pressed, _on_increment_pressed)
 	Signals.connect_safe(_reset.pressed, _on_reset_pressed)
 	Signals.connect_safe(_return.pressed, _on_return_pressed)
@@ -61,10 +63,13 @@ func _on_return_pressed() -> void:
 	Main.go_to_main_menu()
 
 
+func _on_game_saved(_slot: int, error: Error) -> void:
+	_save.disabled = false
+	if error != OK:
+		return
+	_update_counter_label()
+
+
 func _on_save_pressed() -> void:
 	_save.disabled = true
-
-	if await Systems.saves().store_save_data(_save_data):
-		_update_counter_label()
-
-	_save.disabled = false
+	Main.save_game()

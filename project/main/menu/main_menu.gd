@@ -26,6 +26,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 var _music_sound_instance: StdSoundInstance = null
 
+@onready var _continue: Button = %Continue
 @onready var _options: Button = %Options
 @onready var _play: Button = %Play
 @onready var _quit: Button = %Quit
@@ -56,6 +57,7 @@ func _ready() -> void:
 
 	_handle_first_focused_sound_event_mute.call_deferred()
 
+	Signals.connect_safe(_continue.pressed, _on_continue_pressed)
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
 	Signals.connect_safe(_play.pressed, _on_play_pressed)
 	Signals.connect_safe(_quit.pressed, _on_quit_pressed)
@@ -79,6 +81,8 @@ func _ready() -> void:
 		CONNECT_ONE_SHOT
 	)
 
+	_setup_continue_button()
+
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
@@ -87,6 +91,19 @@ func _handle_first_focused_sound_event_mute() -> void:
 	var input := Systems.input()
 	if not input.is_cursor_visible():
 		input.mute_next_focus_sound_event()
+
+
+func _setup_continue_button() -> void:
+	var slot := Systems.saves().get_active_save_slot()
+
+	if slot > -1:
+		_continue.visible = true
+		_continue.focus_neighbor_top = _continue.get_path_to(_quit)
+		_quit.focus_neighbor_bottom = _quit.get_path_to(_continue)
+		_play.focus_neighbor_top = _play.get_path_to(_continue)
+		_continue.grab_focus.call_deferred()
+	else:
+		_continue.visible = false
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
@@ -100,6 +117,10 @@ func _on_modal_closed(_reason: Modal.CloseReason) -> void:
 func _on_modal_opened() -> void:
 	if music_filter_param:
 		music_filter_param.enabled = true
+
+
+func _on_continue_pressed() -> void:
+	Main.load_game(Systems.saves().get_active_save_slot())
 
 
 func _on_options_pressed() -> void:
