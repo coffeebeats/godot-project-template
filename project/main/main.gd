@@ -41,11 +41,21 @@ const Splash := preload("./splash/splash.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-var _initial_load_results: Dictionary = {}
 var _manager: StdScreenManager = null
+var _preload_results: Dictionary = {}
 var _save_data: ProjectSaveData = null
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+# Screen navigation
+
+
+## screens returns the `StdScreenManager` instance.
+static func screens() -> StdScreenManager:
+	return _get_main()._manager
+
+
+# Save data
 
 
 ## get_active_save_data returns the currently loaded save data, or null.
@@ -53,22 +63,41 @@ static func get_active_save_data() -> ProjectSaveData:
 	return _get_main()._save_data
 
 
-## go_to_main_menu clears game state and resets the screen stack to the initial screen.
+## save_game asynchronously stores the current (or provided) save data to the active
+## slot and returns whether the save succeeded. This method can either be awaited or the
+## caller can connect to `Systems.saves().slot_saved` to detect when the save finishes.
+static func save_game(
+	data: ProjectSaveData = null,
+) -> bool:
+	var saves := Systems.saves()
+	if saves.get_active_save_slot() < 0:
+		return false
+
+	var main := _get_main()
+
+	if data != null:
+		main._save_data = data
+
+	if not main._save_data is ProjectSaveData:
+		return false
+
+	return await saves.store_save_data(main._save_data)
+
+
+# Game flow
+
+
+## go_to_main_menu resets the screen stack to the initial screen.
 static func go_to_main_menu() -> void:
 	var main := _get_main()
 	main._save_data = null
-	Systems.saves().clear_active_slot()
 	main._manager.reset(main.initial)
 
 
 ## load_game activates the given save slot, loads its data, and navigates to the map.
-static func load_game(slot: int) -> void:
-	_get_main()._load_game(slot)
-
-
-## screens returns the `StdScreenManager` instance.
-static func screens() -> StdScreenManager:
-	return _get_main()._manager
+## Returns whether the load succeeded. This method is awaitable.
+static func load_game(slot: int) -> bool:
+	return await _get_main()._load_game(slot)
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -97,12 +126,13 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
-	if splash.is_empty():
-		_manager.push(initial)
+	_preload_results = _manager.load_screen(initial)
+
+	if not splash.is_empty():
+		_push_splash(0)
 		return
 
-	_initial_load_results = _manager.load_screen(initial)
-	_push_splash(0)
+	_finish_boot(_manager.push)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -113,24 +143,45 @@ static func _get_main() -> Main:
 
 
 func _await_initial_loaded() -> void:
-	for result in _initial_load_results.values():
+	for result in _preload_results.values():
 		if not result.is_done():
 			await result.done
 
 
+func _finish_boot(navigate: Callable) -> void:
+	var saves := Systems.saves()
+
+	if _is_initial_loaded() and Systems.saves().are_slots_loaded():
+		navigate.call(initial)
+		return
+
+	navigate.call(loading)
+
+	if not _manager.is_current(loading):
+		await _manager.screen_entered
+
+	if not _is_initial_loaded():
+		await _await_initial_loaded()
+
+	if not saves.are_slots_loaded():
+		await saves.slots_loaded
+
+	_manager.replace(initial)
+
+
 func _is_initial_loaded() -> bool:
-	for result in _initial_load_results.values():
+	for result in _preload_results.values():
 		if not result.is_done():
 			return false
 
 	return true
 
 
-func _load_game(slot: int) -> void:
+func _load_game(slot: int) -> bool:
 	var saves := Systems.saves()
 
 	if not saves.activate_slot(slot):
-		return
+		return false
 
 	_manager.reset(loading)
 	if not _manager.is_current(loading):
@@ -141,9 +192,10 @@ func _load_game(slot: int) -> void:
 	if not await saves.load_save_data(_save_data):
 		_save_data = null
 		_manager.reset(initial)
-		return
+		return false
 
 	_manager.replace(game)
+	return true
 
 
 func _push_splash(index: int) -> void:
@@ -169,18 +221,7 @@ func _update_color() -> void:
 
 
 func _on_splash_complete() -> void:
-	if _is_initial_loaded():
-		_manager.replace(initial)
-		return
-
-	_manager.replace(loading)
-
-	if not _manager.is_current(loading):
-		await _manager.screen_entered
-
-	await _await_initial_loaded()
-
-	_manager.replace(initial)
+	_finish_boot(_manager.replace)
 
 
 func _on_splash_entering(scene: Node, idx: int) -> void:
