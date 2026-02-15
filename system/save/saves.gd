@@ -22,6 +22,9 @@ signal slot_deactivated(index: int)
 ## slot_erased is emitted when a save slot's data was just erased.
 signal slot_erased(index: int)
 
+## slot_saved is emitted when a slot save finishes.
+signal slot_saved(index: int, error: Error)
+
 ## slots_loaded is emitted once all save slots have been loaded.
 signal slots_loaded
 
@@ -272,13 +275,8 @@ func load_save_data(data: StdSaveData) -> bool:
 	var logger := _logger.with({&"slot": index})
 	logger.info("Loading save data.")
 
-	if index < 0 or index >= slot_count:
+	if index < 0 or index >= _save_slots.size():
 		assert(false, "invalid argument; index out of range")
-		logger.warn("Refusing to load save data for invalid save slot index.")
-		return false
-
-	if index >= _save_slots.size():
-		assert(false, "invalid state; index out of bounds")
 		logger.warn("Refusing to load save data for invalid save slot index.")
 		return false
 
@@ -330,24 +328,21 @@ func load_save_data(data: StdSaveData) -> bool:
 func store_save_data(data: StdSaveData) -> bool:
 	assert(data is StdSaveData, "invalid argument: missing data")
 
+	var index := _active_slot
+
 	if not _slots_ready:
 		assert(false, "invalid state; slots not yet loaded")
 		_logger.warn("Refusing to store save data; slots not loaded.")
+		slot_saved.emit.call_deferred(index, ERR_BUSY)
 		return false
-
-	var index := _active_slot
 
 	var logger := _logger.with({&"slot": index})
 	logger.info("Storing save data.")
 
-	if index < 0 or index >= slot_count:
+	if index < 0 or index >= _save_slots.size():
 		assert(false, "invalid argument; index out of range")
 		logger.warn("Refusing to load save data for invalid save slot index.")
-		return false
-
-	if index >= _save_slots.size():
-		assert(false, "invalid state; index out of bounds")
-		logger.warn("Refusing to load save data for invalid save slot index.")
+		slot_saved.emit.call_deferred(index, ERR_INVALID_PARAMETER)
 		return false
 
 	var save_slot := _save_slots[index]
@@ -358,6 +353,7 @@ func store_save_data(data: StdSaveData) -> bool:
 	if _writer.is_worker_in_progress():
 		assert(false, "invalid state; save operation already in progress")
 		logger.warn("Refusing to load save data; save operation already in progress.")
+		slot_saved.emit.call_deferred(index, ERR_BUSY)
 		return false
 
 	_save_data = data.duplicate(true)
@@ -371,10 +367,12 @@ func store_save_data(data: StdSaveData) -> bool:
 	match save_slot.status:
 		SaveSlot.STATUS_OK:
 			logger.info("Successfully saved game.")
+			slot_saved.emit.call_deferred(index, OK)
 			return true
 
 		SaveSlot.STATUS_EMPTY:
 			logger.error("Failed to save game; found save slot to be empty.")
+			slot_saved.emit.call_deferred(index, ERR_DOES_NOT_EXIST)
 
 		SaveSlot.STATUS_BROKEN, SaveSlot.STATUS_UNKNOWN:
 			logger.error(
@@ -382,6 +380,7 @@ func store_save_data(data: StdSaveData) -> bool:
 			)
 			_save_data = null  # Clear this so that next load can retry.
 			save_slot.summary = null
+			slot_saved.emit.call_deferred(index, ERR_INVALID_DATA)
 
 	return false
 

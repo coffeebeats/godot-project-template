@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://70nfk225pvt8" path="res://project/save/data/data.gd" id="1_7hjpw"]
 [ext_resource type="Resource" uid="uid://d03xbqr7d6ook" path="res://project/save/data/example.tres" id="1_ridmh"]
+[ext_resource type="Script" uid="uid://d1akb2kqfrowu" path="res://addons/std/config/schema/migration.gd" id="2_lbhol"]
 [ext_resource type="Resource" uid="uid://cxuk4hgkpke5c" path="res://project/save/data/summary.tres" id="2_u4jon"]
 
 [resource]
