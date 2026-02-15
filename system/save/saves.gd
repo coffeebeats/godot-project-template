@@ -238,29 +238,6 @@ func are_slots_loaded() -> bool:
 	return _slots_ready
 
 
-## get_most_recent_slot returns the index of the save slot with the highest
-## `time_last_saved` value among all loaded, valid slots. Returns `-1` if no
-## saved slot is found.
-func get_most_recent_slot() -> int:
-	if not _slots_ready:
-		return -1
-
-	var best_slot := -1
-	var best_time := 0.0
-
-	for i in _save_slots.size():
-		var save_slot := _save_slots[i]
-		if save_slot == null or save_slot.status != SaveSlot.STATUS_OK:
-			continue
-		if save_slot.summary == null:
-			continue
-		if save_slot.summary.time_last_saved > best_time:
-			best_time = save_slot.summary.time_last_saved
-			best_slot = i
-
-	return best_slot
-
-
 # Save operations
 
 
@@ -469,6 +446,7 @@ func _load_all_slots() -> void:
 				save_slot.summary = null
 
 	_writer.slot = -1
+	_slots_ready = true
 
 	var last_active_slot := (
 		slot_scope
@@ -489,12 +467,5 @@ func _load_all_slots() -> void:
 	):
 		if not activate_slot(last_active_slot):
 			assert(false, "failed to activate slot")
-			_slots_ready = true
-			slots_loaded.emit()
-			return
 
-		slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, -1)
-
-	_slots_ready = true
 	slots_loaded.emit()
-
