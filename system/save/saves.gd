@@ -22,6 +22,9 @@ signal slot_deactivated(index: int)
 ## slot_erased is emitted when a save slot's data was just erased.
 signal slot_erased(index: int)
 
+## slots_loaded is emitted once all save slots have been loaded.
+signal slots_loaded
+
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Config := preload("res://addons/std/config/config.gd")
@@ -58,6 +61,7 @@ var _active_slot: int = -1
 var _logger := StdLogger.create(&"system/save").with_timestamp()
 var _save_data: StdSaveData = null
 var _save_slots: Array[SaveSlot] = []
+var _slots_ready: bool = false
 
 @onready var _writer: SaveFileWriter = get_node(^"SaveFileWriter")
 
@@ -71,6 +75,11 @@ var _save_slots: Array[SaveSlot] = []
 func activate_slot(index: int) -> bool:
 	var logger := _logger.with({&"slot": index})
 	logger.info("Activating save slot.")
+
+	if not _slots_ready:
+		assert(false, "invalid state; slots not yet loaded")
+		logger.warn("Refusing to activate save slot; slots not loaded.")
+		return false
 
 	if index < 0 or index >= slot_count:
 		assert(false, "invalid argument; index out of range")
@@ -119,6 +128,11 @@ func activate_slot(index: int) -> bool:
 ## clear_active_slot removes the currently active save slot index. Save operations
 ## cannot be used without an active save slot.
 func clear_active_slot() -> bool:
+	if not _slots_ready:
+		assert(false, "invalid state; slots not yet loaded")
+		_logger.warn("Refusing to clear active slot; slots not loaded.")
+		return false
+
 	if _active_slot == -1:
 		return false
 
@@ -150,6 +164,11 @@ func clear_active_slot() -> bool:
 func erase_slot(index: int) -> bool:
 	var logger := _logger.with({&"slot": index})
 	logger.info("Erasing save slot.")
+
+	if not _slots_ready:
+		assert(false, "invalid state; slots not yet loaded")
+		logger.warn("Refusing to erase save slot; slots not loaded.")
+		return false
 
 	if index < 0 or index >= slot_count:
 		assert(false, "invalid argument; index out of range")
@@ -196,6 +215,10 @@ func get_active_save_slot() -> int:
 ## get_save_slot returns metadata about the specified save slot index, including its
 ## status and a summary of progress, if available.
 func get_save_slot(index: int) -> SaveSlot:
+	if not _slots_ready:
+		assert(false, "invalid state; slots not yet loaded")
+		return null
+
 	if index < 0 or index >= slot_count:
 		assert(false, "invalid argument; index out of range")
 		return null
@@ -208,6 +231,34 @@ func get_save_slot(index: int) -> SaveSlot:
 	assert(save_slot is SaveSlot, "invalid state; missing save slot")
 
 	return save_slot
+
+
+## are_slots_loaded returns whether all save slots have been loaded.
+func are_slots_loaded() -> bool:
+	return _slots_ready
+
+
+## get_most_recent_slot returns the index of the save slot with the highest
+## `time_last_saved` value among all loaded, valid slots. Returns `-1` if no
+## saved slot is found.
+func get_most_recent_slot() -> int:
+	if not _slots_ready:
+		return -1
+
+	var best_slot := -1
+	var best_time := 0.0
+
+	for i in _save_slots.size():
+		var save_slot := _save_slots[i]
+		if save_slot == null or save_slot.status != SaveSlot.STATUS_OK:
+			continue
+		if save_slot.summary == null:
+			continue
+		if save_slot.summary.time_last_saved > best_time:
+			best_time = save_slot.summary.time_last_saved
+			best_slot = i
+
+	return best_slot
 
 
 # Save operations
@@ -234,6 +285,11 @@ func get_save_data(data: StdSaveData) -> bool:
 ## load_save_data asynchronously hydrates the provided save data resource with the
 ## latest data for the active save slot and returns whether this operation succeeded.
 func load_save_data(data: StdSaveData) -> bool:
+	if not _slots_ready:
+		assert(false, "invalid state; slots not yet loaded")
+		_logger.warn("Refusing to load save data; slots not loaded.")
+		return false
+
 	var index := _active_slot
 
 	var logger := _logger.with({&"slot": index})
@@ -296,6 +352,11 @@ func load_save_data(data: StdSaveData) -> bool:
 ## save slot and returns whether this operation succeeded.
 func store_save_data(data: StdSaveData) -> bool:
 	assert(data is StdSaveData, "invalid argument: missing data")
+
+	if not _slots_ready:
+		assert(false, "invalid state; slots not yet loaded")
+		_logger.warn("Refusing to store save data; slots not loaded.")
+		return false
 
 	var index := _active_slot
 
@@ -364,7 +425,50 @@ func _ready() -> void:
 	assert(schema is StdSaveData, "invalid config; missing schema")
 	assert(slot_scope is StdSettingsScope, "invalid config; missing settings scope")
 
-	_load_save_slots()
+	_load_all_slots()
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+## _load_all_slots asynchronously loads save data for each slot. This method is
+## idempotent; subsequent calls after the first completion are no-ops.
+func _load_all_slots() -> void:
+	if _slots_ready:
+		return
+
+	_save_slots.resize(slot_count)
+
+	for i in slot_count:
+		assert(_save_slots[i] == null, "invalid state; found dangling save file")
+
+		var logger := _logger.with({&"slot": i})
+		logger.info("Loading save data.")
+
+		_writer.slot = i  # Update slot so '_writer' can use correct path.
+
+		var data := create_new_save_data()
+
+		var save_slot := SaveSlot.new()
+		_save_slots[i] = save_slot
+
+		save_slot.status = await _writer.load_save_data(data)
+		save_slot.summary = data.summary  # Don't duplicate; 'data' is private.
+
+		logger = logger.with({&"status": save_slot.status})
+
+		match save_slot.status:
+			SaveSlot.STATUS_OK:
+				logger.info("Successfully loaded save slot.")
+
+			SaveSlot.STATUS_EMPTY:
+				logger.info("Save slot is empty.")
+
+			SaveSlot.STATUS_BROKEN, SaveSlot.STATUS_UNKNOWN:
+				logger.warn("Save slot is broken or corrupted.")
+				save_slot.summary = null
+
+	_writer.slot = -1
 
 	var last_active_slot := (
 		slot_scope
@@ -385,52 +489,14 @@ func _ready() -> void:
 	):
 		if not activate_slot(last_active_slot):
 			assert(false, "failed to activate slot")
+			_slots_ready = true
+			slots_loaded.emit()
 			return
 
 		slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, -1)
 
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-## _load_save_slots synchronously loads save data for each slot.
-##
-## NOTE: This implementation assumes that loading save slots will be fast due to the
-## relatively small amout of data stored per slot. This should be revisited for larger
-## games.
-func _load_save_slots() -> void:
-	_save_slots.resize(slot_count)
-
-	for i in slot_count:
-		assert(_save_slots[i] == null, "invalid state; found dangling save file")
-
-		var logger := _logger.with({&"slot": i})
-		logger.info("Loading save data.")
-
-		_writer.slot = i  # Update slot so '_writer' can use correct path.
-
-		var data := create_new_save_data()
-
-		var save_slot := SaveSlot.new()
-		_save_slots[i] = save_slot
-
-		# TODO: Replace this with an asynchronous call to `load_save_data`.
-		save_slot.status = _writer.load_save_data_sync(data)
-		save_slot.summary = data.summary  # Don't duplicate; 'data' is private.
-
-		logger = logger.with({&"status": save_slot.status})
-
-		match save_slot.status:
-			SaveSlot.STATUS_OK:
-				# Okay to use directly because 'data' is dropped after here.
-				logger.info("Successfully loaded save slot.")
-
-			SaveSlot.STATUS_EMPTY:
-				logger.info("Save slot is empty.")
-
-			SaveSlot.STATUS_BROKEN, SaveSlot.STATUS_UNKNOWN:
-				logger.warn("Save slot is broken or corrupted.")
-				save_slot.summary = null
+	_slots_ready = true
+	slots_loaded.emit()
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
