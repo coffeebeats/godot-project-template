@@ -498,13 +498,3 @@ func _load_all_slots() -> void:
 	_slots_ready = true
 	slots_loaded.emit()
 
-
-# -- SIGNAL HANDLERS ----------------------------------------------------------------- #
-
-
-func _on_slot_activated(index: int) -> void:
-	assert(index > -1 and index < slot_count, "invalid argument: out of range")
-	assert(index < _save_slots.size(), "invalid argument: out of range")
-
-	# TODO: Consider starting a load of the save slot's game data. This would require
-	# caching the save operation result and allowing callers to "join" the pending work.
