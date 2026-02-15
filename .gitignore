@@ -26,3 +26,7 @@ settings.dat
 
 # IDE-related files
 .vscode/*
+
+# Coding agent-related files
+.claude/*
+!.claude/skills
