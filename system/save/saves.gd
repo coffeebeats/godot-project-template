@@ -125,7 +125,7 @@ func activate_slot(index: int) -> bool:
 	# system component/application.
 	slot_activated.emit(index)
 
-	return true
+	return true  # gdlint:ignore=max-returns
 
 
 ## clear_active_slot removes the currently active save slot index. Save operations
