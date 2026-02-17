@@ -22,7 +22,9 @@ godot.exe
 
 # Testing-related files
 settings.cfg
+settings.cfg.bak
 settings.dat
+settings.dat.bak
 
 # IDE-related files
 .vscode/*
