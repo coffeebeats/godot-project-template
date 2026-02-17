@@ -99,6 +99,12 @@ func set_focus_root(root: Control = null) -> void:
 	_cursor.set_focus_root(root)
 
 
+## show_cursor reveals the cursor and transitions to mouse-based navigation. If the
+## cursor is already visible, then nothing happens.
+func show_cursor() -> void:
+	_cursor.show_cursor()
+
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 

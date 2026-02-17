@@ -42,6 +42,7 @@ static var _logger := StdLogger.create(&"project/settings/rebind")  # gdlint:ign
 var _action_set: StdInputActionSet = null
 var _action: StringName = &""
 var _binding_index := StdInputDeviceActions.BINDING_INDEX_PRIMARY
+var _cursor_was_visible: bool = false
 var _device: StdInputDevice = null
 var _player: int = -1
 var _scope: StdSettingsScope = null
@@ -82,6 +83,8 @@ static func start_rebinding(
 	if not _instance:
 		_instance = RebinderScene.instantiate()
 
+	_instance._cursor_was_visible = Systems.input().is_cursor_visible()
+
 	_instance._scope = scope
 	_instance._action_set = action_set
 	_instance._action = action
@@ -100,6 +103,13 @@ static func start_rebinding(
 ## stop terminates the rebinding process, halting input event listeners and popping the
 ## rebinder screen.
 func stop() -> void:
+	# NOTE: Restore cursor visibility *before* popping the screen. The rebind key press
+	# may have triggered cursor hiding (the cursor's '_input' processes key events as
+	# hide actions). Restoring here prevents focus mode from activating during the
+	# screen close sequence.
+	if _cursor_was_visible:
+		Systems.input().show_cursor()
+
 	set_process_input(false)
 
 	var slot := StdInputSlot.for_player(_player)
@@ -124,6 +134,7 @@ func stop() -> void:
 	_action_set = null
 	_action = &""
 	_binding_index = StdInputDeviceActions.BINDING_INDEX_PRIMARY
+	_cursor_was_visible = false
 	_device = null
 	_player = -1
 
