@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="StdSettingsSyncTargetProfileFile" format=3 uid="uid://2jm3n21bmh6x"]
-
-[ext_resource type="Script" uid="uid://cnpacnkgat8mb" path="res://platform/profile/sync_target.gd" id="1_ww3wq"]
-
-[resource]
-script = ExtResource("1_ww3wq")
-path = "saves.dat"

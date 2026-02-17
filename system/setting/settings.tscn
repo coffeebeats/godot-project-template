@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cjb8nitks0be0"]
 
 [ext_resource type="Script" uid="uid://c0mqssj1w0y7g" path="res://addons/std/setting/repository.gd" id="2_0mjau"]
+[ext_resource type="Script" uid="uid://tksxuwjva5cm" path="res://addons/std/config/writer/project_settings.gd" id="3_72ti4"]
 [ext_resource type="Resource" uid="uid://c3ewqt86m1qfy" path="res://system/setting/project_settings_scope.tres" id="3_q5d07"]
 [ext_resource type="Resource" uid="uid://mwqxsj0u3y8u" path="res://system/setting/user_settings_scope.tres" id="4_pkd6u"]
-[ext_resource type="Script" uid="uid://ftxn2k051mu5" path="res://addons/std/setting/sync_target_project_settings.gd" id="4_v73tc"]
 [ext_resource type="Script" uid="uid://buei4e05yx6mo" path="res://system/setting/audio/device/observer.gd" id="5_3q6ut"]
-[ext_resource type="Script" uid="uid://cnpacnkgat8mb" path="res://platform/profile/sync_target.gd" id="5_ndmkn"]
+[ext_resource type="Script" uid="uid://nyai4fsxk55t" path="res://platform/profile/writer.gd" id="5_7se31"]
 [ext_resource type="Resource" uid="uid://ccnpq1qb03igm" path="res://system/setting/audio/device/output_property.tres" id="6_tcob2"]
 [ext_resource type="Script" uid="uid://c1jlymlfyxjy6" path="res://system/setting/audio/mute/observer.gd" id="7_nt3tl"]
 [ext_resource type="Resource" uid="uid://dejd17gr4508s" path="res://system/setting/audio/mute/background_property.tres" id="8_fchdv"]
@@ -27,24 +27,28 @@
 [ext_resource type="Resource" uid="uid://723bxnvy4ipw" path="res://system/setting/interface/language_property.tres" id="25_3mnqu"]
 [ext_resource type="Resource" uid="uid://ci5jo2fctxlbt" path="res://system/setting/interface/language_options_property.tres" id="26_juwf4"]
 
-[sub_resource type="Resource" id="Resource_017p8"]
-script = ExtResource("4_v73tc")
-
-[sub_resource type="Resource" id="Resource_6qwa4"]
-script = ExtResource("5_ndmkn")
-path = "settings.dat"
-
 [node name="Settings" type="Node" unique_id=263457730]
 
-[node name="ProjectSettingsScope" type="Node" parent="." unique_id=1739494578]
+[node name="ProjectSettingsScope" type="Node" parent="." unique_id=1739494578 node_paths=PackedStringArray("writer")]
 script = ExtResource("2_0mjau")
 scope = ExtResource("3_q5d07")
-sync_target = SubResource("Resource_017p8")
+writer = NodePath("StdProjectSettingsConfigWriter")
 
-[node name="UserSettingsScope" type="Node" parent="." unique_id=1518754609]
+[node name="StdProjectSettingsConfigWriter" type="Node" parent="ProjectSettingsScope" unique_id=1932044016]
+script = ExtResource("3_72ti4")
+backup_count = 1
+metadata/_custom_type_script = "uid://tksxuwjva5cm"
+
+[node name="UserSettingsScope" type="Node" parent="." unique_id=1518754609 node_paths=PackedStringArray("writer")]
 script = ExtResource("2_0mjau")
 scope = ExtResource("4_pkd6u")
-sync_target = SubResource("Resource_6qwa4")
+writer = NodePath("ProfileConfigWriter")
+
+[node name="ProfileConfigWriter" type="Node" parent="UserSettingsScope" unique_id=1718324544]
+script = ExtResource("5_7se31")
+compression_mode = 0
+path = "settings.dat"
+backup_count = 1
 
 [node name="Observers" type="Node" parent="." unique_id=1597625148]
 

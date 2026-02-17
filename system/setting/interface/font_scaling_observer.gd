@@ -9,7 +9,6 @@ extends StdSettingsObserver
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Signals := preload("res://addons/std/event/signal.gd")
 const Debounce := preload("res://addons/std/timer/debounce.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #

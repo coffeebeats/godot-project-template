@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://c0mqssj1w0y7g" path="res://addons/std/setting/repository.gd" id="1_o5lxa"]
 [ext_resource type="Resource" uid="uid://cdtwq6ojt5vvn" path="res://system/input/scope.tres" id="2_wy44a"]
+[ext_resource type="Script" uid="uid://nyai4fsxk55t" path="res://platform/profile/writer.gd" id="3_fy3ns"]
 [ext_resource type="Script" uid="uid://xhedlh0ruam5" path="res://addons/std/input/cursor.gd" id="3_vy78x"]
 [ext_resource type="Script" uid="uid://8psdhxju6iya" path="res://addons/std/input/slot.gd" id="4_l68v1"]
 [ext_resource type="Resource" uid="uid://bvn3rtmjdoe5s" path="res://system/setting/controls/haptics_disable_property.tres" id="5_4h4lb"]
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="6_6x4ah"]
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="7_b8ikv"]
-[ext_resource type="Script" uid="uid://cnpacnkgat8mb" path="res://platform/profile/sync_target.gd" id="8_4utim"]
 [ext_resource type="Script" uid="uid://cubujrqc1yi7d" path="res://addons/std/input/godot/joypad_monitor.gd" id="9_lnlo2"]
 [ext_resource type="Script" uid="uid://dgtvbskcmfogl" path="res://addons/std/input/godot/device_actions.gd" id="10_nwnd3"]
 [ext_resource type="Script" uid="uid://i8yrixerp3hs" path="res://addons/std/input/godot/device_glyphs.gd" id="11_jrs12"]
@@ -21,10 +21,6 @@
 [ext_resource type="Resource" uid="uid://b6swfasqq8m8i" path="res://system/input/unknown/glyphs/switch.tres" id="19_r1fof"]
 [ext_resource type="Resource" uid="uid://pya88dyjf32f" path="res://system/input/unknown/glyphs/steam_controller.tres" id="20_fkhpl"]
 [ext_resource type="Script" uid="uid://7kitoqcsdfhe" path="res://addons/std/input/godot/device_haptics.gd" id="21_wqjmf"]
-
-[sub_resource type="Resource" id="Resource_x0eet"]
-script = ExtResource("8_4utim")
-path = "bindings.dat"
 
 [node name="Input" type="Node" unique_id=652922554]
 
@@ -52,10 +48,16 @@ haptics_joy = NodePath("../../Godot/Components/Haptics")
 
 [node name="Godot" type="Node" parent="." unique_id=45334316]
 
-[node name="StdSettingsRepository" type="Node" parent="Godot" unique_id=1458938025]
+[node name="StdSettingsRepository" type="Node" parent="Godot" unique_id=1458938025 node_paths=PackedStringArray("writer")]
 script = ExtResource("1_o5lxa")
 scope = ExtResource("7_b8ikv")
-sync_target = SubResource("Resource_x0eet")
+writer = NodePath("ProfileConfigWriter")
+
+[node name="ProfileConfigWriter" type="Node" parent="Godot/StdSettingsRepository" unique_id=1252222568]
+script = ExtResource("3_fy3ns")
+compression_mode = 0
+path = "bindings.dat"
+backup_count = 1
 
 [node name="JoypadMonitor" type="Node" parent="Godot" unique_id=1934607391]
 script = ExtResource("9_lnlo2")
