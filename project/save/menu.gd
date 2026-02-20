@@ -20,6 +20,8 @@ const SlotButton := preload("slot_button.gd")
 
 
 func _ready():
+	$Close.pressed.connect(func(): Main.screens().pop())
+
 	for child in _slot_buttons.get_children():
 		var button: SlotButton = child
 		if not button is SlotButton:

@@ -39,6 +39,9 @@ const Splash := preload("./splash/splash.gd")
 ## game is the gameplay screen navigated to after save data loads.
 @export var game: StdScreen
 
+## settings is the settings overlay screen.
+@export var settings: StdScreen
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _manager: StdScreenManager = null
@@ -94,6 +97,13 @@ static func go_to_main_menu() -> void:
 	main._manager.reset(main.initial)
 
 
+## open_settings pushes the settings screen if it is not already in the stack.
+static func open_settings() -> void:
+	var main := _get_main()
+	if main._manager.get_index_of(main.settings) < 0:
+		main._manager.push(main.settings)
+
+
 ## load_game activates the given save slot, loads its data, and navigates to the map.
 ## Returns whether the load succeeded. This method is awaitable.
 static func load_game(slot: int) -> bool:
@@ -133,6 +143,15 @@ func _ready() -> void:
 		return
 
 	_finish_boot(_manager.push)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_toggle_settings"):
+		get_viewport().set_input_as_handled()
+		if _manager.is_current(settings):
+			_manager.pop()
+		elif _manager.get_index_of(settings) < 0:
+			_manager.push(settings)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
