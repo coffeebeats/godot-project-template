@@ -61,15 +61,14 @@ func shutdown(exit_code: int = 0) -> void:
 	# First, emit the shutdown signal so any listeners can gracefully handle it.
 	shutdown_requested.emit(exit_code)
 
+	var scene_tree := get_tree()
+
 	# Next, propagate the quit request to all nodes in the scene. See
 	# https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#sending-your-own-quit-notification. # gdlint:ignore=max-line-length
-	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	scene_tree.root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
-	# NOTE: Defer these calls so any other deferred operations, like 'queue_free' can
-	# complete before exiting.
-
-	print_orphan_nodes.call_deferred()  # Just prior to exit, record orphaned nodes.
-	get_tree().quit.call_deferred(exit_code)
+	scene_tree.quit(exit_code)
+	print_orphan_nodes.call_deferred()  # Defer this to allow time to free nodes.
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #

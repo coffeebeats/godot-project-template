@@ -8,20 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://project/ui/glyph/action.tscn" id="4_4ki2s"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_sdqe3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_5fewj"]
-[ext_resource type="PackedScene" uid="uid://cm4b566x6ped8" path="res://project/settings/menu.tscn" id="5_46s0c"]
-[ext_resource type="PackedScene" uid="uid://dm1yyvkqdxmqe" path="res://project/settings/controls/rebinder.tscn" id="7_2ro8v"]
-[ext_resource type="Script" uid="uid://by4sy628i7ctt" path="res://addons/std/condition/condition_parent.gd" id="7_b6iwl"]
-[ext_resource type="PackedScene" uid="uid://hbb2wxcb7sxf" path="res://project/save/menu.tscn" id="7_u240f"]
-[ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="8_44ldu"]
-[ext_resource type="Script" uid="uid://be11f4pqliry0" path="res://addons/std/condition/expression.gd" id="8_bavw3"]
-[ext_resource type="Resource" uid="uid://ci7xn7gttsuu2" path="res://platform/storefront/unknown/unknown_storefront_expression.tres" id="9_vcdle"]
-[ext_resource type="Resource" uid="uid://nggtxsyr5rs2" path="res://platform/storefront/steam/steam_storefront_expression.tres" id="10_k0l1f"]
-[ext_resource type="Resource" uid="uid://d14ioajw47mqw" path="res://platform/editor_expression.tres" id="10_ux3tr"]
+[ext_resource type="Resource" path="res://project/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
-[ext_resource type="Resource" uid="uid://c48eqp48r1hp0" path="res://system/input/steam/steam_input_enabled_property.tres" id="12_ypfyi"]
-[ext_resource type="Script" uid="uid://d0x6ukvhyecfa" path="res://addons/std/condition/expression_settings_property.gd" id="13_tu2id"]
+[ext_resource type="PackedScene" path="res://project/settings/pusher.tscn" id="11_pusher"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhdsk"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skbay"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 3
@@ -34,11 +25,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="Resource" id="Resource_doihw"]
-script = ExtResource("13_tu2id")
-block = ExtResource("12_ypfyi")
-
-[node name="MainMenu" type="Control" unique_id=1731668465 node_paths=PackedStringArray("toggle_settings_action_prompt")]
+[node name="MainMenu" type="Control" unique_id=1796959560]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,16 +35,17 @@ grow_vertical = 2
 script = ExtResource("1_8stub")
 music_sound_event = ExtResource("2_8n3sl")
 music_filter_param = ExtResource("3_t2uy2")
-toggle_settings_action_prompt = NodePath("MarginContainer/SettingsActionPrompt")
+saves_screen = ExtResource("8_saves")
 
-[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=2136765376]
+[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=212087449]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
+action_set_layer = ExtResource("10_y5hy5")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1653980891]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1697184297]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,21 +54,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="SettingsMenu" parent="." unique_id=978719157 instance=ExtResource("5_46s0c")]
-visible = false
-layout_mode = 1
-
-[node name="StdInputActionSetLoader2" type="Control" parent="SettingsMenu" unique_id=331264269]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_sdqe3")
-action_set_layer = ExtResource("10_y5hy5")
-disable_on_exit = false
-disable_on_visible = true
-enable_on_hidden = true
-
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1098207534]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2029765160]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -91,13 +65,14 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 
-[node name="SettingsActionPrompt" parent="MarginContainer" unique_id=849370084 instance=ExtResource("4_4ki2s")]
+[node name="SettingsActionPrompt" parent="MarginContainer" unique_id=81283462 instance=ExtResource("4_4ki2s")]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_bhdsk")
+theme_override_styles/panel = SubResource("StyleBoxFlat_skbay")
 action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_settings"
+trigger_action_on_press = true
 
-[node name="Buttons" type="MarginContainer" parent="." unique_id=251079390]
+[node name="Buttons" type="MarginContainer" parent="." unique_id=1704132263]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -108,20 +83,20 @@ offset_bottom = 62.0
 grow_vertical = 2
 theme_override_constants/margin_left = 48
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Buttons" unique_id=994662135]
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons" unique_id=393562905]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Buttons/VBoxContainer" unique_id=1444573680]
+[node name="MarginContainer" type="MarginContainer" parent="Buttons/VBoxContainer" unique_id=364229715]
 layout_mode = 2
 theme_override_constants/margin_bottom = 32
 
-[node name="Label" type="Label" parent="Buttons/VBoxContainer/MarginContainer" unique_id=1128677992]
+[node name="Label" type="Label" parent="Buttons/VBoxContainer/MarginContainer" unique_id=1026116102]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.401239, 0.456438, 1)
 theme_override_font_sizes/font_size = 64
 text = "main_game_title"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer" unique_id=1611516152]
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VBoxContainer" unique_id=483925147]
 layout_mode = 2
 
 [node name="Continue" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1419076257]
@@ -137,7 +112,7 @@ layout_mode = 0
 use_as_anchor = true
 priority = 1
 
-[node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=934534422]
+[node name="Play" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=384124317]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Quit")
@@ -145,39 +120,39 @@ theme_type_variation = &"main_menu_button"
 text = "main_play"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" unique_id=809080187 instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" unique_id=1080005762 instance=ExtResource("2_1yx6u")]
 layout_mode = 0
 use_as_anchor = true
 
-[node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=843018477]
+[node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1505883165]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"main_menu_button"
 text = "main_options"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" unique_id=462314953 instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" unique_id=55259504 instance=ExtResource("2_1yx6u")]
 layout_mode = 0
 
-[node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1594725188]
+[node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=2064075112]
 layout_mode = 2
 theme_type_variation = &"main_menu_button"
 text = "main_patch_notes"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" unique_id=1060823701 instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" unique_id=1170607322 instance=ExtResource("2_1yx6u")]
 layout_mode = 0
 
-[node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1463398586]
+[node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=442740360]
 layout_mode = 2
 theme_type_variation = &"main_menu_button"
 text = "main_credits"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" unique_id=1178672076 instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" unique_id=955033863 instance=ExtResource("2_1yx6u")]
 layout_mode = 0
 
-[node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1451101804]
+[node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=396052207]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../Play")
@@ -185,36 +160,15 @@ theme_type_variation = &"main_menu_button"
 text = "main_quit"
 alignment = 0
 
-[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" unique_id=184426901 instance=ExtResource("2_1yx6u")]
+[node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" unique_id=639703717 instance=ExtResource("2_1yx6u")]
 layout_mode = 0
 offset_top = -4.0
 offset_right = 496.0
 offset_bottom = -4.0
 
-[node name="Version" parent="." unique_id=1355348733 instance=ExtResource("3_b6tfj")]
+[node name="Version" parent="." unique_id=1754390057 instance=ExtResource("3_b6tfj")]
 layout_mode = 1
 offset_left = -96.0
 offset_top = -63.0
 
-[node name="SaveMenu" parent="." unique_id=1328042051 instance=ExtResource("7_u240f")]
-visible = false
-layout_mode = 1
-
-[node name="StdInputActionSetLoader" type="Control" parent="SaveMenu" unique_id=1108649804]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_sdqe3")
-action_set_layer = ExtResource("10_y5hy5")
-disable_on_visible = true
-enable_on_hidden = true
-
-[node name="StdConditionParent" type="Node" parent="." unique_id=1706218356]
-script = ExtResource("7_b6iwl")
-expressions_allow = Array[ExtResource("8_bavw3")]([ExtResource("9_vcdle"), ExtResource("10_k0l1f"), ExtResource("10_ux3tr")])
-expressions_block = Array[ExtResource("8_bavw3")]([SubResource("Resource_doihw")])
-
-[node name="BindingPrompt" parent="StdConditionParent" unique_id=914367542 instance=ExtResource("7_2ro8v")]
-visible = false
-scope = ExtResource("8_44ldu")
-float_under = NodePath("../..")
+[node name="SettingsPusher" parent="." unique_id=1184576805 instance=ExtResource("11_pusher")]

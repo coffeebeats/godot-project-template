@@ -1,11 +1,15 @@
 ##
 ## project/settings/menu.gd
 ##
-## SettingsMenu is a full settings menu (within a `Modal`) with the ability to read and
-## write user/game preferences.
+## SettingsMenu is a full settings menu with the ability to read and write user/game
+## preferences. Designed as a standalone Control pushed via StdScreenManager.
 ##
 
-extends Modal
+extends Control
+
+# -- DEPENDENCIES -------------------------------------------------------------------- #
+
+const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -29,45 +33,18 @@ var _tab_switch_muted: bool = false
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _input(event: InputEvent) -> void:
-	super._input(event)
-
-	if not event.is_action_type() or get_viewport().is_input_handled():
-		return
-
-	if event.is_action_pressed(&"ui_toggle_settings"):
-		get_viewport().set_input_as_handled()
-
-		if not Modal.are_any_open():
-			visible = true
-		elif is_head_modal():
-			visible = false
-
-
-func _notification(what: int) -> void:
-	super._notification(what)
-
+func _enter_tree() -> void:
 	if not is_node_ready():
-		return
+		return  # First enter; _ready() handles initial state.
 
-	match what:
-		NOTIFICATION_VISIBILITY_CHANGED:
-			match is_visible_in_tree():
-				false:
-					_maybe_mute_next_focus_sound_event()
-				true:
-					_maybe_mute_next_focus_sound_event()
-
-					# Reset the selected tab upon the menu being shown.
-					if is_visible_in_tree():
-						_tab_switch_muted = true
-						_tab_bar.current_tab = _tab_bar_default_index
-						(func(): _tab_switch_muted = false).call_deferred()
+	# Re-entry (cached instance pushed again):
+	_tab_switch_muted = true
+	_tab_bar.current_tab = _tab_bar_default_index
+	(func(): _tab_switch_muted = false).call_deferred()
+	_maybe_mute_next_focus_sound_event()
 
 
 func _ready():
-	super._ready()
-
 	assert(not is_layout_rtl(), "invalid state: validate support for RTL")
 
 	_tab_bar_default_index = _tab_bar.current_tab
@@ -83,6 +60,9 @@ func _ready():
 
 	Signals.connect_safe(_tab_bar.tab_changed, _on_tabbar_tab_changed)
 	_set_active_index(_tab_bar.current_tab)
+
+	%Close.pressed.connect(_on_close_pressed)
+	_maybe_mute_next_focus_sound_event()
 
 
 func _shortcut_input(event: InputEvent) -> void:
@@ -119,6 +99,10 @@ func _set_active_index(index: int) -> void:
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_close_pressed() -> void:
+	StdInputEvent.trigger_action(&"ui_cancel")
 
 
 # TODO: Consider unifying this with `StdInputCursorFocusHandler`'s use of this code.
