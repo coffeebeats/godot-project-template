@@ -7,4 +7,3 @@ script = ExtResource("1_screen")
 scene_path = "res://project/save/menu.tscn"
 block_input_below = true
 overlay_click_to_close = 0
-close_action = &"ui_cancel"
