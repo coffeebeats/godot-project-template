@@ -19,9 +19,6 @@ const Signals := preload("res://addons/std/event/signal.gd")
 ## the intensity of main menu music when the settings menu is open.
 @export var music_filter_param: StdSoundParamAudioEffect = null
 
-## toggle_settings_action_prompt is an optional action prompt to open the settings menu.
-@export var toggle_settings_action_prompt: InputActionPrompt = null
-
 ## saves_screen is the StdScreen resource for the save slot menu.
 @export var saves_screen: StdScreen = null
 
@@ -47,15 +44,6 @@ func _exit_tree() -> void:
 
 
 func _ready() -> void:
-	if toggle_settings_action_prompt:
-		(
-			Signals
-			. connect_safe(
-				toggle_settings_action_prompt.pressed,
-				_on_settings_prompt_pressed,
-			)
-		)
-
 	_handle_first_focused_sound_event_mute.call_deferred()
 
 	Signals.connect_safe(_continue.pressed, _on_continue_pressed)
@@ -144,10 +132,6 @@ func _on_play_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	Lifecycle.shutdown()
-
-
-func _on_settings_prompt_pressed() -> void:
-	Main.open_settings()
 
 
 func _on_slot_activated(_index: int) -> void:

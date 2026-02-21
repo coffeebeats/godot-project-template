@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_5fewj"]
 [ext_resource type="Resource" path="res://project/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
+[ext_resource type="PackedScene" path="res://project/settings/pusher.tscn" id="11_pusher"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhdsk"]
 resource_local_to_scene = true
@@ -24,7 +25,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("toggle_settings_action_prompt")]
+[node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +36,6 @@ script = ExtResource("1_8stub")
 music_sound_event = ExtResource("2_8n3sl")
 music_filter_param = ExtResource("3_t2uy2")
 saves_screen = ExtResource("8_saves")
-toggle_settings_action_prompt = NodePath("MarginContainer/SettingsActionPrompt")
 
 [node name="StdInputActionSetLoader" type="Control" parent="."]
 anchors_preset = 0
@@ -70,6 +70,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bhdsk")
 action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_settings"
+trigger_action_on_press = true
 
 [node name="Buttons" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -169,3 +170,5 @@ offset_bottom = -4.0
 layout_mode = 1
 offset_left = -96.0
 offset_top = -63.0
+
+[node name="SettingsPusher" parent="." instance=ExtResource("11_pusher")]
