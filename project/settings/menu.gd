@@ -61,7 +61,7 @@ func _ready():
 	Signals.connect_safe(_tab_bar.tab_changed, _on_tabbar_tab_changed)
 	_set_active_index(_tab_bar.current_tab)
 
-	%Close.pressed.connect(func(): Main.screens().pop())
+	%Close.pressed.connect(_on_close_pressed)
 	_maybe_mute_next_focus_sound_event()
 
 
@@ -99,6 +99,10 @@ func _set_active_index(index: int) -> void:
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_close_pressed() -> void:
+	StdInputEvent.trigger_action(&"ui_cancel")
 
 
 # TODO: Consider unifying this with `StdInputCursorFocusHandler`'s use of this code.

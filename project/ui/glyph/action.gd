@@ -12,7 +12,7 @@ extends PanelContainer
 # -- SIGNALS ------------------------------------------------------------------------- #
 
 ## pressed is emitted when this action prompt is pressed. This will be emitted just
-## prior to the action being sent to the scene tree if `emit_action_on_press` is set.
+## prior to the action being sent to the scene tree if `trigger_action_on_press` is set.
 signal pressed
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
@@ -52,12 +52,12 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 @export_subgroup("Behavior")
 
-## emit_action_on_press controls whether the configured action will be emitted to the
+## trigger_action_on_press controls whether the configured action will be emitted to the
 ## scene tree upon click. The `button_mask` property can be used to select which mouse
 ## buttons can be used to click this action prompt.
 ##
 ## NOTE: If `button_mask` is empty, this property will be ignored.
-@export var emit_action_on_press: bool = false
+@export var trigger_action_on_press: bool = false
 
 ## button_mask is a bitfield of `MouseButtonMask` values which, when the action prompt
 ## is clicked with one of the matching mouse buttons, will cause the action to be
@@ -68,8 +68,8 @@ const Signals := preload("res://addons/std/event/signal.gd")
 @export_flags("Left:1", "Right:2", "Middle:4", "Extra1:128", "Extra2:256")
 var button_mask: int = MOUSE_BUTTON_MASK_LEFT:
 	set(value):
-		if value <= 0 and emit_action_on_press:
-			emit_action_on_press = false
+		if value <= 0 and trigger_action_on_press:
+			trigger_action_on_press = false
 
 		button_mask = value
 
@@ -120,13 +120,8 @@ func _gui_input(event: InputEvent) -> void:
 		if event.is_released():
 			pressed.emit()
 
-			if emit_action_on_press:
-				var press_action := InputEventAction.new()
-				press_action.device = event.device
-				press_action.action = action
-				press_action.pressed = true
-
-				Input.parse_input_event(press_action)
+			if trigger_action_on_press:
+				StdInputEvent.trigger_action(action, event.device)
 
 
 func _ready():
