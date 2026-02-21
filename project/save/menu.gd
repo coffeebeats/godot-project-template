@@ -46,6 +46,7 @@ func _ready():
 func _on_close_pressed() -> void:
 	StdInputEvent.trigger_action(&"ui_cancel")
 
+
 func _on_delete_button_pressed(button: Button, slot: int) -> void:
 	var saves := Systems.saves()
 	if saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
