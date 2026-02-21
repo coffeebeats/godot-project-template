@@ -6,7 +6,6 @@
 [ext_resource type="Resource" uid="uid://bm0iks22glme0" path="res://project/main/menu/main_menu_screen.tres" id="5_main_menu"]
 [ext_resource type="Resource" uid="uid://bvf7k2jne5xmc" path="res://project/main/load/screen.tres" id="6_loading"]
 [ext_resource type="Resource" uid="uid://xplpe85m2hqe" path="res://project/maps/example/screen.tres" id="7_map_example"]
-[ext_resource type="Resource" uid="uid://d2vp2eesnf5ng" path="res://project/settings/screen.tres" id="8_settings"]
 
 [node name="Main" type="ColorRect" unique_id=1019467248]
 anchors_preset = 15
@@ -20,7 +19,6 @@ script = ExtResource("1_gcs5q")
 initial = ExtResource("5_main_menu")
 loading = ExtResource("6_loading")
 game = ExtResource("7_map_example")
-settings = ExtResource("8_settings")
 
 [node name="ScreenManager" type="Control" parent="." unique_id=1993552881]
 unique_name_in_owner = true
