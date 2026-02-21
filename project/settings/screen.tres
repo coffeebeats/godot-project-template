@@ -7,4 +7,3 @@ script = ExtResource("1_screen")
 scene_path = "res://project/settings/menu.tscn"
 cache_instance = true
 preload_scenes = ["uid://dm1yyvkqdxmqe"]
-close_action = &"ui_cancel"
