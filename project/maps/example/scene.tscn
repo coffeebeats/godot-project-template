@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="3_qs6w1"]
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="4_w0qnl"]
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="6_qem4v"]
+[ext_resource type="PackedScene" path="res://project/settings/pusher.tscn" id="7_pusher"]
 
 [node name="Scene" type="Control"]
 layout_mode = 3
@@ -94,3 +95,5 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_g63gs")
+
+[node name="SettingsPusher" parent="." instance=ExtResource("7_pusher")]
