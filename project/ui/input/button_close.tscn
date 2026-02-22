@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dm7k3close1bt"]
+
+[ext_resource type="Script" uid="uid://n0q2tphj28ak" path="res://project/ui/input/button_close.gd" id="1_hsep0"]
+[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_olnlp"]
+
+[node name="CloseButton" type="TextureButton" unique_id=941637216]
+custom_minimum_size = Vector2(64, 64)
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_hsep0")
+
+[node name="FocusHandler" parent="." unique_id=1181933752 instance=ExtResource("2_olnlp")]
+layout_mode = 0
