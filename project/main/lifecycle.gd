@@ -1,5 +1,5 @@
 ##
-## Lifecycle
+## project/main/lifecycle.gd
 ##
 ## An autoloaded node for coordinating lifecycle events, like application shutdown.
 ##
