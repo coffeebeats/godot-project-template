@@ -43,10 +43,7 @@ var _has_advanced: bool = false
 
 
 func _gui_input(event: InputEvent) -> void:
-	if _has_advanced:
-		return
-
-	if _elapsed < duration_min:
+	if _has_advanced or _elapsed < duration_min:
 		return
 
 	if (
@@ -56,24 +53,6 @@ func _gui_input(event: InputEvent) -> void:
 	):
 		accept_event()
 		_advance()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if _has_advanced or _elapsed < duration_min:
-		return
-
-	if not action_set:
-		assert(false, "invalid state; missing action set")
-		return
-
-	for action in action_set.actions_digital:
-		if event.is_action_pressed(action):
-			if _elapsed < duration_min:
-				return
-
-			get_viewport().set_input_as_handled()
-			_advance()
-			return
 
 
 func _process(delta: float) -> void:
@@ -90,6 +69,21 @@ func _ready() -> void:
 	get_tree().create_timer(duration).timeout.connect(_advance)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if _has_advanced or _elapsed < duration_min:
+		return
+
+	if not action_set:
+		assert(false, "invalid state; missing action set")
+		return
+
+	for action in action_set.actions_digital:
+		if event.is_action_pressed(action):
+			get_viewport().set_input_as_handled()
+			_advance()
+			return
+
+
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
@@ -98,6 +92,7 @@ func _advance() -> void:
 		return
 
 	set_process_unhandled_input(false)
+	set_process(false)
 
 	_has_advanced = true
 	advanced.emit()
