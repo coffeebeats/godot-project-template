@@ -61,7 +61,7 @@ const KEY_ACTIVE_SLOT := &"active"
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _active_slot: int = -1
-var _logger := StdLogger.create(&"system/save").with_timestamp()
+var _logger := StdLogger.create(&"system/save")
 var _save_data: StdSaveData = null
 var _save_slots: Array[SaveSlot] = []
 var _slots_ready: bool = false
