@@ -38,12 +38,13 @@ signal advanced
 
 var _elapsed: float = 0.0
 var _has_advanced: bool = false
+var _has_skipped: bool = false
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
 func _gui_input(event: InputEvent) -> void:
-	if _has_advanced or _elapsed < duration_min:
+	if _has_advanced or _has_skipped:
 		return
 
 	if (
@@ -52,11 +53,17 @@ func _gui_input(event: InputEvent) -> void:
 		and event.pressed
 	):
 		accept_event()
-		_advance()
+
+		_has_skipped = true
+		if _elapsed >= duration_min:
+			_advance()
 
 
 func _process(delta: float) -> void:
 	_elapsed += delta
+
+	if _has_skipped and _elapsed >= duration_min:
+		_advance()
 
 
 func _ready() -> void:
@@ -70,7 +77,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _has_advanced or _elapsed < duration_min:
+	if _has_advanced or _has_skipped:
 		return
 
 	if not action_set:
@@ -80,8 +87,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	for action in action_set.actions_digital:
 		if event.is_action_pressed(action):
 			get_viewport().set_input_as_handled()
-			_advance()
-			return
+
+			_has_skipped = true
+			if _elapsed >= duration_min:
+				_advance()
+				return
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
