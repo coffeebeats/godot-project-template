@@ -1,5 +1,25 @@
 # Changelog
 
+## 4.0.2 (2026-02-22)
+
+## What's Changed
+* chore(deps): bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/383
+* chore(deps): bump actions/cache from 5.0.1 to 5.0.3 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/384
+* chore(addons): update `std` to `v4.1.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/386
+* refactor(project): migrate scene orchestration to `std`'s new `screen` module by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/387
+* refactor(project): remove `AnimationEffect` and update users by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/388
+* chore(docs): create agent instructions for repository by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/389
+* chore(claude): create `add-translation` skill by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/390
+* fix(project): add continue button; load save slots asynchronously by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/391
+* fix(setting): remove deprecated sync targets and replace with config writers by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/392
+* chore: add backup settings files to `.gitignore` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/393
+* refactor(project): migrate menus from `std/scene` to `std/screen` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/394
+* chore(addons): update `std` to `v4.5.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/395
+* fix(platform): configure logging profiles for editor and release modes by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/396
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.0.1...v4.0.2
+
 ## 4.0.1 (2026-02-01)
 
 ## What's Changed
