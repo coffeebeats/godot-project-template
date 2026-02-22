@@ -54,6 +54,9 @@ gdlint $(find . -path ./addons -prune -o -name '*.gd' -print)
 
 # Run all tests
 godot --headless -s addons/gut/gut_cmdln.gd -gdir="res://" -ginclude_subdirs -gprefix="" -gsuffix="_test.gd" -gexit
+
+# Import resources and generate UID files 
+godot --import --headless
 ```
 
 ## Code Style
