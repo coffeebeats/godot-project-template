@@ -1,3 +1,34 @@
 [gd_resource type="Theme" format=3 uid="uid://bnrg6xei4eqc2"]
 
+[ext_resource type="StyleBox" uid="uid://djr3hwo2qfl8c" path="res://project/ui/input/prompt_normal_stylebox.tres" id="1_normal"]
+[ext_resource type="StyleBox" uid="uid://jmrm1ys43asj" path="res://project/ui/input/prompt_focus_stylebox.tres" id="2_focus"]
+[ext_resource type="StyleBox" uid="uid://cisw7f1h6xhg6" path="res://project/ui/input/prompt_disabled_stylebox.tres" id="3_disabled"]
+
 [resource]
+Button/styles/disabled = ExtResource("3_disabled")
+Button/styles/focus = ExtResource("2_focus")
+Button/styles/hover = ExtResource("2_focus")
+Button/styles/normal = ExtResource("1_normal")
+Button/styles/pressed = ExtResource("2_focus")
+
+button_dialog/base_type = &"Button"
+
+button_menu/base_type = &"Button"
+
+button_tab_selected/base_type = &"Button"
+button_tab_selected/styles/disabled = ExtResource("3_disabled")
+button_tab_selected/styles/focus = ExtResource("2_focus")
+button_tab_selected/styles/hover = ExtResource("2_focus")
+button_tab_selected/styles/normal = ExtResource("2_focus")
+button_tab_selected/styles/pressed = ExtResource("2_focus")
+
+button_tab_unselected/base_type = &"Button"
+button_tab_unselected/styles/disabled = ExtResource("3_disabled")
+button_tab_unselected/styles/focus = ExtResource("2_focus")
+button_tab_unselected/styles/hover = ExtResource("2_focus")
+button_tab_unselected/styles/normal = ExtResource("1_normal")
+button_tab_unselected/styles/pressed = ExtResource("2_focus")
+
+panel_dialog/base_type = &"PanelContainer"
+
+vbox_body/base_type = &"VBoxContainer"
