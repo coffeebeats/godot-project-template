@@ -123,7 +123,7 @@ func _on_uncovered(_scene: Node) -> void:
 
 
 func _on_options_pressed() -> void:
-	StdInputEvent.trigger_action(&"ui_toggle_settings")
+	StdInputEvent.trigger_action(&"ui_toggle_menu")
 
 
 func _on_play_pressed() -> void:
