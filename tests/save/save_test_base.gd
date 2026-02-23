@@ -38,47 +38,6 @@ static func _sorted_serde_properties(obj: Object) -> Array:
 	return result
 
 
-func _populate_item(item: StdConfigItem, rng: RandomNumberGenerator) -> void:
-	for property in _sorted_serde_properties(item):
-		var property_name: StringName = property[&"name"]
-
-		match property[&"type"]:
-			TYPE_BOOL:
-				item.set(property_name, true)
-			TYPE_INT:
-				item.set(property_name, rng.randi_range(1, 1000))
-			TYPE_FLOAT:
-				item.set(property_name, rng.randf_range(1.0, 1000.0))
-			TYPE_STRING:
-				item.set(property_name, "test_%d" % rng.randi())
-			TYPE_VECTOR2:
-				var x := rng.randf_range(1.0, 100.0)
-				var y := rng.randf_range(1.0, 100.0)
-				item.set(property_name, Vector2(x, y))
-			TYPE_PACKED_INT64_ARRAY:
-				var v := rng.randi_range(1, 1000)
-				item.set(property_name, PackedInt64Array([v]))
-			TYPE_PACKED_STRING_ARRAY:
-				var v := "test_%d" % rng.randi()
-				item.set(property_name, PackedStringArray([v]))
-			TYPE_PACKED_VECTOR2_ARRAY:
-				var x := rng.randf_range(1.0, 100.0)
-				var y := rng.randf_range(1.0, 100.0)
-				var v := PackedVector2Array([Vector2(x, y)])
-				item.set(property_name, v)
-			_:
-				fail_test("unsupported type: %d" % property[&"type"])
-
-
-func _populate_schema(schema: StdConfigSchema, rng: RandomNumberGenerator) -> void:
-	for property in _sorted_serde_properties(schema):
-		var item: Variant = schema.get(property[&"name"])
-		if not item is StdConfigItem:
-			continue
-
-		_populate_item(item, rng)
-
-
 func _assert_items_equal(
 	a: StdConfigItem,
 	b: StdConfigItem,
@@ -116,3 +75,49 @@ func _assert_schemas_equal(a: StdConfigSchema, b: StdConfigSchema) -> void:
 
 func _create_save_data() -> ProjectSaveData:
 	return Systems.saves().create_new_save_data()
+
+
+func _get_random_value_for_type(
+	type: int,
+	rng: RandomNumberGenerator,
+) -> Variant:
+	match type:
+		TYPE_BOOL:
+			return true
+		TYPE_INT:
+			return rng.randi_range(1, 1000)
+		TYPE_FLOAT:
+			return rng.randf_range(1.0, 1000.0)
+		TYPE_STRING:
+			return "test_%d" % rng.randi()
+		TYPE_VECTOR2:
+			var x := rng.randf_range(1.0, 100.0)
+			var y := rng.randf_range(1.0, 100.0)
+			return Vector2(x, y)
+		TYPE_PACKED_INT64_ARRAY:
+			return PackedInt64Array([rng.randi_range(1, 1000)])
+		TYPE_PACKED_STRING_ARRAY:
+			return PackedStringArray(["test_%d" % rng.randi()])
+		TYPE_PACKED_VECTOR2_ARRAY:
+			var x := rng.randf_range(1.0, 100.0)
+			var y := rng.randf_range(1.0, 100.0)
+			return PackedVector2Array([Vector2(x, y)])
+		_:
+			fail_test("unsupported type: %d" % type)
+			return null
+
+
+func _populate_item(item: StdConfigItem, rng: RandomNumberGenerator) -> void:
+	for property in _sorted_serde_properties(item):
+		var value: Variant = _get_random_value_for_type(property[&"type"], rng)
+		if value != null:
+			item.set(property[&"name"], value)
+
+
+func _populate_schema(schema: StdConfigSchema, rng: RandomNumberGenerator) -> void:
+	for property in _sorted_serde_properties(schema):
+		var item: Variant = schema.get(property[&"name"])
+		if not item is StdConfigItem:
+			continue
+
+		_populate_item(item, rng)
