@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="1_pusher"]
 [ext_resource type="Script" uid="uid://e65imwf654xt" path="res://project/save/menu.gd" id="1_sihek"]
-[ext_resource type="Resource" path="res://project/save/screen.tres" id="2_saves_screen"]
+[ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/save/screen.tres" id="2_saves_screen"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/save/slot_button.tscn" id="3_842n5"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_dj346"]
-[ext_resource type="Texture2D" uid="uid://bbgn0o2diu8ws" path="res://project/settings/close.svg" id="5_close"]
+[ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="5_scrim"]
+[ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://project/ui/menu/button_close.tscn" id="6_close"]
 
 [node name="SaveMenu" type="Control" unique_id=938619952]
 layout_mode = 3
@@ -20,14 +21,8 @@ script = ExtResource("1_pusher")
 screen = ExtResource("2_saves_screen")
 pop_actions = Array[StringName]([&"ui_cancel"])
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=767913469]
+[node name="Scrim" parent="." unique_id=1622107886 instance=ExtResource("5_scrim")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.588235)
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=183551620]
 layout_mode = 1
@@ -41,6 +36,7 @@ mouse_filter = 2
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1970037364]
 custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
+theme_type_variation = &"panel_dialog"
 script = ExtResource("1_sihek")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1929183545]
@@ -133,18 +129,7 @@ text = "save_slots_delete"
 [node name="FocusHandler" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/DeleteButtons/Button4" unique_id=1675022320 instance=ExtResource("4_dj346")]
 layout_mode = 0
 
-[node name="Close" type="TextureButton" parent="CenterContainer/PanelContainer" unique_id=1843018993]
-custom_minimum_size = Vector2(64, 64)
+[node name="CloseButton" parent="CenterContainer/PanelContainer" unique_id=1689499063 instance=ExtResource("6_close")]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-focus_mode = 0
-texture_normal = ExtResource("5_close")
-texture_pressed = ExtResource("5_close")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="FocusHandler" parent="CenterContainer/PanelContainer/Close" unique_id=1049887222 instance=ExtResource("4_dj346")]
-layout_mode = 0
 
 [editable path="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SlotButtons/SlotButton1"]

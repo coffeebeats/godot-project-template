@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dkw2li5unhvv7"]
+
+[ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="1_scrim"]
+[ext_resource type="PackedScene" uid="uid://4brfq2tumt1o" path="res://project/ui/menu/alert.tscn" id="2_confirm"]
+
+[node name="ConfirmDelete" type="Control" unique_id=392771390]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scrim" parent="." unique_id=265989381 instance=ExtResource("1_scrim")]
+layout_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1818032603]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AlertDialog" parent="CenterContainer" unique_id=979354845 instance=ExtResource("2_confirm")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "save_slots_delete_title"
+message_text = "save_slots_delete_message"
+confirm_label = "save_slots_delete_confirm"
+cancel_label = "save_slots_delete_cancel"
