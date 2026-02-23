@@ -252,6 +252,14 @@ func create_new_save_data() -> StdSaveData:
 	return data
 
 
+## clear_save_data_cache discards the in-memory cached save data for the active slot,
+## forcing the next 'load_save_data' call to read from disk.
+##
+## NOTE: This is primarily useful for tests.
+func clear_save_data_cache() -> void:
+	_save_data = null
+
+
 ## get_save_data copies the cached save data for the active save slot into the provided
 ## resource. The return value denotes whether this operation succeeded; if `false` is
 ## returned, no cached data was found.
