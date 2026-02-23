@@ -263,10 +263,10 @@ msgstr "In-game actions"
 msgid "options_controls_GameplayOptions"
 msgstr "In-game options"
 
-#. An input action that opens the settings menu during gameplay.
+#. An input action that opens the pause menu during gameplay.
 msgctxt "actions_GameplayOptions"
-msgid "ui_toggle_settings"
-msgstr "Options"
+msgid "ui_toggle_menu_pause"
+msgstr "Pause"
 
 #. Used as a category name for a group of input actions related to menu navigation.
 msgid "options_controls_Menu"
@@ -318,7 +318,7 @@ msgstr "Menu options"
 
 #. An input action that opens the settings menu when the player is on a menu screen.
 msgctxt "actions_MenuOptions"
-msgid "ui_toggle_settings"
+msgid "ui_toggle_menu_settings"
 msgstr "Options"
 
 #. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.

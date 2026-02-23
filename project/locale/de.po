@@ -266,10 +266,10 @@ msgstr ""
 msgid "In-game options"
 msgstr ""
 
-#. An input action that opens the settings menu during gameplay.
+#. An input action that opens the pause menu during gameplay.
 msgctxt "actions_GameplayOptions"
-msgid "Options"
-msgstr "Optionen"
+msgid "Pause"
+msgstr ""
 
 #. Used as a category name for a group of input actions related to menu navigation.
 msgid "Menus"

@@ -28,5 +28,5 @@ unique_name_in_owner = true
 layout_mode = 2
 title_text = "save_slots_delete_title"
 message_text = "save_slots_delete_message"
-confirm_label = "save_slots_delete_confirm"
-cancel_label = "save_slots_delete_cancel"
+confirm_label = "save_slots_delete"
+cancel_label = "confirm_dialog_cancel"
