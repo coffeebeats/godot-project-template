@@ -21,7 +21,7 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("1_gcs5q")
 initial = ExtResource("5_main_menu")
 loading = ExtResource("6_loading")
-splash = Array[ExtResource("5_8rcmj")]([ExtResource("6_dhfna"), ExtResource("7_iq4is")])
+splash = Array[ExtResource("5_8rcmj")]([ExtResource("7_iq4is"), ExtResource("6_dhfna")])
 game = ExtResource("7_map_example")
 
 [node name="ScreenManager" type="Control" parent="." unique_id=1993552881]

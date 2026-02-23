@@ -1,13 +1,12 @@
 [gd_resource type="Resource" script_class="StdScreen" format=3 uid="uid://bvf7k2jne5xmc"]
 
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
-[ext_resource type="Resource" uid="uid://c7c61vekyxm0e" path="res://project/ui/screen/transition_fade_in.tres" id="2_yncun"]
-[ext_resource type="Resource" uid="uid://cmyk87y2tw2gr" path="res://project/ui/screen/transition_fade_out.tres" id="3_rgw76"]
+[ext_resource type="Resource" uid="uid://c8j1lemc258ck" path="res://project/main/load/transition_fade.tres" id="2_ygtsf"]
 
 [resource]
 script = ExtResource("1_screen")
 scene_path = "res://project/main/load/loading.tscn"
-transition_enter = ExtResource("2_yncun")
+transition_enter = ExtResource("2_ygtsf")
 block_on_enter = true
-transition_exit = ExtResource("3_rgw76")
+transition_exit = ExtResource("2_ygtsf")
 block_on_exit = true
