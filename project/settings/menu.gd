@@ -30,7 +30,7 @@ var _tab_switch_muted: bool = false
 
 func _enter_tree() -> void:
 	if not is_node_ready():
-		return # First enter; _ready() handles initial state.
+		return  # First enter; _ready() handles initial state.
 
 	# Re-entry (cached instance pushed again):
 	_tab_switch_muted = true
