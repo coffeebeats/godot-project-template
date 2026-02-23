@@ -4,31 +4,98 @@
 [ext_resource type="StyleBox" uid="uid://jmrm1ys43asj" path="res://project/ui/input/prompt_focus_stylebox.tres" id="2_focus"]
 [ext_resource type="StyleBox" uid="uid://cisw7f1h6xhg6" path="res://project/ui/input/prompt_disabled_stylebox.tres" id="3_disabled"]
 
+[sub_resource type="StyleBoxFlat" id="tab_disabled"]
+content_margin_left = 48.0
+content_margin_top = 12.0
+content_margin_right = 48.0
+content_margin_bottom = 12.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.627451)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.307978, 0.307978, 0.307978, 0.784314)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="tab_selected_focus"]
+content_margin_left = 48.0
+content_margin_top = 12.0
+content_margin_right = 48.0
+content_margin_bottom = 12.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="tab_selected"]
+content_margin_left = 48.0
+content_margin_top = 12.0
+content_margin_right = 48.0
+content_margin_bottom = 12.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="tab_focus"]
+content_margin_left = 48.0
+content_margin_top = 12.0
+content_margin_right = 48.0
+content_margin_bottom = 12.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="tab_normal"]
+content_margin_left = 48.0
+content_margin_top = 12.0
+content_margin_right = 48.0
+content_margin_bottom = 12.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [resource]
 Button/styles/disabled = ExtResource("3_disabled")
 Button/styles/focus = ExtResource("2_focus")
 Button/styles/hover = ExtResource("2_focus")
 Button/styles/normal = ExtResource("1_normal")
 Button/styles/pressed = ExtResource("2_focus")
-
 button_dialog/base_type = &"Button"
-
 button_menu/base_type = &"Button"
-
 button_tab_selected/base_type = &"Button"
-button_tab_selected/styles/disabled = ExtResource("3_disabled")
-button_tab_selected/styles/focus = ExtResource("2_focus")
-button_tab_selected/styles/hover = ExtResource("2_focus")
-button_tab_selected/styles/normal = ExtResource("2_focus")
-button_tab_selected/styles/pressed = ExtResource("2_focus")
-
+button_tab_selected/font_sizes/font_size = 32
+button_tab_selected/styles/disabled = SubResource("tab_disabled")
+button_tab_selected/styles/focus = SubResource("tab_selected_focus")
+button_tab_selected/styles/hover = SubResource("tab_selected_focus")
+button_tab_selected/styles/normal = SubResource("tab_selected")
+button_tab_selected/styles/pressed = SubResource("tab_selected_focus")
 button_tab_unselected/base_type = &"Button"
-button_tab_unselected/styles/disabled = ExtResource("3_disabled")
-button_tab_unselected/styles/focus = ExtResource("2_focus")
-button_tab_unselected/styles/hover = ExtResource("2_focus")
-button_tab_unselected/styles/normal = ExtResource("1_normal")
-button_tab_unselected/styles/pressed = ExtResource("2_focus")
-
+button_tab_unselected/font_sizes/font_size = 32
+button_tab_unselected/styles/disabled = SubResource("tab_disabled")
+button_tab_unselected/styles/focus = SubResource("tab_focus")
+button_tab_unselected/styles/hover = SubResource("tab_focus")
+button_tab_unselected/styles/normal = SubResource("tab_normal")
+button_tab_unselected/styles/pressed = SubResource("tab_focus")
 panel_dialog/base_type = &"PanelContainer"
-
 vbox_body/base_type = &"VBoxContainer"
