@@ -9,7 +9,7 @@ extends StdConfigItem
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## count is an example value that will be incremented by the demo scene.
+## count is an example integer value.
 @export var count: int = 0
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
