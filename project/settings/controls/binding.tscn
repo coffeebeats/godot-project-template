@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="1_67jty"]
 [ext_resource type="Script" uid="uid://hna4on5363k4" path="res://project/settings/controls/binding.gd" id="1_q4f6o"]
-[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="3_ffo6a"]
+[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/button.tscn" id="3_ffo6a"]
 
 [node name="Binding" type="Control" unique_id=1070955959 node_paths=PackedStringArray("glyph", "button")]
 custom_minimum_size = Vector2(128, 48)
