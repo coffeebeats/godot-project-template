@@ -103,7 +103,7 @@ func _ready() -> void:
 		var button: Button = ButtonScene.instantiate()
 		button.text = tabs[i]
 		button.focus_mode = Control.FOCUS_NONE
-		button.size_flags_horizontal = SIZE_EXPAND_FILL
+		button.custom_minimum_size.x = 160
 		button.pressed.connect(_on_tab_pressed.bind(i))
 		add_child(button)
 		_buttons.append(button)

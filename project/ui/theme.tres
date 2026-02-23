@@ -1,8 +1,88 @@
 [gd_resource type="Theme" format=3 uid="uid://bnrg6xei4eqc2"]
 
-[ext_resource type="StyleBox" uid="uid://djr3hwo2qfl8c" path="res://project/ui/input/prompt_normal_stylebox.tres" id="1_normal"]
-[ext_resource type="StyleBox" uid="uid://jmrm1ys43asj" path="res://project/ui/input/prompt_focus_stylebox.tres" id="2_focus"]
-[ext_resource type="StyleBox" uid="uid://cisw7f1h6xhg6" path="res://project/ui/input/prompt_disabled_stylebox.tres" id="3_disabled"]
+[sub_resource type="StyleBoxFlat" id="button_normal"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="button_focus"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="button_disabled"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.627451)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.307978, 0.307978, 0.307978, 0.784314)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="checkbox_padding"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="checkbox_focus"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="option_padding"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="option_focus"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.313726)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="tab_disabled"]
 content_margin_left = 48.0
@@ -76,11 +156,23 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [resource]
-Button/styles/disabled = ExtResource("3_disabled")
-Button/styles/focus = ExtResource("2_focus")
-Button/styles/hover = ExtResource("2_focus")
-Button/styles/normal = ExtResource("1_normal")
-Button/styles/pressed = ExtResource("2_focus")
+Button/styles/disabled = SubResource("button_disabled")
+Button/styles/focus = SubResource("button_focus")
+Button/styles/hover = SubResource("button_focus")
+Button/styles/normal = SubResource("button_normal")
+Button/styles/pressed = SubResource("button_focus")
+CheckBox/styles/disabled = SubResource("checkbox_padding")
+CheckBox/styles/focus = SubResource("checkbox_focus")
+CheckBox/styles/hover = SubResource("checkbox_focus")
+CheckBox/styles/hover_pressed = SubResource("checkbox_focus")
+CheckBox/styles/normal = SubResource("checkbox_padding")
+CheckBox/styles/pressed = SubResource("checkbox_padding")
+OptionButton/styles/disabled = SubResource("option_padding")
+OptionButton/styles/focus = SubResource("option_focus")
+OptionButton/styles/hover = SubResource("option_focus")
+OptionButton/styles/hover_pressed = SubResource("option_focus")
+OptionButton/styles/normal = SubResource("option_padding")
+OptionButton/styles/pressed = SubResource("option_padding")
 button_dialog/base_type = &"Button"
 button_menu/base_type = &"Button"
 button_tab_selected/base_type = &"Button"
