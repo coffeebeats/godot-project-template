@@ -45,7 +45,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = &"vbox_body"
+theme_type_variation = &"menu_body"
 
 [node name="Godot" type="Node" parent="." unique_id=1067462580 node_paths=PackedStringArray("targets")]
 script = ExtResource("1_slt8e")
