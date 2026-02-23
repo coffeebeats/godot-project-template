@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://4brfq2tumt1o"]
 
-[ext_resource type="Script" uid="uid://dp6o8d1i3y7t3" path="res://project/ui/menu/confirm.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dp6o8d1i3y7t3" path="res://project/ui/menu/alert.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/button.tscn" id="3_button"]
 
 [node name="ConfirmationDialog" type="PanelContainer" unique_id=994677952]

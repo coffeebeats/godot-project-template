@@ -1,11 +1,12 @@
 ##
-## project/ui/menu/confirm.gd
+## project/ui/menu/alert.gd
 ##
-## Confirm is a reusable confirmation dialog body panel with confirm and cancel buttons.
-## Default focus lands on the cancel button to prevent accidental confirmation.
+## AlertDialog is a reusable confirmation dialog body panel with confirm and cancel
+## buttons. Default focus lands on the cancel button to prevent accidental confirmation.
 ##
 
 @tool
+class_name AlertDialog
 extends PanelContainer
 
 # -- SIGNALS ------------------------------------------------------------------------- #
@@ -13,7 +14,7 @@ extends PanelContainer
 ## confirmed is emitted when the confirm button is pressed.
 signal confirmed
 
-## cancelled is emitted when the cancel button or ui_cancel is pressed.
+## cancelled is emitted when the cancel button or `ui_cancel` is pressed.
 signal cancelled
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
