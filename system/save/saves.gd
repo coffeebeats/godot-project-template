@@ -156,11 +156,9 @@ func clear_active_slot() -> bool:
 	_writer.slot = -1
 	_save_data = null
 
-	var is_change := slot_scope.config.erase(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT)
-	assert(is_change, "invalid state; expected active slot to be updated")
+	slot_scope.config.erase(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT)
 
-	if is_change:
-		slot_deactivated.emit(slot)
+	slot_deactivated.emit(slot)
 
 	return true
 
