@@ -60,13 +60,17 @@ func delete_save_directory(slot: int) -> Error:
 	var path_absolute := FilePath.make_project_path_absolute(directory)
 	if not DirAccess.dir_exists_absolute(path_absolute):
 		_worker_mutex.unlock()
-		(
-			_logger
-			. warn(
-				"Tried to delete non-existent save directory.",
-				{&"directory": directory},
+
+		# NOTE: Tests rely on this to clean up save slots.
+		if not OS.has_feature(&"editor"):
+			(
+				_logger
+				. warn(
+					"Tried to delete non-existent save directory.",
+					{&"directory": directory},
+				)
 			)
-		)
+
 		return OK
 
 	var err := _delete_directory(path_absolute)
