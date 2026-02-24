@@ -36,6 +36,10 @@ const Signals := preload("res://addons/std/event/signal.gd")
 		if _glyph:
 			_glyph.action = value
 
+## action_text overrides the text used for the action's label. When empty, `action` is
+## used as the label text instead.
+@export var action_text: StringName = ""
+
 ## binding_index is the index of the binding to show for the `Glyph`.
 @export var binding_index: int = 0:
 	set(value):
@@ -135,7 +139,8 @@ func _ready():
 	player_id = player_id
 
 	assert(_label is Label, "invalid state; missing label node")
-	_label.text = Locales.tr_action(action_set.name, action)
+	var text := action_text if action_text else action
+	_label.text = Locales.tr_action(action_set.name, text)
 
 	var stylebox: StyleBoxFlat = get_theme_stylebox(&"panel")
 	if stylebox is StyleBoxFlat and (border_fade_in or border_fade_out):
