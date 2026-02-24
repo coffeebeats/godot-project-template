@@ -104,7 +104,7 @@ func _get_random_value_for_type(
 			return PackedVector2Array([Vector2(x, y)])
 		_:
 			fail_test("unsupported type: %d" % type)
-			return null
+			return null  # gdlint:ignore=max-returns
 
 
 func _populate_item(item: StdConfigItem, rng: RandomNumberGenerator) -> void:

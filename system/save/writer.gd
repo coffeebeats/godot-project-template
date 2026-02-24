@@ -17,7 +17,7 @@ extends StdSaveFile
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-static var _save_root_override: String = ""
+static var _save_root_override: String = ""  # gdlint:ignore=class-definitions-order
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
