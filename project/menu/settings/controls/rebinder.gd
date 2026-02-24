@@ -95,7 +95,6 @@ static func start_rebinding(
 	Signals.connect_safe(slot.device_activated, _instance._on_device_activated)
 
 	Main.screens().push(_instance.screen, _instance)
-	_instance._activate()
 
 	return true
 
@@ -198,18 +197,24 @@ func _enter_tree() -> void:
 	)
 	StdGroup.with_id(GROUP_REBINDER).add_member(self)
 
+	# NOTE: On subsequent pushes _ready() won't fire again, so activate here. On the
+	# first push, _ready() handles activation instead.
+	if is_node_ready():
+		_activate()
+
 
 func _ready() -> void:
 	assert(screen is StdScreen, "invalid config; missing screen")
 
 	set_process_input(false)
+	_activate()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
-## _activate enables input processing and updates the prompt UI. Must be called after
-## the node is in the tree (so children are ready).
+## _activate enables input processing and updates the prompt UI. Called from tree
+## lifecycle methods (`_ready` on first push, `_enter_tree` on subsequent pushes).
 func _activate() -> void:
 	assert(not is_processing_input(), "invalid state; already processing input")
 	set_process_input(true)
