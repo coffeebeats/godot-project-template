@@ -32,7 +32,7 @@ Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or w
 ## Common Workflows
 
 - **Adding a setting** — Create a `StdSettingsProperty*` resource in `system/setting/<category>/`. Add an observer (extends `StdSettingsObserver`) to react to value changes. Add UI in `project/menu/settings/<tab>/` using `setting.tscn` and a controller node (e.g., `StdSettingsControllerRange`). Wire the observer into `system/setting/settings.tscn`.
-- **Adding a save data field** — Create a class extending `StdConfigItem` in `project/save/`. Add an `@export` for it in `data.gd` and register it in `data.tres`. Access at runtime via `Main.get_active_save_data()`. If migrating existing saves, bump the version in `ProjectSaveData` and add a `StdConfigSchemaMigration`.
+- **Adding a save data field** — Create a class extending `StdConfigItem` in `project/save/data/`. Add an `@export` for it in `data.gd` and register it in `data.tres`. Access at runtime via `Main.get_active_save_data()`. If migrating existing saves, bump the version in `ProjectSaveData`, add a `StdConfigSchemaMigration`, and regenerate golden files with `TEST_GENERATE_GOLDENS=1` (see [Testing](#testing)).
 - **Adding a screen** — Create a `.tscn` scene and `.gd` script. Create a `StdScreen` resource (`.tres`) pointing to the scene with transition config. Export or preload the resource in `main.gd`. Navigate via `Main.screens().push()`, `.replace()`, `.pop()`, or `.reset()`.
 - **Adding a translatable string** — Use the `add-translation` skill. Only edit `messages.pot` and `en_US.po` (key-based `msgid` values); other `.po` files use English text as `msgid` (swapped via `poswap`) and must not be edited directly. Reference keys in scenes via `text` property or in code via `tr("my_new_key")`.
 - **Adding an input action** — Add the action to a `StdInputActionSet` resource in `project/input/actions/`. Add default binding in `project.godot` under `[input]`. Add translation with `msgctxt "actions_<SetName>"` to `messages.pot` and `en_US.po`. Scenes load action sets via `StdInputActionSetLoader` nodes.
@@ -97,6 +97,8 @@ func test_config_set_float_updates_value():
     # Then: The value is present.
     assert_eq(config.get_float("category", "key", 0.0), 1.0)
 ```
+
+Schema migration tests compare against golden files in `tests/testdata/golden/saves/`. After a schema version bump, regenerate with `TEST_GENERATE_GOLDENS=1`. CI sets this to `0` to prevent accidental generation.
 
 ## Commits
 

@@ -1,9 +1,8 @@
 ##
 ## system/save/writer.gd
 ##
-## SystemSaveWriter is a node for reading/writing save data for the configured save
-## slot. File system operations occur in a background thread, so both sync and async
-## APIs are provided.
+## A node for reading/writing save data for the configured save slot. File system
+## operations occur in a background thread, so both sync and async APIs are provided.
 ##
 
 extends StdSaveFile
@@ -16,6 +15,10 @@ extends StdSaveFile
 	get = _get_slot,
 	set = _set_slot
 
+# -- INITIALIZATION ------------------------------------------------------------------ #
+
+static var _save_root_override: String = ""  # gdlint:ignore=class-definitions-order
+
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
@@ -25,6 +28,9 @@ static func get_save_directory(index: int) -> String:
 	if index < 0:
 		assert(false, "invalid argument; slot index out of range")
 		return ""
+
+	if OS.has_feature("editor") and _save_root_override:
+		return _save_root_override.path_join(str(index))
 
 	var profile := Platform.get_user_profile()
 	if not profile:
@@ -54,13 +60,17 @@ func delete_save_directory(slot: int) -> Error:
 	var path_absolute := FilePath.make_project_path_absolute(directory)
 	if not DirAccess.dir_exists_absolute(path_absolute):
 		_worker_mutex.unlock()
-		(
-			_logger
-			. warn(
-				"Tried to delete non-existent save directory.",
-				{&"directory": directory},
+
+		# NOTE: Tests rely on this to clean up save slots.
+		if not OS.has_feature(&"editor"):
+			(
+				_logger
+				. warn(
+					"Tried to delete non-existent save directory.",
+					{&"directory": directory},
+				)
 			)
-		)
+
 		return OK
 
 	var err := _delete_directory(path_absolute)
@@ -74,6 +84,17 @@ func delete_save_directory(slot: int) -> Error:
 
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
+
+
+func _get_save_directory() -> String:
+	_worker_mutex.lock()
+	var index := slot
+	_worker_mutex.unlock()
+
+	return get_save_directory(index)
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
 func _delete_directory(path_absolute: String) -> Error:
@@ -105,14 +126,6 @@ func _delete_directory(path_absolute: String) -> Error:
 			return err
 
 	return DirAccess.remove_absolute(path_absolute)
-
-
-func _get_save_directory() -> String:
-	_worker_mutex.lock()
-	var index := slot
-	_worker_mutex.unlock()
-
-	return get_save_directory(index)
 
 
 # -- SETTERS/GETTERS ----------------------------------------------------------------- #

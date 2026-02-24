@@ -156,11 +156,9 @@ func clear_active_slot() -> bool:
 	_writer.slot = -1
 	_save_data = null
 
-	var is_change := slot_scope.config.erase(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT)
-	assert(is_change, "invalid state; expected active slot to be updated")
+	slot_scope.config.erase(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT)
 
-	if is_change:
-		slot_deactivated.emit(slot)
+	slot_deactivated.emit(slot)
 
 	return true
 
@@ -252,6 +250,14 @@ func create_new_save_data() -> StdSaveData:
 	var data: StdSaveData = schema.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
 	data.reset()
 	return data
+
+
+## clear_save_data_cache discards the in-memory cached save data for the active slot,
+## forcing the next 'load_save_data' call to read from disk.
+##
+## NOTE: This is primarily useful for tests.
+func clear_save_data_cache() -> void:
+	_save_data = null
 
 
 ## get_save_data copies the cached save data for the active save slot into the provided

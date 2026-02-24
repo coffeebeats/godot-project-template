@@ -336,6 +336,8 @@ jobs:
         run: godot --verbose --headless --quit --import
 
       - name: Test source code
+        env:
+          TEST_GENERATE_GOLDENS: "0"
         run: >-
           godot
           --verbose
