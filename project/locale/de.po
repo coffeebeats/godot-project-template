@@ -62,9 +62,8 @@ msgid "Return to menu"
 msgstr ""
 
 #. The title of the confirmation dialog shown when quitting the game from the pause menu.
-#, fuzzy
 msgid "Quit game"
-msgstr "Beenden"
+msgstr "Spiel beenden"
 
 #. The message shown in the confirmation dialog when quitting the game.
 msgid "Are you sure you want to quit?"
@@ -100,9 +99,8 @@ msgid "Delete"
 msgstr "Löschen"
 
 #. The title of the confirmation dialog shown when deleting a save slot.
-#, fuzzy
 msgid "Delete Save"
-msgstr "Löschen"
+msgstr "Spielstand löschen"
 
 #. The message shown in the confirmation dialog when deleting a save slot, warning the player that this action is permanent.
 msgid "Are you sure? This cannot be undone."
