@@ -9,6 +9,8 @@ extends PanelContainer
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
+const ConfirmDelete := preload("res://project/save/delete.tscn")
+const Signals := preload("res://addons/std/event/signal.gd")
 const SlotButton := preload("slot_button.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
@@ -19,9 +21,7 @@ const SlotButton := preload("slot_button.gd")
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _ready():
-	$Close.pressed.connect(_on_close_pressed)
-
+func _ready() -> void:
 	for child in _slot_buttons.get_children():
 		var button: SlotButton = child
 		if not button is SlotButton:
@@ -36,15 +36,12 @@ func _ready():
 		if not button is Button:
 			continue
 
-		button.disabled = saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY
+		var status := saves.get_save_slot(slot).status
+		button.disabled = status == SaveSlot.STATUS_EMPTY
 		button.pressed.connect(_on_delete_button_pressed.bind(button, slot))
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
-
-
-func _on_close_pressed() -> void:
-	StdInputEvent.trigger_action(&"ui_cancel")
 
 
 func _on_delete_button_pressed(button: Button, slot: int) -> void:
@@ -52,10 +49,21 @@ func _on_delete_button_pressed(button: Button, slot: int) -> void:
 	if saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
 		return
 
-	button.disabled = true
+	var instance := ConfirmDelete.instantiate()
+	var dialog: AlertDialog = instance.get_node("%AlertDialog")
 
-	if not saves.erase_slot(slot):
-		button.disabled = false
+	Signals.connect_safe(
+		dialog.closed,
+		func(accepted: bool):
+			Main.screens().pop()
+			if accepted:
+				button.disabled = true
+				if not saves.erase_slot(slot):
+					button.disabled = false,
+		CONNECT_ONE_SHOT,
+	)
+
+	Main.screens().push(StdScreen.new(), instance)
 
 
 func _on_slot_button_pressed(slot: int) -> void:

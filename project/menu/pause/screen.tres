@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="StdScreen" format=3 uid="uid://c1085a5a4wxdt"]
+
+[ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
+
+[resource]
+script = ExtResource("1_screen")
+scene_path = "res://project/menu/pause/menu.tscn"
+cache_instance = true
+preload_scenes = ["res://project/menu/pause/quit.tscn", "res://project/menu/pause/return.tscn"]

@@ -7,4 +7,4 @@
 script = ExtResource("1_ajvvg")
 parent = ExtResource("1_3132b")
 name = &"GameplayOptions"
-actions_digital = Array[StringName]([&"ui_toggle_settings"])
+actions_digital = Array[StringName]([&"ui_toggle_menu"])

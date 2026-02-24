@@ -11,8 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://jxtm7mh7fsc0" path="res://project/settings/interface/interface.tscn" id="8_kkqby"]
 [ext_resource type="PackedScene" uid="uid://b4obsfsvns0ap" path="res://project/settings/display/display.tscn" id="9_vwbdl"]
 [ext_resource type="PackedScene" uid="uid://bd5fo51o6asi2" path="res://project/settings/controls/controls.tscn" id="10_46fy4"]
-[ext_resource type="Texture2D" uid="uid://bbgn0o2diu8ws" path="res://project/settings/close.svg" id="11_close"]
-[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="12_focus"]
+[ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="11_scrim"]
+[ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://project/ui/menu/button_close.tscn" id="12_close"]
+[ext_resource type="PackedScene" uid="uid://ctabgr0up1scn" path="res://project/ui/menu/tab_group.tscn" id="13_tabs"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1p03"]
 
@@ -28,14 +29,8 @@ grow_vertical = 2
 script = ExtResource("2_j2ecv")
 tab_switch_sound_event = ExtResource("3_gh6u1")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1654315543]
+[node name="Scrim" parent="." unique_id=722204747 instance=ExtResource("11_scrim")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.588235)
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=212166736]
 anchors_preset = 0
@@ -57,6 +52,7 @@ mouse_filter = 2
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=440196034]
 custom_minimum_size = Vector2(1440, 648)
 layout_mode = 2
+theme_type_variation = &"panel_dialog"
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1526864236]
 layout_mode = 2
@@ -89,22 +85,13 @@ hide_if_cursor_visible = true
 action_set = ExtResource("4_s0nl3")
 action = &"ui_tab_prev"
 
-[node name="TabBar" type="TabBar" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" unique_id=160246607]
+[node name="TabGroup" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" unique_id=891982953 node_paths=PackedStringArray("content") instance=ExtResource("13_tabs")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 0
-current_tab = 1
-tab_alignment = 1
-clip_tabs = false
-scrolling_enabled = false
-tab_count = 5
-tab_0/title = "options_gameplay"
-tab_0/disabled = true
-tab_1/title = "options_sound"
-tab_2/title = "options_interface"
-tab_3/title = "options_display"
-tab_4/title = "options_controls"
+tabs = ["Gameplay", "Sound", "Interface", "Display", "Controls"]
+default_tab = 1
+content = NodePath("../../../../Body/MarginContainer/ScrollContainer/TabContents")
 
 [node name="GlyphTabNext" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Header/MarginContainer/HBoxContainer" unique_id=1501074617 instance=ExtResource("5_xbtwd")]
 custom_minimum_size = Vector2(48, 48)
@@ -137,7 +124,6 @@ theme_override_constants/margin_right = 128
 theme_override_constants/margin_bottom = 16
 
 [node name="Gameplay" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" unique_id=1439111808 instance=ExtResource("6_7qgxw")]
-visible = false
 layout_mode = 2
 
 [node name="Sound" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Body/MarginContainer/ScrollContainer/TabContents" unique_id=1186792741 instance=ExtResource("7_x3q0k")]
@@ -155,17 +141,5 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="Close" type="TextureButton" parent="CenterContainer/PanelContainer" unique_id=249550164]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 64)
+[node name="CloseButton" parent="CenterContainer/PanelContainer" unique_id=833171423 instance=ExtResource("12_close")]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-focus_mode = 0
-texture_normal = ExtResource("11_close")
-texture_pressed = ExtResource("11_close")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="FocusHandler" parent="CenterContainer/PanelContainer/Close" unique_id=1384881157 instance=ExtResource("12_focus")]
-layout_mode = 0

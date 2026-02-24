@@ -21,7 +21,7 @@
 [ext_resource type="Resource" uid="uid://cnxktk43lvql6" path="res://system/setting/controls/haptics_strength_property.tres" id="17_0rlbk"]
 [ext_resource type="Resource" uid="uid://bndux72lth38k" path="res://system/setting/controls/glyph_type_options_property.tres" id="17_kswyw"]
 [ext_resource type="Resource" uid="uid://c750nhjvglhky" path="res://project/settings/controls/button_prompt_option_formatter.tres" id="18_8p5d5"]
-[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="18_v42t3"]
+[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/button.tscn" id="18_v42t3"]
 [ext_resource type="PackedScene" uid="uid://nia5b07rjxi7" path="res://project/settings/controls/action_set.tscn" id="19_ngc7g"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="20_h7kk8"]
 [ext_resource type="Resource" uid="uid://ccmnjg2p3cow0" path="res://system/input/unknown/bindings_scope.tres" id="21_dqueq"]
@@ -45,7 +45,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = &"Body"
+theme_type_variation = &"menu_body"
 
 [node name="Godot" type="Node" parent="." unique_id=1067462580 node_paths=PackedStringArray("targets")]
 script = ExtResource("1_slt8e")

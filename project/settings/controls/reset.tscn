@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dkq868y2yu5r6"]
 
 [ext_resource type="Texture2D" uid="uid://bwed6rs5ax14" path="res://project/settings/controls/reset.png" id="1_fjoa6"]
-[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/prompt.tscn" id="1_hvny8"]
+[ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/button.tscn" id="1_hvny8"]
 [ext_resource type="Script" uid="uid://ddin6288q5dni" path="res://project/settings/controls/reset.gd" id="1_qufv1"]
 
 [node name="Reset" type="Control" unique_id=1696718417]

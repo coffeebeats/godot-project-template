@@ -6,5 +6,5 @@
 [node name="StdScreenPusher" type="Node"]
 script = ExtResource("1_pusher")
 screen = ExtResource("2_screen")
-push_actions = Array[StringName]([&"ui_toggle_settings"])
-pop_actions = Array[StringName]([&"ui_cancel", &"ui_toggle_settings"])
+push_actions = Array[StringName]([&"ui_toggle_menu"])
+pop_actions = Array[StringName]([&"ui_cancel", &"ui_toggle_menu"])

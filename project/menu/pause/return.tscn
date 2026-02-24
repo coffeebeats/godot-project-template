@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cjsmesktoceke"]
+
+[ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="1_scrim"]
+[ext_resource type="PackedScene" uid="uid://4brfq2tumt1o" path="res://project/ui/menu/alert.tscn" id="2_confirm"]
+
+[node name="ConfirmReturn" type="Control" unique_id=296181475]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scrim" parent="." unique_id=1988474198 instance=ExtResource("1_scrim")]
+layout_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1456541078]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AlertDialog" parent="CenterContainer" unique_id=605847428 instance=ExtResource("2_confirm")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "pause_return_title"
+message_text = "pause_return_message"

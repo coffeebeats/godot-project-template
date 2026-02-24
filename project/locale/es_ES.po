@@ -49,6 +49,34 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
+#. The title shown at the top of the pause menu.
+msgid "Paused"
+msgstr ""
+
+#. A button to resume gameplay, located on the pause menu.
+msgid "Resume"
+msgstr ""
+
+#. A button to return to the main menu, located on the pause menu.
+msgid "Return to menu"
+msgstr ""
+
+#. The title of the confirmation dialog shown when quitting the game from the pause menu.
+msgid "Quit game"
+msgstr ""
+
+#. The message shown in the confirmation dialog when quitting the game.
+msgid "Are you sure you want to quit?"
+msgstr ""
+
+#. The title of the confirmation dialog shown when returning to the main menu from the pause menu.
+msgid "Return to main menu"
+msgstr ""
+
+#. The message shown in the confirmation dialog when returning to the main menu.
+msgid "Are you sure you want to return to the main menu?"
+msgstr ""
+
 #. Instructs the player to select which save slot to use.
 msgid "Choose a save slot — progress will be saved automatically"
 msgstr ""
@@ -67,6 +95,22 @@ msgstr ""
 
 #. A button which the player can press to delete save data for a specific slot.
 msgid "Delete"
+msgstr ""
+
+#. The title of the confirmation dialog shown when deleting a save slot.
+msgid "Delete Save"
+msgstr ""
+
+#. The message shown in the confirmation dialog when deleting a save slot, warning the player that this action is permanent.
+msgid "Are you sure? This cannot be undone."
+msgstr ""
+
+#. The confirm button label used in confirmation dialogs.
+msgid "Confirm"
+msgstr ""
+
+#. The cancel button label used in confirmation dialogs.
+msgid "Cancel"
 msgstr ""
 
 #. A tab within the game's options menu containing gameplay-related settings.
@@ -219,9 +263,9 @@ msgstr ""
 msgid "In-game options"
 msgstr ""
 
-#. An input action that opens the settings menu during gameplay.
+#. An input action that opens the pause menu during gameplay.
 msgctxt "actions_GameplayOptions"
-msgid "Options"
+msgid "Pause"
 msgstr ""
 
 #. Used as a category name for a group of input actions related to menu navigation.
