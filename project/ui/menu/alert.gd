@@ -11,11 +11,9 @@ extends PanelContainer
 
 # -- SIGNALS ------------------------------------------------------------------------- #
 
-## confirmed is emitted when the confirm button is pressed.
-signal confirmed
-
-## cancelled is emitted when the cancel button or `ui_cancel` is pressed.
-signal cancelled
+## closed is emitted when the dialog is dismissed. `accepted` is true if the confirm
+## button was pressed, false if cancelled.
+signal closed(accepted: bool)
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
@@ -74,7 +72,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed(&"ui_cancel"):
 		get_viewport().set_input_as_handled()
-		cancelled.emit()
+		closed.emit(false)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
@@ -94,8 +92,8 @@ func _update_title() -> void:
 
 
 func _on_cancel_pressed() -> void:
-	cancelled.emit()
+	closed.emit(false)
 
 
 func _on_confirm_pressed() -> void:
-	confirmed.emit()
+	closed.emit(true)

@@ -9,8 +9,7 @@ extends PanelContainer
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const ConfirmScene := preload("res://project/save/confirm.tscn")
-const ConfirmScreen := preload("res://project/save/confirm_screen.tres")
+const ConfirmDelete := preload("res://project/save/delete.tscn")
 const Signals := preload("res://addons/std/event/signal.gd")
 const SlotButton := preload("slot_button.gd")
 
@@ -50,24 +49,21 @@ func _on_delete_button_pressed(button: Button, slot: int) -> void:
 	if saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
 		return
 
-	var scene := ConfirmScene.instantiate()
-	var dialog: PanelContainer = scene.get_node("%AlertDialog")
+	var instance := ConfirmDelete.instantiate()
+	var dialog: AlertDialog = instance.get_node("%AlertDialog")
 
-	dialog.confirmed.connect(
-		func():
+	Signals.connect_safe(
+		dialog.closed,
+		func(accepted: bool):
 			Main.screens().pop()
-			button.disabled = true
-			if not saves.erase_slot(slot):
-				button.disabled = false,
+			if accepted:
+				button.disabled = true
+				if not saves.erase_slot(slot):
+					button.disabled = false,
 		CONNECT_ONE_SHOT,
 	)
 
-	dialog.cancelled.connect(
-		func(): Main.screens().pop(),
-		CONNECT_ONE_SHOT,
-	)
-
-	Main.screens().push(ConfirmScreen, scene)
+	Main.screens().push(StdScreen.new(), instance)
 
 
 func _on_slot_button_pressed(slot: int) -> void:
