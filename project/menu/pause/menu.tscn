@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="5_loader"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="6_menu"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="7_opts"]
-[ext_resource type="Resource" uid="uid://d2vp2eesnf5ng" path="res://project/settings/screen.tres" id="8_settings"]
+[ext_resource type="Resource" uid="uid://d2vp2eesnf5ng" path="res://project/menu/settings/screen.tres" id="8_settings"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
