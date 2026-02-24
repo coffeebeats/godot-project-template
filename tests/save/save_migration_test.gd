@@ -223,9 +223,10 @@ func _ensure_schema_properties_exist(version: int) -> void:
 	var generate := OS.get_environment("TEST_GENERATE_GOLDENS")
 	if generate.to_lower() not in ["1", "true", "yes"]:
 		fail_test(
-			"missing schema properties v%d.json;"
-			% version
-			+ " set TEST_GENERATE_GOLDENS=1 to generate"
+			(
+				"missing schema properties v%d.json;" % version
+				+ " set TEST_GENERATE_GOLDENS=1 to generate"
+			)
 		)
 		return
 
