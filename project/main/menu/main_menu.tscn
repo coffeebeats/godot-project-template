@@ -69,7 +69,7 @@ theme_override_constants/margin_right = 32
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_skbay")
 action_set = ExtResource("10_y5hy5")
-action = &"ui_toggle_settings"
+action = &"ui_toggle_menu"
 trigger_action_on_press = true
 
 [node name="Buttons" type="MarginContainer" parent="." unique_id=1704132263]

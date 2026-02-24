@@ -10,3 +10,4 @@ transition_enter = ExtResource("2_2m37p")
 block_on_enter = true
 transition_exit = ExtResource("2_2m37p")
 block_on_exit = true
+preload_scenes = ["uid://cpaus3m3nuscn", "uid://cm4b566x6ped8"]
