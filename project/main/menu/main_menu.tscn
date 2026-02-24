@@ -11,6 +11,9 @@
 [ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
 [ext_resource type="PackedScene" path="res://project/menu/settings/pusher.tscn" id="11_pusher"]
+[ext_resource type="Script" uid="uid://dv8skp3qnf2ej" path="res://addons/std/sound/emitter.gd" id="12_emitter"]
+[ext_resource type="Script" uid="uid://djoynwplthqjq" path="res://addons/std/sound/param_audio_effect.gd" id="13_param"]
+[ext_resource type="Script" uid="uid://biupfx6h42h8k" path="res://addons/std/tween/curve.gd" id="14_curve"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skbay"]
 resource_local_to_scene = true
@@ -25,6 +28,16 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="Resource" id="StdTweenCurve_fadein"]
+script = ExtResource("14_curve")
+duration = 2.0
+transition_type = 0
+
+[sub_resource type="Resource" id="StdTweenCurve_fadeout"]
+script = ExtResource("14_curve")
+duration = 0.6
+transition_type = 0
+
 [node name="MainMenu" type="Control" unique_id=1796959560]
 layout_mode = 3
 anchors_preset = 15
@@ -33,8 +46,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8stub")
-music_sound_event = ExtResource("2_8n3sl")
-music_filter_param = ExtResource("3_t2uy2")
 saves_screen = ExtResource("8_saves")
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=212087449]
@@ -44,6 +55,14 @@ offset_bottom = 40.0
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
 action_set_layer = ExtResource("10_y5hy5")
+
+[node name="StdSoundEmitter" type="Node" parent="."]
+script = ExtResource("12_emitter")
+event = ExtResource("2_8n3sl")
+autoplay = true
+fade_in = SubResource("StdTweenCurve_fadein")
+fade_out = SubResource("StdTweenCurve_fadeout")
+covered_params = Array[ExtResource("13_param")]([ExtResource("3_t2uy2")])
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1697184297]
 layout_mode = 1

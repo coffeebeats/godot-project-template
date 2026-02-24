@@ -12,19 +12,10 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## music_sound_event is a sound event for the main menu background music.
-@export var music_sound_event: StdSoundEvent1D = null
-
-## music_filter_param is a sound parameter which toggles a filter that reduces
-## the intensity of main menu music when the settings menu is open.
-@export var music_filter_param: StdSoundParamAudioEffect = null
-
 ## saves_screen is the StdScreen resource for the save slot menu.
 @export var saves_screen: StdScreen = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
-
-var _music_sound_instance: StdSoundInstance = null
 
 @onready var _continue: Button = %Continue
 @onready var _options: Button = %Options
@@ -32,15 +23,6 @@ var _music_sound_instance: StdSoundInstance = null
 @onready var _quit: Button = %Quit
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
-
-
-func _exit_tree() -> void:
-	if _music_sound_instance:
-		# NOTE: The fade-out duration should match the scene fade transition length.
-		var fade_out := StdTweenCurve.new()
-		fade_out.duration = 0.6
-		fade_out.transition_type = Tween.TRANS_LINEAR
-		_music_sound_instance.stop(fade_out)
 
 
 func _ready() -> void:
@@ -55,33 +37,10 @@ func _ready() -> void:
 	Signals.connect_safe(saves.slot_activated, _on_slot_activated)
 	Signals.connect_safe(saves.slot_deactivated, _on_slot_deactivated)
 
-	if music_sound_event:
-		var audio := Systems.audio()
-		var fade_in := StdTweenCurve.new()
-		fade_in.duration = 2
-		fade_in.transition_type = Tween.TRANS_LINEAR
-		_music_sound_instance = audio.play(music_sound_event, fade_in)
-
-	Signals.connect_safe(
-		Lifecycle.shutdown_requested,
-		func(_exit_code: int):
-			if _music_sound_instance:
-				_music_sound_instance.stop(),
-		CONNECT_ONE_SHOT
-	)
-
 	_setup_continue_button()
-	_connect_screen_signals.call_deferred()
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _connect_screen_signals() -> void:
-	var screen := Main.screens().get_current_screen()
-	if screen:
-		Signals.connect_safe(screen.covered, _on_covered)
-		Signals.connect_safe(screen.uncovered, _on_uncovered)
 
 
 func _handle_first_focused_sound_event_mute() -> void:
@@ -110,16 +69,6 @@ func _setup_continue_button() -> void:
 
 func _on_continue_pressed() -> void:
 	Main.load_game(Systems.saves().get_active_save_slot())
-
-
-func _on_covered(_scene: Node) -> void:
-	if music_filter_param:
-		music_filter_param.enabled = true
-
-
-func _on_uncovered(_scene: Node) -> void:
-	if music_filter_param:
-		music_filter_param.enabled = false
 
 
 func _on_options_pressed() -> void:
