@@ -220,6 +220,15 @@ func _ensure_schema_properties_exist(version: int) -> void:
 	if FileAccess.file_exists(path):
 		return
 
+	var generate := OS.get_environment("TEST_GENERATE_GOLDENS")
+	if generate.to_lower() not in ["1", "true", "yes"]:
+		fail_test(
+			"missing schema properties v%d.json;"
+			% version
+			+ " set TEST_GENERATE_GOLDENS=1 to generate"
+		)
+		return
+
 	var dir_path := path.get_base_dir()
 	DirAccess.make_dir_recursive_absolute(dir_path)
 
