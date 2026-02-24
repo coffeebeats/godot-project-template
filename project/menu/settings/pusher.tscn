@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/std/screen/pusher.gd" id="1_pusher"]
+[ext_resource type="Resource" uid="uid://d2vp2eesnf5ng" path="res://project/menu/settings/screen.tres" id="2_screen"]
+
+[node name="StdScreenPusher" type="Node"]
+script = ExtResource("1_pusher")
+screen = ExtResource("2_screen")
+push_actions = Array[StringName]([&"ui_toggle_menu"])
+pop_actions = Array[StringName]([&"ui_cancel", &"ui_toggle_menu"])

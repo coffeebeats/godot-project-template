@@ -8,9 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://project/ui/glyph/action.tscn" id="4_4ki2s"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_sdqe3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_5fewj"]
-[ext_resource type="Resource" path="res://project/save/screen.tres" id="8_saves"]
+[ext_resource type="Resource" path="res://project/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
-[ext_resource type="PackedScene" path="res://project/settings/pusher.tscn" id="11_pusher"]
+[ext_resource type="PackedScene" path="res://project/menu/settings/pusher.tscn" id="11_pusher"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skbay"]
 resource_local_to_scene = true
