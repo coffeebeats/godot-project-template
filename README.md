@@ -1,10 +1,10 @@
-# godot-project-template
+# **godot-project-template**
 
 A template repository for a Godot 4+ project.
 
 ## **Development**
 
-### Setup
+### **Setup**
 
 The following instructions outline how to get the project set up for local development:
 
@@ -12,7 +12,7 @@ The following instructions outline how to get the project set up for local devel
 2. [Follow the instructions](https://github.com/coffeebeats/gdenv/blob/main/docs/installation.md) to install `gdenv`. Then, install the [pinned version of Godot](./.godot-version) with `gdenv i`.
 3. Install the tools [used below](#code-submission) by following each of their specific installation instructions.
 
-### Code submission
+### **Code submission**
 
 When submitting code for review, ensure the following requirements are met:
 
@@ -32,6 +32,9 @@ When submitting code for review, ensure the following requirements are met:
 
 4. All [Gut](https://github.com/bitwes/Gut) unit tests pass:
 
+    > [!NOTE]
+    > Schema migration tests require committed golden files in [tests/testdata/golden/saves](./tests/testdata/golden/saves/). If a golden file is missing (e.g. after a schema version bump), tests will fail. Regenerate goldens by running tests with `TEST_GENERATE_GOLDENS=1`. Be sure to review and commit the generated files before submitting.
+
     ```sh
     godot \
         --headless \
@@ -43,15 +46,15 @@ When submitting code for review, ensure the following requirements are met:
         -gexit
     ```
 
-### Tools
+### **Tools**
 
-#### Translation
+#### **Translation**
 
 Translation is supported using `gettext` tools. A `messages.pot` template file is located at [project/locale/messages.pot](project/locale/messages.pot) and contains messages used by the template. Translations to english have already been added, so new language support is as simple as creating a new `po` file with the translations.
 
 Finally, CI/CD runs check that translations are accurate; any changes to template files will result in fuzzy messages, blocking releases.
 
-#### Fonts
+#### **Fonts**
 
 MSDF rendering is recommended for fonts, but many fonts contain overlapping contours [which render incorrectly in Godot](https://github.com/godotengine/godot/issues/52247). This can be fixed using [FontForge's `removeOverlap` utility](https://fontforge.org/docs/scripting/python/fontforge.html#fontforge.font.removeOverlap). This process is not automated, so if font artifacts are seen when using MSDF rendering, they must be fixed manually.
 
@@ -59,7 +62,7 @@ MSDF rendering is recommended for fonts, but many fonts contain overlapping cont
 
 [Semantic Versioning](http://semver.org/) is used for versioning and [Conventional Commits](https://www.conventionalcommits.org/) is used for commit messages. A [release-please](https://github.com/googleapis/release-please) integration via [GitHub Actions](https://github.com/googleapis/release-please-action) automates releases.
 
-### Secrets
+### **Secrets**
 
 After instantiating a project from this template repository, the default GitHub actions and workflows require the following repository secrets to be set:
 
@@ -69,7 +72,7 @@ After instantiating a project from this template repository, the default GitHub 
 - Various - Update code-signing and notarization secrets once the project is ready for release.
 - `RELEASE_PLEASE_TOKEN` - Enables release pull requests to run CI/CD workflows.
 
-### Customization
+### **Customization**
 
 In addition to [Secrets](#secrets), the following files should be customized for the instantiated repository:
 
