@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="11_scrim"]
 [ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://project/ui/menu/button_close.tscn" id="12_close"]
 [ext_resource type="PackedScene" uid="uid://ctabgr0up1scn" path="res://project/ui/menu/tab_group.tscn" id="13_tabs"]
+[ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="14_layer"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1p03"]
 
@@ -38,7 +39,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_m4kg3")
 action_set = ExtResource("3_7ixv1")
-action_set_layer = ExtResource("4_s0nl3")
+action_set_layers = Array[ExtResource("14_layer")]([ExtResource("4_s0nl3")])
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=676371519]
 layout_mode = 1

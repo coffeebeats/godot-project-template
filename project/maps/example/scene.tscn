@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="6_qem4v"]
 [ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="7_pusher"]
 [ext_resource type="Resource" uid="uid://c1085a5a4wxdt" path="res://project/menu/pause/screen.tres" id="8_pause"]
+[ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="9_layer"]
 
 [node name="Scene" type="Control" unique_id=28877559]
 layout_mode = 3
@@ -29,7 +30,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_qs6w1")
 action_set = ExtResource("4_w0qnl")
-action_set_layer = ExtResource("6_qem4v")
+action_set_layers = Array[ExtResource("9_layer")]([ExtResource("6_qem4v")])
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=203835359]
 layout_mode = 1

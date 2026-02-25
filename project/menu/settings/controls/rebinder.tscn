@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
 [ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
+[ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="5_layer"]
 
 [sub_resource type="Resource" id="Resource_2wtn0"]
 script = ExtResource("2_bowq3")
@@ -37,7 +38,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_rp1ye")
-action_set_layer = ExtResource("3_nyt6g")
+action_set_layers = Array[ExtResource("5_layer")]([ExtResource("3_nyt6g")])
 
 [node name="Bar" type="ColorRect" parent="." unique_id=1797332464]
 custom_minimum_size = Vector2(0, 256)
