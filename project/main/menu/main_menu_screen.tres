@@ -6,8 +6,5 @@
 [resource]
 script = ExtResource("1_screen")
 scene_path = "res://project/main/menu/main_menu.tscn"
-transition_enter = ExtResource("2_qiqhg")
-block_on_enter = true
-transition_exit = ExtResource("2_qiqhg")
-block_on_exit = true
+transition = ExtResource("2_qiqhg")
 preload_scenes = ["uid://dyoqungyuv513", "uid://nalgori3y7v6"]
