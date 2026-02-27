@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="1_vu0ul"]
 [ext_resource type="Script" uid="uid://dbbfteu5isnpn" path="res://addons/std/screen/manager/manager.gd" id="2_mgr"]
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="5_8rcmj"]
-[ext_resource type="Resource" uid="uid://bm0iks22glme0" path="res://project/main/menu/main_menu_screen.tres" id="5_main_menu"]
+[ext_resource type="Resource" uid="uid://bm0iks22glme0" path="res://project/main/menu/screen.tres" id="5_main_menu"]
 [ext_resource type="Resource" uid="uid://dh6mr3pqxf1kb" path="res://project/main/splash/studio_screen.tres" id="6_dhfna"]
 [ext_resource type="Resource" uid="uid://bvf7k2jne5xmc" path="res://project/main/load/screen.tres" id="6_loading"]
 [ext_resource type="Resource" uid="uid://csn4p8wrtq2la" path="res://project/main/splash/godot_screen.tres" id="7_iq4is"]

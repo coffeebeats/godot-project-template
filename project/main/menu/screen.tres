@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/main/menu/main_menu.tscn"
+scene_path = "res://project/main/menu/menu.tscn"
 transition = ExtResource("2_qiqhg")
 preload_scenes = ["uid://dyoqungyuv513", "uid://nalgori3y7v6"]

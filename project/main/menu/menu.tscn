@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cfm42l5k4okh8"]
 
-[ext_resource type="Script" uid="uid://bcpoamsgr0mbv" path="res://project/main/menu/main_menu.gd" id="1_8stub"]
+[ext_resource type="Script" uid="uid://bcpoamsgr0mbv" path="res://project/main/menu/menu.gd" id="1_8stub"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
 [ext_resource type="Resource" uid="uid://kyseye3m4vnh" path="res://project/main/menu/music_sound_event.tres" id="2_8n3sl"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
