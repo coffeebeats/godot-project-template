@@ -1,5 +1,5 @@
 ##
-## project/main/menu/main_menu.gd
+## project/main/menu/menu.gd
 ##
 ## MainMenu implements a main menu for the game.
 ##

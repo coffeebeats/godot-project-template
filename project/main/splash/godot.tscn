@@ -15,7 +15,7 @@ mouse_force_pass_scroll_events = false
 script = ExtResource("1_8c8m0")
 action_set = ExtResource("3_splash")
 duration = 4.0
-duration_min = 0.25
+duration_min = 1.0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=790969715]
 layout_mode = 1
