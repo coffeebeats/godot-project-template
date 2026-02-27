@@ -5,16 +5,16 @@
 
 [sub_resource type="Resource" id="Resource_cover"]
 script = ExtResource("1_curve")
-duration = 0.8
+duration = 1.8
 ease_type = 2
-transition_type = 4
+transition_type = 7
 metadata/_custom_type_script = "uid://biupfx6h42h8k"
 
 [sub_resource type="Resource" id="Resource_reveal"]
 script = ExtResource("1_curve")
-duration = 1.4
+duration = 1.0
 ease_type = 2
-transition_type = 7
+transition_type = 4
 metadata/_custom_type_script = "uid://biupfx6h42h8k"
 
 [resource]
