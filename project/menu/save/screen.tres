@@ -5,4 +5,4 @@
 [resource]
 script = ExtResource("1_screen")
 scene_path = "res://project/menu/save/menu.tscn"
-preload_scenes = ["uid://dkw2li5unhvv7"]
+dependency_scenes = ["uid://dkw2li5unhvv7"]

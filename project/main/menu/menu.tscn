@@ -16,7 +16,17 @@
 [ext_resource type="Script" uid="uid://biupfx6h42h8k" path="res://addons/std/tween/curve.gd" id="14_curve"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="15_layer"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skbay"]
+[sub_resource type="Resource" id="StdTweenCurve_fadein"]
+script = ExtResource("14_curve")
+duration = 2.0
+transition_type = 0
+
+[sub_resource type="Resource" id="StdTweenCurve_fadeout"]
+script = ExtResource("14_curve")
+duration = 0.6
+transition_type = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfwj"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 3
@@ -28,16 +38,6 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-
-[sub_resource type="Resource" id="StdTweenCurve_fadein"]
-script = ExtResource("14_curve")
-duration = 2.0
-transition_type = 0
-
-[sub_resource type="Resource" id="StdTweenCurve_fadeout"]
-script = ExtResource("14_curve")
-duration = 0.6
-transition_type = 0
 
 [node name="MainMenu" type="Control" unique_id=1796959560]
 layout_mode = 3
@@ -57,7 +57,7 @@ script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
 action_set_layers = Array[ExtResource("15_layer")]([ExtResource("10_y5hy5")])
 
-[node name="StdSoundEmitter" type="Node" parent="."]
+[node name="StdSoundEmitter" type="Node" parent="." unique_id=5199517]
 script = ExtResource("12_emitter")
 event = ExtResource("2_8n3sl")
 autoplay = true
@@ -87,7 +87,7 @@ theme_override_constants/margin_right = 32
 
 [node name="SettingsActionPrompt" parent="MarginContainer" unique_id=81283462 instance=ExtResource("4_4ki2s")]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_skbay")
+theme_override_styles/panel = SubResource("StyleBoxFlat_cyfwj")
 action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_menu"
 action_text = &"ui_toggle_menu_settings"

@@ -7,4 +7,4 @@
 script = ExtResource("1_screen")
 scene_path = "res://project/main/menu/menu.tscn"
 transition = ExtResource("2_qiqhg")
-preload_scenes = ["uid://dyoqungyuv513", "uid://nalgori3y7v6"]
+dependency_scenes = ["uid://cm4b566x6ped8", "uid://hbb2wxcb7sxf"]

@@ -6,4 +6,4 @@
 script = ExtResource("1_screen")
 scene_path = "res://project/menu/pause/menu.tscn"
 cache_instance = true
-preload_scenes = ["res://project/menu/pause/quit.tscn", "res://project/menu/pause/return.tscn"]
+dependency_scenes = ["res://project/menu/pause/quit.tscn", "res://project/menu/pause/return.tscn"]
