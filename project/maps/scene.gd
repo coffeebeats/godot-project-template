@@ -44,6 +44,7 @@ func _exit_tree() -> void:
 
 	_save_data = null
 
+
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 
