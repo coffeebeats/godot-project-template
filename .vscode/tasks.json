@@ -1,0 +1,213 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Import: Resources",
+      "detail": "Clears .godot/ and reimports all resources.",
+      "type": "shell",
+      "command": "rm -rf .godot && godot --import --headless",
+      "icon": { "id": "sync", "color": "terminal.ansiBlue" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": {
+        "owner": "godot-script",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "severity": "error",
+        "pattern": [
+          {
+            "regexp": "^SCRIPT ERROR:\\s+(.+)$",
+            "message": 1
+          },
+          {
+            "regexp": "^\\s+at:\\s+\\S+\\s+\\(res://(.+):(\\d+)\\)$",
+            "file": 1,
+            "line": 2
+          }
+        ]
+      }
+    },
+    {
+      "label": "Format: Fix",
+      "detail": "Auto-formats all GDScript files (line length 88).",
+      "type": "shell",
+      "command": "gdformat -l 88 $(find . -path ./addons -prune -o -name '*.gd' -print)",
+      "icon": { "id": "edit", "color": "terminal.ansiYellow" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint: Check project",
+      "detail": "Lints all GDScript files outside addons/.",
+      "type": "shell",
+      "command": "gdlint $(find . -path ./addons -prune -o -name '*.gd' -print)",
+      "icon": { "id": "eye", "color": "terminal.ansiYellow" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": {
+        "owner": "gdlint",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "severity": "error",
+        "pattern": {
+          "regexp": "^(.+):(\\d+):\\s+Error:\\s+(.+)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        }
+      }
+    },
+    {
+      "label": "Translation: Update",
+      "detail": "Updates en_US.po from .pot, then syncs non-English .po files via poswap.",
+      "type": "shell",
+      "command": "./tools/sync-translations.sh update",
+      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Translation: Compile",
+      "detail": "Compiles .po files to .mo, reversing poswap for non-English files.",
+      "type": "shell",
+      "command": "./tools/sync-translations.sh compile",
+      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": [
+        {
+          "owner": "gettext-error",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "severity": "error",
+          "pattern": {
+            "regexp": "^(.+):(\\d+):\\s+(?!warning:)(.+)$",
+            "file": 1,
+            "line": 2,
+            "message": 3
+          }
+        }
+      ]
+    },
+    {
+      "label": "Translation: Validate",
+      "detail": "Validates all .po files with msgfmt --check.",
+      "type": "shell",
+      "command": "./tools/sync-translations.sh validate",
+      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": [
+        {
+          "owner": "gettext-error",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "severity": "error",
+          "pattern": {
+            "regexp": "^(.+):(\\d+):\\s+(?!warning:)(.+)$",
+            "file": 1,
+            "line": 2,
+            "message": 3
+          }
+        },
+        {
+          "owner": "gettext-warning",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "severity": "warning",
+          "pattern": {
+            "regexp": "^(.+):(\\d+):\\s+warning:\\s+(.+)$",
+            "file": 1,
+            "line": 2,
+            "message": 3
+          }
+        }
+      ]
+    },
+    {
+      "label": "Translation: Sync",
+      "detail": "Updates .po files from .pot, compiles to .mo, and validates.",
+      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
+      "dependsOn": [
+        "Translation: Update",
+        "Translation: Compile",
+        "Translation: Validate"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: Project",
+      "detail": "Imports resources, formats, lints, and syncs translations.",
+      "icon": { "id": "check-all", "color": "terminal.ansiGreen" },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": [
+        "Import: Resources",
+        "Format: Fix",
+        "Lint: Check project",
+        "Translation: Sync"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Test: Run All",
+      "detail": "Runs all GUT tests headlessly.",
+      "type": "shell",
+      "command": "godot --headless -s addons/gut/gut_cmdln.gd -gdir=\"res://\" -ginclude_subdirs -gprefix=\"\" -gsuffix=\"_test.gd\" -gexit",
+      "icon": { "id": "beaker", "color": "terminal.ansiGreen" },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: Run Current File",
+      "detail": "Runs GUT tests for the currently open file.",
+      "type": "shell",
+      "command": "godot --headless -s addons/gut/gut_cmdln.gd -gdir=\"res://\" -ginclude_subdirs -gprefix=\"\" -gsuffix=\"_test.gd\" -gselect=\"${relativeFile}\" -gexit",
+      "icon": { "id": "beaker", "color": "terminal.ansiGreen" },
+      "group": "test",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Saves: Regenerate Goldens",
+      "detail": "Regenerates golden test files after a schema version bump.",
+      "type": "shell",
+      "command": "TEST_GENERATE_GOLDENS=1 godot --headless -s addons/gut/gut_cmdln.gd -gdir=\"res://\" -ginclude_subdirs -gprefix=\"\" -gsuffix=\"_test.gd\" -gexit",
+      "icon": { "id": "file-binary", "color": "terminal.ansiGreen" },
+      "group": "test",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: Launch Editor",
+      "detail": "Opens the project in the Godot editor.",
+      "type": "shell",
+      "command": "godot --path . --editor",
+      "icon": { "id": "play", "color": "terminal.ansiMagenta" },
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -28,6 +28,7 @@ settings.dat.bak
 
 # IDE-related files
 .vscode/*
+!.vscode/tasks.json
 
 # Coding agent-related files
 .claude/*

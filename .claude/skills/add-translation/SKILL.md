@@ -45,20 +45,13 @@ Each entry has a `#.` translator comment explaining what the string is and where
 4. **Propagate to other locales** by running:
 
    ```sh
-   for f in project/locale/*.po; do
-     [ "$(basename "$f")" = "en_US.po" ] && continue
-     poswap project/locale/en_US.po -t "$f" "${f}.tmp"
-     msgmerge --update --backup=none "$f" "${f}.tmp"
-     rm "${f}.tmp"
-   done
+   ./tools/sync-translations.sh update
    ```
 
-5. **Validate** all `.po` files:
+5. **Validate** all translation files:
 
    ```sh
-   for f in project/locale/*.po; do
-     msgfmt "$f" --check
-   done
+   ./tools/sync-translations.sh validate
    ```
 
 ## Reference the key
