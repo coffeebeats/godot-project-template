@@ -1,5 +1,39 @@
 # Changelog
 
+## 4.1.0 (2026-03-02)
+
+## What's Changed
+* chore(deps): bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/383
+* chore(deps): bump actions/cache from 5.0.1 to 5.0.3 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/384
+* chore(addons): update `std` to `v4.1.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/386
+* refactor(project): migrate scene orchestration to `std`'s new `screen` module by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/387
+* refactor(project): remove `AnimationEffect` and update users by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/388
+* chore(docs): create agent instructions for repository by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/389
+* chore(claude): create `add-translation` skill by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/390
+* fix(project): add continue button; load save slots asynchronously by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/391
+* fix(setting): remove deprecated sync targets and replace with config writers by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/392
+* chore: add backup settings files to `.gitignore` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/393
+* refactor(project): migrate menus from `std/scene` to `std/screen` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/394
+* chore(addons): update `std` to `v4.5.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/395
+* fix(platform): configure logging profiles for editor and release modes by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/396
+* feat(project): create menu primitive nodes and add confirmation dialogs and a pause menu by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/397
+* chore(project): move project-level menus into `project/menu` directory by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/398
+* fix(project/ui): add override for `InputActionPrompt` display text by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/399
+* refactor(project/main): use new `StdSoundEmitter` to simplify playing background music by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/400
+* feat(tests): create save system E2E tests and save data schema migration tests by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/401
+* fix(input): upgrade `std` and support multiple action set layers in one loader by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/402
+* fix(screen): adjust screen transitions; upgrade `std` to `v4.5.4` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/403
+* feat(tools): add VS Code tasks, Claude skills, and a script to sync translations by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/404
+* chore: disable build task from automatically running by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/405
+* chore(ci): add a cooldown for new dependency upgrades by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/406
+* fix(ci): increase dependency cooldown to 30 days by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/407
+* chore: upgrade to Godot `v4.6.1-stable` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/408
+* feat(project): create base scene for all game types by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/409
+* chore(addons): upgrade `std` to `v4.6.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/410
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.0.1...v4.1.0
+
 ## 4.0.1 (2026-02-01)
 
 ## What's Changed
