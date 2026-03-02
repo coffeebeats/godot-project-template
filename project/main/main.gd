@@ -81,7 +81,11 @@ static func save_game(
 	if not main._save_data is ProjectSaveData:
 		return false
 
-	return await saves.store_save_data(main._save_data)
+	var success := await saves.store_save_data(main._save_data)
+	if success:
+		main._save_data.clear_dirty()
+
+	return success
 
 
 # Game flow
@@ -104,19 +108,23 @@ static func load_game(slot: int) -> bool:
 
 
 func _enter_tree() -> void:
-	StdGroup.with_id(GROUP_MAIN).add_member(self)
+	StdGroup.with_id(GROUP_MAIN).add_member(self )
 
 	if Engine.is_editor_hint():
 		Signals.connect_safe(ProjectSettings.settings_changed, _update_color)
+	else:
+		Signals.connect_safe(Lifecycle.shutdown_requested, _on_shutdown_requested)
 
 	_update_color()
 
 
 func _exit_tree() -> void:
-	StdGroup.with_id(GROUP_MAIN).remove_member(self)
+	StdGroup.with_id(GROUP_MAIN).remove_member(self )
 
 	if Engine.is_editor_hint():
 		Signals.disconnect_safe(ProjectSettings.settings_changed, _update_color)
+	else:
+		Signals.disconnect_safe(Lifecycle.shutdown_requested, _on_shutdown_requested)
 
 
 func _ready() -> void:
@@ -218,6 +226,11 @@ func _update_color() -> void:
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_shutdown_requested(_exit_code: int) -> void:
+	if _save_data and _save_data.is_dirty():
+		Systems.saves().flush_save_data(_save_data)
 
 
 func _on_splash_complete() -> void:
