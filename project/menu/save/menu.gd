@@ -9,11 +9,17 @@ extends PanelContainer
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const ConfirmDelete := preload("res://project/menu/save/delete.tscn")
 const Signals := preload("res://addons/std/event/signal.gd")
 const SlotButton := preload("slot_button.gd")
 
+# -- CONFIGURATION ------------------------------------------------------------------- #
+
+## confirm_delete_scene is the confirmation dialog shown before erasing a save slot.
+@export var confirm_delete_scene: PackedScene
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _confirm_delete: AlertDialog
 
 @onready var _delete_buttons: Control = %DeleteButtons
 @onready var _slot_buttons: Control = %SlotButtons
@@ -21,13 +27,21 @@ const SlotButton := preload("slot_button.gd")
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		if is_instance_valid(_confirm_delete):
+			_confirm_delete.free()
+
+
 func _ready() -> void:
+	_confirm_delete = confirm_delete_scene.instantiate()
+
 	for child in _slot_buttons.get_children():
 		var button: SlotButton = child
 		if not button is SlotButton:
 			continue
 
-		button.pressed.connect(_on_slot_button_pressed.bind(button.slot))
+		Signals.connect_safe(button.pressed, _on_slot_button_pressed.bind(button.slot))
 
 	var saves := Systems.saves()
 
@@ -38,34 +52,33 @@ func _ready() -> void:
 
 		var status := saves.get_save_slot(slot).status
 		button.disabled = status == SaveSlot.STATUS_EMPTY
-		button.pressed.connect(_on_delete_button_pressed.bind(button, slot))
+		(
+			Signals
+			. connect_safe(
+				button.pressed,
+				_on_delete_button_pressed.bind(button, slot),
+			)
+		)
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
-func _on_delete_button_pressed(button: Button, slot: int) -> void:
+func _on_delete_button_pressed(
+	button: Button,
+	slot: int,
+) -> void:
 	var saves := Systems.saves()
 	if saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
 		return
 
-	var instance := ConfirmDelete.instantiate()
-	var dialog: AlertDialog = instance.get_node("%AlertDialog")
-
-	Signals.connect_safe(
-		dialog.closed,
-		func(accepted: bool):
-			Main.screens().pop()
-			if accepted:
-				button.disabled = true
-				if not saves.erase_slot(slot):
-					button.disabled = false,
-		CONNECT_ONE_SHOT,
-	)
-
-	Main.screens().push(StdScreen.new(), instance)
+	_confirm_delete.open()
+	var accepted: bool = await _confirm_delete.closed
+	if accepted:
+		button.disabled = true
+		if not saves.erase_slot(slot):
+			button.disabled = false
 
 
 func _on_slot_button_pressed(slot: int) -> void:
-	# TODO: Close the save menu on error.
-	Main.load_game(slot)
+	Main.load_game(slot)  # TODO: Close the save menu on error.
