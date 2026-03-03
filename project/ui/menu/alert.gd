@@ -37,7 +37,7 @@ const MODE_OK_ONLY := Mode.OK_ONLY
 
 ## screen is the screen resource used when this dialog is pushed. Configure transitions
 ## and dependencies on this resource.
-@export var screen: StdScreen = StdScreen.new()
+@export var screen: StdScreen
 
 ## mode controls the button layout of the dialog.
 @export var mode: Mode = Mode.CONFIRM_CANCEL:
@@ -84,6 +84,13 @@ func open() -> void:
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
+
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+	if not screen is StdScreen:
+		warnings.append("AlertDialog requires a StdScreen resource.")
+	return warnings
 
 
 func _ready() -> void:
