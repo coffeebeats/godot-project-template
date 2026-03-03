@@ -9,6 +9,9 @@
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="7_opts"]
 [ext_resource type="Resource" uid="uid://d2vp2eesnf5ng" path="res://project/menu/settings/screen.tres" id="8_settings"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="9_layer"]
+[ext_resource type="PackedScene" uid="uid://dii55pwtpi0w6" path="res://project/menu/pause/quit.tscn" id="10_quit"]
+[ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="12_pusher"]
+[ext_resource type="PackedScene" uid="uid://cjsmesktoceke" path="res://project/menu/pause/return.tscn" id="11_return"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -18,7 +21,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
+confirm_quit_scene = ExtResource("10_quit")
+confirm_return_scene = ExtResource("11_return")
 settings_screen = ExtResource("8_settings")
+
+[node name="SettingsPusher" type="Node" parent="."]
+script = ExtResource("12_pusher")
+screen = ExtResource("8_settings")
+pop_actions = Array[StringName]([&"ui_cancel"])
 
 [node name="StdInputActionSetLoader" type="Control" parent="."]
 anchors_preset = 0

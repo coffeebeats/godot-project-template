@@ -202,7 +202,7 @@
       "command": "godot --path . --editor",
       "icon": { "id": "play", "color": "terminal.ansiMagenta" },
       "presentation": {
-        "reveal": "always"
+        "reveal": "silent"
       },
       "problemMatcher": []
     }

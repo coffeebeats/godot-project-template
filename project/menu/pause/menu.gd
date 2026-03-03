@@ -10,15 +10,23 @@ extends Control
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
-const ConfirmQuit := preload("res://project/menu/pause/quit.tscn")
-const ConfirmReturn := preload("res://project/menu/pause/return.tscn")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
+
+## confirm_quit_scene is the confirmation dialog shown before quitting the application.
+@export var confirm_quit_scene: PackedScene
+
+## confirm_return_scene is the confirmation dialog shown before returning to the main
+## menu.
+@export var confirm_return_scene: PackedScene
 
 ## settings_screen is the screen resource for the settings menu.
 @export var settings_screen: StdScreen
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
+
+var _confirm_quit: AlertDialog
+var _confirm_return: AlertDialog
 
 @onready var _options: Button = %Options
 @onready var _quit: Button = %Quit
@@ -28,8 +36,19 @@ const ConfirmReturn := preload("res://project/menu/pause/return.tscn")
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		if is_instance_valid(_confirm_quit):
+			_confirm_quit.free()
+		if is_instance_valid(_confirm_return):
+			_confirm_return.free()
+
+
 func _ready() -> void:
 	_handle_first_focused_sound_event_mute.call_deferred()
+
+	_confirm_quit = confirm_quit_scene.instantiate()
+	_confirm_return = confirm_return_scene.instantiate()
 
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
 	Signals.connect_safe(_quit.pressed, _on_quit_pressed)
@@ -52,23 +71,6 @@ func _handle_first_focused_sound_event_mute() -> void:
 		input.mute_next_focus_sound_event()
 
 
-func _push_confirm(scene: PackedScene, on_confirmed: Callable) -> void:
-	var instance := scene.instantiate()
-	var dialog: AlertDialog = instance.get_node("%AlertDialog")
-
-	Signals.connect_safe(
-		dialog.closed,
-		func(accepted: bool):
-			if accepted:
-				on_confirmed.call()
-			else:
-				Main.screens().pop(),
-		CONNECT_ONE_SHOT,
-	)
-
-	Main.screens().push(StdScreen.new(), instance)
-
-
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
@@ -77,17 +79,27 @@ func _on_options_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
-	_push_confirm(ConfirmQuit, func(): Lifecycle.shutdown())
+	_confirm_quit.open()
+	var accepted: bool = await _confirm_quit.closed
+	if accepted:
+		Lifecycle.shutdown()
 
 
 func _on_resume_pressed() -> void:
+	assert(
+		Main.screens().get_scene() == self,
+		"invalid state; this scene is not topmost",
+	)
 	Main.screens().pop()
 
 
 func _on_return_pressed() -> void:
-	_push_confirm(
-		ConfirmReturn,
-		func():
-			Main.screens().pop()
-			Main.go_to_main_menu(),
-	)
+	_confirm_return.open()
+	var accepted: bool = await _confirm_return.closed
+	if accepted:
+		assert(
+			Main.screens().get_scene() == self,
+			"invalid state; this scene is not topmost",
+		)
+		Main.screens().pop()
+		Main.go_to_main_menu()

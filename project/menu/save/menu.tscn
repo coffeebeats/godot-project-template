@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_dj346"]
 [ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="5_scrim"]
 [ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://project/ui/menu/button_close.tscn" id="6_close"]
+[ext_resource type="PackedScene" uid="uid://dkw2li5unhvv7" path="res://project/menu/save/delete.tscn" id="7_delete"]
 
 [node name="SaveMenu" type="Control" unique_id=938619952]
 layout_mode = 3
@@ -38,6 +39,7 @@ custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
 theme_type_variation = &"panel_dialog"
 script = ExtResource("1_sihek")
+confirm_delete_scene = ExtResource("7_delete")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1929183545]
 layout_mode = 2
