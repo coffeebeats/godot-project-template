@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="1_screen"]
 [ext_resource type="Resource" uid="uid://bbit3s3bc6bab" path="res://project/main/menu/transition_fade.tres" id="2_qiqhg"]
+[ext_resource type="Resource" uid="uid://d2vp2eesnf5ng" path="res://project/menu/settings/screen.tres" id="3_settings"]
+[ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="4_saves"]
 
 [resource]
 script = ExtResource("1_screen")
 scene_path = "res://project/main/menu/menu.tscn"
 transition = ExtResource("2_qiqhg")
-dependency_scenes = ["uid://cm4b566x6ped8", "uid://hbb2wxcb7sxf"]
+dependency_screens = Array[ExtResource("1_screen")]([ExtResource("3_settings"), ExtResource("4_saves")])
