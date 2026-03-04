@@ -101,7 +101,7 @@ static func start_rebinding(
 
 ## stop terminates the rebinding process, halting input event listeners and popping the
 ## rebinder screen.
-func stop() -> void:
+func stop(bound: bool = false) -> void:
 	# NOTE: Restore cursor visibility *before* popping the screen. The rebind key press
 	# may have triggered cursor hiding (the cursor's '_input' processes key events as
 	# hide actions). Restoring here prevents focus mode from activating during the
@@ -137,7 +137,7 @@ func stop() -> void:
 	_device = null
 	_player = -1
 
-	Main.screens().pop()
+	Main.screens().pop(bound)
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -187,7 +187,7 @@ func _input(event: InputEvent) -> void:
 	)
 
 	get_viewport().set_input_as_handled()
-	stop()
+	stop(true)
 
 
 func _enter_tree() -> void:
