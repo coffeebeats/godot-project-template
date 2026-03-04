@@ -78,6 +78,12 @@ func _on_options_pressed() -> void:
 func _on_play_pressed() -> void:
 	Main.screens().push(saves_screen)
 
+	var slot: Variant = await saves_screen.popped
+	if slot == null:
+		return
+
+	Main.load_game(slot as int)
+
 
 func _on_quit_pressed() -> void:
 	Lifecycle.shutdown()

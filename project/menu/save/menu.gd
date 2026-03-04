@@ -81,4 +81,4 @@ func _on_delete_button_pressed(
 
 
 func _on_slot_button_pressed(slot: int) -> void:
-	Main.load_game(slot)  # TODO: Close the save menu on error.
+	Main.screens().pop(slot)
