@@ -126,6 +126,16 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
+	var input := Systems.input()
+	Signals.connect_safe(
+		_manager.screen_entered,
+		func(_s: StdScreen, _n: Node) -> void: input.mute_next_focus_sound(),
+	)
+	Signals.connect_safe(
+		_manager.screen_uncovered,
+		func(_s: StdScreen, _n: Node) -> void: input.mute_next_focus_sound(),
+	)
+
 	_preload_results = _manager.load_screen(initial)
 
 	if not splash.is_empty():

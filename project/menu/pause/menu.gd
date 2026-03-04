@@ -45,8 +45,6 @@ func _notification(what: int) -> void:
 
 
 func _ready() -> void:
-	_handle_first_focused_sound_event_mute.call_deferred()
-
 	_confirm_quit = confirm_quit_scene.instantiate()
 	_confirm_return = confirm_return_scene.instantiate()
 
@@ -60,15 +58,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_on_resume_pressed()
-
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _handle_first_focused_sound_event_mute() -> void:
-	var input := Systems.input()
-	if not input.is_cursor_visible():
-		input.mute_next_focus_sound_event()
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
