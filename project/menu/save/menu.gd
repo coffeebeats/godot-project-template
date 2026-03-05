@@ -28,9 +28,10 @@ var _confirm_delete: AlertDialog
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if is_instance_valid(_confirm_delete):
 			_confirm_delete.free()
+			_confirm_delete = null
 
 
 func _ready() -> void:

@@ -37,11 +37,13 @@ var _confirm_return: AlertDialog
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if is_instance_valid(_confirm_quit):
 			_confirm_quit.free()
+			_confirm_quit = null
 		if is_instance_valid(_confirm_return):
 			_confirm_return.free()
+			_confirm_return = null
 
 
 func _ready() -> void:
