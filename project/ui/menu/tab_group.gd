@@ -141,8 +141,15 @@ func _sync_content() -> void:
 	if not content is Node or not content.is_inside_tree():
 		return
 
+	# NOTE: Hide non-current children first so that anchor resolution in
+	# `report_focus_handler_visible` never sees two panels visible at once.
 	for i in content.get_child_count():
-		content.get_child(i).visible = i == _current
+		if i != _current:
+			content.get_child(i).visible = false
+
+	var child := content.get_child(_current)
+	if not child.visible:
+		child.visible = true
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
