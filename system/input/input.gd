@@ -93,13 +93,10 @@ func mute_next_focus_sound() -> void:
 			is_unmuted[0] = true
 			focused_sound_group.unmute()
 
-	var on_focus_changed := func(_node: Control) -> void:
-		unmute.call_deferred()
+	var on_focus_changed := func(_node: Control) -> void: unmute.call_deferred()
 
 	var gui_focus_changed := get_viewport().gui_focus_changed
-	Signals.connect_safe(
-		gui_focus_changed, on_focus_changed, CONNECT_ONE_SHOT
-	)
+	Signals.connect_safe(gui_focus_changed, on_focus_changed, CONNECT_ONE_SHOT)
 
 	# Unmute at the next idle frame if the one-shot hasn't fired. By `process_frame`,
 	# all deferred calls from the muting frame have flushed.
@@ -129,13 +126,13 @@ func show_cursor() -> void:
 
 func _enter_tree() -> void:
 	assert(StdGroup.is_empty(GROUP_INPUT_SHIM), "invalid state; duplicate node found")
-	StdGroup.with_id(GROUP_INPUT_SHIM).add_member(self )
+	StdGroup.with_id(GROUP_INPUT_SHIM).add_member(self)
 
 	set_process(false)
 
 
 func _exit_tree() -> void:
-	StdGroup.with_id(GROUP_INPUT_SHIM).remove_member(self )
+	StdGroup.with_id(GROUP_INPUT_SHIM).remove_member(self)
 
 
 func _input(event: InputEvent) -> void:
