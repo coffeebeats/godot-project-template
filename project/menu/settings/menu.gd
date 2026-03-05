@@ -36,15 +36,12 @@ func _enter_tree() -> void:
 	_tab_switch_muted = true
 	_tab_group.select(_tab_group.default_tab)
 	(func(): _tab_switch_muted = false).call_deferred()
-	_maybe_mute_next_focus_sound_event()
 
 
 func _ready() -> void:
 	assert(_tab_group is TabGroup, "invalid state; missing control node")
 
 	Signals.connect_safe(_tab_group.tab_changed, _on_tab_changed)
-
-	_maybe_mute_next_focus_sound_event()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -56,21 +53,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _maybe_mute_next_focus_sound_event() -> void:
-	var input := Systems.input()
-	if not input.is_cursor_visible():
-		input.mute_next_focus_sound_event()
-
-
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
 func _on_tab_changed(_index: int) -> void:
 	if not Systems.input().is_cursor_visible():
-		Systems.input().mute_next_focus_sound_event()
+		Systems.input().mute_next_focus_sound()
 
 	if not _tab_switch_muted and tab_switch_sound_event:
 		Systems.audio().play(tab_switch_sound_event)

@@ -37,16 +37,16 @@ var _confirm_return: AlertDialog
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if is_instance_valid(_confirm_quit):
 			_confirm_quit.free()
+			_confirm_quit = null
 		if is_instance_valid(_confirm_return):
 			_confirm_return.free()
+			_confirm_return = null
 
 
 func _ready() -> void:
-	_handle_first_focused_sound_event_mute.call_deferred()
-
 	_confirm_quit = confirm_quit_scene.instantiate()
 	_confirm_return = confirm_return_scene.instantiate()
 
@@ -60,15 +60,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_on_resume_pressed()
-
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _handle_first_focused_sound_event_mute() -> void:
-	var input := Systems.input()
-	if not input.is_cursor_visible():
-		input.mute_next_focus_sound_event()
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #

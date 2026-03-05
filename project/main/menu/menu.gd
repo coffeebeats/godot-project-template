@@ -26,8 +26,6 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 
 func _ready() -> void:
-	_handle_first_focused_sound_event_mute.call_deferred()
-
 	Signals.connect_safe(_continue.pressed, _on_continue_pressed)
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
 	Signals.connect_safe(_play.pressed, _on_play_pressed)
@@ -41,12 +39,6 @@ func _ready() -> void:
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _handle_first_focused_sound_event_mute() -> void:
-	var input := Systems.input()
-	if not input.is_cursor_visible():
-		input.mute_next_focus_sound_event()
 
 
 func _setup_continue_button() -> void:

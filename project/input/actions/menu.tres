@@ -9,4 +9,4 @@ actions_digital = Array[StringName]([&"ui_accept", &"ui_cancel", &"ui_left", &"u
 cursor_activates_kbm = 1
 cursor_hide_actions = Array[StringName]([&"ui_left", &"ui_right", &"ui_up", &"ui_down", &"ui_focus_next", &"ui_focus_prev", &"ui_accept"])
 cursor_hide_actions_if_hovered = Array[StringName]([&"ui_accept"])
-cursor_reveal_distance_minimum = Vector2(8, 8)
+cursor_reveal_distance_minimum = Vector2(4, 4)

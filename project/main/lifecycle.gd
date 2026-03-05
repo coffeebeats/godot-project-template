@@ -68,7 +68,8 @@ func shutdown(exit_code: int = 0) -> void:
 	scene_tree.root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 	scene_tree.quit(exit_code)
-	print_orphan_nodes.call_deferred()  # Defer this to allow time to free nodes.
+	if OS.has_feature("editor"):
+		print_orphan_nodes.call_deferred()  # Defer this to allow time to free nodes.
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #

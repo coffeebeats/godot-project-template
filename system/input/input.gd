@@ -77,18 +77,34 @@ func is_using_focus_ui_navigation() -> bool:
 	return not _cursor.get_is_visible()
 
 
-## mute_next_focus_sound_event is used to mute the next occurrence of a sound event
-## that would trigger due to a focus change.
-func mute_next_focus_sound_event() -> void:
+## mute_next_focus_sound suppresses the next focus or hover sound event. The sound group
+## is unmuted after the first focus change settles; a `process_frame` fallback
+## guarantees cleanup if no focus change occurs (e.g. cursor mode).
+func mute_next_focus_sound() -> void:
 	if not focused_sound_group:
 		assert(false, "invalid config; missing focused sound group")
 		return
 
 	focused_sound_group.mute()
 
+	var is_unmuted := [false]
+	var unmute := func() -> void:
+		if not is_unmuted[0]:
+			is_unmuted[0] = true
+			focused_sound_group.unmute()
+
+	var on_focus_changed := func(_node: Control) -> void: unmute.call_deferred()
+
+	var gui_focus_changed := get_viewport().gui_focus_changed
+	Signals.connect_safe(gui_focus_changed, on_focus_changed, CONNECT_ONE_SHOT)
+
+	# Unmute at the next idle frame if the one-shot hasn't fired. By `process_frame`,
+	# all deferred calls from the muting frame have flushed.
 	Signals.connect_safe(
-		get_viewport().gui_focus_changed,
-		func(_node: Control) -> void: focused_sound_group.unmute.call_deferred(),
+		get_tree().process_frame,
+		func() -> void:
+			Signals.disconnect_safe(gui_focus_changed, on_focus_changed)
+			unmute.call_deferred(),
 		CONNECT_ONE_SHOT,
 	)
 
