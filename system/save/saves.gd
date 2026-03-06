@@ -340,40 +340,16 @@ func load_save_data(data: StdSaveData) -> bool:
 	return false  # gdlint:ignore=max-returns
 
 
-## flush_save_data synchronously persists the provided save data
-## to the active slot. Intended for shutdown paths where await is
-## unavailable.
-func flush_save_data(data: StdSaveData) -> bool:
-	if not data is StdSaveData or not _slots_ready:
-		return false
-
-	var index := _active_slot
-	if index < 0 or index >= _save_slots.size():
-		return false
-
-	var logger := _logger.with({&"slot": index})
-	logger.info("Flushing save data (sync).")
-
-	# Block until any in-flight async save completes.
+## flush_save_data synchronously persists the provided save data to the active slot.
+## Intended for shutdown paths where await is unavailable. This is a last-resort path;
+## it blocks until any in-flight save completes, then writes synchronously if dirty.
+func flush_save_data(data: StdSaveData) -> void:
 	_writer.wait()
 
-	_save_data = data.duplicate(true)
-	_writer.slot = index
+	if not data.is_dirty():
+		return
 
-	var status := _writer.store_save_data_sync(_save_data)
-
-	logger = logger.with({&"status": status})
-
-	match status:
-		SaveSlot.STATUS_OK:
-			logger.info("Successfully flushed save data.")
-			data.clear_dirty()
-			_save_slots[index].status = status
-			_save_slots[index].summary = _save_data.summary
-			return true
-		_:
-			logger.error("Failed to flush save data.")
-			return false
+	_writer.store_save_data_sync(data)
 
 
 ## store_save_data asynchronously stores the provided save data to the currently active
