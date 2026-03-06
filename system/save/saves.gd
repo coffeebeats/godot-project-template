@@ -366,13 +366,17 @@ func store_save_data(data: StdSaveData) -> bool:
 		return false
 
 	var logger := _logger.with({&"slot": index})
-	logger.info("Storing save data.")
 
 	if index < 0 or index >= _save_slots.size():
 		assert(false, "invalid argument; index out of range")
-		logger.warn("Refusing to load save data for invalid save slot index.")
+		logger.warn("Refusing to store save data for invalid save slot index.")
 		slot_saved.emit.call_deferred(index, ERR_INVALID_PARAMETER)
 		return false
+
+	# Skip redundant writes when data hasn't changed since last save.
+	if not data.is_dirty() and not data.is_critical():
+		logger.debug("Skipping save; data is not dirty.")
+		return true
 
 	var save_slot := _save_slots[index]
 	assert(save_slot is SaveSlot, "invalid state; missing save slot")
@@ -381,10 +385,11 @@ func store_save_data(data: StdSaveData) -> bool:
 	# requires that the caller wait for the result of each save operation.
 	if _writer.is_worker_in_progress():
 		assert(false, "invalid state; save operation already in progress")
-		logger.warn("Refusing to load save data; save operation already in progress.")
+		logger.warn("Refusing to store save data; save operation already in progress.")
 		slot_saved.emit.call_deferred(index, ERR_BUSY)
 		return false
 
+	logger.info("Storing save data.")
 	slot_saving.emit(index)
 
 	_save_data = data
