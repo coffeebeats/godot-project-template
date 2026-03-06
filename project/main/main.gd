@@ -132,7 +132,7 @@ static func load_game(slot: int) -> bool:
 
 
 func _enter_tree() -> void:
-	StdGroup.with_id(GROUP_MAIN).add_member(self )
+	StdGroup.with_id(GROUP_MAIN).add_member(self)
 
 	if Engine.is_editor_hint():
 		Signals.connect_safe(ProjectSettings.settings_changed, _update_color)
@@ -143,7 +143,7 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
-	StdGroup.with_id(GROUP_MAIN).remove_member(self )
+	StdGroup.with_id(GROUP_MAIN).remove_member(self)
 
 	if Engine.is_editor_hint():
 		Signals.disconnect_safe(ProjectSettings.settings_changed, _update_color)
