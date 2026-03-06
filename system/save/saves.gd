@@ -25,6 +25,9 @@ signal slot_erased(index: int)
 ## slot_saved is emitted when a slot save finishes.
 signal slot_saved(index: int, error: Error)
 
+## slot_saving is emitted when a slot save begins.
+signal slot_saving(index: int)
+
 ## slots_loaded is emitted once all save slots have been loaded.
 signal slots_loaded
 
@@ -242,6 +245,11 @@ func are_slots_loaded() -> bool:
 	return _slots_ready
 
 
+## is_saving returns whether a save operation is currently in progress.
+func is_saving() -> bool:
+	return _writer.is_worker_in_progress()
+
+
 # Save operations
 
 
@@ -332,6 +340,18 @@ func load_save_data(data: StdSaveData) -> bool:
 	return false  # gdlint:ignore=max-returns
 
 
+## flush_save_data synchronously persists the provided save data to the active slot.
+## Intended for shutdown paths where await is unavailable. This is a last-resort path;
+## it blocks until any in-flight save completes, then writes synchronously if dirty.
+func flush_save_data(data: StdSaveData) -> void:
+	_writer.wait()
+
+	if not data.is_dirty():
+		return
+
+	_writer.store_save_data_sync(data)
+
+
 ## store_save_data asynchronously stores the provided save data to the currently active
 ## save slot and returns whether this operation succeeded.
 func store_save_data(data: StdSaveData) -> bool:
@@ -346,13 +366,17 @@ func store_save_data(data: StdSaveData) -> bool:
 		return false
 
 	var logger := _logger.with({&"slot": index})
-	logger.info("Storing save data.")
 
 	if index < 0 or index >= _save_slots.size():
 		assert(false, "invalid argument; index out of range")
-		logger.warn("Refusing to load save data for invalid save slot index.")
+		logger.warn("Refusing to store save data for invalid save slot index.")
 		slot_saved.emit.call_deferred(index, ERR_INVALID_PARAMETER)
 		return false
+
+	# Skip redundant writes when data hasn't changed since last save.
+	if not data.is_dirty() and not data.is_critical():
+		logger.debug("Skipping save; data is not dirty.")
+		return true
 
 	var save_slot := _save_slots[index]
 	assert(save_slot is SaveSlot, "invalid state; missing save slot")
@@ -361,12 +385,14 @@ func store_save_data(data: StdSaveData) -> bool:
 	# requires that the caller wait for the result of each save operation.
 	if _writer.is_worker_in_progress():
 		assert(false, "invalid state; save operation already in progress")
-		logger.warn("Refusing to load save data; save operation already in progress.")
+		logger.warn("Refusing to store save data; save operation already in progress.")
 		slot_saved.emit.call_deferred(index, ERR_BUSY)
 		return false
 
-	_save_data = data.duplicate(true)
-	_save_data.summary.time_last_saved = Time.get_unix_time_from_system()
+	logger.info("Storing save data.")
+	slot_saving.emit(index)
+
+	_save_data = data
 
 	save_slot.status = await _writer.store_save_data(_save_data)
 	save_slot.summary = _save_data.summary  # Don't duplicate; '_save_data' is private.

@@ -27,7 +27,6 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 var _confirm_quit: AlertDialog
 var _confirm_return: AlertDialog
-
 @onready var _options: Button = %Options
 @onready var _quit: Button = %Quit
 @onready var _resume: Button = %Resume
@@ -71,9 +70,11 @@ func _on_options_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	_confirm_quit.open()
-	var accepted: bool = await _confirm_quit.closed
-	if accepted:
-		Lifecycle.shutdown()
+	if not await _confirm_quit.closed:
+		return
+
+	# NOTE: Save data is flushed synchronously by Main._on_shutdown_requested.
+	Lifecycle.shutdown()
 
 
 func _on_resume_pressed() -> void:
@@ -86,11 +87,7 @@ func _on_resume_pressed() -> void:
 
 func _on_return_pressed() -> void:
 	_confirm_return.open()
-	var accepted: bool = await _confirm_return.closed
-	if accepted:
-		assert(
-			Main.screens().get_scene() == self,
-			"invalid state; this scene is not topmost",
-		)
-		Main.screens().pop()
-		Main.go_to_main_menu()
+	if not await _confirm_return.closed:
+		return
+
+	Main.go_to_main_menu()
