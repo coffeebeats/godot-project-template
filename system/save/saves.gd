@@ -25,6 +25,9 @@ signal slot_erased(index: int)
 ## slot_saved is emitted when a slot save finishes.
 signal slot_saved(index: int, error: Error)
 
+## slot_saving is emitted when a slot save begins.
+signal slot_saving(index: int)
+
 ## slots_loaded is emitted once all save slots have been loaded.
 signal slots_loaded
 
@@ -406,7 +409,9 @@ func store_save_data(data: StdSaveData) -> bool:
 		slot_saved.emit.call_deferred(index, ERR_BUSY)
 		return false
 
-	_save_data = data.duplicate(true)
+	slot_saving.emit(index)
+
+	_save_data = data
 
 	save_slot.status = await _writer.store_save_data(_save_data)
 	save_slot.summary = _save_data.summary  # Don't duplicate; '_save_data' is private.
