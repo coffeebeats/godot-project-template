@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.1.1 (2026-03-06)
+
+## What's Changed
+* fix(project): improve save handling across scene boundaries by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/416
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.1.0...v4.1.1
+
 ## 4.1.0 (2026-03-05)
 
 ## What's Changed
