@@ -38,6 +38,17 @@ Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or w
 - **Adding an input action** — Add the action to a `StdInputActionSet` resource in `project/input/actions/`. Add default binding in `project.godot` under `[input]`. Add translation with `msgctxt "actions_<SetName>"` to `messages.pot` and `en_US.po`. Scenes load action sets via `StdInputActionSetLoader` nodes.
 - **Adding a sound** — Place audio file in `project/`. Create a `StdSoundEvent1D` resource (`.tres`) referencing the file and a bus from `system/audio/bus/`. Play via `Systems.audio().play(event)`. For concurrency limits, also create a `StdSoundGroup` resource.
 
+## Save Data Runtime API
+
+Game scenes access save data via `Main` statics in `project/main/main.gd`:
+
+- `Main.get_active_save_data()` — read/write fields on the returned `ProjectSaveData`.
+- `Main.save_game()` — awaitable; accumulates play time, stores, clears dirty.
+- `Main.request_save()` — fire-and-forget; skips if in-flight or clean.
+- `Main.load_game(slot)` / `Main.go_to_main_menu()` — game flow transitions.
+
+Dirty tracking is automatic (`StdConfigItem` snapshots); use `mark_critical()` to force a save without field changes. Shutdown uses synchronous `flush_save_data()` as a last-resort path (`system/save/saves.gd`).
+
 ## Pitfalls
 
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
