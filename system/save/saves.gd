@@ -242,6 +242,11 @@ func are_slots_loaded() -> bool:
 	return _slots_ready
 
 
+## is_saving returns whether a save operation is currently in progress.
+func is_saving() -> bool:
+	return _writer.is_worker_in_progress()
+
+
 # Save operations
 
 
