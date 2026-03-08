@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://blrcra2221trg"]
+
+[ext_resource type="Script" uid="uid://dld1uw3phkfna" path="res://project/maps/base/3d/scene.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="2_pusher"]
+[ext_resource type="Resource" uid="uid://c1085a5a4wxdt" path="res://project/menu/pause/screen.tres" id="3_pause"]
+[ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_loader"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="5_gameplay"]
+[ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="6_layer"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="7_options"]
+[ext_resource type="Script" uid="uid://cpj6sfb4r20rj" path="res://project/maps/base/3d/viewport_observer.gd" id="8_observer"]
+[ext_resource type="Resource" path="res://system/setting/video/render_scale_property.tres" id="9_render_scale"]
+[ext_resource type="Resource" path="res://system/setting/video/msaa_3d_property.tres" id="10_msaa_3d"]
+
+[node name="ProjectMap3D" type="Control" unique_id=1397359715 node_paths=PackedStringArray("sub_viewport")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+sub_viewport = NodePath("SubViewportContainer/SubViewport")
+
+[node name="PausePusher" type="Node" parent="." unique_id=456924131]
+script = ExtResource("2_pusher")
+screen = ExtResource("3_pause")
+push_actions = Array[StringName]([&"ui_toggle_menu"])
+pop_actions = Array[StringName]([&"ui_cancel", &"ui_toggle_menu"])
+
+[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=1805366389]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_loader")
+action_set = ExtResource("5_gameplay")
+action_set_layers = Array[ExtResource("6_layer")]([ExtResource("7_options")])
+
+[node name="Settings" type="Node" parent="." unique_id=1002660069]
+
+[node name="ViewportObserver" type="Node" parent="Settings" unique_id=1272083597 node_paths=PackedStringArray("sub_viewport")]
+script = ExtResource("8_observer")
+sub_viewport = NodePath("../../SubViewportContainer/SubViewport")
+render_scale_property = ExtResource("9_render_scale")
+msaa_3d_property = ExtResource("10_msaa_3d")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=177420653]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=212550170]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="HUD" type="Control" parent="." unique_id=369370115]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
