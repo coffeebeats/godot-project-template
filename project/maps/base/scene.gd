@@ -28,8 +28,7 @@ extends Control
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## sub_viewport is the `SubViewport` that renders the game world at a controlled
-## resolution. Assign this in the scene editor.
+## sub_viewport is a `SubViewport` that renders the game world at a specific resolution.
 @export var sub_viewport: SubViewport = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
@@ -45,8 +44,8 @@ func _exit_tree() -> void:
 
 	_save_data = null
 
-	# NOTE: Godot #100755 - null `world_2d` to prevent crash when changing
-	# scenes while a SubViewport shares the main viewport's World2D.
+	# NOTE: Godot #100755 - null `world_2d` to prevent crash when changing scenes while
+	# a `SubViewport` shares the main viewport's `World2D`.
 	if sub_viewport and sub_viewport.world_2d == get_viewport().world_2d:
 		sub_viewport.world_2d = null
 
@@ -68,5 +67,5 @@ func _ready():
 
 	_save_data = Main.get_active_save_data()
 	if not _save_data:
-		Main.go_to_main_menu()
+		Main.go_to_main_menu() # TODO: Add better error handling.
 		return
