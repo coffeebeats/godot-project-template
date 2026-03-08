@@ -7,4 +7,5 @@
 ##
 
 @tool
+class_name ProjectMap3D
 extends "res://project/maps/base/scene.gd"

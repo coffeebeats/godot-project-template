@@ -8,6 +8,7 @@
 ##
 
 @tool
+class_name ProjectMapPixel2D
 extends "res://project/maps/base/scene.gd"
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -29,14 +30,14 @@ var _shader_material: ShaderMaterial = null
 
 
 func _exit_tree() -> void:
-	super()
+	super ()
 
 	if not Engine.is_editor_hint():
 		RenderingServer.frame_pre_draw.disconnect(_on_frame_pre_draw)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := super()
+	var warnings := super ()
 
 	if game_resolution.x <= 0 or game_resolution.y <= 0:
 		warnings.append("'game_resolution' must be positive")
@@ -53,7 +54,7 @@ func _ready() -> void:
 	if container:
 		_shader_material = container.material as ShaderMaterial
 
-	super()
+	super ()
 
 	if not Engine.is_editor_hint():
 		RenderingServer.frame_pre_draw.connect(_on_frame_pre_draw)
