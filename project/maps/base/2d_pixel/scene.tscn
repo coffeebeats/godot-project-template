@@ -1,19 +1,19 @@
 [gd_scene format=3 uid="uid://qspx11jwjk1q"]
 
-[ext_resource type="Script" uid="uid://dfkxv8yvc2sqy" path="res://project/maps/base/pixel/scene.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dfkxv8yvc2sqy" path="res://project/maps/base/2d_pixel/scene.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="2_pusher"]
 [ext_resource type="Resource" uid="uid://c1085a5a4wxdt" path="res://project/menu/pause/screen.tres" id="3_pause"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_loader"]
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="5_gameplay"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="6_layer"]
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="7_options"]
-[ext_resource type="Shader" uid="uid://bhvhbj1ty1k5k" path="res://project/maps/base/pixel/smooth_pixel.gdshader" id="8_shader"]
+[ext_resource type="Shader" uid="uid://bhvhbj1ty1k5k" path="res://project/maps/base/2d_pixel/smooth_pixel.gdshader" id="8_shader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1"]
 shader = ExtResource("8_shader")
 shader_parameter/vertex_offset = Vector2(0, 0)
 
-[node name="Scene" type="Control" node_paths=PackedStringArray("sub_viewport")]
+[node name="ProjectMap2DPixel" type="Control" unique_id=1030227919 node_paths=PackedStringArray("sub_viewport")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,13 +23,13 @@ grow_vertical = 2
 script = ExtResource("1_script")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
 
-[node name="PausePusher" type="Node" parent="."]
+[node name="PausePusher" type="Node" parent="." unique_id=1342491773]
 script = ExtResource("2_pusher")
 screen = ExtResource("3_pause")
 push_actions = Array[StringName]([&"ui_toggle_menu"])
 pop_actions = Array[StringName]([&"ui_cancel", &"ui_toggle_menu"])
 
-[node name="StdInputActionSetLoader" type="Control" parent="."]
+[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=315263392]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -37,7 +37,7 @@ script = ExtResource("4_loader")
 action_set = ExtResource("5_gameplay")
 action_set_layers = Array[ExtResource("6_layer")]([ExtResource("7_options")])
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1423678673]
 texture_filter = 2
 material = SubResource("ShaderMaterial_1")
 layout_mode = 1
@@ -52,15 +52,15 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=625700164]
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(642, 362)
+size = Vector2i(1922, 1082)
 render_target_update_mode = 4
 
-[node name="HUD" type="Control" parent="."]
+[node name="HUD" type="Control" parent="." unique_id=1285188779]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

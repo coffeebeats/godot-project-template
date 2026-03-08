@@ -29,14 +29,14 @@ var _shader_material: ShaderMaterial = null
 
 
 func _exit_tree() -> void:
-	super ()
+	super()
 
 	if not Engine.is_editor_hint():
 		RenderingServer.frame_pre_draw.disconnect(_on_frame_pre_draw)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := super ()
+	var warnings := super()
 
 	if game_resolution.x <= 0 or game_resolution.y <= 0:
 		warnings.append("'game_resolution' must be positive")
@@ -45,22 +45,15 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 func _ready() -> void:
-	# NOTE: Configure the viewport *before* `super()` so the `SubViewport` is set up
+	# NOTE: Apply resolution *before* `super()` so the `SubViewport` is sized correctly
 	# even if the base's save-data check fails and redirects to menu.
 	_apply_resolution()
-
-	if sub_viewport:
-		sub_viewport.canvas_item_default_texture_filter = (
-			Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
-		)
-		sub_viewport.snap_2d_transforms_to_pixel = true
-		sub_viewport.snap_2d_vertices_to_pixel = true
 
 	var container := _get_container()
 	if container:
 		_shader_material = container.material as ShaderMaterial
 
-	super ()
+	super()
 
 	if not Engine.is_editor_hint():
 		RenderingServer.frame_pre_draw.connect(_on_frame_pre_draw)
@@ -97,4 +90,6 @@ func _on_frame_pre_draw() -> void:
 		return
 
 	var px_scale := container.size / Vector2(sub_viewport.size)
-	_shader_material.set_shader_parameter(&"vertex_offset", transform_remainder * px_scale)
+	_shader_material.set_shader_parameter(
+		&"vertex_offset", transform_remainder * px_scale
+	)
