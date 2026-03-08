@@ -1,5 +1,5 @@
 ##
-## project/maps/scene.gd
+## project/maps/base/scene.gd
 ##
 ## Base `@tool` script for game map scenes. Renders the game world in a `SubViewport`
 ## at a controlled resolution while UI stays at native resolution.
@@ -10,9 +10,10 @@
 ##   ├── PausePusher              (StdScreenPusher; optional)
 ##   ├── StdInputActionSetLoader  (optional)
 ##   ├── StdSoundEmitter          (BGM; optional)
-##   └── SubViewportContainer     (full-rect, stretch)
-##       └── SubViewport          (export: 'sub_viewport')
-##           └── [game world]
+##   ├── SubViewportContainer     (full-rect, stretch)
+##   │   └── SubViewport          (export: 'sub_viewport')
+##   │       └── [game world]
+##   └── HUD                      (Control, full-rect; optional, native resolution)
 ##
 ## NOTE: `StdScreen.pause_when_covered` disables the entire SubViewport subtree.
 ## Godot #79665: paused SubViewport descendants won't receive input, even with
@@ -43,6 +44,11 @@ func _exit_tree() -> void:
 		return
 
 	_save_data = null
+
+	# NOTE: Godot #100755 - null `world_2d` to prevent crash when changing
+	# scenes while a SubViewport shares the main viewport's World2D.
+	if sub_viewport and sub_viewport.world_2d == get_viewport().world_2d:
+		sub_viewport.world_2d = null
 
 
 func _get_configuration_warnings() -> PackedStringArray:
