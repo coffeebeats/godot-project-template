@@ -73,8 +73,9 @@ func _on_quit_pressed() -> void:
 	if not await _confirm_quit.closed:
 		return
 
-	# NOTE: Save data is flushed synchronously by Main._on_shutdown_requested.
-	Lifecycle.shutdown()
+	# NOTE: Save data is flushed synchronously by `Main._on_shutdown_requested`; defer
+	# shutdown so the screen manager finishes its pop operation first.
+	Lifecycle.shutdown.call_deferred()
 
 
 func _on_resume_pressed() -> void:
