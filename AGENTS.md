@@ -9,7 +9,7 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
 - **`project/`** — Game-specific code and assets.
   - **`core/`** — Game logic (empty by default; extend here).
   - **`main/`** — Main scene and app orchestration via `StdScreenManager`. Contains `menu/` and `splash/`.
-  - **`maps/`** — Game scenes/levels. `example/` demonstrates save data integration.
+  - **`maps/`** — Game maps (scenes/levels). `base/` contains style-specific inheritance templates: `2d/`, `2d_pixel/`, and `3d/`. Each has a standalone scene (`.tscn`) and script (`.gd`) with the full apparatus (SubViewport, PausePusher, InputActionSetLoader, HUD). The 3D template includes settings observers for render quality. Create new maps via `Scene > New Inherited Scene` from a template in `base/`.
   - **`menu/`** — Infrastructure menus: pause (`pause/`), save slot selection (`save/`), settings (`settings/`).
   - **`save/`** — Save data schemas (save slot data, summaries).
   - **`input/`** — Input action definitions, including Steam Input actions.
@@ -36,6 +36,7 @@ Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or w
 - **Adding a screen** — Create a `.tscn` scene and `.gd` script. Create a `StdScreen` resource (`.tres`) pointing to the scene with transition config. Export or preload the resource in `main.gd`. Navigate via `Main.screens().push()`, `.replace()`, `.pop()`, or `.reset()`.
 - **Adding a translatable string** — Use the `add-translation` skill. Only edit `messages.pot` and `en_US.po` (key-based `msgid` values); other `.po` files use English text as `msgid` (swapped via `poswap`) and must not be edited directly. Reference keys in scenes via `text` property or in code via `tr("my_new_key")`.
 - **Adding an input action** — Add the action to a `StdInputActionSet` resource in `project/input/actions/`. Add default binding in `project.godot` under `[input]`. Add translation with `msgctxt "actions_<SetName>"` to `messages.pot` and `en_US.po`. Scenes load action sets via `StdInputActionSetLoader` nodes.
+- **Adding a map** — Pick a style template from `project/maps/base/` (`2d/`, `2d_pixel/`, or `3d/`). Right-click the template's `scene.tscn` → `New Inherited Scene`. Save in `project/maps/<your_map>/scene.tscn`. Add a `World` node (Node2D or Node3D) as a child of the SubViewport and place game content under it. Create a `StdScreen` resource (`.tres`) pointing to the new scene with a transition and dependency screens (pause, settings). If the map needs custom logic, attach a script extending the template's `.gd`. To wire as the default game scene, assign the screen to `Main.game` in `main.tscn`. Gotchas: don't rename the root node of an inherited scene; don't chain more than one level of scene inheritance. If scene inheritance causes issues, copy the template and extend the script directly.
 - **Adding a sound** — Place audio file in `project/`. Create a `StdSoundEvent1D` resource (`.tres`) referencing the file and a bus from `system/audio/bus/`. Play via `Systems.audio().play(event)`. For concurrency limits, also create a `StdSoundGroup` resource.
 
 ## Save Data Runtime API
