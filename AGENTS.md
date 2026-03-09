@@ -23,7 +23,6 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
 - **`platform/`** — Platform abstraction (the `Platform` autoload). User profiles and storefront integration with Steam and fallback backends.
 - **`addons/std/`** — Standard library (git submodule; do not edit directly). Classes use the `Std` prefix. Key modules: `config/`, `input/`, `save/`, `screen/`, `setting/`, `sound/`, and more.
 - **`addons/gut/`** — GUT testing framework.
-- **`addons/phantom_camera/`** — Camera plugin (submodule).
 - **`script_templates/`** — GDScript file templates enforcing project structure (Node, Object, Resource, test, library).
 - **`.github/workflows/`** — CI/CD: format/lint checks, tests, multi-platform export (macOS/Windows/Web), release-please automation.
 
