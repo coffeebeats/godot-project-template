@@ -1,7 +1,7 @@
 ---
 name: add-save-field
 description: Add a new field to the save data system. Handles both adding fields to existing StdConfigItem classes and creating entirely new config items with full scaffolding.
-user-invokable: true
+user-invocable: true
 argument-hint: "<config_item> <field_name> <type>"
 ---
 
