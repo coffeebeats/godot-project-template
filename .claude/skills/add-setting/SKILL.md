@@ -1,7 +1,7 @@
 ---
 name: add-setting
 description: Add a new user-configurable setting with property, observer, UI, and translations. Covers audio, video, interface, and controls categories.
-user-invokable: true
+user-invocable: true
 argument-hint: "<category> <setting_name> <type>"
 ---
 

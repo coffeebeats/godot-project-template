@@ -4,27 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="2_1yx6u"]
 [ext_resource type="Resource" uid="uid://kyseye3m4vnh" path="res://project/main/menu/music_sound_event.tres" id="2_8n3sl"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
-[ext_resource type="Resource" uid="uid://bi2wkhusq3mrv" path="res://project/main/menu/music_filter_param.tres" id="3_t2uy2"]
 [ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://project/ui/glyph/action.tscn" id="4_4ki2s"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_sdqe3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_5fewj"]
 [ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
 [ext_resource type="PackedScene" path="res://project/menu/settings/pusher.tscn" id="11_pusher"]
-[ext_resource type="Script" uid="uid://dv8skp3qnf2ej" path="res://addons/std/sound/emitter.gd" id="12_emitter"]
-[ext_resource type="Script" uid="uid://djoynwplthqjq" path="res://addons/std/sound/param_audio_effect.gd" id="13_param"]
-[ext_resource type="Script" uid="uid://biupfx6h42h8k" path="res://addons/std/tween/curve.gd" id="14_curve"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="15_layer"]
-
-[sub_resource type="Resource" id="StdTweenCurve_fadein"]
-script = ExtResource("14_curve")
-duration = 2.0
-transition_type = 0
-
-[sub_resource type="Resource" id="StdTweenCurve_fadeout"]
-script = ExtResource("14_curve")
-duration = 0.6
-transition_type = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfwj"]
 resource_local_to_scene = true
@@ -47,6 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8stub")
+music_event = ExtResource("2_8n3sl")
 saves_screen = ExtResource("8_saves")
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=212087449]
@@ -56,14 +43,6 @@ offset_bottom = 40.0
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
 action_set_layers = Array[ExtResource("15_layer")]([ExtResource("10_y5hy5")])
-
-[node name="StdSoundEmitter" type="Node" parent="." unique_id=5199517]
-script = ExtResource("12_emitter")
-event = ExtResource("2_8n3sl")
-autoplay = true
-fade_in = SubResource("StdTweenCurve_fadein")
-fade_out = SubResource("StdTweenCurve_fadeout")
-covered_params = Array[ExtResource("13_param")]([ExtResource("3_t2uy2")])
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1697184297]
 layout_mode = 1

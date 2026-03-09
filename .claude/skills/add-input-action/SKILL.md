@@ -1,7 +1,7 @@
 ---
 name: add-input-action
 description: Add a new input action with default bindings, action set registration, and translations. Creates new action sets if needed.
-user-invokable: true
+user-invocable: true
 argument-hint: "<action_set> <action_name> [type]"
 ---
 

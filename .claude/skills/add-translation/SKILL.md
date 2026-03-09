@@ -1,7 +1,7 @@
 ---
 name: add-translation
 description: Add a new translatable string to the project. Use when adding UI elements, buttons, labels, or any user-facing text that needs localization.
-user-invokable: true
+user-invocable: true
 argument-hint: "<msgid_key> <English text>"
 ---
 
