@@ -1,12 +1,11 @@
 [gd_resource type="Resource" script_class="StdSoundEvent1D" format=3 uid="uid://kyseye3m4vnh"]
 
-[ext_resource type="Resource" uid="uid://gx272ks0sjxw" path="res://project/main/menu/music_bus.tres" id="1_g5bha"]
+[ext_resource type="Resource" uid="uid://nopnvdj1mqwv" path="res://system/audio/bus/music.tres" id="1_bus"]
 [ext_resource type="Script" uid="uid://xnjd1n7phkp3" path="res://addons/std/sound/event_1d.gd" id="2_2bfv3"]
-[ext_resource type="Script" uid="uid://d1xoiydhcd054" path="res://addons/std/sound/param.gd" id="2_oh4ig"]
 [ext_resource type="AudioStream" uid="uid://c8bunldlrbkmj" path="res://project/main/menu/music_sound.mp3" id="3_prly7"]
 
 [resource]
 script = ExtResource("2_2bfv3")
 stream = ExtResource("3_prly7")
 volume_db = -5.377
-bus = ExtResource("1_g5bha")
+bus = ExtResource("1_bus")
