@@ -55,6 +55,9 @@ func _ready() -> void:
 
 
 func _connect_screen_signals() -> void:
+	if StdGroup.is_empty(Main.GROUP_MAIN):
+		return
+
 	var screens := Main.screens()
 	if not screens:
 		return
