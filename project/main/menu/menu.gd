@@ -12,6 +12,9 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
+## music_event is the sound event for background music on the main menu.
+@export var music_event: StdSoundEvent = null
+
 ## saves_screen is the StdScreen resource for the save slot menu.
 @export var saves_screen: StdScreen = null
 
@@ -25,6 +28,10 @@ const Signals := preload("res://addons/std/event/signal.gd")
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _exit_tree() -> void:
+	Systems.audio().music().stop()
+
+
 func _ready() -> void:
 	Signals.connect_safe(_continue.pressed, _on_continue_pressed)
 	Signals.connect_safe(_options.pressed, _on_options_pressed)
@@ -36,6 +43,9 @@ func _ready() -> void:
 	Signals.connect_safe(saves.slot_deactivated, _on_slot_deactivated)
 
 	_setup_continue_button()
+
+	if music_event:
+		Systems.audio().music().play(music_event)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
