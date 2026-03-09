@@ -10,7 +10,7 @@
 ##   ├── PausePusher              (StdScreenPusher; optional)
 ##   ├── StdInputActionSetLoader  (optional)
 ##   ├── StdSoundEmitter          (BGM; optional)
-##   ├── SubViewportContainer     (full-rect, stretch)
+##   ├── SubViewportContainer     (full-rect or scaled)
 ##   │   └── SubViewport          (export: 'sub_viewport')
 ##   │       └── [game world]
 ##   └── HUD                      (Control, full-rect; optional, native resolution)
@@ -67,5 +67,5 @@ func _ready():
 
 	_save_data = Main.get_active_save_data()
 	if not _save_data:
-		Main.go_to_main_menu() # TODO: Add better error handling.
+		Main.go_to_main_menu()  # TODO: Add better error handling.
 		return

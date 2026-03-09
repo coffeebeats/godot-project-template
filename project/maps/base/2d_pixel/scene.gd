@@ -1,5 +1,5 @@
 ##
-## project/maps/base/pixel/scene.gd
+## project/maps/base/2d_pixel/scene.gd
 ##
 ## A base scene for 2D pixel art games which renders the game world in a `SubViewport`
 ## at low resolution with nearest-neighbor filtering and pixel snapping. A shader on the
@@ -30,14 +30,17 @@ var _shader_material: ShaderMaterial = null
 
 
 func _exit_tree() -> void:
-	super ()
+	super()
+
+	if resized.is_connected(_update_container_scale):
+		resized.disconnect(_update_container_scale)
 
 	if not Engine.is_editor_hint():
 		RenderingServer.frame_pre_draw.disconnect(_on_frame_pre_draw)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := super ()
+	var warnings := super()
 
 	if game_resolution.x <= 0 or game_resolution.y <= 0:
 		warnings.append("'game_resolution' must be positive")
@@ -54,7 +57,9 @@ func _ready() -> void:
 	if container:
 		_shader_material = container.material as ShaderMaterial
 
-	super ()
+	super()
+
+	resized.connect(_update_container_scale)
 
 	if not Engine.is_editor_hint():
 		RenderingServer.frame_pre_draw.connect(_on_frame_pre_draw)
@@ -64,8 +69,17 @@ func _ready() -> void:
 
 
 func _apply_resolution() -> void:
-	if sub_viewport:
-		sub_viewport.size = game_resolution + Vector2i(2, 2)
+	if not sub_viewport:
+		return
+
+	var size_target := game_resolution + Vector2i(2, 2)
+	sub_viewport.size = size_target
+
+	var container := _get_container()
+	if container:
+		container.size = Vector2(size_target)
+
+	_update_container_scale()
 
 
 func _get_container() -> SubViewportContainer:
@@ -84,13 +98,26 @@ func _on_frame_pre_draw() -> void:
 	transform.origin = transform_rounded
 	sub_viewport.canvas_transform = transform
 
-	# NOTE: `transform_remainder` is in `SubViewport` pixels; `vertex_offset` is in
-	# container (screen) pixels. Scale the offset so 1 game pixel = N screen pixels.
+	_shader_material.set_shader_parameter(&"vertex_offset", transform_remainder)
+
+
+func _update_container_scale() -> void:
 	var container := _get_container()
-	if not container:
+	if not container or not sub_viewport:
 		return
 
-	var px_scale := container.size / Vector2(sub_viewport.size)
-	_shader_material.set_shader_parameter(
-		&"vertex_offset", transform_remainder * px_scale
-	)
+	var game_res := Vector2(game_resolution)
+	if game_res.x <= 0 or game_res.y <= 0:
+		return
+
+	# NOTE: Compute scale from `game_resolution`, NOT from `sub_viewport.size`. This
+	# ensures the +2px border maps to `scale` screen pixels of overshoot on each side of
+	# the constraining axis, which always exceeds the maximum vertex shift of
+	# `0.5 * scale` pixels. Computing from `sub_viewport.size` would leave
+	# insufficient overshoot.
+	var uniform := minf(size.x / game_res.x, size.y / game_res.y)
+	container.scale = Vector2(uniform, uniform)
+
+	# Center the container within the root Control.
+	var scaled_size := Vector2(sub_viewport.size) * uniform
+	container.position = (size - scaled_size) / 2.0
