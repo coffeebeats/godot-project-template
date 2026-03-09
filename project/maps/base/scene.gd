@@ -1,5 +1,5 @@
 ##
-## project/maps/scene.gd
+## project/maps/base/scene.gd
 ##
 ## Base `@tool` script for game map scenes. Renders the game world in a `SubViewport`
 ## at a controlled resolution while UI stays at native resolution.
@@ -10,9 +10,10 @@
 ##   ├── PausePusher              (StdScreenPusher; optional)
 ##   ├── StdInputActionSetLoader  (optional)
 ##   ├── StdSoundEmitter          (BGM; optional)
-##   └── SubViewportContainer     (full-rect, stretch)
-##       └── SubViewport          (export: 'sub_viewport')
-##           └── [game world]
+##   ├── SubViewportContainer     (full-rect or scaled)
+##   │   └── SubViewport          (export: 'sub_viewport')
+##   │       └── [game world]
+##   └── HUD                      (Control, full-rect; optional, native resolution)
 ##
 ## NOTE: `StdScreen.pause_when_covered` disables the entire SubViewport subtree.
 ## Godot #79665: paused SubViewport descendants won't receive input, even with
@@ -27,8 +28,7 @@ extends Control
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
-## sub_viewport is the `SubViewport` that renders the game world at a controlled
-## resolution. Assign this in the scene editor.
+## sub_viewport is a `SubViewport` that renders the game world at a specific resolution.
 @export var sub_viewport: SubViewport = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
@@ -43,6 +43,11 @@ func _exit_tree() -> void:
 		return
 
 	_save_data = null
+
+	# NOTE: Godot #100755 - null `world_2d` to prevent crash when changing scenes while
+	# a `SubViewport` shares the main viewport's `World2D`.
+	if sub_viewport and sub_viewport.world_2d == get_viewport().world_2d:
+		sub_viewport.world_2d = null
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -62,5 +67,5 @@ func _ready():
 
 	_save_data = Main.get_active_save_data()
 	if not _save_data:
-		Main.go_to_main_menu()
+		Main.go_to_main_menu()  # TODO: Add better error handling.
 		return
