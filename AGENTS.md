@@ -16,7 +16,7 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
   - **`locale/`** — i18n with 13 pre-configured languages (`.pot` template, `.po`/`.mo` per language).
   - **`ui/`** — Shared UI: screen transitions (fade, slide), input glyphs, modals, tooltips, theme, font.
 - **`system/`** — Game-agnostic autoloaded subsystems (the `System` autoload). Accessed via `Systems.audio()`, `Systems.input()`, `Systems.saves()`.
-  - **`audio/`** — Sound event player, audio bus layout.
+  - **`audio/`** — Sound event player, music player, mix snapshots, audio bus layout (`game`/`ui` split).
   - **`input/`** — UI navigation, cursor management, gamepad/Steam Input support.
   - **`save/`** — Multi-slot save system (4 slots). Async save/load via background worker. Slot status tracking (OK/EMPTY/BROKEN).
   - **`setting/`** — Setting observers that sync `ProjectSettings` with UI (audio, video, interface).
@@ -36,7 +36,7 @@ Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or w
 - **Adding a translatable string** — Use the `add-translation` skill. Only edit `messages.pot` and `en_US.po` (key-based `msgid` values); other `.po` files use English text as `msgid` (swapped via `poswap`) and must not be edited directly. Reference keys in scenes via `text` property or in code via `tr("my_new_key")`.
 - **Adding an input action** — Add the action to a `StdInputActionSet` resource in `project/input/actions/`. Add default binding in `project.godot` under `[input]`. Add translation with `msgctxt "actions_<SetName>"` to `messages.pot` and `en_US.po`. Scenes load action sets via `StdInputActionSetLoader` nodes.
 - **Adding a map** — Pick a style template from `project/maps/base/` (`2d/`, `2d_pixel/`, or `3d/`). Right-click the template's `scene.tscn` → `New Inherited Scene`. Save in `project/maps/<your_map>/scene.tscn`. Add a `World` node (Node2D or Node3D) as a child of the SubViewport and place game content under it. Create a `StdScreen` resource (`.tres`) pointing to the new scene with a transition and dependency screens (pause, settings). If the map needs custom logic, attach a script extending the template's `.gd`. To wire as the default game scene, assign the screen to `Main.game` in `main.tscn`. Gotchas: don't rename the root node of an inherited scene; don't chain more than one level of scene inheritance. If scene inheritance causes issues, copy the template and extend the script directly.
-- **Adding a sound** — Place audio file in `project/`. Create a `StdSoundEvent1D` resource (`.tres`) referencing the file and a bus from `system/audio/bus/`. Play via `Systems.audio().play(event)`. For concurrency limits, also create a `StdSoundGroup` resource.
+- **Adding a sound** — Place audio file in `project/`. Use WAV for short effects and OGG for longer loops/music. For multi-sample variation, use `AudioStreamRandomizer`. Create a `StdSoundEvent1D` resource (`.tres`) referencing the file and a bus from `system/audio/bus/`. Route game sounds to `sound_effects.tres` (via `game` bus) and UI sounds (focus, button clicks) to `ui.tres`. Play one-shot sounds via `Systems.audio().play(event)`. For music, use `Systems.audio().music().play(event)` which handles crossfade automatically. For concurrency limits, create a `StdSoundGroup` resource. For global mix states (e.g. covered-screen low-pass), use `StdMixSnapshot` with `StdSoundBusEffect` overrides.
 
 ## Save Data Runtime API
 
