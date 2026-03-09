@@ -85,6 +85,11 @@ script = ExtResource("9_2opf3")
 bus = &"voice"
 property = ExtResource("13_luwqe")
 
+[node name="UI" type="Node" parent="Observers/Audio/Volume"]
+script = ExtResource("9_2opf3")
+bus = &"ui"
+property = ExtResource("12_hl0tw")
+
 [node name="Video" type="Node" parent="Observers" unique_id=1937229921]
 
 [node name="FPS" type="Node" parent="Observers/Video" unique_id=1722014008]
