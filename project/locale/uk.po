@@ -113,6 +113,72 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#. The title of the error dialog shown when a save operation fails.
+msgid "Save Failed"
+msgstr ""
+
+#. The generic message shown when a save operation fails.
+msgid "Your game could not be saved."
+msgstr ""
+
+#. The message shown when a save operation fails due to insufficient storage.
+msgid "Your game could not be saved. Please check your available storage."
+msgstr ""
+
+#. The title of the error dialog shown when loading a save file fails.
+msgid "Load Failed"
+msgstr ""
+
+#. The generic message shown when loading a save file fails.
+msgid "This save file could not be loaded."
+msgstr ""
+
+#. The message shown when loading a save file fails due to possible data corruption.
+msgid "This save file could not be loaded. It may be damaged."
+msgstr ""
+
+#. The title of the error dialog shown when deleting a save slot fails.
+msgid "Delete Failed"
+msgstr ""
+
+#. The message shown when deleting a save slot fails.
+msgid "The save slot could not be deleted."
+msgstr ""
+
+#. The title of the error dialog shown when platform initialization fails (e.g. Steam).
+msgid "Startup Error"
+msgstr ""
+
+#. The generic message shown when platform initialization fails, advising the player to restart.
+msgid "The game could not start properly. Please restart."
+msgstr ""
+
+#. The message shown when Steam fails to initialize, advising the player to check that Steam is running.
+msgid ""
+"Steam could not be initialized. Please make sure Steam is running and "
+"restart the game."
+msgstr ""
+
+#. A button label in the error dialog to retry the failed operation.
+msgctxt "error"
+msgid "Retry"
+msgstr ""
+
+#. A button label in the error dialog to continue despite the error.
+msgctxt "error"
+msgid "Continue"
+msgstr ""
+
+#. A button label in the error dialog to return to the main menu.
+msgctxt "error"
+msgid "Main Menu"
+msgstr ""
+
+#. A button label in the error dialog to quit the game.
+msgctxt "error"
+msgid "Quit"
+msgstr ""
+
 #. A tab within the game's options menu containing gameplay-related settings.
 msgid "Gameplay"
 msgstr ""
