@@ -14,14 +14,10 @@ extends RefCounted
 ## does not drive dialog buttons.
 enum Severity { WARNING, ERROR, CRITICAL }
 
-## Action drives dialog buttons; one button per action, ordered left-to-right.
-enum Action { RETRY, CONTINUE, RETURN_TO_MENU, QUIT }
-
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 static var _pending: Array[ProjectError] = []
 
-var actions: Array[Action]
 var message: String
 var severity: Severity
 var title: String
@@ -48,9 +44,7 @@ func _init(
 	p_title: String,
 	p_message: String,
 	p_severity: Severity,
-	p_actions: Array[Action],
 ) -> void:
 	title = p_title
 	message = p_message
 	severity = p_severity
-	actions = p_actions

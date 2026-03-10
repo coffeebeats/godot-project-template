@@ -8,71 +8,45 @@
 
 @tool
 class_name AlertDialog
-extends Control
-
-# -- SIGNALS ------------------------------------------------------------------------- #
-
-## closed is emitted after the dialog's screen is popped. `accepted` is true if the
-## confirm button was pressed, false otherwise.
-signal closed(accepted: bool)
-
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const Signals := preload("res://addons/std/event/signal.gd")
-
-# -- DEFINITIONS --------------------------------------------------------------------- #
-
-## Mode controls which buttons are displayed.
-enum Mode {  # gdlint:ignore=class-definitions-order
-	## CONFIRM_CANCEL shows both confirm and cancel buttons.
-	CONFIRM_CANCEL,
-	## OK_ONLY shows a single confirm/acknowledge button.
-	OK_ONLY,
-}
-
-const MODE_CONFIRM_CANCEL := Mode.CONFIRM_CANCEL
-const MODE_OK_ONLY := Mode.OK_ONLY
+extends Dialog
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
-
-## screen is the screen resource used when this dialog is pushed. Configure transitions
-## and dependencies on this resource.
-@export var screen: StdScreen
-
-## mode controls the button layout of the dialog.
-@export var mode: Mode = Mode.CONFIRM_CANCEL:
-	set(value):
-		mode = value
-		if is_node_ready():
-			_update_mode()
 
 ## title_text is the locale key for the title label. Hidden when empty.
 @export var title_text: String = "":
 	set(value):
 		title_text = value
 		if is_node_ready():
-			_update_title()
+			_set_title(title_text)
 
 ## message_text is the locale key for the message label. Hidden when empty.
 @export var message_text: String = "":
 	set(value):
 		message_text = value
 		if is_node_ready():
-			_update_message()
+			_set_message(message_text)
 
-## confirm_label is the locale key for the confirm button.
-@export var confirm_label: String = "confirm_dialog_confirm":
-	set(value):
-		confirm_label = value
-		if is_node_ready():
-			%Confirm.text = confirm_label
+@export_group("Buttons")
 
-## cancel_label is the locale key for the cancel button.
-@export var cancel_label: String = "confirm_dialog_cancel":
+@export_subgroup("Dismiss")
+
+## dismiss_label is the locale key for the dismiss/cancel button. When empty, the dismiss
+## button is hidden and `ui_cancel` pops with PRIMARY instead.
+@export var dismiss_label: String = "confirm_dialog_cancel":
 	set(value):
-		cancel_label = value
+		dismiss_label = value
 		if is_node_ready():
-			%Cancel.text = cancel_label
+			%Cancel.text = dismiss_label
+			%Cancel.visible = dismiss_label != ""
+
+@export_subgroup("Primary")
+
+## primary_label is the locale key for the primary/confirm button.
+@export var primary_label: String = "confirm_dialog_confirm":
+	set(value):
+		primary_label = value
+		if is_node_ready():
+			%Confirm.text = primary_label
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
@@ -86,20 +60,13 @@ func open() -> void:
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := PackedStringArray()
-	if not screen is StdScreen:
-		warnings.append("AlertDialog requires a StdScreen resource.")
-	return warnings
-
-
 func _ready() -> void:
-	_update_title()
-	_update_message()
-	_update_mode()
+	_set_title(title_text)
+	_set_message(message_text)
 
-	%Confirm.text = confirm_label
-	%Cancel.text = cancel_label
+	%Confirm.text = primary_label
+	%Cancel.text = dismiss_label
+	%Cancel.visible = dismiss_label != ""
 
 	if Engine.is_editor_hint():
 		return
@@ -119,24 +86,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			Main.screens().is_current(screen),
 			"invalid state; dialog screen is not topmost",
 		)
-		Main.screens().pop(mode == Mode.OK_ONLY, true)
 
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-func _update_message() -> void:
-	%Message.text = message_text
-	%Message.visible = message_text != ""
-
-
-func _update_mode() -> void:
-	%Cancel.visible = mode == Mode.CONFIRM_CANCEL
-
-
-func _update_title() -> void:
-	%Title.text = title_text
-	%Title.visible = title_text != ""
+		if dismiss_label == "":
+			Main.screens().pop(Action.PRIMARY, true)
+		else:
+			Main.screens().pop(Action.DISMISS, true)
 
 
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
@@ -147,7 +101,7 @@ func _on_cancel_pressed() -> void:
 		Main.screens().is_current(screen),
 		"invalid state; dialog screen is not topmost",
 	)
-	Main.screens().pop(false, true)
+	Main.screens().pop(Action.DISMISS, true)
 
 
 func _on_confirm_pressed() -> void:
@@ -155,8 +109,8 @@ func _on_confirm_pressed() -> void:
 		Main.screens().is_current(screen),
 		"invalid state; dialog screen is not topmost",
 	)
-	Main.screens().pop(true, true)
+	Main.screens().pop(Action.PRIMARY, true)
 
 
 func _on_screen_popped(result: Variant) -> void:
-	closed.emit(result == true)
+	closed.emit(result)
