@@ -113,6 +113,70 @@ msgstr "Confirm"
 msgid "confirm_dialog_cancel"
 msgstr "Cancel"
 
+#. The title of the error dialog shown when a save operation fails.
+msgid "error_save_failed_title"
+msgstr "Save Failed"
+
+#. The generic message shown when a save operation fails.
+msgid "error_save_failed_message"
+msgstr "Your game could not be saved."
+
+#. The message shown when a save operation fails due to insufficient storage.
+msgid "error_save_failed_storage_message"
+msgstr "Your game could not be saved. Please check your available storage."
+
+#. The title of the error dialog shown when loading a save file fails.
+msgid "error_load_failed_title"
+msgstr "Load Failed"
+
+#. The generic message shown when loading a save file fails.
+msgid "error_load_failed_message"
+msgstr "This save file could not be loaded."
+
+#. The message shown when loading a save file fails due to possible data corruption.
+msgid "error_load_failed_corrupted_message"
+msgstr "This save file could not be loaded. It may be damaged."
+
+#. The title of the error dialog shown when deleting a save slot fails.
+msgid "error_delete_failed_title"
+msgstr "Delete Failed"
+
+#. The message shown when deleting a save slot fails.
+msgid "error_delete_failed_message"
+msgstr "The save slot could not be deleted."
+
+#. The title of the error dialog shown when platform initialization fails (e.g. Steam).
+msgid "error_platform_init_title"
+msgstr "Startup Error"
+
+#. The generic message shown when platform initialization fails, advising the player to restart.
+msgid "error_platform_init_message"
+msgstr "The game could not start properly. Please restart."
+
+#. The message shown when Steam fails to initialize, advising the player to check that Steam is running.
+msgid "error_platform_init_steam_message"
+msgstr "Steam could not be initialized. Please make sure Steam is running and restart the game."
+
+#. A button label in the error dialog to retry the failed operation.
+msgctxt "error"
+msgid "error_action_retry"
+msgstr "Retry"
+
+#. A button label in the error dialog to continue despite the error.
+msgctxt "error"
+msgid "error_action_continue"
+msgstr "Continue"
+
+#. A button label in the error dialog to return to the main menu.
+msgctxt "error"
+msgid "error_action_return_to_menu"
+msgstr "Main Menu"
+
+#. A button label in the error dialog to quit the game.
+msgctxt "error"
+msgid "error_action_quit"
+msgstr "Quit"
+
 #. A tab within the game's options menu containing gameplay-related settings.
 msgid "options_gameplay"
 msgstr "Gameplay"

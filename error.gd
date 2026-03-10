@@ -12,10 +12,10 @@ extends RefCounted
 
 ## Severity is a visual classification (icon, color, sound). Reserved for future use;
 ## does not drive dialog buttons.
-enum Severity {WARNING, ERROR, CRITICAL}
+enum Severity { WARNING, ERROR, CRITICAL }
 
 ## Action drives dialog buttons; one button per action, ordered left-to-right.
-enum Action {RETRY, CONTINUE, RETURN_TO_MENU, QUIT}
+enum Action { RETRY, CONTINUE, RETURN_TO_MENU, QUIT }
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
