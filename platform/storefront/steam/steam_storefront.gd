@@ -6,10 +6,6 @@
 
 extends Node
 
-# -- DEPENDENCIES -------------------------------------------------------------------- #
-
-const Signals := preload("res://addons/std/event/signal.gd")
-
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _is_initialized: bool = false
@@ -18,8 +14,7 @@ var _is_initialized: bool = false
 
 
 func _enter_tree() -> void:
-	# NOTE: Ensure this node can always process callbacks.
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	set_process(false)
 
 	# NOTE: No need to call 'Steam.restartAppIfNecessary', as it should be handled by
 	# the Steam DRM wrapper, applied during upload. For more context, see
@@ -29,6 +24,9 @@ func _enter_tree() -> void:
 
 	_is_initialized = response.status == OK
 	if _is_initialized:
+		process_mode = Node.PROCESS_MODE_ALWAYS
+		set_process(true)
+
 		print(
 			"platform/storefront/steam/steam.gd[",
 			get_instance_id(),
@@ -37,15 +35,22 @@ func _enter_tree() -> void:
 
 		return
 
-	assert(false, "failed to initialize Steam")
-
 	print(
 		"platform/storefront/steam/steam.gd[",
 		get_instance_id(),
 		"]: failed to start Steam: %d: %s" % [response.status, response.verbal],
 	)
 
-	Lifecycle.shutdown(1)
+	var error := (
+		ProjectError
+		. new(
+			"error_platform_init_title",
+			"error_platform_init_message",
+			ProjectError.Severity.CRITICAL,
+			[ProjectError.Action.QUIT] as Array[ProjectError.Action],
+		)
+	)
+	ProjectError.enqueue(error)
 
 
 func _exit_tree() -> void:
