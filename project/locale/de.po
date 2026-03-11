@@ -117,7 +117,6 @@ msgid "Cancel"
 msgstr ""
 
 #. A button label to delete something (e.g. a save slot).
-#, fuzzy
 msgctxt "alert"
 msgid "Delete"
 msgstr "Löschen"
@@ -138,7 +137,6 @@ msgid "Return to Menu"
 msgstr ""
 
 #. A button label to quit the game.
-#, fuzzy
 msgctxt "alert"
 msgid "Quit"
 msgstr "Beenden"
@@ -168,7 +166,6 @@ msgid "This save file could not be loaded. It may be damaged."
 msgstr ""
 
 #. The title of the error dialog shown when deleting a save slot fails.
-#, fuzzy
 msgid "Delete Failed"
 msgstr "Spielstand löschen"
 
@@ -435,7 +432,3 @@ msgctxt "gamepad"
 msgid "Press any button now or %s to cancel."
 msgstr ""
 
-#, fuzzy
-#~ msgctxt "error"
-#~ msgid "Quit"
-#~ msgstr "Beenden"
