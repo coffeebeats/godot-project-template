@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="2_screen"]
 [ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="3_scrim"]
 [ext_resource type="PackedScene" uid="uid://duam2ndvsfv4n" path="res://project/ui/input/button.tscn" id="4_button"]
+[ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="5_loader"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="6_menu"]
 
 [sub_resource type="Resource" id="SubResource_screen"]
 resource_local_to_scene = true
@@ -19,6 +21,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 screen = SubResource("SubResource_screen")
+
+[node name="StdInputActionSetLoader" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_loader")
+action_set = ExtResource("6_menu")
 
 [node name="Scrim" parent="." unique_id=1451285999 instance=ExtResource("3_scrim")]
 layout_mode = 1
