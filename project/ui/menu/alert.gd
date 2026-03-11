@@ -10,6 +10,22 @@
 class_name AlertDialog
 extends Dialog
 
+# -- SIGNALS ------------------------------------------------------------------------- #
+
+## closed is emitted after the dialog's screen is popped, carrying which button role the
+## user selected.
+@warning_ignore("unused_signal")
+signal closed(action: AlertDialog.Action)
+
+# -- DEFINITIONS --------------------------------------------------------------------- #
+
+## Action identifies which button role the user selected. The caller maps this to domain
+## logic (e.g. `PRIMARY` to retry, `DISMISS` to quit).
+enum Action {  # gdlint:ignore=class-definitions-order
+	DISMISS,
+	PRIMARY,
+}
+
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## title_text is the locale key for the title label. Hidden when empty.

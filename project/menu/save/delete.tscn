@@ -5,4 +5,4 @@
 [node name="AlertDialog" instance=ExtResource("1_alert")]
 title_text = "save_slots_delete_title"
 message_text = "save_slots_delete_message"
-confirm_label = "save_slots_delete"
+primary_label = "save_slots_delete"

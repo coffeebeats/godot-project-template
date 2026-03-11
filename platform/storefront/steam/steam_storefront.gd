@@ -47,7 +47,6 @@ func _enter_tree() -> void:
 			"error_platform_init_title",
 			"error_platform_init_steam_message",
 			ProjectError.Severity.CRITICAL,
-			[ProjectError.Action.QUIT] as Array[ProjectError.Action],
 		)
 	)
 	ProjectError.enqueue(error)
