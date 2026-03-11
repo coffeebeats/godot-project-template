@@ -74,8 +74,8 @@ func _on_delete_button_pressed(
 		return
 
 	_confirm_delete.open()
-	var accepted: bool = await _confirm_delete.closed
-	if accepted:
+	var action: AlertDialog.Action = await _confirm_delete.closed
+	if action == AlertDialog.Action.PRIMARY:
 		button.disabled = true
 		if not saves.erase_slot(slot):
 			button.disabled = false

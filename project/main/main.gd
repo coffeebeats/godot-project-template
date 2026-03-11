@@ -21,6 +21,7 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
+const ErrorDialog := preload("res://project/ui/menu/alert.tscn")
 const Splash := preload("./splash/splash.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -41,6 +42,10 @@ const Splash := preload("./splash/splash.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _logger := StdLogger.create(&"project/main")
+
+var _error_dialog_busy: bool = false
+var _error_dialog: AlertDialog = null
 var _is_loading: bool = false
 var _manager: StdScreenManager = null
 var _play_start_ticks: int = -1
@@ -128,6 +133,39 @@ static func load_game(slot: int) -> bool:
 	return await _get_main()._load_game(slot)
 
 
+## show_error displays a modal error dialog and returns the chosen action.
+## Always sets all labels explicitly to prevent stale state between calls.
+static func show_error(
+	error: ProjectError,
+	primary_label: StringName,
+	secondary_label: StringName = &"",
+) -> AlertDialog.Action:
+	if Lifecycle.is_shutting_down():
+		return AlertDialog.Action.DISMISS
+
+	var main := _get_main()
+	assert(
+		main._error_dialog is AlertDialog,
+		"invalid state; missing error dialog",
+	)
+
+	while main._error_dialog_busy:
+		await main._error_dialog.closed
+
+	main._error_dialog_busy = true
+
+	main._error_dialog.title = error.title
+	main._error_dialog.message = error.message
+	main._error_dialog.primary_label = primary_label
+	main._error_dialog.secondary_label = secondary_label
+	main._error_dialog.dismissable = false
+
+	main._error_dialog.open()
+	var action: AlertDialog.Action = await main._error_dialog.closed
+	main._error_dialog_busy = false
+	return action
+
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -151,12 +189,24 @@ func _exit_tree() -> void:
 		Signals.disconnect_safe(Lifecycle.shutdown_requested, _on_shutdown_requested)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		if (
+			is_instance_valid(_error_dialog)
+			and not _error_dialog.is_queued_for_deletion()
+		):
+			_error_dialog.queue_free()
+			_error_dialog = null
+
+
 func _ready() -> void:
 	_manager = %"ScreenManager"
 	assert(_manager is StdScreenManager, "invalid state; missing node")
 
 	if Engine.is_editor_hint():
 		return
+
+	_error_dialog = ErrorDialog.instantiate()
 
 	var input := Systems.input()
 	Signals.connect_safe(
@@ -168,13 +218,48 @@ func _ready() -> void:
 		func(_s: StdScreen, _n: Node) -> void: input.mute_next_focus_sound(),
 	)
 
+	# Drain errors enqueued before the UI existed (e.g. Steam init failure).
+	# Warnings are logged; errors and above get a dialog. Critical errors
+	# force shutdown. Push loading as a base screen so the error dialog has
+	# something beneath it when popped (pop asserts stack.size > 1).
+	var errors := ProjectError.drain_pending()
+	errors.sort_custom(
+		func(a: ProjectError, b: ProjectError) -> bool: return a.severity > b.severity
+	)
+
+	var had_pending := false
+	for error in errors:
+		if error.severity == ProjectError.Severity.WARNING:
+			_logger.warn(error.title, {&"message": error.message})
+			continue
+
+		if not had_pending:
+			had_pending = true
+			_manager.push(loading)
+
+		if error.severity == ProjectError.Severity.CRITICAL:
+			await show_error(error, &"alert_quit")
+			if not Lifecycle.is_shutting_down():
+				Lifecycle.shutdown.call_deferred(1)
+			return
+
+		await show_error(error, &"alert_continue")
+
 	_preload_results = _manager.load_screen(initial)
 
 	if not splash.is_empty():
-		_push_splash(0)
+		if had_pending:
+			var entering := splash[0].entering
+			entering.connect(_on_splash_entering.bind(0), CONNECT_ONE_SHOT)
+			_manager.replace(splash[0])
+		else:
+			_push_splash(0)
 		return
 
-	_finish_boot(_manager.push)
+	if had_pending:
+		_finish_boot(_manager.replace)
+	else:
+		_finish_boot(_manager.push)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #

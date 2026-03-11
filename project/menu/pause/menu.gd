@@ -70,7 +70,8 @@ func _on_options_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	_confirm_quit.open()
-	if not await _confirm_quit.closed:
+	var action: AlertDialog.Action = await _confirm_quit.closed
+	if action != AlertDialog.Action.PRIMARY:
 		return
 
 	# NOTE: Save data is flushed synchronously by `Main._on_shutdown_requested`; defer
@@ -88,7 +89,8 @@ func _on_resume_pressed() -> void:
 
 func _on_return_pressed() -> void:
 	_confirm_return.open()
-	if not await _confirm_return.closed:
+	var action: AlertDialog.Action = await _confirm_return.closed
+	if action != AlertDialog.Action.PRIMARY:
 		return
 
 	Main.go_to_main_menu()
