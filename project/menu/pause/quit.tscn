@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://4brfq2tumt1o" path="res://project/ui/menu/alert.tscn" id="1_alert"]
 
 [node name="AlertDialog" unique_id=402396653 instance=ExtResource("1_alert")]
-title_text = "pause_quit_title"
-message_text = "pause_quit_message"
+title = "pause_quit_title"
+message = "pause_quit_message"
 
 [node name="Title" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(2033357153) index="0" unique_id=956283937]
 visible = true
@@ -14,5 +14,5 @@ text = "pause_quit_title"
 visible = true
 text = "pause_quit_message"
 
-[editable path="CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Cancel"]
-[editable path="CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Confirm"]
+[editable path="CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Secondary"]
+[editable path="CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Primary"]

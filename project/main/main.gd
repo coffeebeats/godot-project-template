@@ -137,12 +137,12 @@ static func load_game(slot: int) -> bool:
 	return await _get_main()._load_game(slot)
 
 
-## show_error displays a modal error dialog and returns the chosen action. Always sets
-# all labels explicitly to prevent stale state between calls.
+## show_error displays a modal error dialog and returns the chosen action.
+## Always sets all labels explicitly to prevent stale state between calls.
 static func show_error(
 	error: ProjectError,
-	dismiss_label: StringName,
-	primary_label: StringName = &"",
+	primary_label: StringName,
+	secondary_label: StringName = &"",
 ) -> AlertDialog.Action:
 	var main := _get_main()
 	assert(
@@ -155,10 +155,11 @@ static func show_error(
 
 	main._error_dialog_busy = true
 
-	main._error_dialog.title_text = error.title
-	main._error_dialog.message_text = error.message
-	main._error_dialog.dismiss_label = dismiss_label
+	main._error_dialog.title = error.title
+	main._error_dialog.message = error.message
 	main._error_dialog.primary_label = primary_label
+	main._error_dialog.secondary_label = secondary_label
+	main._error_dialog.dismissable = false
 
 	main._error_dialog.open()
 	var action: AlertDialog.Action = await main._error_dialog.closed
@@ -239,11 +240,11 @@ func _ready() -> void:
 			_manager.push(loading)
 
 		if error.severity == ProjectError.Severity.CRITICAL:
-			await show_error(error, &"error_action_quit")
+			await show_error(error, &"alert_quit")
 			Lifecycle.shutdown(1)
 			return
 
-		await show_error(error, &"error_action_continue")
+		await show_error(error, &"alert_continue")
 
 	_preload_results = _manager.load_screen(initial)
 

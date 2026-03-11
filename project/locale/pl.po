@@ -105,12 +105,39 @@ msgstr ""
 msgid "Are you sure? This cannot be undone."
 msgstr ""
 
-#. The confirm button label used in confirmation dialogs.
-msgid "Confirm"
+#. The default primary button label used in alert dialogs.
+msgctxt "alert"
+msgid "Okay"
 msgstr ""
 
-#. The cancel button label used in confirmation dialogs.
+#. The default secondary/cancel button label used in alert dialogs.
+msgctxt "alert"
 msgid "Cancel"
+msgstr ""
+
+#. A button label to delete something (e.g. a save slot).
+msgctxt "alert"
+msgid "Delete"
+msgstr ""
+
+#. A button label to retry a failed operation.
+msgctxt "alert"
+msgid "Retry"
+msgstr ""
+
+#. A button label to continue despite an error.
+msgctxt "alert"
+msgid "Continue"
+msgstr ""
+
+#. A button label to return to the main menu.
+msgctxt "alert"
+msgid "Return to Menu"
+msgstr ""
+
+#. A button label to quit the game.
+msgctxt "alert"
+msgid "Quit"
 msgstr ""
 
 #. The title of the error dialog shown when a save operation fails.
@@ -157,26 +184,6 @@ msgstr ""
 msgid ""
 "Steam could not be initialized. Please make sure Steam is running and "
 "restart the game."
-msgstr ""
-
-#. A button label in the error dialog to retry the failed operation.
-msgctxt "error"
-msgid "Retry"
-msgstr ""
-
-#. A button label in the error dialog to continue despite the error.
-msgctxt "error"
-msgid "Continue"
-msgstr ""
-
-#. A button label in the error dialog to return to the main menu.
-msgctxt "error"
-msgid "Main Menu"
-msgstr ""
-
-#. A button label in the error dialog to quit the game.
-msgctxt "error"
-msgid "Quit"
 msgstr ""
 
 #. A tab within the game's options menu containing gameplay-related settings.

@@ -22,7 +22,7 @@ script = ExtResource("1_gcs5q")
 initial = ExtResource("5_main_menu")
 loading = ExtResource("6_loading")
 splash = Array[ExtResource("5_a8l1h")]([ExtResource("6_8rcmj"), ExtResource("7_dhfna")])
-error_dialog_scene = ExtResource("8_error")
+error_dialog = ExtResource("8_error")
 
 [node name="ScreenManager" type="Control" parent="." unique_id=1993552881]
 unique_name_in_owner = true

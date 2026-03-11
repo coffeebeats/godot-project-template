@@ -3,6 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://4brfq2tumt1o" path="res://project/ui/menu/alert.tscn" id="1_alert"]
 
 [node name="AlertDialog" instance=ExtResource("1_alert")]
-title_text = "save_slots_delete_title"
-message_text = "save_slots_delete_message"
-primary_label = "save_slots_delete"
+title = "save_slots_delete_title"
+message = "save_slots_delete_message"
+primary_label = "alert_delete"
