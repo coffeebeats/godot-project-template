@@ -8,7 +8,7 @@
 
 @tool
 class_name AlertDialog
-extends Dialog
+extends Control
 
 # -- SIGNALS ------------------------------------------------------------------------- #
 
@@ -16,6 +16,10 @@ extends Dialog
 ## user selected.
 @warning_ignore("unused_signal")
 signal closed(action: AlertDialog.Action)
+
+# -- DEPENDENCIES -------------------------------------------------------------------- #
+
+const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
@@ -30,6 +34,10 @@ enum Action {  # gdlint:ignore=class-definitions-order
 }
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
+
+## screen is the screen resource used when this dialog is pushed. Configure transitions
+## and dependencies on this resource.
+@export var screen: StdScreen
 
 ## title is the locale key for the title label. Hidden when empty.
 @export var title: String = "":
@@ -81,6 +89,13 @@ func open() -> void:
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+	if not screen is StdScreen:
+		warnings.append("AlertDialog requires a StdScreen resource.")
+	return warnings
+
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
 		_translate_buttons()
@@ -92,7 +107,8 @@ func _notification(what: int) -> void:
 
 
 func _ready() -> void:
-	super._ready()
+	assert(%Title is Label, "invalid state; missing %%Title node")
+	assert(%Message is Label, "invalid state; missing %%Message node")
 
 	set_process_unhandled_input(not Engine.is_editor_hint() and dismissable)
 
@@ -118,6 +134,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _set_message(text: String) -> void:
+	%Message.text = text
+	%Message.visible = text != ""
+
+
+func _set_title(text: String) -> void:
+	%Title.text = text
+	%Title.visible = text != ""
 
 
 func _translate_buttons() -> void:
