@@ -21,6 +21,7 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
+const ErrorDialog := preload("res://project/ui/menu/alert.tscn")
 const Splash := preload("./splash/splash.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -38,11 +39,6 @@ const Splash := preload("./splash/splash.gd")
 
 ## game is the gameplay screen navigated to after save data loads.
 @export var game: StdScreen
-
-@export_group("Error handling")
-
-## error_dialog is the packed scene for the global error dialog.
-@export var error_dialog: PackedScene
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -191,9 +187,12 @@ func _exit_tree() -> void:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_WM_CLOSE_REQUEST:
-		if is_instance_valid(_error_dialog):
-			_error_dialog.free()
+	if what == NOTIFICATION_PREDELETE:
+		if (
+			is_instance_valid(_error_dialog)
+			and not _error_dialog.is_queued_for_deletion()
+		):
+			_error_dialog.queue_free()
 			_error_dialog = null
 
 
@@ -204,11 +203,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
-	assert(
-		error_dialog is PackedScene,
-		"invalid config; missing error dialog scene",
-	)
-	_error_dialog = error_dialog.instantiate()
+	_error_dialog = ErrorDialog.instantiate()
 
 	var input := Systems.input()
 	Signals.connect_safe(
@@ -241,7 +236,8 @@ func _ready() -> void:
 
 		if error.severity == ProjectError.Severity.CRITICAL:
 			await show_error(error, &"alert_quit")
-			Lifecycle.shutdown(1)
+			if not Lifecycle.is_shutting_down():
+				Lifecycle.shutdown.call_deferred(1)
 			return
 
 		await show_error(error, &"alert_continue")

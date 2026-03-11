@@ -8,7 +8,6 @@
 [ext_resource type="Resource" uid="uid://csn4p8wrtq2la" path="res://project/main/splash/godot_screen.tres" id="6_8rcmj"]
 [ext_resource type="Resource" uid="uid://bvf7k2jne5xmc" path="res://project/main/load/screen.tres" id="6_loading"]
 [ext_resource type="Resource" uid="uid://dh6mr3pqxf1kb" path="res://project/main/splash/studio_screen.tres" id="7_dhfna"]
-[ext_resource type="PackedScene" uid="uid://4brfq2tumt1o" path="res://project/ui/menu/alert.tscn" id="8_error"]
 
 [node name="Main" type="ColorRect" unique_id=1019467248]
 anchors_preset = 15
@@ -22,7 +21,6 @@ script = ExtResource("1_gcs5q")
 initial = ExtResource("5_main_menu")
 loading = ExtResource("6_loading")
 splash = Array[ExtResource("5_a8l1h")]([ExtResource("6_8rcmj"), ExtResource("7_dhfna")])
-error_dialog = ExtResource("8_error")
 
 [node name="ScreenManager" type="Control" parent="." unique_id=1993552881]
 unique_name_in_owner = true
