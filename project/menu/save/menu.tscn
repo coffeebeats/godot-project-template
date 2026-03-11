@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="5_scrim"]
 [ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://project/ui/menu/button_close.tscn" id="6_close"]
 [ext_resource type="PackedScene" uid="uid://dkw2li5unhvv7" path="res://project/menu/save/delete.tscn" id="7_delete"]
+[ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="8_loader"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="9_menu"]
 
 [node name="SaveMenu" type="Control" unique_id=938619952]
 layout_mode = 3
@@ -16,6 +18,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="StdInputActionSetLoader" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("8_loader")
+action_set = ExtResource("9_menu")
 
 [node name="StdScreenPusher" type="Node" parent="." unique_id=2017771292]
 script = ExtResource("1_pusher")

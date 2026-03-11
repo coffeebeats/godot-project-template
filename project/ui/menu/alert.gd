@@ -108,7 +108,7 @@ func _ready() -> void:
 
 	Signals.connect_safe(%Primary.pressed, _on_button_pressed.bind(Action.PRIMARY))
 	Signals.connect_safe(%Secondary.pressed, _on_button_pressed.bind(Action.SECONDARY))
-	Signals.connect_safe(screen.popped, closed.emit)
+	Signals.connect_safe(screen.popped, _on_screen_popped)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -137,3 +137,7 @@ func _on_button_pressed(action: Action) -> void:
 		"invalid state; dialog screen is not topmost",
 	)
 	Main.screens().pop(action, true)
+
+
+func _on_screen_popped(result: Variant) -> void:
+	closed.emit(result if result != null else Action.DISMISS)
