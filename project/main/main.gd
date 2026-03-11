@@ -140,6 +140,9 @@ static func show_error(
 	primary_label: StringName,
 	secondary_label: StringName = &"",
 ) -> AlertDialog.Action:
+	if Lifecycle.is_shutting_down():
+		return AlertDialog.Action.DISMISS
+
 	var main := _get_main()
 	assert(
 		main._error_dialog is AlertDialog,
