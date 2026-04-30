@@ -336,6 +336,16 @@ func _load_game(slot: int) -> bool:
 	_save_data = saves.create_new_save_data()
 
 	if not await saves.load_save_data(_save_data):
+		var error := (
+			ProjectError
+			. new(
+				"error_load_failed_title",
+				"error_load_failed_message",
+				ProjectError.Severity.ERROR,
+			)
+		)
+		await show_error(error, &"alert_return_to_menu")
+
 		_save_data = null
 		_is_loading = false
 		_manager.reset(initial)
