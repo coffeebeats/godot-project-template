@@ -78,6 +78,15 @@ func _on_delete_button_pressed(
 	if action == AlertDialog.Action.PRIMARY:
 		button.disabled = true
 		if not saves.erase_slot(slot):
+			var error := (
+				ProjectError
+				. new(
+					"error_delete_failed_title",
+					"error_delete_failed_message",
+					ProjectError.Severity.ERROR,
+				)
+			)
+			await Main.show_error(error, &"alert_continue")
 			button.disabled = false
 
 

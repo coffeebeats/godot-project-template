@@ -203,7 +203,8 @@ func erase_slot(index: int) -> bool:
 	match err:
 		OK:
 			save_slot.status = SaveSlot.STATUS_EMPTY
-			save_slot.summary.reset()
+			if save_slot.summary != null:
+				save_slot.summary.reset()
 
 			slot_erased.emit(index)
 
