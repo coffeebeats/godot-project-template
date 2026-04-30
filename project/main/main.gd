@@ -375,7 +375,7 @@ func _unload_game() -> void:
 		if not _manager.is_current(loading):
 			await _manager.screen_entered
 
-		await save_game()
+		await _save_with_retry()
 
 	_play_start_ticks = -1
 	_save_data = null
@@ -400,6 +400,30 @@ func _push_splash(index: int) -> void:
 		_manager.push(screen)
 	else:
 		_manager.replace(screen)
+
+
+func _save_with_retry() -> bool:
+	_accumulate_play_time()
+	_play_start_ticks = -1
+
+	while true:
+		if await save_game():
+			return true
+
+		var error := (
+			ProjectError
+			. new(
+				"error_save_failed_title",
+				"error_save_failed_message",
+				ProjectError.Severity.ERROR,
+			)
+		)
+		var action := await show_error(error, &"alert_retry", &"alert_continue")
+
+		if action != AlertDialog.Action.PRIMARY:
+			return false
+
+	return false  # gdlint:ignore=max-returns,unreachable-code
 
 
 func _update_color() -> void:
