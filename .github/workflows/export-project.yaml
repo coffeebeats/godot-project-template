@@ -238,7 +238,7 @@ jobs:
 
       # NOTE: These are intermediate artifacts which don't need to be published.
       - name: Delete export preset artifacts
-        uses: geekyeggo/delete-artifact@f275313e70c08f6120db482d7a6b98377786765b
+        uses: geekyeggo/delete-artifact@176a747ab7e287e3ff4787bf8a148716375ca118
         with:
           name: ${{ steps.export-preset-artifacts.outputs.pattern }}
 
