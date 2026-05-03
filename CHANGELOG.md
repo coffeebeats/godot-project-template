@@ -1,5 +1,27 @@
 # Changelog
 
+## 4.2.0 (2026-05-03)
+
+## What's Changed
+* fix(project): improve save handling across scene boundaries by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/416
+* feat(project): create base scenes for 2D, 3D, and 2D pixel art games by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/418
+* chore(addons): remove `phantom_camera` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/419
+* feat(project): migrate audio system onto new features; add Claude skill for adding audio  by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/420
+* chore(addons): update GUT to `v9.6.0` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/421
+* feat(project): add support for project errors by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/422
+* feat(project): refactor `AlertDialog` to be more general; add support for project startup errors by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/423
+* fix(project): prevent forced joypad focus in main menu even with cursor usage by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/424
+* chore(deps): bump actions/upload-artifact from 6.0.0 to 7.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/425
+* fix(project): add retries and confirmation dialogs to handle save failures by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/426
+* chore(deps): bump actions/download-artifact from 7.0.0 to 8.0.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/431
+* chore(deps): bump geekyeggo/delete-artifact from 5.1.0 to 6.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/430
+* chore(deps): bump tj-actions/changed-files from 47.0.1 to 47.0.5 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/429
+* chore(deps): bump googleapis/release-please-action from 4.4.0 to 4.4.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/428
+* chore(deps): bump actions/cache from 5.0.3 to 5.0.4 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/427
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.1.0...v4.2.0
+
 ## 4.1.0 (2026-03-05)
 
 ## What's Changed
