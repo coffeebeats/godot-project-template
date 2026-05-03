@@ -26,6 +26,27 @@ extends "res://project/maps/base/scene.gd"
 
 var _shader_material: ShaderMaterial = null
 
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+
+## get_container_scale returns the uniform scale factor applied to the
+## SubViewportContainer for integer scaling.
+func get_container_scale() -> float:
+	var container := _get_container()
+	if not container:
+		return 1.0
+	return container.scale.x
+
+
+## get_container_offset returns the centering offset applied to the
+## SubViewportContainer.
+func get_container_offset() -> Vector2:
+	var container := _get_container()
+	if not container:
+		return Vector2.ZERO
+	return container.position
+
+
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
@@ -82,11 +103,12 @@ func _apply_resolution() -> void:
 	_update_container_scale()
 
 
-func _get_container() -> SubViewportContainer:
-	return sub_viewport.get_parent() if sub_viewport else null
-
-
 func _on_frame_pre_draw() -> void:
+	# NOTE: No `_world_to_viewport_2d` override is needed here. `_process` callers read
+	# the un-rounded `canvas_transform`; the rendered sprite ends up at
+	# `rounded * world_pos + shader_remainder` which equals `unrounded * world_pos`. The
+	# two only agree when projection happens during `_process` (before this signal
+	# fires); future overrides must respect that ordering.
 	if not sub_viewport or not _shader_material:
 		return
 

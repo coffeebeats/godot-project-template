@@ -282,7 +282,7 @@ func _get_target_tooltip_global_position() -> Vector2:
 
 
 func _hide_tooltip(delay: float) -> void:
-	assert(not _tween, "invalid state; already animatint")
+	assert(not _tween, "invalid state; already animating")
 	assert(not _is_visible, "invalid state; conflicting visible state")
 
 	var parallel: bool = false
@@ -338,7 +338,7 @@ func _reset_animation() -> void:
 
 
 func _show_tooltip(delay: float) -> void:
-	assert(not _tween, "invalid state; already animatint")
+	assert(not _tween, "invalid state; already animating")
 	assert(_is_visible, "invalid state; conflicting visible state")
 
 	_reposition()
