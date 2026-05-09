@@ -24,6 +24,7 @@
 ##
 
 @tool
+class_name ProjectMap
 extends Control
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -67,5 +68,42 @@ func _ready():
 
 	_save_data = Main.get_active_save_data()
 	if not _save_data:
-		Main.go_to_main_menu()  # TODO: Add better error handling.
+		Main.go_to_main_menu() # TODO: Add better error handling.
 		return
+
+
+# -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+
+## viewport_to_hud projects a `SubViewport`-local position to HUD-space coordinates by
+## applying any stretch-mode visual scale, then the `SubViewportContainer`'s global
+## transform.
+func viewport_to_hud(p: Vector2) -> Vector2:
+	var container := _get_container()
+	if not container:
+		return p
+
+	return container.get_global_transform() * (p * _get_visual_scale())
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+## _get_visual_scale returns the per-axis scale factor applied between `SubViewport`-
+## local pixels and `SubViewportContainer`-local pixels.
+func _get_visual_scale() -> Vector2:
+	var container := _get_container()
+
+	if not container or not sub_viewport:
+		return Vector2.ONE
+	if not container.stretch:
+		return Vector2.ONE
+
+	if sub_viewport.size.x <= 0 or sub_viewport.size.y <= 0:
+		return Vector2.ONE
+
+	return container.size / Vector2(sub_viewport.size)
+
+
+func _get_container() -> SubViewportContainer:
+	return sub_viewport.get_parent() as SubViewportContainer if sub_viewport else null
