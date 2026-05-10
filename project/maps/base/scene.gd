@@ -68,17 +68,17 @@ func _ready():
 
 	_save_data = Main.get_active_save_data()
 	if not _save_data:
-		Main.go_to_main_menu() # TODO: Add better error handling.
+		Main.go_to_main_menu()  # TODO: Add better error handling.
 		return
 
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
-## viewport_to_hud projects a `SubViewport`-local position to HUD-space coordinates by
-## applying any stretch-mode visual scale, then the `SubViewportContainer`'s global
-## transform.
-func viewport_to_hud(p: Vector2) -> Vector2:
+## viewport_to_screen projects a `SubViewport`-local position to screen-space
+## coordinates by applying any stretch-mode visual scale, then the
+## `SubViewportContainer`'s global transform.
+func viewport_to_screen(p: Vector2) -> Vector2:
 	var container := _get_container()
 	if not container:
 		return p
