@@ -9,7 +9,7 @@
 
 @tool
 class_name ProjectMapPixel2D
-extends "res://project/maps/base/scene.gd"
+extends ProjectMap2D
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -82,25 +82,6 @@ func _apply_resolution() -> void:
 	_update_container_scale()
 
 
-func _get_container() -> SubViewportContainer:
-	return sub_viewport.get_parent() if sub_viewport else null
-
-
-func _on_frame_pre_draw() -> void:
-	if not sub_viewport or not _shader_material:
-		return
-
-	# NOTE: `canvas_transform` is a value type — the getter returns a copy.
-	# The whole `Transform2D` must be reassigned, not just set `origin`.
-	var transform := sub_viewport.canvas_transform
-	var transform_rounded := transform.origin.round()
-	var transform_remainder := transform.origin - transform_rounded
-	transform.origin = transform_rounded
-	sub_viewport.canvas_transform = transform
-
-	_shader_material.set_shader_parameter(&"vertex_offset", transform_remainder)
-
-
 func _update_container_scale() -> void:
 	var container := _get_container()
 	if not container or not sub_viewport:
@@ -121,3 +102,21 @@ func _update_container_scale() -> void:
 	# Center the container within the root Control.
 	var scaled_size := Vector2(sub_viewport.size) * uniform
 	container.position = (size - scaled_size) / 2.0
+
+
+# -- SIGNAL HANDLERS ----------------------------------------------------------------- #
+
+
+func _on_frame_pre_draw() -> void:
+	if not sub_viewport or not _shader_material:
+		return
+
+	# NOTE: `canvas_transform` is a value type — the getter returns a copy.
+	# The whole `Transform2D` must be reassigned, not just set `origin`.
+	var transform := sub_viewport.canvas_transform
+	var transform_rounded := transform.origin.round()
+	var transform_remainder := transform.origin - transform_rounded
+	transform.origin = transform_rounded
+	sub_viewport.canvas_transform = transform
+
+	_shader_material.set_shader_parameter(&"vertex_offset", transform_remainder)
