@@ -51,7 +51,7 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(642, 362)
 render_target_update_mode = 4
 
-[node name="HUD" type="Control" parent="." unique_id=1285188779]
+[node name="UI" type="Control" parent="." unique_id=1285188779]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

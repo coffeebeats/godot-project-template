@@ -13,7 +13,7 @@
 ##   ├── SubViewportContainer     (full-rect or scaled)
 ##   │   └── SubViewport          (export: 'sub_viewport')
 ##   │       └── [game world]
-##   └── HUD                      (Control, full-rect; optional, native resolution)
+##   └── UI                       (Control, full-rect; optional, native resolution)
 ##
 ## NOTE: `StdScreen.pause_when_covered` disables the entire SubViewport subtree.
 ## Godot #79665: paused SubViewport descendants won't receive input, even with
