@@ -80,6 +80,11 @@ _update_non_english_po() {
 	poswap "$EN_US_PO" -t "$f" "${f}.tmp"
 	msgmerge --update --backup=none "$f" "${f}.tmp"
 	rm "${f}.tmp"
+
+	# poswap embeds the input path in a "No translation found" comment using
+	# the host's path separator; normalize '\' to '/' so Windows matches CI.
+	sed '\|^#\. No translation found in| s|\\|/|g' "$f" >"${f}.tmp"
+	mv "${f}.tmp" "$f"
 }
 
 cmd_update() {
