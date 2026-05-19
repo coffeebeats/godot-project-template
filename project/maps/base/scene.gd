@@ -75,6 +75,13 @@ func _ready():
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
 
 
+## get_screen_rect returns the screen-space rect that the `SubViewport`'s contents
+## occupy.
+func get_screen_rect() -> Rect2:
+	var container := _get_container()
+	return container.get_global_rect() if container else Rect2()
+
+
 ## viewport_to_screen projects a `SubViewport`-local position to screen-space
 ## coordinates by applying any stretch-mode visual scale, then the
 ## `SubViewportContainer`'s global transform.
