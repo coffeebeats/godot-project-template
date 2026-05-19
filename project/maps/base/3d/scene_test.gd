@@ -1,7 +1,8 @@
 ##
 ## project/maps/base/3d/scene_test.gd
 ##
-## Unit tests for the `ProjectMap3D` `world_to_screen` projection method.
+## Unit tests for `ProjectMap3D`'s screen-projection methods — `world_to_screen` and
+## `world_to_screen_direction`.
 ##
 
 extends GutTest
@@ -98,6 +99,32 @@ func test_off_frustum_returns_finite() -> void:
 	assert_true(
 		screen.is_finite(), "off-frustum-but-in-front should be finite; got %s" % screen
 	)
+
+
+func test_world_to_screen_direction_points_at_in_front_target() -> void:
+	# Given: A camera at (0, 0, 5) and a target to its right, level with it.
+	_install_camera(Vector3(0, 0, 5))
+	# When: The screen-space direction toward the target is computed.
+	var direction := _map.world_to_screen_direction(Vector3(100, 0, 0))
+	# Then: It points straight right (the target shares the camera's height).
+	assert_eq(direction, Vector2.RIGHT)
+
+
+func test_world_to_screen_direction_points_at_behind_camera_target() -> void:
+	# Given: A camera at (0, 0, 5) and a target behind it, to the right.
+	_install_camera(Vector3(0, 0, 5))
+	# When: The direction toward the behind-camera target is computed.
+	var direction := _map.world_to_screen_direction(Vector3(100, 0, 10))
+	# Then: It still resolves to a usable rightward bearing, not INF or ZERO.
+	assert_eq(direction, Vector2.RIGHT)
+
+
+func test_world_to_screen_direction_no_camera_returns_zero() -> void:
+	# Given: A SubViewport with no Camera3D.
+	# When: A screen-space direction is requested.
+	var direction := _map.world_to_screen_direction(Vector3(100, 0, 0))
+	# Then: The result is the `Vector2.ZERO` sentinel.
+	assert_eq(direction, Vector2.ZERO)
 
 
 # -- TEST HOOKS ---------------------------------------------------------------------- #
