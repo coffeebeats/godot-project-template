@@ -1,17 +1,18 @@
 ##
-## project/ui/tooltip.gd
+## project/ui/tooltip/tooltip.gd
 ##
-## Tooltip is a base class which renders its child node in a popover, anchored to a
-## specified canvas item. It responds to hover and focus effects on configurable nodes
-## (which can be different than the anchor).
+## Tooltip renders its child node in a popover anchored to a `Control` - by default its
+## parent, or the `anchor` node when one is set. It reveals and hides the popover in
+## response to hover and focus events on configurable nodes (which may differ from the
+## anchor).
 ##
-## This implementation is opinionated in that it always displays the tooltip contents
-## adjacent to one of the faces of the anchor node. Additionally, the anchor node cannot
-## be rotated and the anchor cannot be moved while the tooltip is animating.
+## The popover is always displayed adjacent to one face of the anchor's bounding box (or
+## centered on it) and is clamped so it never renders off-screen. The anchor may move
+## freely - including every frame, e.g. a `WorldTracker`-driven host - but it must not
+## be rotated.
 ##
-## NOTE: It extends `CenterContainer` because it's the easiest way to ensure that,
-## regardless of tooltip contents, the `Tooltip` node itself will have a bounding box
-## which is equal to its child's.
+## NOTE: It extends `CenterContainer` so that, regardless of its contents, the `Tooltip`
+## node's bounding box always matches its child's.
 ##
 
 class_name Tooltip
@@ -51,6 +52,10 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
+## anchor is the `Control` node the tooltip positions itself against. When left unset,
+## the tooltip's parent node is used as the anchor.
+@export var anchor: Control = null
+
 @export_group("Display")
 
 @export_subgroup("Positioning")
@@ -61,6 +66,18 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 
 ## tooltip_offset is a positional offset from the anchor when the tooltip is shown.
 @export var tooltip_offset: Vector2 = Vector2.ZERO
+
+@export_subgroup("Bounds")
+
+## clamp_within constrains the tooltip to this `Control`'s global rect so it never
+## renders off-screen. When left unset, the tooltip is clamped to the viewport instead.
+@export var clamp_within: Control = null
+
+## clamp_margin insets the clamp region (the viewport or `clamp_within`) by this many
+## pixels on every side, keeping a gap between the tooltip and the region's edge.
+@export var clamp_margin: float = 0.0
+
+@export_group("Trigger")
 
 @export_subgroup("Focus")
 
@@ -125,6 +142,8 @@ const TOOLTIP_POSITION_RIGHT := TooltipPosition.RIGHT
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
+var _anchor: Control = null
+var _anim_offset: Vector2 = Vector2.ZERO
 var _is_focused: bool = false
 var _is_hover_target_hovered: bool = false
 var _is_tooltip_hovered: bool = false
@@ -174,6 +193,14 @@ func show_tooltip(delay: float = 0.0) -> void:
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
+func _notification(what: int) -> void:
+	# Reposition when the tooltip's own size changes (e.g. dynamic content); the face-
+	# positioning math depends on the tooltip's rect, and no other signal fires for a
+	# steady-state self-resize.
+	if what == NOTIFICATION_RESIZED and _is_visible:
+		_update_position()
+
+
 func _ready() -> void:
 	_mouse_filter = mouse_filter
 	mouse_filter = MOUSE_FILTER_IGNORE
@@ -181,19 +208,20 @@ func _ready() -> void:
 	visible = false
 	top_level = true
 
-	var anchor := _get_target_canvas_item()
-	assert(anchor is CanvasItem, "invalid state; missing node")
-	assert(anchor.is_inside_tree(), "invalid state; node must be in scene tree")
+	_anchor = anchor if anchor else get_parent() as Control
+	assert(_anchor, "invalid config; 'anchor' must be a 'Control' (or parent one)")
+	assert(_anchor.is_inside_tree(), "invalid state; anchor must be in scene tree")
+	assert(clamp_margin >= 0.0, "invalid config; 'clamp_margin' must be non-negative")
 
-	Signals.connect_safe(anchor.item_rect_changed, _on_anchor_rect_changed)
-	Signals.connect_safe(anchor.visibility_changed, _on_anchor_visibility_changed)
+	Signals.connect_safe(_anchor.item_rect_changed, _on_anchor_rect_changed)
+	Signals.connect_safe(_anchor.visibility_changed, _on_anchor_visibility_changed)
 
 	if keep_open_when_tooltip_hovered:
 		Signals.connect_safe(mouse_entered, _on_tooltip_mouse_entered)
 		Signals.connect_safe(mouse_exited, _on_tooltip_mouse_exited)
 
 	if show_when_hovered:
-		var hover_node := hover_target if hover_target else anchor
+		var hover_node := hover_target if hover_target else _anchor
 		assert(
 			hover_node.mouse_filter != MOUSE_FILTER_IGNORE,
 			"invalid config; hover target cannot ignore mouse",
@@ -203,29 +231,33 @@ func _ready() -> void:
 		Signals.connect_safe(hover_node.mouse_exited, _on_hover_target_mouse_exited)
 
 	if show_when_focused:
-		var focus_node := focus_target if focus_target else anchor
+		var focus_node := focus_target if focus_target else _anchor
 		Signals.connect_safe(focus_node.focus_entered, _on_focus_target_focus_entered)
 		Signals.connect_safe(focus_node.focus_exited, _on_focus_target_focus_exited)
 
 
-# -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
-
-
-## _get_target_canvas_item should be overridden to return a reference to the anchor
-## node. Note that it must be a canvas item (i.e. `Node2D` or `Control`).
-func _get_target_canvas_item() -> CanvasItem:
-	assert(false, "unimplemented")
-	return null
-
-
-## _get_target_global_rect returns the global bounding box for the node to which
-## this tooltip should be attached.
-func _get_target_global_rect() -> Rect2:
-	assert(false, "unimplemented")
-	return Rect2()
-
-
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+func _clamp_to_bounds(global_pos: Vector2) -> Vector2:
+	var bounds := get_viewport_rect()
+	if is_instance_valid(clamp_within):
+		bounds = clamp_within.get_global_rect()
+
+	bounds = bounds.grow(-clamp_margin)
+	if bounds.size.x <= 0.0 or bounds.size.y <= 0.0:
+		return global_pos
+
+	# NOTE: Pin to the region's top-left when the tooltip is larger than the clamp
+	# region; this keeps `clampf`'s minimum bound at or below its maximum.
+	var extent := get_global_rect().size
+	var max_x := maxf(bounds.position.x, bounds.end.x - extent.x)
+	var max_y := maxf(bounds.position.y, bounds.end.y - extent.y)
+
+	return Vector2(
+		clampf(global_pos.x, bounds.position.x, max_x),
+		clampf(global_pos.y, bounds.position.y, max_y),
+	)
 
 
 func _get_slide_offset(animation: AnimationSlide) -> Vector2:
@@ -235,6 +267,10 @@ func _get_slide_offset(animation: AnimationSlide) -> Vector2:
 	var animation_offset: Vector2
 	var motion := animation.translation
 
+	# NOTE: `motion` is authored in canonical RIGHT-face orientation; `x` runs from
+	# the anchor toward the tooltip and `y` runs along the face. Each branch rotates
+	# or reflects it onto that face's axes so one authored `AnimationSlide` reads
+	# correctly regardless of `tooltip_position`.
 	match tooltip_position:
 		TOOLTIP_POSITION_CENTERED:
 			animation_offset = motion
@@ -252,11 +288,11 @@ func _get_slide_offset(animation: AnimationSlide) -> Vector2:
 
 func _get_target_tooltip_global_position() -> Vector2:
 	assert(
-		not _get_target_canvas_item().get_rotation(),
-		"invalid config; rotated target not supported",
+		not _anchor.get_rotation(),
+		"invalid config; rotated anchor not supported",
 	)
 
-	var target_rect := _get_target_global_rect()
+	var target_rect := _anchor.get_global_rect()
 	var tooltip_rect := get_global_rect()
 
 	var distance := (target_rect.size / 2.0) + (tooltip_rect.size / 2.0)
@@ -274,15 +310,12 @@ func _get_target_tooltip_global_position() -> Vector2:
 			distance = Vector2(-distance.x, 0.0)
 
 	return (
-		target_rect.get_center()
-		+ distance
-		- (tooltip_rect.get_center() - tooltip_rect.position)
-		+ tooltip_offset
+		target_rect.get_center() + distance - tooltip_rect.size / 2.0 + tooltip_offset
 	)
 
 
 func _hide_tooltip(delay: float) -> void:
-	assert(not _tween, "invalid state; already animatint")
+	assert(not _tween, "invalid state; already animating")
 	assert(not _is_visible, "invalid state; conflicting visible state")
 
 	var parallel: bool = false
@@ -297,17 +330,7 @@ func _hide_tooltip(delay: float) -> void:
 
 	if slide_out:
 		parallel = fade_out != null
-		var animation_offset := _get_slide_offset(slide_out)
-
-		(
-			slide_out
-			. apply_tween_property(
-				_tween,
-				self,
-				_get_target_tooltip_global_position() + animation_offset,
-				parallel,
-			)
-		)
+		_tween_slide_offset(slide_out, _get_slide_offset(slide_out), parallel)
 
 	if parallel:
 		_tween.chain()
@@ -315,16 +338,6 @@ func _hide_tooltip(delay: float) -> void:
 	_tween.tween_callback(func() -> void: mouse_filter = MOUSE_FILTER_IGNORE)
 	_tween.tween_callback(hide)
 	_tween.tween_callback(_reset_animation)  # Kills tween so must be last.
-
-
-func _reposition() -> void:
-	# TODO: This can be relaxed through use of `Tween.interpolate_value`.
-	assert(not _tween, "invalid state; can't reposition during animation")
-
-	var target_position := _get_target_tooltip_global_position()
-	var animation_offset := _get_slide_offset(slide_in)
-
-	set_global_position(target_position - animation_offset)
 
 
 func _reset_animation() -> void:
@@ -338,10 +351,13 @@ func _reset_animation() -> void:
 
 
 func _show_tooltip(delay: float) -> void:
-	assert(not _tween, "invalid state; already animatint")
+	assert(not _tween, "invalid state; already animating")
 	assert(_is_visible, "invalid state; conflicting visible state")
 
-	_reposition()
+	# Begin displaced by the slide-in offset; the tween eases `_anim_offset` back to
+	# zero while `_update_position` keeps it composed against the anchor.
+	_anim_offset = _get_slide_offset(slide_in)
+	_update_position()
 
 	modulate.a = 1  # Ensure the alpha value has been restored.
 	show()
@@ -356,16 +372,7 @@ func _show_tooltip(delay: float) -> void:
 
 	if slide_in:
 		parallel = fade_in != null
-
-		(
-			slide_in
-			. apply_tween_property(
-				_tween,
-				self,
-				_get_target_tooltip_global_position(),
-				parallel,
-			)
-		)
+		_tween_slide_offset(slide_in, Vector2.ZERO, parallel)
 
 	if parallel:
 		_tween.chain()
@@ -374,30 +381,58 @@ func _show_tooltip(delay: float) -> void:
 	_tween.tween_callback(_reset_animation)  # Kills tween so must be last.
 
 
+func _tween_slide_offset(slide: AnimationSlide, to: Vector2, parallel: bool) -> void:
+	if parallel:
+		_tween.parallel()
+
+	# NOTE: The slide drives `_anim_offset` through a method tweener rather than a
+	# property tweener on `position`, so each step recomposes the tooltip's position
+	# against the anchor's *current* location. This lets the popover animate smoothly
+	# even while the anchor is moving (e.g. a `WorldTracker`-driven host).
+	(
+		_tween
+		. tween_method(_set_anim_offset, _anim_offset, to, slide.duration)
+		. set_delay(slide.delay)
+		. set_ease(slide.ease_type)
+		. set_trans(slide.transition_type)
+	)
+
+
+func _update_position() -> void:
+	var target := _get_target_tooltip_global_position() + _anim_offset
+	set_global_position(_clamp_to_bounds(target))
+
+
+# -- SETTERS/GETTERS ----------------------------------------------------------------- #
+
+
+func _set_anim_offset(offset: Vector2) -> void:
+	_anim_offset = offset
+	_update_position()
+
+
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
 func _on_anchor_rect_changed() -> void:
 	if _is_visible:
-		_reposition()
+		_update_position()
 
 
 func _on_anchor_visibility_changed() -> void:
-	var anchor := _get_target_canvas_item()
-	assert(anchor is CanvasItem, "invalid state; missing node")
-	assert(anchor.is_inside_tree(), "invalid state; node must be in scene tree")
+	assert(_anchor.is_inside_tree(), "invalid state; anchor must be in scene tree")
 
-	if _is_visible and not anchor.visible:
+	if _is_visible and not _anchor.visible:
 		hide_tooltip(0.0, false)
 
-	elif not _is_visible and anchor.visible:
-		var anchor_rect: Rect2 = anchor.get_global_rect()
+	elif not _is_visible and _anchor.visible:
+		var anchor_rect := _anchor.get_global_rect()
 		var global_mouse_position := get_global_mouse_position()
 
 		# FIXME(https://github.com/godotengine/godot/issues/87203): Remove workaround.
 		# Note that this solution fails if the anchor is blocked by another node.
 		if anchor_rect.has_point(global_mouse_position):
-			_reposition()
+			_update_position()
 			_on_hover_target_mouse_entered()
 
 
