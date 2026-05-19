@@ -220,6 +220,34 @@ func test_clamped_offset_does_not_breach_margin() -> void:
 	assert_eq(_host.global_position, Vector2(600, 180))
 
 
+func test_clamped_host_stays_fully_visible() -> void:
+	# Given: A clamped tracker, a sized host, an off-screen target.
+	_host.size = Vector2(80, 40)
+	var tracker := _attach_tracker(_host)
+	tracker.projection = Vector2(960, 180)
+	tracker.clamped = true
+	# When: A frame is processed.
+	await wait_process_frames(1)
+	# Then: The whole host rect stays on-screen, not just its origin.
+	assert_true(_map.get_screen_rect().encloses(_host.get_global_rect()))
+	assert_eq(_host.global_position, Vector2(560, 160))
+
+
+func test_clamped_host_frozen_when_no_room_to_clamp() -> void:
+	# Given: A clamped tracker, an oversized margin, an on-screen target.
+	var tracker := _attach_tracker(_host)
+	tracker.projection = Vector2(320, 180)
+	tracker.clamped = true
+	tracker.viewport_margin = 200.0
+	await wait_process_frames(1)
+	var last := _host.global_position
+	# When: The target moves off-screen.
+	tracker.projection = Vector2(2000, 180)
+	await wait_process_frames(1)
+	# Then: The host freezes — a collapsed clamp region degrades gracefully.
+	assert_eq(_host.global_position, last)
+
+
 func test_resolve_offscreen_override_replaces_default() -> void:
 	# Given: A tracker subclass overriding `_resolve_offscreen` with a fixed result.
 	var tracker := _OverrideStubTracker.new()

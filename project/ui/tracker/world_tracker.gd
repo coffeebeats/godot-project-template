@@ -141,19 +141,28 @@ func _project_target() -> Vector2:
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
-## _clamp_to_edge projects the tracked point onto the `viewport_margin`-inset edge of
-## `screen_rect`, along the ray from its center.
+## _clamp_to_edge pins the host to the `viewport_margin`-inset edge of `screen_rect`,
+## along the ray from the rect's center toward the tracked point. The edge is inset
+## further by the host's extent so the whole widget stays on-screen, not just its
+## origin. Returns a non-finite vector when no room is left to clamp into.
 func _clamp_to_edge(screen_position: Vector2, screen_rect: Rect2) -> Vector2:
 	var bounds := screen_rect.grow(-viewport_margin)
-	assert(
-		bounds.size.x > 0.0 and bounds.size.y > 0.0,
-		"invalid config; 'viewport_margin' is too large for the viewport",
-	)
+
+	# Inset the edge by the host's half-extent so the whole widget stays on-screen,
+	# not just its origin; the intersection then lands the host's center on the edge.
+	var half := _host.get_global_rect().size / 2.0
+	bounds = Rect2(bounds.position + half, bounds.size - half * 2.0)
+
+	# Degrade gracefully when no room is left to clamp into (e.g. an oversized
+	# `viewport_margin`); the non-finite result leaves the host where it is.
+	if bounds.size.x <= 0.0 or bounds.size.y <= 0.0:
+		return Vector2.INF
+
 	var center := bounds.get_center()
 	var direction := _offscreen_direction(screen_position, center)
 	if direction == Vector2.ZERO:
 		return Vector2.INF
-	return _intersect_rect_edge(center, direction, bounds)
+	return _intersect_rect_edge(center, direction, bounds) - half
 
 
 ## _intersect_rect_edge returns the point where the ray from `origin` along `direction`
