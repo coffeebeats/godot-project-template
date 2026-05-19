@@ -195,7 +195,7 @@ func _notification(what: int) -> void:
 			is_instance_valid(_error_dialog)
 			and not _error_dialog.is_queued_for_deletion()
 		):
-			_error_dialog.queue_free()
+			_error_dialog.free()
 			_error_dialog = null
 
 
@@ -434,6 +434,10 @@ func _update_color() -> void:
 
 
 func _on_shutdown_requested(_exit_code: int) -> void:
+	if is_instance_valid(_error_dialog) and not _error_dialog.is_inside_tree():
+		_error_dialog.free()
+		_error_dialog = null
+
 	if not _save_data is ProjectSaveData:
 		return
 
