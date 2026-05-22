@@ -1,6 +1,11 @@
 # Godot-specific files
 .godot/
 
+# godot-infra build artifacts
+# NOTE: A runtime-only symlink created by 'coffeebeats/godot-infra' actions so
+# they can self-reference at a pinned hash; it must never be committed.
+.godot-infra
+
 # Translation files
 *.translation
 messages.mo
