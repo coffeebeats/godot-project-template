@@ -71,7 +71,7 @@ cmd_validate() {
 	for f in "$LOCALE_DIR"/*.pot "$LOCALE_DIR"/*.po; do
 		[ -f "$f" ] || continue
 		echo "Validating: $f"
-		msgfmt "$f" --check
+		msgfmt --check -o /dev/null "$f"
 	done
 }
 

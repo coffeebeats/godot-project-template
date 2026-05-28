@@ -8,7 +8,6 @@
 
 # Translation files
 *.translation
-messages.mo
 
 # MacOS-specific files
 .DS_Store
