@@ -121,8 +121,7 @@ func activate_slot(index: int) -> bool:
 	# Only persist the active slot when there's existing save data. Empty slots will be
 	# persisted after a successful save in 'store_save_data'.
 	if _save_slots[index].status == SaveSlot.STATUS_OK:
-		if not slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, index):
-			logger.warn("Found stored value for active slot already updated.")
+		slot_scope.config.set_int(CATEGORY_SLOT_DATA, KEY_ACTIVE_SLOT, index)
 
 	if slot_previous != -1:
 		slot_deactivated.emit(slot_previous)
