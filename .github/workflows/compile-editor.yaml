@@ -49,12 +49,12 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
 
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v4
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v4.1.2
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      - uses: coffeebeats/godot-infra/compile-godot-export-template@v4
+      - uses: coffeebeats/godot-infra/compile-godot-export-template@v4.1.2
         with:
           compile-editor: true
           publish: true
@@ -120,16 +120,16 @@ jobs:
 
     steps:
       - name: Reclaim disk space
-        uses: coffeebeats/godot-infra/.github/actions/setup-runner@v4
+        uses: coffeebeats/godot-infra/.github/actions/setup-runner@v4.1.2
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v4
+      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v4.1.2
         id: version
         with:
           gdenv-pin-path: .godot-version
 
-      - uses: coffeebeats/godot-infra/compile-godot-export-template@v4
+      - uses: coffeebeats/godot-infra/compile-godot-export-template@v4.1.2
         with:
           compile-editor: true
           publish: true
