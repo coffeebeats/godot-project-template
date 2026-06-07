@@ -25,6 +25,15 @@ on:
         options:
           - arm64
           - x86_64
+      profile:
+        type: choice
+        description: "The optimization profile of the compiled export template."
+        required: true
+        default: release
+        options:
+          - release
+          - release_debug
+          - debug
 
       ref:
         type: string
@@ -64,6 +73,7 @@ jobs:
 
           platform: ${{ inputs.platform }}
           arch: ${{ inputs.arch }}
+          profile: ${{ inputs.profile }}
 
   config:
     if: github.event_name == 'push'
