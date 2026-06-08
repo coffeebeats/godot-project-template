@@ -50,6 +50,12 @@ Game scenes access save data via `Main` statics in `project/main/main.gd`:
 
 Dirty tracking is automatic (`StdConfigItem` snapshots); use `mark_critical()` to force a save without field changes. Shutdown uses synchronous `flush_save_data()` as a last-resort path (`system/save/saves.gd`).
 
+## Logging
+
+`StdLogger` instances are named by hierarchical path (e.g. `system/save`, `std/config/writer/binary`). Levels are `DEBUG=0, INFO=1, WARN=2, ERROR=3`; the global default is `WARN`, so `debug`/`info` are opt-in (`debug` is compiled out of non-debug builds).
+
+Levels are set declaratively by `StdLogProfile` resources, applied at startup in `platform/logging/logging.gd`: `profile_editor.tres` (editor) and `profile_default.tres` (exported builds). Each profile has a global `level` plus `level_overrides` (`{prefix: level}`); a logger's effective level is the longest matching prefix override, else the global. To trace a subsystem while developing, lower its prefix in `profile_editor.tres` rather than calling `StdLogger.set_level_override(...)` in code (`apply()` clears code-set overrides at startup).
+
 ## Pitfalls
 
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
