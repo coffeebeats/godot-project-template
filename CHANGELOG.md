@@ -1,5 +1,29 @@
 # Changelog
 
+## 5.0.0 (2026-09-02)
+
+## What's Changed
+* chore: ignore `.godot-infra` symlink for `commit-actions` action by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/438
+* fix(tools): discard `messages.mo` file used to check translations by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/440
+* chore(addons): update `std` and `Gut` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/441
+* chore(system): eliminate noisy warning on loading a save slot by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/442
+* chore: document `pause_when_covered` for agent instructions by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/443
+* fix(ci): expose `profile` argument when compiling the editor by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/449
+* chore(deps): bump googleapis/release-please-action from 4.4.1 to 5.0.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/448
+* chore(deps): bump actions/upload-artifact from 7.0.0 to 7.0.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/447
+* chore(deps): bump actions/cache from 5.0.4 to 5.0.5 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/446
+* chore(deps): bump tj-actions/changed-files from 47.0.5 to 47.0.6 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/445
+* chore(deps): bump coffeebeats/godot-infra from 4 to 4.1.2 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/444
+* chore(addons): update `std` to `v4.8.3` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/450
+* chore(docs): add agent instructions for `StdLogProfile` usage by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/451
+* chore!: update to Godot `v4.7` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/457
+* chore(deps): bump actions/checkout from 6.0.2 to 7.0.1 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/456
+* chore(deps): bump actions/cache/save from 5.0.5 to 6.1.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/455
+* chore(deps): bump actions/cache/restore from 5.0.5 to 6.1.0 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/454
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v4.2.0...v5.0.0
+
 ## 4.2.0 (2026-05-21)
 
 ## What's Changed
