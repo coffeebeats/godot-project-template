@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.0.1 (2026-09-02)
+
+## What's Changed
+* docs(readme): exclude vendored addons from the format and lint commands by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/459
+* fix(ci): grant `contents: read` so the publish workflows can check out a private repository by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/458
+* chore(ci): pin `godot-infra` actions to the floating `v5` major by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/461
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.0.0...v5.0.1
+
 ## 5.0.0 (2026-09-02)
 
 ## What's Changed
