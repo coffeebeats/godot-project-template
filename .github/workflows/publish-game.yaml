@@ -98,6 +98,7 @@ on:
 
 permissions:
   actions: write # Required by the 'export' job.
+  contents: read # Required to check out a private repository.
 
 defaults:
   run:
