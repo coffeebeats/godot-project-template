@@ -30,6 +30,7 @@ on:
 
 permissions:
   actions: write # Allows this workflow to delete its temporary cache(s).
+  contents: read # Required to check out a private repository.
 
 defaults:
   run:
