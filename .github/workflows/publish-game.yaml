@@ -140,7 +140,7 @@ jobs:
 
       - name: Publish to 'itch.io'
         if: fromJson(inputs.publish-to-itchio)
-        uses: coffeebeats/godot-infra/publish-project-itchio@v4.1.2
+        uses: coffeebeats/godot-infra/publish-project-itchio@v5.0.0
         with:
           path: "./"
           version: ${{ inputs.release-tag }}
