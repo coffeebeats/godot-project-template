@@ -9,7 +9,6 @@
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="5_5fewj"]
 [ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://project/input/actions/menu_options.tres" id="10_y5hy5"]
-[ext_resource type="PackedScene" path="res://project/menu/settings/pusher.tscn" id="11_pusher"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="15_layer"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfwj"]
@@ -171,4 +170,3 @@ layout_mode = 1
 offset_left = -96.0
 offset_top = -63.0
 
-[node name="SettingsPusher" parent="." unique_id=1184576805 instance=ExtResource("11_pusher")]
