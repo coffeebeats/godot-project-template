@@ -55,12 +55,6 @@ func _ready() -> void:
 	Signals.connect_safe(_return.pressed, _on_return_pressed)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_cancel"):
-		get_viewport().set_input_as_handled()
-		_on_resume_pressed()
-
-
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 

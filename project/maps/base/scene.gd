@@ -7,13 +7,16 @@
 ## Expected scene tree:
 ##
 ##   Scene (Control, full-rect)
-##   ├── PausePusher              (StdScreenPusher; optional)
 ##   ├── StdInputActionSetLoader  (optional)
 ##   ├── StdSoundEmitter          (BGM; optional)
 ##   ├── SubViewportContainer     (full-rect or scaled)
 ##   │   └── SubViewport          (export: 'sub_viewport')
 ##   │       └── [game world]
 ##   └── UI                       (Control, full-rect; optional, native resolution)
+##
+## NOTE: The pusher that opens the pause menu is an attachment on the map's `StdScreen`
+## (`attachment_scenes`), not a node here. It mounts into the overlay, clear of
+## `pause_when_covered`, and the scene stays runnable on its own.
 ##
 ## NOTE: `StdScreen.pause_when_covered` disables the entire SubViewport subtree.
 ## Godot #79665: paused SubViewport descendants won't receive input, even with

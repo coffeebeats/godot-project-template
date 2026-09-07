@@ -10,3 +10,4 @@ script = ExtResource("1_screen")
 scene_path = "res://project/main/menu/menu.tscn"
 transition = ExtResource("2_qiqhg")
 dependency_screens = Array[ExtResource("1_screen")]([ExtResource("3_settings"), ExtResource("4_saves")])
+attachment_scenes = ["res://project/menu/settings/pusher.tscn"]

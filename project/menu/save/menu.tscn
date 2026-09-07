@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://hbb2wxcb7sxf"]
 
-[ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="1_pusher"]
 [ext_resource type="Script" uid="uid://e65imwf654xt" path="res://project/menu/save/menu.gd" id="1_sihek"]
-[ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="2_saves_screen"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/menu/save/slot_button.tscn" id="3_842n5"]
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_dj346"]
 [ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="5_scrim"]
@@ -25,11 +23,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("8_loader")
 action_set = ExtResource("9_menu")
-
-[node name="StdScreenPusher" type="Node" parent="." unique_id=2017771292]
-script = ExtResource("1_pusher")
-screen = ExtResource("2_saves_screen")
-pop_actions = Array[StringName]([&"ui_cancel"])
 
 [node name="Scrim" parent="." unique_id=1622107886 instance=ExtResource("5_scrim")]
 layout_mode = 1

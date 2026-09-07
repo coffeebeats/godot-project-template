@@ -8,5 +8,6 @@ script = ExtResource("1_screen")
 scene_path = "res://project/menu/settings/menu.tscn"
 cache_instance = true
 dependency_scenes = ["uid://dm1yyvkqdxmqe"]
+close_actions = Array[StringName]([&"ui_cancel"])
 sound_enter = ExtResource("2_sound")
 sound_exit = ExtResource("2_sound")
