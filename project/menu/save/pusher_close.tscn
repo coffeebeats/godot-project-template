@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c57fnfjbluu0k"]
 
 [ext_resource type="Script" uid="uid://cvxispq3gfeu6" path="res://addons/std/screen/pusher.gd" id="1_pusher"]
 [ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="2_screen"]
