@@ -7,5 +7,6 @@
 script = ExtResource("1_screen")
 scene_path = "res://project/menu/save/menu.tscn"
 dependency_scenes = ["uid://dkw2li5unhvv7"]
+attachment_scenes = ["res://project/menu/save/pusher_close.tscn"]
 sound_enter = ExtResource("2_sound")
 sound_exit = ExtResource("2_sound")
