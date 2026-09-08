@@ -71,11 +71,11 @@ The `.tscn` and `.tres` file-format pitfalls are rules in `tools/check.gd` rathe
 ## Commands
 
 ```bash
-# Format check (line length 88)
-gdformat -l 88 --check $(find . -path ./addons -prune -o -name '*.gd' -print)
+# Format check (settings in `.gdformatrc`)
+gdformat --check .
 
-# Lint
-gdlint $(find . -path ./addons -prune -o -name '*.gd' -print)
+# Lint (settings in `.gdlintrc`)
+gdlint .
 
 # Run all tests
 godot --headless -s addons/gut/gut_cmdln.gd -gdir="res://" -ginclude_subdirs -gprefix="" -gsuffix="_test.gd" -gexit
@@ -137,7 +137,6 @@ either can, write that instead. Add a checker rule only after a pitfall has bitt
 
 Follows GDScript style guide. Key project-specific conventions:
 
-- Lines are limited to 88 characters.
 - Use the appropriate script template from `./script_templates` based on the base class.
 - Overridden methods go in `PRIVATE METHODS (OVERRIDES)` or `ENGINE METHODS (OVERRIDES)` sections.
 - Files begin with a `##` comment block:
@@ -155,8 +154,11 @@ Follows GDScript style guide. Key project-specific conventions:
 - StringNames: use `&` prefix for literals (`&"category"`, `&"key"`).
 - Use `##` for public API docs, `# NOTE:` for implementation details.
 - Assertions for preconditions: `assert(category != "", "invalid argument: missing category")`
-- Don't wrap comment lines prematurely; use the full 88-character width before breaking.
-- Suppress lint warnings inline: `# gdlint:ignore=max-public-methods`
+- Don't wrap comment lines prematurely; use the full line width before breaking.
+- Suppress lint warnings inline: `# gdlint:ignore=max-public-methods`; a directive
+  covers its own line and the one after it. `gdformat` leaves some long lines alone and
+  collapses manual wrapping back, so a line it accepts can still fail `max-line-length`
+  — suppress those rather than reformatting.
 
 ## Testing
 
