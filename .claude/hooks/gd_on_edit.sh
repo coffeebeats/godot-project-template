@@ -8,8 +8,8 @@
 # a repair the checker made are reported back to the agent.
 #
 # The checker is one Godot boot for every rule that applies to the file, which is what
-# keeps this hook inside its ~1.5s budget: a `.gd` edit costs ~1.1s and a `.tscn` edit
-# ~1.3s. Adding a second boot here is how that budget gets lost.
+# keeps this hook inside its ~1.5s budget; a `.gd` edit costs ~1.1s and a `.tscn` edit
+# ~1.3s. Do not add a second boot.
 
 set -eu
 
@@ -54,8 +54,8 @@ case "$rel_path" in
   *) exit 0 ;;
 esac
 
-# The checker is project content, not part of this hook: a repository that installed
-# the hook without copying it has nothing to run.
+# The checker is project content rather than part of this hook, so a repository that
+# installed the hook without copying it has nothing to run.
 [ -f "$project_dir/tools/check.gd" ] || exit 0
 
 out="$(mktemp)"
@@ -65,8 +65,9 @@ status=0
 
 # Every headless run prints the same boilerplate: the engine banner, godotsteam's
 # settings conversion, and the leaked-object and resources-in-use notices the engine
-# emits while tearing down. None of it is actionable and all of it buries the lines that
-# are, so it is dropped here by exact match. Script errors and warnings are NOT filtered.
+# emits while tearing down. None of it is actionable and all of it buries the lines
+# that are, so it is dropped here by exact match. Script errors and warnings are NOT
+# filtered.
 NOISE='^Godot Engine v'
 NOISE="$NOISE|^WARNING: Found older |^   at: register_settings"
 NOISE="$NOISE|^WARNING: [0-9]+ ObjectDB instances were leaked|^   at: cleanup "
@@ -93,9 +94,9 @@ esac
 godot --headless --path "$project_dir" -s tools/check.gd -- --fix "$rel_path" \
   >"$out" 2>&1 || report "project check reported"
 
-# Game logic carries a fast simulation test alongside the usual checks. The branch is
-# inert until a harness exists: run against a directory holding no test, GUT spends 3.3s
-# to report that nothing ran, and exits 0 while doing it.
+# Game logic carries a fast simulation test alongside the usual checks. The branch stays
+# inert until a harness exists, since GUT run against a directory holding no test spends
+# 3.3s to report that nothing ran, and exits 0 while doing it.
 case "$rel_path" in
   project/core/*)
     if ls "$project_dir"/project/core/*_test.gd >/dev/null 2>&1; then

@@ -44,10 +44,10 @@ settings.dat.bak
 # '.claude/skills/godot-api/dump_api.sh'.
 .godot-api/
 
-# Editor addons vendored locally during the milestone 0 spike. Neither is committed:
-# an editor addon's value is a GUI, which neither Claude nor CI can drive.
+# Editor addons vendored locally. Neither is committed, since an editor addon's value
+# is a GUI and neither Claude nor CI can drive one.
 addons/AsepriteWizard/
 addons/gdfxr/
 
-# Throwaway probes from the milestone 0 spike; their findings live in tools/README.md.
+# Throwaway probes; their findings live in tools/README.md.
 .probe/

@@ -6,8 +6,8 @@
 #
 #   engine/   the built-in class reference, from ClassDB reflection. Carries
 #             signatures, parameter types and defaults, properties, signals,
-#             inheritance and enum values, but NO prose: a release binary does
-#             not embed the description text.
+#             inheritance and enum values, but NO prose, since a release binary
+#             does not embed the description text.
 #   std/      the standard library, generated from its inline '##' comments.
 #             Carries prose as well as signatures. Files are named after the
 #             source path.

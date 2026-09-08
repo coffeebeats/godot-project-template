@@ -4,11 +4,12 @@
 ## Checks project files for problems that a normal boot or import will not surface, and
 ## repairs the ones that can be repaired.
 ##
-## Every check is a `Rule` in the registry below: it declares the extensions and roots it
-## covers, reports `Problem`s, and optionally fixes them. Rules share one `SourceFile` per
-## file, so the text is read once and a scene is loaded and instantiated at most once no
-## matter how many rules want it. Discovery derives from the registry, so a rule covering
-## a new extension extends the scan by existing.
+## Every check is a `Rule` in the registry below: it declares the extensions and roots
+## it covers, reports `Problem`s, and optionally fixes them. Rules share one
+## `SourceFile` per file, so the text is read once and a scene is loaded and
+## instantiated at most once no matter how many rules want it. Discovery derives from
+## the registry, so a rule covering a new extension widens the scan with no other
+## change.
 ##
 ## NOTE: Rules live here rather than one per file because a parse error in a `preload`ed
 ## script leaves the engine with no main loop and exits 0, reporting success while
@@ -22,8 +23,8 @@
 ##   godot --headless -s tools/check.gd -- --fix a.tscn  # repair, then re-check
 ##   godot --headless -s tools/check.gd -- --list        # print the rule registry
 ##
-## Exits 0 when there is nothing to report and 1 when there is, whether that is a problem
-## found or a repair applied.
+## Exits 0 when there is nothing to report and 1 when there is, whether that is a
+## problem found or a repair applied.
 ##
 
 extends SceneTree
@@ -44,10 +45,10 @@ const PROJECT_ROOTS: Array[String] = ["res://project", "res://system", "res://pl
 ## reaches one of them has the rules that load it skipped; its text-only rules still
 ## run, and a missing uid or a dangling reference is still caught.
 ##
-## NOTE: Scripts, not directories. `system/input/steam/observer.gd` never names
-## `Steam` and compiles anywhere, and the `.tres` files beside it are plain data; a
-## directory would have skipped those, and with them the scenes that merely depend on
-## them, which is most of the input and platform wiring.
+## NOTE: Entries name scripts rather than directories. `system/input/steam/observer.gd`
+## never names `Steam` and compiles anywhere, and the `.tres` files beside it are plain
+## data; a directory blocks those too, and with them the scenes that depend on them,
+## which is most of the input and platform wiring.
 const EXTENSION_SCRIPTS: Dictionary = {
 	"res://addons/godotsteam/godotsteam.gdextension":
 	[
@@ -64,15 +65,17 @@ const EXTENSION_SCRIPTS: Dictionary = {
 ## SCAN_ROOT is the fallback root for rules that declare none of their own.
 const SCAN_ROOT: Array[String] = ["res://"]
 
-## SCAN_EXCLUDE are directory names never scanned. Vendored addons are not ours to check,
-## and the script templates hold `_BASE_` placeholders that intentionally do not compile.
+## SCAN_EXCLUDE are directory names never scanned. Vendored addons are not ours to
+## check, and the script templates hold `_BASE_` placeholders that intentionally do not
+## compile.
 const SCAN_EXCLUDE: Array[String] = ["addons", "script_templates"]
 
 var _dependency := RegEx.create_from_string(DEPENDENCY_PATTERN)
 
 
-## Problem is one rule violation. It formats as `path:line: [rule] message` so a terminal
-## and an editor can both link to it; `line` is 0 when the rule has no line to point at.
+## Problem is one rule violation. It formats as `path:line: [rule] message` so a
+## terminal and an editor can both link to it; `line` is 0 when the rule has no line to
+## point at.
 class Problem:
 	extends RefCounted
 
@@ -216,12 +219,12 @@ class Rule:
 
 ## CompileRule reports scripts that do not compile.
 ##
-## NOTE: `godot --check-only` does not register autoload singletons, so it reports a false
-## "Identifier not found" for most of this project; loading from inside a running
+## NOTE: `godot --check-only` does not register autoload singletons, so it reports a
+## false "Identifier not found" for most of this project; loading from inside a running
 ## `SceneTree` resolves them. A script that fails to parse still loads as a non-null
 ## object, so the load itself proves nothing — but a compiled script always resolves a
-## native base type while a failed one reports an empty string. `reload()` looks like the
-## cleaner signal and cannot be used: it errors on any script with live instances.
+## native base type while a failed one reports an empty string. `reload()` looks like
+## the cleaner signal and cannot be used: it errors on any script with live instances.
 class CompileRule:
 	extends Rule
 
@@ -253,12 +256,12 @@ class CompileRule:
 ## UidRule reports scenes and resources whose header carries no uid, and can assign one.
 ##
 ## NOTE: A file written outside the editor has no uid, so it can only be referenced by
-## `res://` path, which Godot's move/rename fixup never rewrites inside string properties
-## such as `StdScreen.attachment_scenes`. The engine never assigns one headless
-## (`--import` writes `.uid` sidecars for scripts only). Ids derive from the path, so
-## every machine assigns the same uid to the same file and the engine steers a derived id
-## away from any uid already in the cache; a script process does not persist that cache,
-## so `godot --import --headless` must follow a fix.
+## `res://` path, which Godot's move/rename fixup never rewrites inside string
+## properties such as `StdScreen.attachment_scenes`. The engine never assigns one
+## headless (`--import` writes `.uid` sidecars for scripts only). Ids derive from the
+## path, so every machine assigns the same uid to the same file and the engine steers a
+## derived id away from any uid already in the cache; a script process does not persist
+## that cache, so `godot --import --headless` must follow a fix.
 class UidRule:
 	extends Rule
 
@@ -317,25 +320,15 @@ class UidRule:
 ## else, so a path kept in a string property — `StdScreen.scene_path` and its attachment
 ## and dependency lists, `StdConditionLoader.scene` — points at nothing the moment its
 ## target moves, and does so silently: nothing reads the string until the screen is
-## pushed or the condition allows. A `uid://` reference survives the move, because the id
-## travels in the target's own header.
+## pushed or the condition allows. A `uid://` reference survives the move, because the
+## id travels in the target's own header.
 ##
 ## NOTE: An `[ext_resource]` header is validated but never rewritten. The engine writes
-## both a uid and a path there and prefers the uid, so the dependency is broken only when
-## neither resolves; a stale path beside a good uid repairs itself on the next save.
-## Checking it is not redundant with `load`: a scene whose dependency is missing still
+## both a uid and a path there and prefers the uid, so the dependency is broken only
+## when neither resolves; a stale path beside a good uid repairs itself on the next
+## save. The `load` rule does not cover this. A scene whose dependency is missing still
 ## loads and still instantiates, dropping the node that needed it, so the only signal is
 ## an engine message on stderr that no exit code reflects.
-##
-## NOTE: Resolution reads the uid cache, which a script process does not rebuild, so a
-## reference to a target created since the last import reports as unknown, and a `res://`
-## string whose target is that new file is left unconverted. Both settle after the
-## `godot --import --headless` the `uid` rule already asks for.
-##
-## NOTE: Paths in `project.godot` — the main scene, autoloads, the bus layout, the
-## translation list — are the same kind of fragile string and are *not* covered. That
-## file is not a scene or a resource, its entries are read by the engine before any of
-## this runs, and several of them name files that carry no uid at all.
 class PathRefRule:
 	extends Rule
 
@@ -506,9 +499,9 @@ class PathRefRule:
 
 ## LoadRule reports files that do not parse or instantiate.
 ##
-## NOTE: Loading is synchronous by design. Concurrent threaded loads of scenes with
-## overlapping dependencies trip an upstream engine race, so a full project boot is not a
-## reliable way to check whether a scene is well-formed.
+## NOTE: Loading is synchronous, and a project boot is not a substitute. Quitting while
+## threaded loads are still in flight prints parse errors for scenes that are
+## well-formed, and the failing set changes between runs.
 class LoadRule:
 	extends Rule
 
@@ -533,10 +526,10 @@ class LoadRule:
 		return []
 
 
-## ScriptOrderRule reports script-declared properties assigned ahead of `script =` in the
-## same block, which Godot drops silently: the file loads clean while the values never
-## apply. Properties belonging to the base type are exempt, since they apply regardless of
-## the script and the editor writes them first.
+## ScriptOrderRule reports script-declared properties assigned ahead of `script =` in
+## the same block, which Godot drops silently: the file loads clean while the values
+## never apply. Properties belonging to the base type are exempt, since they apply
+## regardless of the script and the editor writes them first.
 ##
 ## NOTE: `[resource]` and `[sub_resource]` blocks are covered as well as `[node]`. The
 ## pitfall is not node-specific, and this project hand-writes `.tres` files that carry a
@@ -790,9 +783,7 @@ func _initialize() -> void:
 		)
 
 	# NOTE: A script naming an absent extension's API reports as `does not compile`,
-	# which blames the script for the runner's gap, and it only ever happens on a
-	# runner missing the binary. Nobody hitting that is reading `AGENTS.md` at the
-	# time, so the pointer goes here, beside the problem it explains.
+	# which blames the script for the runner's gap.
 	if not problems.is_empty() and not missing.is_empty():
 		print(
 			(
@@ -892,11 +883,9 @@ func _missing_extensions() -> Dictionary:
 ## rather than the file, because loading it reaches a script the absent GDExtension
 ## was supposed to supply.
 ##
-## NOTE: The dependency walk is what makes this bearable to maintain. A scene that
-## merely names such a script in an `[ext_resource]` header is the harder case: the
-## script fails to parse, the scene still loads and still instantiates, and every rule
-## then passes over a scene it never really checked. Following the headers finds those
-## instead of asking someone to keep a second list in their head.
+## NOTE: A scene that merely names such a script in an `[ext_resource]` header is the
+## case the walk exists for. The script fails to parse, the scene still loads and still
+## instantiates, and every rule then passes over a scene it never really checked.
 func _needs_missing_extension(file: SourceFile, missing: Dictionary) -> bool:
 	var blocked := {}
 
