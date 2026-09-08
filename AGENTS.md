@@ -58,8 +58,11 @@ Levels are set declaratively by `StdLogProfile` resources, applied at startup in
 
 ## Pitfalls
 
+Every entry below fails silently: no error, no crash, no failing test, and the wrong behavior surfaces somewhere else. Where the checker catches one it says so, but its edit hook only fires on `Edit` and `Write`, so a file written any other way stays unchecked until a full run.
+
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
 - Save schema changes without a version bump will silently drop fields from old saves.
+- Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it.
 - A `.tscn` or `.tres` written outside the editor has no `uid=` header, so it cannot be referenced by `uid://`. The engine never assigns one headless: run `godot --headless -s tools/check.gd -- --fix <paths>` to assign a path-derived uid, then `godot --import --headless` so it resolves.
 - A file path kept in a string property — `StdScreen.scene_path` and its attachment and dependency lists, `StdConditionLoader.scene` — is not rewritten when its target moves, and nothing reads it until the screen is pushed or the condition allows. Reference the target by `uid://` instead; the checker's `path-ref` rule reports a reference that no longer resolves and a `res://` string that should be a uid, and `--fix` converts the latter.
 - A `.tscn` whose `[ext_resource]` names a file that does not exist still loads *and still instantiates*: the engine prints a parse error and quietly drops the node that needed it, while `ResourceLoader.load()` returns a valid scene. Nothing fails, so a hand-written scene with a wrong path looks fine. The `path-ref` rule reports it; the engine falls back from the uid to the path, so only a header where neither resolves is broken.
@@ -82,6 +85,10 @@ godot --headless -s addons/gut/gut_cmdln.gd -gdir="res://" -ginclude_subdirs -gp
 # Import resources and write `.uid` sidecars for scripts (scene and resource uid headers
 # are not generated)
 godot --import --headless
+
+# Boot the app headless. `--quit` alone tears down while threaded loads are still in
+# flight and prints 5-7 scene parse errors that are not real faults.
+godot --headless --quit-after 30
 
 # Check project files for problems a normal load does not surface (compile errors,
 # missing uid headers, properties dropped before `script =`, unresolvable NodePath
