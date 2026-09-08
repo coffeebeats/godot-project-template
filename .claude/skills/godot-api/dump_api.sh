@@ -1,8 +1,8 @@
 #!/bin/sh
 # .claude/skills/godot-api/dump_api.sh
 #
-# Dumps API references to '.godot-api' (gitignored) so lookups can be grepped
-# instead of recalled. Three sources are dumped separately:
+# Dumps API references to 'reference/' beside this script so lookups can be
+# grepped instead of recalled. Three sources are dumped separately:
 #
 #   engine/   the built-in class reference, from ClassDB reflection. Carries
 #             signatures, parameter types and defaults, properties, signals,
@@ -25,7 +25,11 @@ set -eu
 project_dir="${CLAUDE_PROJECT_DIR:-}"
 [ -n "$project_dir" ] ||
   project_dir="$(git -C "$(dirname -- "$0")" rev-parse --show-toplevel)"
-out_dir="$project_dir/.godot-api"
+
+# The dump lands beside this script rather than at the project root, so the skill's
+# own .gitignore covers it and an install into another repository leaves nothing
+# untracked there. '--path' changes the working directory, so the path is absolute.
+out_dir="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)/reference"
 
 dump_gdscript() {
   name="$1"

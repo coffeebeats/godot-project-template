@@ -22,7 +22,7 @@ The `##` comment above the definition is the same prose the dump carries, and it
 
 ## Generating the dump
 
-The reference lives in `.godot-api/`, which is gitignored, so it is absent in a fresh clone and stale after a `std` bump or an edit to any `##` doc comment. Regenerate it whenever a lookup comes back empty or contradicts the code:
+The reference lives in `.claude/skills/godot-api/reference/`, which the skill's own `.gitignore` covers, so it is absent in a fresh clone and stale after a `std` bump or an edit to any `##` doc comment. Regenerate it whenever a lookup comes back empty or contradicts the code:
 
 ```sh
 sh .claude/skills/godot-api/dump_api.sh
@@ -34,17 +34,17 @@ Takes about 8 seconds and prints a class count per tree. It removes each tree be
 
 | Tree | Holds | Prose? |
 | --- | --- | --- |
-| `.godot-api/engine/` | ~1080 built-in classes, from ClassDB reflection | **No** |
-| `.godot-api/std/` | `addons/std`, from its `##` comments | Yes |
-| `.godot-api/project/` | project classes, by `class_name` | Yes |
-| `.godot-api/system/`, `.godot-api/platform/` | the autoloaded subsystems | Yes |
+| `.claude/skills/godot-api/reference/engine/` | ~1080 built-in classes, from ClassDB reflection | **No** |
+| `.claude/skills/godot-api/reference/std/` | `addons/std`, from its `##` comments | Yes |
+| `.claude/skills/godot-api/reference/project/` | project classes, by `class_name` | Yes |
+| `.claude/skills/godot-api/reference/system/`, `.claude/skills/godot-api/reference/platform/` | the autoloaded subsystems | Yes |
 
 **The engine tree carries signatures but no descriptions** — a release binary does not embed the documentation text, and `--doctool` regenerates from reflection alone. So "what are the arguments" is answerable there and "what does it do" is not. For that, use the online docs for the pinned version, or read how the project already calls it.
 
 Engine classes are split across `doc/classes/` and `modules/*/doc_classes/`, so find the file rather than assuming a path:
 
 ```sh
-find .godot-api/engine -name 'ResourceUID.xml'
+find .claude/skills/godot-api/reference/engine -name 'ResourceUID.xml'
 ```
 
 ## Looking something up
@@ -53,19 +53,19 @@ The files are XML, so grep the tag, not free text:
 
 ```sh
 # every method on a class, with its file
-grep -o '<method name="[^"]*"' "$(find .godot-api/engine -name 'ResourceUID.xml')"
+grep -o '<method name="[^"]*"' "$(find .claude/skills/godot-api/reference/engine -name 'ResourceUID.xml')"
 
 # one method's full signature: return type, then each parameter in order
-grep -A6 '<method name="create_id_for_path"' "$(find .godot-api/engine -name 'ResourceUID.xml')"
+grep -A6 '<method name="create_id_for_path"' "$(find .claude/skills/godot-api/reference/engine -name 'ResourceUID.xml')"
 
 # a project or std class, which is one predictable file
-grep -A8 '<method name="load_save_data"' .godot-api/std/StdSaveFile.xml
+grep -A8 '<method name="load_save_data"' .claude/skills/godot-api/reference/std/StdSaveFile.xml
 
 # properties, signals, constants and enum values
-grep -E '<member name=|<signal name=|<constant name=' .godot-api/project/Main.xml
+grep -E '<member name=|<signal name=|<constant name=' .claude/skills/godot-api/reference/project/Main.xml
 
 # "which class has this member?" — matches a method, signal, property or constant
-grep -rl 'name="frame_post_draw"' .godot-api/
+grep -rl 'name="frame_post_draw"' .claude/skills/godot-api/reference/
 ```
 
 `<return type=...>` gives the return, `<param index=... name=... type=... />` gives arguments in order, and an `enum="Class.EnumName"` attribute on either means the int is an enum whose values are `<constant>` entries in that class's file.
