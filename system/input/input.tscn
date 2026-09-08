@@ -14,10 +14,10 @@ focused_sound_group = ExtResource("3_360wj")
 
 [node name="IfGodot" type="Node" parent="." unique_id=1140435662]
 script = ExtResource("24_hk8cf")
-scene = "res://system/input/unknown/input.tscn"
+scene = "uid://cqt14not5nr5d"
 expressions_allow = Array[ExtResource("23_8ojx1")]([ExtResource("5_gdf77"), ExtResource("6_xmapc")])
 
 [node name="IfSteam" type="Node" parent="." unique_id=925887390]
 script = ExtResource("24_hk8cf")
-scene = "res://system/input/steam/input.tscn"
+scene = "uid://34h1c3iahd0p"
 expressions_allow = Array[ExtResource("23_8ojx1")]([ExtResource("24_o5jdq")])

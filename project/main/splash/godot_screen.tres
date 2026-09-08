@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/main/splash/godot.tscn"
+scene_path = "uid://dq7pygi1scovr"
 transition = ExtResource("2_fade")
