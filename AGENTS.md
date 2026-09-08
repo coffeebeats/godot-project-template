@@ -60,7 +60,7 @@ Levels are set declaratively by `StdLogProfile` resources, applied at startup in
 
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
 - Save schema changes without a version bump will silently drop fields from old saves.
-- A `.tscn` or `.tres` written outside the editor has no `uid=` header, so it cannot be referenced by `uid://`. Nothing headless assigns one: run `godot --headless -s tools/fix_uids.gd` to list such files and `-- <paths>` to assign a path-derived uid, then `godot --import --headless` so it resolves.
+- A `.tscn` or `.tres` written outside the editor has no `uid=` header, so it cannot be referenced by `uid://`. The engine never assigns one headless: run `godot --headless -s tools/fix_uids.gd` to list such files and `-- <paths>` to assign a path-derived uid, then `godot --import --headless` so it resolves.
 
 ## Commands
 
