@@ -789,6 +789,22 @@ func _initialize() -> void:
 			)
 		)
 
+	# NOTE: A script naming an absent extension's API reports as `does not compile`,
+	# which blames the script for the runner's gap, and it only ever happens on a
+	# runner missing the binary. Nobody hitting that is reading `AGENTS.md` at the
+	# time, so the pointer goes here, beside the problem it explains.
+	if not problems.is_empty() and not missing.is_empty():
+		print(
+			(
+				(
+					"note: %s is not loaded here, so a problem above may be that"
+					% ", ".join(PackedStringArray(missing.keys()))
+				)
+				+ " rather than a defect; a script naming its API belongs in"
+				+ " EXTENSION_SCRIPTS"
+			)
+		)
+
 	if fixed > 0:
 		print(
 			"fixed %d file(s); run `godot --import --headless` so they resolve" % fixed

@@ -92,10 +92,10 @@ godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re
 godot --headless -s tools/check.gd -- --list             # what each rule covers
 ```
 
-A file whose loading reaches a script the runner cannot compile is skipped by the
-rules that load it, per `EXTENSION_SCRIPTS` in the checker: GodotSteam ships no Linux
-binary, so CI has no `Steam` singleton. The checker follows `[ext_resource]` headers
-to find dependents, so only a script naming a new extension API has to be listed.
+CI has no `Steam` singleton, because GodotSteam ships no Linux binary, so a script
+naming an extension API goes in `EXTENSION_SCRIPTS` in the checker; its dependents
+are found from there. The checker says so when it happens, so this is a shortcut
+past one CI round trip rather than something to remember.
 
 The same checker runs on every `Edit`/`Write` via `.claude/hooks/gd_on_edit.sh`, so
 most problems surface before they are committed, and as a full-project step in the
