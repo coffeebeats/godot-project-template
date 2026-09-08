@@ -30,14 +30,16 @@ Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or w
 
 ## Common Workflows
 
-- **Adding a setting** — Create a `StdSettingsProperty*` resource in `system/setting/<category>/`. Add an observer (extends `StdSettingsObserver`) to react to value changes. Add UI in `project/menu/settings/<tab>/` using `setting.tscn` and a controller node (e.g., `StdSettingsControllerRange`). Wire the observer into `system/setting/settings.tscn`.
-- **Adding a save data field** — Create a class extending `StdConfigItem` in `project/save/data/`. Add an `@export` for it in `data.gd` and register it in `data.tres`. Access at runtime via `Main.get_active_save_data()`. If migrating existing saves, bump the version in `ProjectSaveData`, add a `StdConfigSchemaMigration`, and regenerate golden files with `TEST_GENERATE_GOLDENS=1` (see [Testing](#testing)).
+Five of these have a skill that owns the details — invoke it rather than working from memory or from a summary here. The three without one are written out below, and move into skills if those skills are ever written.
+
+- **Adding a setting** — the `add-setting` skill. Property resource, observer, settings-tab UI, translations.
+- **Adding a save data field** — the `add-save-field` skill. Config item, schema wiring, version bump and migration.
+- **Adding a translatable string** — the `add-translation` skill. Only `messages.pot` and `en_US.po` are ever hand-edited.
+- **Adding an input action** — the `add-input-action` skill. Action set, default bindings, translations, and the binding-collision check.
+- **Adding a sound** — the `add-sound` skill. Event resource, bus routing, concurrency groups, mix snapshots.
 - **Adding a screen** — Create a `.tscn` scene and `.gd` script. Create a `StdScreen` resource (`.tres`) pointing to the scene with transition config. Export or preload the resource in `main.gd`. Navigate via `Main.screens().push()`, `.replace()`, `.pop()`, or `.reset()`. Keys that close a screen go in the `StdScreen`'s `close_actions`, beside `overlay_click_to_close`; a closer needs no pusher and no placement. This works with `pause_when_covered` (it disables the covered scene, not the overlay) but not under `get_tree().paused`, which the template never sets. To open a screen with an input action, list a `StdScreenPusher` scene in the `StdScreen`'s `attachment_scenes` instead of placing it in the scene. Write `scene_path`, `attachment_scenes` and `dependency_scenes` as `uid://` strings (the target's header uid), since Godot's move/rename fixup rewrites `ext_resource` references but never a path held in a string; the checker's `path-ref` rule enforces this and `--fix` converts them. Attachments mount into the screen's overlay, so `pause_when_covered` does not touch them and the scene stays runnable on its own. An opener goes on the screen it opens **from**, since it must outlive its target (`project/menu/settings/pusher.tscn` on `project/main/menu/screen.tres`). Both mechanisms only fire if the topmost screen's action set binds the action, since loading an action set rebinds the whole `InputMap`. Pick an action bound by the screen that should respond and unbound by the screens that should stay quiet.
-- **Adding a translatable string** — Use the `add-translation` skill. Only edit `messages.pot` and `en_US.po` (key-based `msgid` values); other `.po` files use English text as `msgid` (swapped via `poswap`) and must not be edited directly. Reference keys in scenes via `text` property or in code via `tr("my_new_key")`.
-- **Adding an input action** — Add the action to a `StdInputActionSet` resource in `project/input/actions/`. Add default binding in `project.godot` under `[input]`. Add translation with `msgctxt "actions_<SetName>"` to `messages.pot` and `en_US.po`. Scenes load action sets via `StdInputActionSetLoader` nodes. An origin binds to at most one action, so an action added to a layer takes its key away from whatever held it before (`addons/std/input/godot/device_actions.gd:240`). `ui_toggle_menu` and `ui_cancel` are both `Escape` in `project.godot`, and on any screen loading `menu_options.tres` the key goes to `ui_toggle_menu`, leaving `ui_cancel` on the gamepad only.
 - **Adding a map** — Pick a style template from `project/maps/base/` (`2d/`, `2d_pixel/`, or `3d/`). Right-click the template's `scene.tscn` → `New Inherited Scene`. Save in `project/maps/<your_map>/scene.tscn`. Add a `World` node (Node2D or Node3D) as a child of the SubViewport and place game content under it. Create a `StdScreen` resource (`.tres`) pointing to the new scene with a transition, `pause_when_covered = true` (so the map subtree's `process_mode` flips to `DISABLED` when the pause menu is on top — pause is achieved via `process_mode`, NOT `get_tree().paused`), `dependency_screens` listing pause + settings, and `attachment_scenes` listing `project/menu/pause/pusher.tscn` by its `uid://`, which opens the pause menu on `ui_toggle_menu` (closing is handled by the pause screen's `close_actions`; the templates carry no pusher node). If the map needs custom logic, attach a script extending the template's `.gd`. To wire as the default game scene, assign the screen to `Main.game` in `main.tscn`. Gotchas: don't rename the root node of an inherited scene; don't chain more than one level of scene inheritance. If scene inheritance causes issues, copy the template and extend the script directly.
 - **Adding a world-tracked HUD element** — Attach a `WorldTracker2D` (or `WorldTracker3D`) as a child of the screen-space `Control` that should follow a world entity (health bar, name plate, off-screen indicator). Set `map` to the `ProjectMap` and `target` to the tracked `Node2D`/`Node3D`. The tracker must live in a subtree later than the map's `SubViewport` (typically the `UI` layer) or it reads a stale camera transform — a startup assertion enforces this. Use `offset` to shift the widget, `clamped` with `viewport_margin` to pin it to the viewport edge while off-screen, and the `target_entered_view`/`target_exited_view`/`started`/`stopped` signals to react to visibility and lifecycle changes.
-- **Adding a sound** — Place audio file in `project/`. Use WAV for short effects and OGG for longer loops/music. For multi-sample variation, use `AudioStreamRandomizer`. Create a `StdSoundEvent1D` resource (`.tres`) referencing the file and a bus from `system/audio/bus/`. Route game sounds to `sound_effects.tres` (via `game` bus) and UI sounds (focus, button clicks) to `ui.tres`. Play one-shot sounds via `Systems.audio().play(event)`. For music, use `Systems.audio().music().play(event)` which handles crossfade automatically. For concurrency limits, create a `StdSoundGroup` resource. For global mix states (e.g. covered-screen low-pass), use `StdMixSnapshot` with `StdSoundBusEffect` overrides.
 
 ## Save Data Runtime API
 
@@ -58,17 +60,13 @@ Levels are set declaratively by `StdLogProfile` resources, applied at startup in
 
 ## Pitfalls
 
-Every entry below fails silently: no error, no crash, no failing test, and the wrong behavior surfaces somewhere else. Where the checker catches one it says so, but its edit hook only fires on `Edit` and `Write`, so a file written any other way stays unchecked until a full run.
+Every entry below fails silently: no error, no crash, no failing test, and the wrong behavior surfaces somewhere else. Only the ones nothing else can catch are listed here — see [Tooling placement](#tooling-placement) for where the rest live.
 
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
 - Save schema changes without a version bump will silently drop fields from old saves.
-- Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it.
-- A `.tscn` or `.tres` written outside the editor has no `uid=` header, so it cannot be referenced by `uid://`. The engine never assigns one headless: run `godot --headless -s tools/check.gd -- --fix <paths>` to assign a path-derived uid, then `godot --import --headless` so it resolves.
-- A file path kept in a string property — `StdScreen.scene_path` and its attachment and dependency lists, `StdConditionLoader.scene` — is not rewritten when its target moves, and nothing reads it until the screen is pushed or the condition allows. Reference the target by `uid://` instead; the checker's `path-ref` rule reports a reference that no longer resolves and a `res://` string that should be a uid, and `--fix` converts the latter.
-- A `.tscn` whose `[ext_resource]` names a file that does not exist still loads *and still instantiates*: the engine prints a parse error and quietly drops the node that needed it, while `ResourceLoader.load()` returns a valid scene. Nothing fails, so a hand-written scene with a wrong path looks fine. The `path-ref` rule reports it; the engine falls back from the uid to the path, so only a header where neither resolves is broken.
-- Assigning a property before `script =` in a `[node]`, `[resource]` or `[sub_resource]` block silently drops it: the file loads clean and the value never applies. The editor writes `script =` first; hand-written files must too.
-- A `NodePath` export pointing at a node whose type does not match the declared type resolves to null at runtime rather than erroring.
-- `SceneTree.quit(code)` collapses every non-zero code to process exit 1 under `-s`, printing the requested code to stderr. A tool cannot signal detail through its exit status.
+- Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it. Both build an `InputEventAction`, which matches by name and never consults the `InputMap`, so a handler fires whether or not the action is bound to anything. Checking a binding takes the real `InputEventKey` or `InputEventJoypadButton`.
+
+The `.tscn` and `.tres` file-format pitfalls are rules in `tools/check.gd` rather than entries here: a missing `uid=` header, a file path held in a string property, an `[ext_resource]` naming a file that does not exist, a property assigned ahead of `script =`, and a `NodePath` export whose type does not match. The checker runs on every `Edit` and `Write`, and `--fix` repairs the first two — follow it with `godot --import --headless` or the new uids do not resolve. Run `--list` for what each rule covers, and read `tools/README.md` for the engine behavior behind them. The hook matches `Edit` and `Write` only, so a file written any other way stays unchecked until a full run.
 
 ## Commands
 
@@ -118,6 +116,22 @@ script only ever run by Claude, as one step of one workflow, ships beside its `S
 in `.claude/skills/<name>/`, so the skill installs as a unit in a repository that does not
 have this one's `tools/`. Hooks live in `.claude/hooks/`, next to the `settings.json` that
 is their only caller.
+
+A pitfall goes in the first tier below that can hold it. This file is the last resort,
+because it is read in full by every session before the task is known, so a line here is
+paid for by every session that never goes near it:
+
+1. **Make it unrepresentable** — an assert, or an API that only does the right thing.
+   `WorldTracker`'s startup assertion and `StdInputEvent.trigger_action` both exist for
+   this reason.
+2. **Catch it** — a rule in `tools/check.gd`. It fires at the moment of the mistake with
+   the file in hand, and costs no context until then.
+3. **Put it in the task** — the skill whose workflow provokes it, loaded on demand by the
+   session doing that work.
+4. **Write it here** — only what none of the above can reach.
+
+So before adding a pitfall, ask whether a rule could catch it or a skill could own it. If
+either can, write that instead. Add a checker rule only after a pitfall has bitten twice.
 
 ## Code Style
 
