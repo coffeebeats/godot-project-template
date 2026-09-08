@@ -67,7 +67,8 @@ static func screens() -> StdScreenManager:
 
 ## get_active_save_data returns the currently loaded save data, or null.
 static func get_active_save_data() -> ProjectSaveData:
-	return _get_main()._save_data
+	var main := _get_main()
+	return main._save_data if main else null
 
 
 ## save_game asynchronously stores the current (or provided) save data to the active
@@ -124,7 +125,11 @@ static func request_save() -> void:
 ## go_to_main_menu saves (if needed), clears game state, and navigates to the initial
 ## screen. Awaitable; callers that don't need the result can fire-and-forget.
 static func go_to_main_menu() -> void:
-	await _get_main()._unload_game()
+	var main := _get_main()
+	if not main:
+		return
+
+	await main._unload_game()
 
 
 ## load_game activates the given save slot, loads its data, and navigates to the map.
@@ -266,6 +271,11 @@ func _ready() -> void:
 
 
 static func _get_main() -> Main:
+	# NOTE: A map scene run on its own has no `Main`; checking first keeps that
+	# case quiet instead of tripping the assert in `get_sole_member`.
+	if StdGroup.is_empty(GROUP_MAIN):
+		return null
+
 	return StdGroup.get_sole_member(GROUP_MAIN)
 
 

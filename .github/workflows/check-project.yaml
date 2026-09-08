@@ -270,6 +270,9 @@ jobs:
       - name: Initialize project imports
         run: godot --verbose --headless --quit --import
 
+      - name: Check project files
+        run: godot --headless -s tools/check.gd
+
       - name: Test source code
         env:
           TEST_GENERATE_GOLDENS: "0"

@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/menu/pause/menu.tscn"
+scene_path = "uid://cpaus3m3nuscn"
 cache_instance = true
 dependency_scenes = ["uid://dii55pwtpi0w6", "uid://cjsmesktoceke"]
 close_actions = Array[StringName]([&"ui_cancel", &"ui_toggle_menu"])

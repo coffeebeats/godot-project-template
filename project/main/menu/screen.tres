@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/main/menu/menu.tscn"
+scene_path = "uid://cfm42l5k4okh8"
 transition = ExtResource("2_qiqhg")
 dependency_screens = Array[ExtResource("1_screen")]([ExtResource("3_settings"), ExtResource("4_saves")])
 attachment_scenes = ["uid://cr8nl7mub0vy7"]

@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/main/load/loading.tscn"
+scene_path = "uid://nalgori3y7v6"
 transition = ExtResource("2_ygtsf")

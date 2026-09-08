@@ -66,7 +66,7 @@ expressions_allow = Array[ExtResource("2_xiafk")]([SubResource("Resource_jhqli")
 [node name="SteamConfigurator" type="Node" parent="Steam/StdConditionParent" unique_id=260426632 node_paths=PackedStringArray("button")]
 script = ExtResource("9_d7lqc")
 button = NodePath("../../../Bindings/Configurator/Prompt")
-configurator = "res://project/menu/settings/controls/configurator.tscn"
+configurator = "uid://dm7wsbaixmu22"
 
 [node name="Gamepad" parent="." unique_id=91263986 instance=ExtResource("10_heyw7")]
 layout_mode = 2

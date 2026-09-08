@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("1_screen")
-scene_path = "res://project/main/splash/studio.tscn"
+scene_path = "uid://40v44woa2bub"
 transition = ExtResource("2_fade")

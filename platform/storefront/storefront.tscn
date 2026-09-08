@@ -8,5 +8,5 @@
 
 [node name="StdConditionLoader" type="Node" parent="." unique_id=91151433]
 script = ExtResource("1_0neaf")
-scene = "res://platform/storefront/steam/steam_storefront.tscn"
+scene = "uid://b4m43lixcajnq"
 expressions_allow = Array[ExtResource("2_elne7")]([ExtResource("3_loaae")])

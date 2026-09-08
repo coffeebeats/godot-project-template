@@ -6,8 +6,8 @@
 ## workaround for errors encountered when scripts referencing the `Systems` autoload are
 ## loaded in the background (see https://github.com/godotengine/godot/issues/98865).
 ##
-## NOTE: This 'Object' should *not* be instanced and/or added to the 'SceneTree'. It is a
-## "static" library that can be imported at compile-time using 'preload'.
+## NOTE: This 'Object' should *not* be instanced and/or added to the 'SceneTree'. It
+## is a "static" library that can be imported at compile-time using 'preload'.
 ##
 
 class_name Systems
