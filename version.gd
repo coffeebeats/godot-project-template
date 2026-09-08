@@ -4,8 +4,8 @@
 ## A shared library containing the project's version. See https://semver.org/
 ## for a detailed explanation of the versioning scheme.
 ##
-## NOTE: This 'Object' should *not* be instanced and/or added to the 'SceneTree'. It is a
-## "static" library that can be imported at compile-time using 'preload'.
+## NOTE: This 'Object' should *not* be instanced and/or added to the 'SceneTree'. It
+## is a "static" library that can be imported at compile-time using 'preload'.
 ##
 
 extends Object

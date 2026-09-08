@@ -1,8 +1,8 @@
 ##
 ## project/maps/base/3d/viewport_observer.gd
 ##
-## A `StdSettingsObserver` that applies 3D rendering settings to a `SubViewport`. Handles
-## render scale, scaling mode, and MSAA quality.
+## A `StdSettingsObserver` that applies 3D rendering settings to a `SubViewport`.
+## Handles render scale, scaling mode, and MSAA quality.
 ##
 
 extends StdSettingsObserver
