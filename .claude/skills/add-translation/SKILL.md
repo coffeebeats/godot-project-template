@@ -5,7 +5,7 @@ user-invocable: true
 argument-hint: "<msgid_key> <English text>"
 ---
 
-Add a translatable string to the project. Only edit two files: `project/locale/messages.pot` and `project/locale/en_US.po`. Other locale files are updated automatically by a propagation command. Binary `.mo` files are compiled by CI — do not edit them.
+Add a translatable string to the project. Only edit two files: `project/locale/messages.pot` and `project/locale/en_US.po`. Other locale files are updated automatically by a propagation command, and editing one by hand corrupts it: every other `.po` keys off the **English text** as its `msgid`, not the key-based one these two use, and `poswap` performs that swap during propagation. Binary `.mo` files are compiled by CI — do not edit them.
 
 ## Prerequisites
 
