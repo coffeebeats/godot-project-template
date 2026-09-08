@@ -86,6 +86,14 @@ Add an input action to the project. The action is registered in an action set, g
 
 7. **Run `godot --import --headless`** to validate everything compiles. The action should appear automatically in the controls settings tab under its action set.
 
+## Binding collisions
+
+An origin binds to at most one action, so an action added to a layer takes its key away from whatever held it before (`addons/std/input/godot/device_actions.gd:240`). Nothing reports this: the displaced action simply stops firing on that origin, and only on the screens that load the layer.
+
+The template already carries one instance to check yours against. `ui_toggle_menu` and `ui_cancel` are both `Escape` in `project.godot`; on any screen loading `menu_options.tres` the key goes to `ui_toggle_menu`, leaving `ui_cancel` on the gamepad only.
+
+After adding a binding, check every action set that layers over the same origin, not just the one you edited.
+
 ## Key reference files
 
 - `project/input/actions/gameplay.tres` — action set resource pattern

@@ -47,7 +47,9 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
    - **Music:** Add `@export var music_event: StdSoundEvent = null`. Play via `Systems.audio().music().play(music_event)`. Music handles crossfade automatically.
    - **Lifecycle-bound:** Add a `StdSoundEmitter` child node in `.tscn` with `event` set to the sound event resource. Set `autoplay = true` if the sound should play when the node enters the tree.
 
-6. **Run `godot --import --headless`** to generate UIDs and validate the resource loads correctly.
+6. **(Optional) Add a global mix state** if the sound needs the whole mix to change rather than one event — a low-pass while a screen is covered, a duck under dialogue. Those are `StdMixSnapshot` resources carrying `StdSoundBusEffect` overrides, applied to a bus rather than to an event; the covered-screen snapshot is the worked example to copy.
+
+7. **Run `godot --import --headless`** to generate UIDs and validate the resource loads correctly.
 
 ## Key reference files
 
