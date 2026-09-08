@@ -92,8 +92,10 @@ godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re
 godot --headless -s tools/check.gd -- --list             # what each rule covers
 ```
 
-The same checker runs on every `Edit`/`Write` via `.claude/hooks/gd_on_edit.sh`, so most
-problems surface before they are committed. Adding a check means adding a `Rule` subclass
+The same checker runs on every `Edit`/`Write` via `.claude/hooks/gd_on_edit.sh`, so
+most problems surface before they are committed, and as a full-project step in the
+`test` job of `check-project.yaml`, which is the backstop for what the hook never saw —
+an editor save, or a move that breaks a file nobody touched. Adding a check means adding a `Rule` subclass
 in `tools/check.gd` and one entry in its registry; add one only after a pitfall has bitten
 twice.
 

@@ -35,6 +35,12 @@ Rules as of this writing: `compile` (`.gd`), `uid` (fixable), `path-ref`
 (fixable), `load`, `script-order` and `nodepath`. New rules only after a pitfall
 has bitten twice.
 
+The full scan is also a step in the `test` job of `check-project.yaml`, ahead of
+GUT, which is the first time a checker rule gates a PR. It runs without `--fix`:
+a repair rewrites files and needs a re-import to resolve, and a check job reports
+rather than edits. A fresh checkout is enough — `godot --headless --quit --import`
+alone populates the uid cache the `path-ref` rule reads, verified by moving
+`.godot` aside and re-running both.
 
 **Placement.** `tools/` holds scripts with a consumer other than Claude — CI, a
 hook, or a human. A script only ever run by Claude, as one step of one workflow,

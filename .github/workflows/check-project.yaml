@@ -270,6 +270,14 @@ jobs:
       - name: Initialize project imports
         run: godot --verbose --headless --quit --import
 
+      # NOTE: The checker runs without `--fix`, since a repair rewrites files and
+      # needs a re-import to resolve; a check job reports, it does not edit. It runs
+      # ahead of the tests so a compile error or a dangling reference arrives as one
+      # legible line rather than as whatever GUT makes of a project that will not
+      # load.
+      - name: Check project files
+        run: godot --headless -s tools/check.gd
+
       - name: Test source code
         env:
           TEST_GENERATE_GOLDENS: "0"
