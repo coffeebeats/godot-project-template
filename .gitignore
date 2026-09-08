@@ -40,14 +40,3 @@ settings.dat.bak
 !.claude/settings.json
 !.claude/skills
 
-# Engine class reference dumped by the 'godot-api' skill; regenerate with
-# '.claude/skills/godot-api/dump_api.sh'.
-.godot-api/
-
-# Editor addons vendored locally. Neither is committed, since an editor addon's value
-# is a GUI and neither Claude nor CI can drive one.
-addons/AsepriteWizard/
-addons/gdfxr/
-
-# Throwaway probes; their findings live in tools/README.md.
-.probe/
