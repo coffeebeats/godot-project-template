@@ -60,6 +60,52 @@
       }
     },
     {
+      "label": "Check: Project files",
+      "detail": "Reports problems a normal boot or import does not surface.",
+      "type": "shell",
+      "command": "godot --headless -s tools/check.gd",
+      "icon": { "id": "shield", "color": "terminal.ansiYellow" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": [
+        {
+          "owner": "godot-check",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "severity": "error",
+          "pattern": {
+            "regexp": "^\\s+res://([^:]+):(\\d+): \\[([^\\]]+)\\] (.+)$",
+            "file": 1,
+            "line": 2,
+            "code": 3,
+            "message": 4
+          }
+        },
+        {
+          "owner": "godot-check",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "severity": "error",
+          "pattern": {
+            "regexp": "^\\s+res://([^:]+): \\[([^\\]]+)\\] (.+)$",
+            "file": 1,
+            "code": 2,
+            "message": 3
+          }
+        }
+      ]
+    },
+    {
+      "label": "Check: Fix current file",
+      "detail": "Repairs what the checker can in the open file, then re-checks it.",
+      "type": "shell",
+      "command": "godot --headless -s tools/check.gd -- --fix ${relativeFile}",
+      "icon": { "id": "wrench", "color": "terminal.ansiYellow" },
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Translation: Update",
       "detail": "Updates en_US.po from .pot, then syncs non-English .po files via poswap.",
       "type": "shell",
@@ -151,6 +197,7 @@
         "Import: Resources",
         "Format: Fix",
         "Lint: Check project",
+        "Check: Project files",
         "Translation: Sync"
       ],
       "dependsOrder": "sequence",
