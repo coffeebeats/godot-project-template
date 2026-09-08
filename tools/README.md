@@ -109,6 +109,23 @@ rewriting them. The engine prefers the uid and falls back to the path, so a head
 is only broken when *neither* resolves; a stale path beside a good uid is left alone
 and repaired by the editor on the next save.
 
+**The first CI run failed, and not on anything in the diff.** Loading every script
+and scene is something no earlier CI step did — `--import` does not compile, and GUT
+only touches what its tests reach — so the checker was the first thing on a Linux
+runner to notice that the vendored GodotSteam submodule ships macOS and Windows
+binaries and no `linux64/` at all. Without the extension there is no `Steam`
+singleton, so `platform/profile/steam/profile.gd` and
+`platform/storefront/steam/steam_storefront.gd` fail to parse, and the five NodePath
+exports in `system/input/steam/input.tscn` then resolve to null. Seven problems, none
+of them about the files.
+
+`EXTENSION_ROOTS` now maps a `.gdextension` to the roots that need it. When the
+extension is not loaded, rules that load a file are skipped for those roots and the
+count is printed rather than swallowed; the text-only rules still run, so a missing
+uid or a dangling reference under `system/input/steam/` is still caught — checked by
+planting one. Adding a Steam-dependent file outside those roots breaks CI again,
+which is the right way for that list to drift.
+
 **What is not covered.** `project.godot` holds the same kind of fragile string — the
 main scene, three autoloads, the bus layout, the theme, the translation list — and
 is out of scope. It is not a scene or a resource, the engine reads it before any of

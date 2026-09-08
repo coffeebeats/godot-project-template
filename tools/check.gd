@@ -33,6 +33,23 @@ extends SceneTree
 ## PROJECT_ROOTS are the directories holding project-authored scenes and resources.
 const PROJECT_ROOTS: Array[String] = ["res://project", "res://system", "res://platform"]
 
+## EXTENSION_ROOTS maps a GDExtension to the directories holding files the engine
+## cannot load without it.
+##
+## NOTE: GodotSteam ships macOS and Windows binaries only, so on a Linux runner the
+## extension does not load, the `Steam` singleton does not exist, and every script
+## naming it fails to parse. That reports the runner, not the file. Rules that load a
+## file are skipped for these roots when the extension is missing; the text-only rules
+## still run there, so a missing uid or a dangling path reference is still caught.
+const EXTENSION_ROOTS: Dictionary = {
+	"res://addons/godotsteam/godotsteam.gdextension":
+	[
+		"res://platform/profile/steam",
+		"res://platform/storefront/steam",
+		"res://system/input/steam",
+	],
+}
+
 ## SCAN_ROOT is the fallback root for rules that declare none of their own.
 const SCAN_ROOT: Array[String] = ["res://"]
 
@@ -178,6 +195,11 @@ class Rule:
 	func fixable() -> bool:
 		return false
 
+	## loads_file reports whether this rule needs the engine to load the file, which
+	## succeeds only when every GDExtension the file depends on is present.
+	func loads_file() -> bool:
+		return false
+
 
 ## CompileRule reports scripts that do not compile.
 ##
@@ -197,6 +219,9 @@ class CompileRule:
 	func _init() -> void:
 		name = &"compile"
 		extensions = ["gd"]
+
+	func loads_file() -> bool:
+		return true
 
 	func check(file: SourceFile) -> Array[Problem]:
 		if file.path == self_path:
@@ -479,6 +504,9 @@ class LoadRule:
 		extensions = ["tscn", "tres"]
 		roots = PROJECT_ROOTS
 
+	func loads_file() -> bool:
+		return true
+
 	func check(file: SourceFile) -> Array[Problem]:
 		if file.resource() == null:
 			return [Problem.new(file.path, 0, name, "failed to load")]
@@ -521,6 +549,9 @@ class ScriptOrderRule:
 		name = &"script-order"
 		extensions = ["tscn", "tres"]
 		roots = PROJECT_ROOTS
+
+	func loads_file() -> bool:
+		return true
 
 	func check(file: SourceFile) -> Array[Problem]:
 		var problems: Array[Problem] = []
@@ -622,6 +653,9 @@ class NodePathRule:
 		extensions = ["tscn"]
 		roots = PROJECT_ROOTS
 
+	func loads_file() -> bool:
+		return true
+
 	func check(file: SourceFile) -> Array[Problem]:
 		var problems: Array[Problem] = []
 
@@ -696,14 +730,22 @@ func _initialize() -> void:
 	if paths.is_empty():
 		paths = _discover(rules)
 
+	var missing := _missing_extensions()
 	var problems: Array[Problem] = []
 	var fixed := 0
+	var skipped := 0
 
 	for path in paths:
 		var file := SourceFile.new(path)
+		var unloadable := _needs_missing_extension(path, missing)
+		var held := false
 
 		for rule in rules:
 			if not rule.applies(path):
+				continue
+
+			if unloadable and rule.loads_file():
+				held = true
 				continue
 
 			var found := rule.check(file)
@@ -716,12 +758,23 @@ func _initialize() -> void:
 
 			problems.append_array(found)
 
+		if held:
+			skipped += 1
+
 		file.release()
 
 	for problem in problems:
 		print("  ", problem.format())
 
 	print("checked %d file(s), %d problem(s)" % [paths.size(), problems.size()])
+
+	if skipped > 0:
+		print(
+			(
+				"skipped the loading rules for %d file(s): %s not loaded"
+				% [skipped, ", ".join(PackedStringArray(missing.keys()))]
+			)
+		)
 
 	if fixed > 0:
 		print(
@@ -792,6 +845,29 @@ func _localize(path: String) -> String:
 		return ProjectSettings.localize_path(path)
 
 	return "res://" + path.simplify_path()
+
+
+## _missing_extensions returns the `EXTENSION_ROOTS` entries whose GDExtension this
+## process did not load, so nothing under those roots can be loaded either.
+func _missing_extensions() -> Dictionary:
+	var missing := {}
+
+	for extension in EXTENSION_ROOTS:
+		if not GDExtensionManager.is_extension_loaded(extension):
+			missing[extension] = EXTENSION_ROOTS[extension]
+
+	return missing
+
+
+## _needs_missing_extension reports whether the file sits under a root whose
+## GDExtension is absent, in which case loading it reports the runner, not the file.
+func _needs_missing_extension(path: String, missing: Dictionary) -> bool:
+	for roots in missing.values():
+		for root in roots:
+			if path.begins_with(root + "/"):
+				return true
+
+	return false
 
 
 ## _registry returns every rule, in the order they run. Adding a check means adding a

@@ -92,6 +92,11 @@ godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re
 godot --headless -s tools/check.gd -- --list             # what each rule covers
 ```
 
+A file that needs a GDExtension the runner lacks is skipped by the rules that load it,
+per `EXTENSION_ROOTS` in the checker: GodotSteam has no Linux binary, so CI cannot
+compile anything naming `Steam`. A new Steam-dependent file outside those roots fails
+CI until its root is listed.
+
 The same checker runs on every `Edit`/`Write` via `.claude/hooks/gd_on_edit.sh`, so
 most problems surface before they are committed, and as a full-project step in the
 `test` job of `check-project.yaml`, which is the backstop for what the hook never saw —
