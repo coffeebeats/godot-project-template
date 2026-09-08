@@ -83,8 +83,9 @@ report() {
 
 case "$rel_path" in
   *.gd)
-    gdformat -l 88 --check "$file_path" >"$out" 2>&1 || report "gdformat --check failed"
-    gdlint "$file_path" >"$out" 2>&1 || report "gdlint failed"
+    (cd "$project_dir" && gdformat --check "$rel_path") >"$out" 2>&1 ||
+      report "gdformat --check failed"
+    (cd "$project_dir" && gdlint "$rel_path") >"$out" 2>&1 || report "gdlint failed"
     ;;
 esac
 
