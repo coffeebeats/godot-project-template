@@ -30,23 +30,34 @@ extends SceneTree
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
+## DEPENDENCY_PATTERN captures the path an `[ext_resource]` header points at.
+const DEPENDENCY_PATTERN := 'path="([^"]+)"'
+
 ## PROJECT_ROOTS are the directories holding project-authored scenes and resources.
 const PROJECT_ROOTS: Array[String] = ["res://project", "res://system", "res://platform"]
 
-## EXTENSION_ROOTS maps a GDExtension to the directories holding files the engine
-## cannot load without it.
+## EXTENSION_SCRIPTS maps a GDExtension to the scripts that name its API directly.
 ##
 ## NOTE: GodotSteam ships macOS and Windows binaries only, so on a Linux runner the
-## extension does not load, the `Steam` singleton does not exist, and every script
-## naming it fails to parse. That reports the runner, not the file. Rules that load a
-## file are skipped for these roots when the extension is missing; the text-only rules
-## still run there, so a missing uid or a dangling path reference is still caught.
-const EXTENSION_ROOTS: Dictionary = {
+## extension does not load, the `Steam` singleton does not exist, and these scripts
+## fail to parse. That reports the runner, not the script, so a file whose loading
+## reaches one of them has the rules that load it skipped; its text-only rules still
+## run, and a missing uid or a dangling reference is still caught.
+##
+## NOTE: Scripts, not directories. `system/input/steam/observer.gd` never names
+## `Steam` and compiles anywhere, and the `.tres` files beside it are plain data; a
+## directory would have skipped those, and with them the scenes that merely depend on
+## them, which is most of the input and platform wiring.
+const EXTENSION_SCRIPTS: Dictionary = {
 	"res://addons/godotsteam/godotsteam.gdextension":
 	[
-		"res://platform/profile/steam",
-		"res://platform/storefront/steam",
-		"res://system/input/steam",
+		"res://addons/std/input/steam/configurator.gd",
+		"res://addons/std/input/steam/device_actions.gd",
+		"res://addons/std/input/steam/device_glyphs.gd",
+		"res://addons/std/input/steam/joypad_monitor.gd",
+		"res://addons/std/statistic/steam/store.gd",
+		"res://platform/profile/steam/profile.gd",
+		"res://platform/storefront/steam/steam_storefront.gd",
 	],
 }
 
@@ -56,6 +67,8 @@ const SCAN_ROOT: Array[String] = ["res://"]
 ## SCAN_EXCLUDE are directory names never scanned. Vendored addons are not ours to check,
 ## and the script templates hold `_BASE_` placeholders that intentionally do not compile.
 const SCAN_EXCLUDE: Array[String] = ["addons", "script_templates"]
+
+var _dependency := RegEx.create_from_string(DEPENDENCY_PATTERN)
 
 
 ## Problem is one rule violation. It formats as `path:line: [rule] message` so a terminal
@@ -737,7 +750,7 @@ func _initialize() -> void:
 
 	for path in paths:
 		var file := SourceFile.new(path)
-		var unloadable := _needs_missing_extension(path, missing)
+		var unloadable := _needs_missing_extension(file, missing)
 		var held := false
 
 		for rule in rules:
@@ -847,25 +860,64 @@ func _localize(path: String) -> String:
 	return "res://" + path.simplify_path()
 
 
-## _missing_extensions returns the `EXTENSION_ROOTS` entries whose GDExtension this
+## _missing_extensions returns the `EXTENSION_SCRIPTS` entries whose GDExtension this
 ## process did not load, so nothing under those roots can be loaded either.
 func _missing_extensions() -> Dictionary:
 	var missing := {}
 
-	for extension in EXTENSION_ROOTS:
+	for extension in EXTENSION_SCRIPTS:
 		if not GDExtensionManager.is_extension_loaded(extension):
-			missing[extension] = EXTENSION_ROOTS[extension]
+			missing[extension] = EXTENSION_SCRIPTS[extension]
 
 	return missing
 
 
-## _needs_missing_extension reports whether the file sits under a root whose
-## GDExtension is absent, in which case loading it reports the runner, not the file.
-func _needs_missing_extension(path: String, missing: Dictionary) -> bool:
-	for roots in missing.values():
-		for root in roots:
-			if path.begins_with(root + "/"):
-				return true
+## _needs_missing_extension reports whether loading this file would report the runner
+## rather than the file, because loading it reaches a script the absent GDExtension
+## was supposed to supply.
+##
+## NOTE: The dependency walk is what makes this bearable to maintain. A scene that
+## merely names such a script in an `[ext_resource]` header is the harder case: the
+## script fails to parse, the scene still loads and still instantiates, and every rule
+## then passes over a scene it never really checked. Following the headers finds those
+## instead of asking someone to keep a second list in their head.
+func _needs_missing_extension(file: SourceFile, missing: Dictionary) -> bool:
+	var blocked := {}
+
+	for entry in missing.values():
+		for script_path in entry:
+			blocked[script_path] = true
+
+	if blocked.is_empty():
+		return false
+
+	return _reaches_blocked(file.path, blocked, {})
+
+
+## _reaches_blocked reports whether a file is blocked or depends on one that is,
+## following `[ext_resource]` headers to whatever depth they go.
+func _reaches_blocked(path: String, blocked: Dictionary, seen: Dictionary) -> bool:
+	if path in blocked:
+		return true
+
+	if path in seen:
+		return false
+
+	seen[path] = true
+
+	if path.get_extension() not in ["tscn", "tres"]:
+		return false
+
+	for line in FileAccess.get_file_as_string(path).split("\n"):
+		if not line.begins_with("[ext_resource "):
+			continue
+
+		var found := _dependency.search(line)
+		if found == null:
+			continue
+
+		if _reaches_blocked(found.get_string(1), blocked, seen):
+			return true
 
 	return false
 

@@ -119,12 +119,21 @@ singleton, so `platform/profile/steam/profile.gd` and
 exports in `system/input/steam/input.tscn` then resolve to null. Seven problems, none
 of them about the files.
 
-`EXTENSION_ROOTS` now maps a `.gdextension` to the roots that need it. When the
-extension is not loaded, rules that load a file are skipped for those roots and the
-count is printed rather than swallowed; the text-only rules still run, so a missing
-uid or a dangling reference under `system/input/steam/` is still caught — checked by
-planting one. Adding a Steam-dependent file outside those roots breaks CI again,
-which is the right way for that list to drift.
+`EXTENSION_SCRIPTS` maps a `.gdextension` to the seven scripts that name its API, and
+a file is skipped when its `[ext_resource]` headers reach one of them. Only the rules
+that load a file are skipped; the text-only rules still run, so a missing uid or a
+dangling reference in a Steam scene is still caught, checked by planting one. The
+count is printed rather than swallowed.
+
+**Directories were the wrong unit, and the first attempt used them.** Blocking
+`system/input/steam/` also blocks `observer.gd`, which never names `Steam` and
+compiles anywhere, and the `.tres` files beside it, which are plain data — and then
+every scene depending on those, which is most of the input and platform wiring. That
+version skipped 13 files where 6 are unloadable, quietly dropping `system/input/`
+`input.tscn` and both platform scenes from CI. The first CI failure is what said
+which files genuinely break: the ones it named, plus two scene wrappers and
+`project/menu/settings/controls/configurator.tscn`, which reported nothing precisely
+because a scene whose script fails to parse still loads.
 
 **What is not covered.** `project.godot` holds the same kind of fragile string — the
 main scene, three autoloads, the bus layout, the theme, the translation list — and
