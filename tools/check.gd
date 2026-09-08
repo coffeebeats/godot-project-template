@@ -272,6 +272,200 @@ class UidRule:
 		return not lines.is_empty() and lines[0].contains(' uid="')
 
 
+## PathRefRule reports references in a scene or resource that do not resolve, and
+## `res://` strings that should be uid references.
+##
+## NOTE: The engine's move and rename fixup rewrites `ext_resource` headers and nothing
+## else, so a path kept in a string property — `StdScreen.scene_path` and its attachment
+## and dependency lists, `StdConditionLoader.scene` — points at nothing the moment its
+## target moves, and does so silently: nothing reads the string until the screen is
+## pushed or the condition allows. A `uid://` reference survives the move, because the id
+## travels in the target's own header.
+##
+## NOTE: An `[ext_resource]` header is validated but never rewritten. The engine writes
+## both a uid and a path there and prefers the uid, so the dependency is broken only when
+## neither resolves; a stale path beside a good uid repairs itself on the next save.
+## Checking it is not redundant with `load`: a scene whose dependency is missing still
+## loads and still instantiates, dropping the node that needed it, so the only signal is
+## an engine message on stderr that no exit code reflects.
+##
+## NOTE: Resolution reads the uid cache, which a script process does not rebuild, so a
+## reference to a target created since the last import reports as unknown, and a `res://`
+## string whose target is that new file is left unconverted. Both settle after the
+## `godot --import --headless` the `uid` rule already asks for.
+##
+## NOTE: Paths in `project.godot` — the main scene, autoloads, the bus layout, the
+## translation list — are the same kind of fragile string and are *not* covered. That
+## file is not a scene or a resource, its entries are read by the engine before any of
+## this runs, and several of them name files that carry no uid at all.
+class PathRefRule:
+	extends Rule
+
+	## EXT_RESOURCE_PREFIX marks a dependency header: validated, never rewritten.
+	const EXT_RESOURCE_PREFIX := "[ext_resource "
+
+	## REFERENCE_PATTERN matches one quoted `res://` or `uid://` string literal.
+	const REFERENCE_PATTERN := '"((?:res|uid)://[^"]*)"'
+
+	## SELF_HEADER_PREFIXES mark the file's own header, whose uid belongs to `uid`.
+	const SELF_HEADER_PREFIXES: Array[String] = ["[gd_resource ", "[gd_scene "]
+
+	var _reference := RegEx.create_from_string(REFERENCE_PATTERN)
+
+	func _init() -> void:
+		name = &"path-ref"
+		extensions = ["tscn", "tres"]
+		roots = PROJECT_ROOTS
+
+	func check(file: SourceFile) -> Array[Problem]:
+		var problems: Array[Problem] = []
+		var lines := file.lines()
+
+		for i in lines.size():
+			var line := lines[i]
+
+			if _is_self_header(line):
+				continue
+
+			if line.begins_with(EXT_RESOURCE_PREFIX):
+				var broken := _describe_dependency(line)
+				if broken != "":
+					problems.append(Problem.new(file.path, i + 1, name, broken))
+
+				continue
+
+			for found in _reference.search_all(line):
+				var message := _describe(found.get_string(1))
+				if message != "":
+					problems.append(Problem.new(file.path, i + 1, name, message))
+
+		return problems
+
+	func fix(file: SourceFile) -> bool:
+		# NOTE: The raw text is split on newlines alone, so a carriage return rides along
+		# at the end of its line and the file is written back with its endings intact.
+		var lines := file.text().split("\n")
+		var changed := false
+
+		for i in lines.size():
+			var line: String = lines[i]
+			if _is_engine_owned(line):
+				continue
+
+			var replaced := line
+
+			for found in _reference.search_all(line):
+				var reference := found.get_string(1)
+				var uid := _preferred_uid(reference)
+				if uid != "":
+					replaced = replaced.replace('"%s"' % reference, '"%s"' % uid)
+
+			if replaced != line:
+				lines[i] = replaced
+				changed = true
+
+		if not changed:
+			return false
+
+		var out := FileAccess.open(file.path, FileAccess.WRITE)
+		if out == null:
+			push_error("%s: cannot write" % file.path)
+			return false
+
+		out.store_string("\n".join(lines))
+		out.close()
+
+		return true
+
+	func fixable() -> bool:
+		return true
+
+	## _describe returns what is wrong with a reference, or an empty string if it is fine.
+	func _describe(reference: String) -> String:
+		if reference.begins_with("uid://"):
+			return _describe_uid(reference)
+
+		return _describe_path(reference)
+
+	## _describe_dependency returns what is wrong with an `[ext_resource]` header, or an
+	## empty string. One resolving reference on the line is enough, since the engine falls
+	## back from the uid to the path.
+	func _describe_dependency(line: String) -> String:
+		var references := PackedStringArray()
+
+		for found in _reference.search_all(line):
+			var reference := found.get_string(1)
+			if _resolves(reference):
+				return ""
+
+			references.append(reference)
+
+		if references.is_empty():
+			return ""
+
+		return "dependency does not resolve: %s" % " ".join(references)
+
+	## _describe_path returns what is wrong with a `res://` reference, or an empty string
+	## if there is nothing wrong with it.
+	func _describe_path(reference: String) -> String:
+		if not _resolves(reference):
+			return "path does not exist"
+
+		var uid := _preferred_uid(reference)
+		if uid == "":
+			return ""
+
+		return "reference this as %s; a res:// string is dropped on a move" % uid
+
+	## _describe_uid returns what is wrong with a `uid://` reference, or an empty string
+	## if there is nothing wrong with it.
+	func _describe_uid(reference: String) -> String:
+		var id := ResourceUID.text_to_id(reference)
+		if id == ResourceUID.INVALID_ID or not ResourceUID.has_id(id):
+			return "unknown uid; if its target is new, run `godot --import --headless`"
+
+		var target := ResourceUID.get_id_path(id)
+		if not FileAccess.file_exists(target):
+			return "uid resolves to a missing file: %s" % target
+
+		return ""
+
+	## _is_engine_owned reports whether the line is a header this rule never rewrites.
+	func _is_engine_owned(line: String) -> bool:
+		return line.begins_with(EXT_RESOURCE_PREFIX) or _is_self_header(line)
+
+	## _is_self_header reports whether the line is the file's own resource header.
+	func _is_self_header(line: String) -> bool:
+		for prefix in SELF_HEADER_PREFIXES:
+			if line.begins_with(prefix):
+				return true
+
+		return false
+
+	## _preferred_uid returns the uid a `res://` reference should use, or an empty string
+	## when there is none to use — an unimported file, a directory, or a kind of file that
+	## carries no uid.
+	func _preferred_uid(reference: String) -> String:
+		if not reference.begins_with("res://"):
+			return ""
+
+		var id := ResourceLoader.get_resource_uid(reference)
+		if id == ResourceUID.INVALID_ID:
+			return ""
+
+		return ResourceUID.id_to_text(id)
+
+	## _resolves reports whether a reference points at something that exists.
+	func _resolves(reference: String) -> bool:
+		if reference.begins_with("uid://"):
+			return _describe_uid(reference) == ""
+
+		return (
+			FileAccess.file_exists(reference)
+			or DirAccess.dir_exists_absolute(reference)
+		)
+
+
 ## LoadRule reports files that do not parse or instantiate.
 ##
 ## NOTE: Loading is synchronous by design. Concurrent threaded loads of scenes with
@@ -611,6 +805,7 @@ func _registry() -> Array[Rule]:
 	var rules: Array[Rule] = []
 	rules.append(compile)
 	rules.append(UidRule.new())
+	rules.append(PathRefRule.new())
 	rules.append(LoadRule.new())
 	rules.append(ScriptOrderRule.new())
 	rules.append(NodePathRule.new())

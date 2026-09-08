@@ -31,8 +31,10 @@ Exits non-zero when there is something to read, whether a problem was found or a
 repair was applied. It cannot say which through the exit code: `SceneTree.quit()`
 collapses every non-zero code to 1 under `-s` (see Engine issues found).
 
-Rules as of this writing: `compile` (`.gd`), `uid` (fixable), `load`,
-`script-order` and `nodepath`. New rules only after a pitfall has bitten twice.
+Rules as of this writing: `compile` (`.gd`), `uid` (fixable), `path-ref`
+(fixable), `load`, `script-order` and `nodepath`. New rules only after a pitfall
+has bitten twice.
+
 
 **Placement.** `tools/` holds scripts with a consumer other than Claude — CI, a
 hook, or a human. A script only ever run by Claude, as one step of one workflow,
@@ -64,6 +66,49 @@ of the fixed cost is this project's own boot.
 | Headless runner, boot + 30 frames | 4.1s |
 | Headless runner, same but with splash | 13.4s |
 
+## Milestone 1 results
+
+**`path-ref`** — A file path kept in a *string* property is not rewritten when its
+target moves, because the engine's fixup only rewrites `ext_resource` headers.
+Nothing reads the string until the screen is pushed or the condition allows, so the
+break is silent. The rule reads `res://` and `uid://` literals off every line and
+reports an unknown uid, a uid whose target is gone, a path that does not exist, and
+a `res://` path whose target has a uid — the last of which `--fix` converts.
+
+It found 13 fragile references in the template, across three properties and not the
+one the plan named: `StdScreen.scene_path` (7), `StdConditionLoader.scene` (5) and a
+`configurator` path in the controls menu. Scoping the rule to the class of pitfall
+rather than to the property that was noticed is the whole difference between finding
+those and finding none of them. All were converted, and the app was booted to confirm
+the loader takes uids: `StdScreenLoader.load_scene` asserts they are allowed,
+`ResourceLoader.has_cached` resolves them, and so — checked because the fixer would
+otherwise be able to break code — does `FileAccess`.
+
+Demonstrated against cases built to fail: a malformed uid, an unknown uid, a missing
+`res://` target, a convertible reference sharing a line with a missing one (the line
+is converted in place and the missing one still reported), and a CRLF fixture
+confirming the repair preserves line endings. The 224-file scan confirmed no false
+positive on the `ext_resource` headers that legitimately hold `res://` paths.
+
+**A missing dependency is not a load failure** (found while justifying the above,
+and the twelfth engine silent failure on this list). An `[ext_resource]` pointing at
+a file that does not exist prints a parse error to stderr, and then the scene loads,
+`instantiate()` succeeds, and the node that needed the dependency is simply absent.
+`ResourceLoader.load()` returns a valid `PackedScene`, so the `load` rule sees
+nothing wrong — the skip of `ext_resource` lines was originally justified by
+assuming otherwise, and testing that assumption is what turned it up. Because the
+checker exited 0, the edit hook stayed silent too, which is where it mattered: this
+project hand-writes scene files. The rule now validates those headers without
+rewriting them. The engine prefers the uid and falls back to the path, so a header
+is only broken when *neither* resolves; a stale path beside a good uid is left alone
+and repaired by the editor on the next save.
+
+**What is not covered.** `project.godot` holds the same kind of fragile string — the
+main scene, three autoloads, the bus layout, the theme, the translation list — and
+is out of scope. It is not a scene or a resource, the engine reads it before any of
+this runs, and several of its entries name files that carry no uid at all (`.mo`
+translations, `plugin.cfg`). Scripts are out of scope too: `preload` breaks loudly at
+compile time, which the `compile` rule already catches.
 ## Milestone 0 results
 
 ### Passing
