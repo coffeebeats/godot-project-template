@@ -36,4 +36,18 @@ settings.dat.bak
 
 # Coding agent-related files
 .claude/*
+!.claude/hooks
+!.claude/settings.json
 !.claude/skills
+
+# Engine class reference dumped by the 'godot-api' skill; regenerate with
+# '.claude/skills/godot-api/dump_api.sh'.
+.godot-api/
+
+# Editor addons vendored locally during the milestone 0 spike. Neither is committed:
+# an editor addon's value is a GUI, which neither Claude nor CI can drive.
+addons/AsepriteWizard/
+addons/gdfxr/
+
+# Throwaway probes from the milestone 0 spike; their findings live in tools/README.md.
+.probe/

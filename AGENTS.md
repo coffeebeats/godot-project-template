@@ -60,7 +60,10 @@ Levels are set declaratively by `StdLogProfile` resources, applied at startup in
 
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
 - Save schema changes without a version bump will silently drop fields from old saves.
-- A `.tscn` or `.tres` written outside the editor has no `uid=` header, so it cannot be referenced by `uid://`. The engine never assigns one headless: run `godot --headless -s tools/fix_uids.gd` to list such files and `-- <paths>` to assign a path-derived uid, then `godot --import --headless` so it resolves.
+- A `.tscn` or `.tres` written outside the editor has no `uid=` header, so it cannot be referenced by `uid://`. The engine never assigns one headless: run `godot --headless -s tools/check.gd -- --fix <paths>` to assign a path-derived uid, then `godot --import --headless` so it resolves.
+- Assigning a property before `script =` in a `[node]`, `[resource]` or `[sub_resource]` block silently drops it: the file loads clean and the value never applies. The editor writes `script =` first; hand-written files must too.
+- A `NodePath` export pointing at a node whose type does not match the declared type resolves to null at runtime rather than erroring.
+- `SceneTree.quit(code)` collapses every non-zero code to process exit 1 under `-s`, printing the requested code to stderr. A tool cannot signal detail through its exit status.
 
 ## Commands
 
@@ -78,10 +81,27 @@ godot --headless -s addons/gut/gut_cmdln.gd -gdir="res://" -ginclude_subdirs -gp
 # are not generated)
 godot --import --headless
 
-# List scenes and resources missing a uid header, or assign one (then re-import)
-godot --headless -s tools/fix_uids.gd
-godot --headless -s tools/fix_uids.gd -- path/to/scene.tscn
+# Check project files for problems a normal load does not surface (compile errors,
+# missing uid headers, properties dropped before `script =`, unresolvable NodePath
+# exports). Exits non-zero when there is something to read.
+godot --headless -s tools/check.gd                      # every rule, every file
+godot --headless -s tools/check.gd -- path/to/file.tscn  # one file or directory
+godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re-check
+godot --headless -s tools/check.gd -- --list             # what each rule covers
 ```
+
+The same checker runs on every `Edit`/`Write` via `.claude/hooks/gd_on_edit.sh`, so most
+problems surface before they are committed. Adding a check means adding a `Rule` subclass
+in `tools/check.gd` and one entry in its registry; add one only after a pitfall has bitten
+twice.
+
+## Tooling placement
+
+`tools/` holds scripts with a consumer other than Claude — CI, a hook, or a human. A
+script only ever run by Claude, as one step of one workflow, ships beside its `SKILL.md`
+in `.claude/skills/<name>/`, so the skill installs as a unit in a repository that does not
+have this one's `tools/`. Hooks live in `.claude/hooks/`, next to the `settings.json` that
+is their only caller.
 
 ## Code Style
 
