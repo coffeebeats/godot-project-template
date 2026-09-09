@@ -31,7 +31,7 @@
       "label": "Format: Fix",
       "detail": "Auto-formats all GDScript files (line length 88).",
       "type": "shell",
-      "command": "gdformat -l 88 $(find . -path ./addons -prune -o -name '*.gd' -print)",
+      "command": "uv run gdformat -l 88 $(find . -path ./addons -prune -o -name '*.gd' -print)",
       "icon": { "id": "edit", "color": "terminal.ansiYellow" },
       "presentation": {
         "reveal": "silent"
@@ -42,7 +42,7 @@
       "label": "Lint: Check project",
       "detail": "Lints all GDScript files outside addons/.",
       "type": "shell",
-      "command": "gdlint $(find . -path ./addons -prune -o -name '*.gd' -print)",
+      "command": "uv run gdlint $(find . -path ./addons -prune -o -name '*.gd' -print)",
       "icon": { "id": "eye", "color": "terminal.ansiYellow" },
       "presentation": {
         "reveal": "silent"

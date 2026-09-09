@@ -18,8 +18,8 @@ that dies during boot reports the error instead of timing out.
 Node paths are relative to `/root` (`--path Main`, not `--path /root/Main`), because an
 MSYS shell rewrites an argument that looks like an absolute Unix path.
 
-Requires only the standard library; it never runs in CI. `tools/bridge.sh` is the entry
-point to prefer: it picks an interpreter this can actually be run with.
+Requires only the standard library; it never runs in CI. Prefer the `tools/bridge.sh`
+entry point, which supplies the interpreter.
 """
 
 import argparse
