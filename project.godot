@@ -35,9 +35,6 @@ System="*res://system/system.tscn"
 
 [debug]
 
-gdscript/warnings/directory_rules={
-"res://addons": 0
-}
 gdscript/warnings/unassigned_variable=2
 gdscript/warnings/unassigned_variable_op_assign=2
 gdscript/warnings/unused_private_class_variable=2
@@ -50,7 +47,6 @@ gdscript/warnings/unreachable_pattern=2
 gdscript/warnings/standalone_expression=2
 gdscript/warnings/standalone_ternary=2
 gdscript/warnings/incompatible_ternary=2
-gdscript/warnings/untyped_declaration=2
 gdscript/warnings/unsafe_void_return=2
 gdscript/warnings/static_called_on_instance=2
 gdscript/warnings/missing_tool=2
