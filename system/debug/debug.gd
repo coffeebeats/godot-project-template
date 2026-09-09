@@ -82,7 +82,7 @@ func list_commands() -> PackedStringArray:
 ## NOTE: This is safe to call when no bridge is present, so a call site needs no feature
 ## check of its own.
 static func register(command: StringName, handler: Callable) -> void:
-	assert(command != &"", "invalid argument: missing name")
+	assert(command != &"", "invalid argument: missing command")
 	assert(handler.is_valid(), "invalid argument: missing handler")
 
 	var bridge := instance()
