@@ -95,6 +95,10 @@ godot --headless -s tools/check.gd                      # every rule, every file
 godot --headless -s tools/check.gd -- path/to/file.tscn  # one file or directory
 godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re-check
 godot --headless -s tools/check.gd -- --list             # what each rule covers
+
+# Bake `.aseprite` sources to a PNG sheet plus a tag manifest for the stock importer.
+# Never filter `*.aseprite` in an export preset: it drops the baked file beside it too.
+tools/aseprite.sh --out assets/baked assets/src
 ```
 
 CI has no `Steam` singleton, because GodotSteam ships no Linux binary, so a script

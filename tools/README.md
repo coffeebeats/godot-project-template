@@ -6,6 +6,7 @@ Development tooling for this template. Verified on Godot **4.7.2.stable.official
 | Path | Purpose |
 | --- | --- |
 | `tools/check.gd` | Every project-content check, as a registry of rules. |
+| `tools/aseprite.sh` | Bakes `.aseprite` to a PNG sheet plus a tag manifest. |
 | `tools/sync-translations.sh` | Validates, updates and compiles the `.po` catalogue. |
 | `.claude/hooks/gd_on_edit.sh` | Runs format, lint and the checker on each file edit. |
 | `.claude/skills/godot-api/dump_api.sh` | Dumps engine, std and project API references. |
@@ -168,3 +169,81 @@ The `project/core/` branch runs a fast simulation test and is guarded on a `*_te
 actually being present. Without that guard it is not inert: run against a directory
 holding no test, GUT spends 3.3s to report that nothing ran and exits 0 while doing
 it, so the cost is invisible.
+
+## `tools/aseprite.sh`
+
+Bakes `.aseprite` sources to a horizontal PNG sheet plus a tag manifest, both read by
+Godot's stock importer. Verified against **Aseprite 1.3.18.3**.
+
+```sh
+tools/aseprite.sh assets/src/hero.aseprite       # beside the source
+tools/aseprite.sh --out assets/baked assets/src  # a whole directory
+```
+
+This is the only content tool the pipeline needs. Sound is sourced from CC0 packs rather
+than synthesized, and neither editor addon survived the test that matters: an editor
+addon's value is its GUI, which is exactly what neither Claude nor CI can drive. The
+human still uses a GUI to draw the sprite; it is just not committed infrastructure.
+
+The export is one confirmed command, and every flag in it earns its place:
+
+```sh
+aseprite -b src.aseprite --sheet out.png --sheet-type horizontal \
+         --data out.json --format json-array --list-tags
+```
+
+`--list-tags` is what emits `meta.frameTags[]`; without it the data file describes no
+animations at all. There is no `--trim`, because uniform full-canvas frames are what
+`hframes` and `SpriteFrames` expect.
+
+### The manifest is trimmed, not verbatim
+
+Aseprite's own JSON carries `meta.image` as an absolute path and `meta.version` as the
+installed binary, so committing it verbatim churns the file on every machine and every
+upgrade. What is kept is what a consumer reads:
+
+```json
+{ "source": "sprite.aseprite", "size": [64, 16], "frame_size": [16, 16],
+  "frames": [{"duration": 100}, {"duration": 200}],
+  "tags": [{"name": "idle", "from": 0, "to": 1, "direction": "forward"}] }
+```
+
+Durations are milliseconds and `direction` is `forward`, `reverse` or `pingpong`; a tag's
+`repeat` is carried through when 1.3 emits it.
+
+Both halves go through the stock importer with nothing else installed: the PNG imports as
+a `CompressedTexture2D` with a `.import` sidecar, and `load()` on the manifest returns a
+`JSON` whose `.data` is the dictionary above. Read numbers out of it with `int(...)` —
+JSON has one number type, so `from` and `to` arrive as floats.
+
+No `SpriteFrames` generator ships with this. The template has no sprite consumer to write
+one against; it belongs to the `sprite` skill, which is written once the job has been
+done by hand twice.
+
+### The fixture
+
+`tools/testdata/sprite.aseprite` is four 16x16 frames with distinct colours, two tags and
+a different duration per frame, so a manifest that loses tags, reorders frames or drops
+timing is visibly wrong. It is generated rather than hand-drawn, and regenerating it is:
+
+```sh
+aseprite -b --script tools/testdata/make_sprite_fixture.lua
+```
+
+`tools/.gdignore` keeps all of this out of the import pipeline.
+
+### Two things that fail silently
+
+**Never filter `*.aseprite` in an export preset.** A filter matching a source also drops
+the `.res`/`.sample` baked beside it, and nothing says so until an exported build looks
+for the asset at runtime. The presets here filter only `LICENSE.*`, `*.md` and tests.
+
+**Outputs are named after the source's basename.** Two sources called `hero.aseprite`
+in different directories and one `--out` would overwrite each other, so the script
+refuses the second rather than baking it; give them distinct names or separate `--out`
+directories.
+
+**The binary's path is per-machine.** It is found through `ASEPRITE`, then `PATH`, then
+the usual install locations. The editor addon needed the same path as an `EditorSettings`
+key — shared across projects, seeded with a malformed value on Windows, and uncommittable
+— which is the other half of why it was dropped.
