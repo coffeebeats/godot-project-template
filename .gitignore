@@ -1,6 +1,10 @@
 # Godot-specific files
 .godot/
 
+# Python tooling
+.venv/
+.ruff_cache/
+
 # godot-infra build artifacts
 # NOTE: A runtime-only symlink created by 'coffeebeats/godot-infra' actions so
 # they can self-reference at a pinned hash; it must never be committed.
@@ -32,6 +36,7 @@ settings.dat.bak
 
 # IDE-related files
 .vscode/*
+!.vscode/extensions.json
 !.vscode/tasks.json
 
 # Coding agent-related files

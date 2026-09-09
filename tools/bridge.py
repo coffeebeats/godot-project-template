@@ -18,11 +18,12 @@ that dies during boot reports the error instead of timing out.
 Node paths are relative to `/root` (`--path Main`, not `--path /root/Main`), because an
 MSYS shell rewrites an argument that looks like an absolute Unix path.
 
-Requires only the standard library; it never runs in CI. `tools/bridge.sh` is the entry
-point to prefer: it picks an interpreter this can actually be run with.
+Requires only the standard library; it never runs in CI. Prefer the `tools/bridge.sh`
+entry point, which supplies the interpreter.
 """
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
@@ -73,7 +74,7 @@ def state_dir(port):
     per-run scratch and a stale entry costs nothing.
     """
     key = hashlib.sha256(project_dir().encode("utf-8")).hexdigest()[:12]
-    path = os.path.join(tempfile.gettempdir(), "godot-bridge-%s-%d" % (key, port))
+    path = os.path.join(tempfile.gettempdir(), f"godot-bridge-{key}-{port}")
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -107,8 +108,8 @@ def request(port, cmd, args=None, timeout=10.0):
                 if not chunk:
                     raise BridgeError("the game closed the connection")
                 buffer += chunk
-    except (ConnectionError, socket.timeout, OSError) as err:
-        raise BridgeError("no game answering on port %d (%s)" % (port, err))
+    except (TimeoutError, ConnectionError, OSError) as err:
+        raise BridgeError(f"no game answering on port {port} ({err})") from err
 
     response = json.loads(buffer.split(b"\n", 1)[0].decode("utf-8"))
     if not response.get("ok"):
@@ -135,7 +136,7 @@ def read_log(port, lines=40, unfiltered=False, offset=0):
     if not os.path.exists(path):
         return []
 
-    with open(path, "r", encoding="utf-8", errors="replace") as handle:
+    with open(path, encoding="utf-8", errors="replace") as handle:
         handle.seek(offset)
         out = [line.rstrip("\n") for line in handle]
 
@@ -163,7 +164,7 @@ def is_game_process(pid):
     try:
         if os.name == "nt":
             out = subprocess.run(
-                ["tasklist", "/FI", "PID eq %d" % pid, "/FO", "CSV", "/NH"],
+                ["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
                 capture_output=True,
                 text=True,
                 timeout=10,
@@ -197,26 +198,24 @@ def reap(port):
         return
 
     try:
-        with open(pid_path(port), "r", encoding="utf-8") as handle:
+        with open(pid_path(port), encoding="utf-8") as handle:
             pid = int(handle.read().strip())
-    except (OSError, ValueError):
+    except (OSError, ValueError) as err:
         raise BridgeError(
-            "port %d is held by a process this script did not start; close the game "
-            "started from the editor, or pass a different --port" % port
-        )
+            f"port {port} is held by a process this script did not start; close the "
+            "game started from the editor, or pass a different --port"
+        ) from err
 
     if not is_game_process(pid):
-        raise BridgeError("port %d is held by an unknown process" % port)
+        raise BridgeError(f"port {port} is held by an unknown process")
 
     if os.name == "nt":
         subprocess.run(
             ["taskkill", "/PID", str(pid), "/F"], capture_output=True, timeout=10
         )
     else:
-        try:
+        with contextlib.suppress(OSError):
             os.kill(pid, 15)
-        except OSError:
-            pass
 
     time.sleep(1.0)
 
@@ -275,7 +274,7 @@ def wait_for(port, target, expected, timeout, offset=None):
     while time.time() < deadline:
         failure = log_failure(port, offset)
         if failure:
-            raise BridgeError("the game reported an error: %s" % failure)
+            raise BridgeError(f"the game reported an error: {failure}")
 
         try:
             result = request(port, "call", {"name": name}, timeout=5.0)
@@ -283,13 +282,13 @@ def wait_for(port, target, expected, timeout, offset=None):
             if matches(value, expected):
                 return result
 
-            last = "%s.%s is %r" % (name, field, value)
+            last = f"{name}.{field} is {value!r}"
         except BridgeError as err:
             last = str(err)
 
         time.sleep(0.2)
 
-    raise BridgeError("timed out after %.0fs waiting for %s (%s)" % (timeout, target, last))
+    raise BridgeError(f"timed out after {timeout:.0f}s waiting for {target} ({last})")
 
 
 def launch(args):
@@ -336,7 +335,7 @@ def main(argv=None):
         "--port",
         type=int,
         default=int(os.environ.get("GODOT_DEBUG_BRIDGE_PORT", DEFAULT_PORT)),
-        help="port the bridge listens on (default: %d)" % DEFAULT_PORT,
+        help=f"port the bridge listens on (default: {DEFAULT_PORT})",
     )
 
     commands = parser.add_subparsers(dest="command", required=True)
@@ -354,7 +353,9 @@ def main(argv=None):
     commands.add_parser("commands", help="list the handlers the game registered")
 
     parser_tree = commands.add_parser("tree", help="dump part of the scene tree")
-    parser_tree.add_argument("--path", default="", help="node to dump, relative to /root")
+    parser_tree.add_argument(
+        "--path", default="", help="node to dump, relative to /root"
+    )
     parser_tree.add_argument("--depth", type=int, default=3)
 
     parser_call = commands.add_parser("call", help="invoke a registered handler")
@@ -403,7 +404,9 @@ def main(argv=None):
         return request(args.port, "eval", {"expr": args.expr})
 
     if args.command == "screenshot":
-        out = args.out or os.path.join(state_dir(args.port), "shot-%d.png" % time.time())
+        out = args.out or os.path.join(
+            state_dir(args.port), f"shot-{int(time.time())}.png"
+        )
         return request(
             args.port,
             "screenshot",
@@ -418,7 +421,7 @@ if __name__ == "__main__":
     try:
         result = main()
     except BridgeError as error:
-        print("bridge: %s" % error, file=sys.stderr)
+        print(f"bridge: {error}", file=sys.stderr)
         sys.exit(1)
 
     if isinstance(result, list) and all(isinstance(item, str) for item in result):

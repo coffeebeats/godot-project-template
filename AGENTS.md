@@ -76,10 +76,14 @@ The `.tscn` and `.tres` file-format pitfalls are rules in `tools/check.gd` rathe
 
 ```bash
 # Format check (settings in `.gdformatrc`)
-gdformat --check .
+uv run gdformat --check .
 
 # Lint (settings in `.gdlintrc`)
-gdlint .
+uv run gdlint .
+
+# Lint the Python tooling and check `uv.lock` against `pyproject.toml`
+uv run ruff check .
+uv lock --check
 
 # Run all tests
 godot --headless -s addons/gut/gut_cmdln.gd -gdir="res://" -ginclude_subdirs -gprefix="" -gsuffix="_test.gd" -gexit

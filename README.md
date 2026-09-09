@@ -10,7 +10,20 @@ The following instructions outline how to get the project set up for local devel
 
 1. Clone this repository using the `--recurse-submodules` flag, ensuring all submodules are initialized. Alternatively, run `git submodule sync` to update all submodules to latest.
 2. [Follow the instructions](https://github.com/coffeebeats/gdenv/blob/main/docs/installation.md) to install `gdenv`. Then, install the [pinned version of Godot](./.godot-version) with `gdenv i`.
-3. Install the tools [used below](#code-submission) by following each of their specific installation instructions.
+3. [Install `uv`](https://docs.astral.sh/uv/getting-started/installation/), then run `uv sync`. That installs the Python tooling from [`uv.lock`](./uv.lock), and downloads the interpreter named by [`.python-version`](./.python-version) if the machine has none. Invoke each tool as `uv run <tool>`.
+4. Install the [system dependencies](#system-dependencies).
+
+#### **System dependencies**
+
+These need to be manually installed and available on the `PATH` of the shell that runs the scripts.
+
+| Tool | Needed for | Notes |
+| --- | --- | --- |
+| Godot | everything | The [pinned version](./.godot-version), via `gdenv`. |
+| `git` | submodules | |
+| `jq` | [`.claude/hooks/gd_on_edit.sh`](./.claude/hooks/gd_on_edit.sh), [`tools/aseprite.sh`](./tools/aseprite.sh) | |
+| `msgfmt`, `msgmerge` (gettext) | [`tools/sync-translations.sh`](./tools/sync-translations.sh) | |
+| Aseprite | [`tools/aseprite.sh`](./tools/aseprite.sh) | Optional; only needed to bake `.aseprite` sources. |
 
 ### **Code submission**
 
@@ -21,13 +34,13 @@ When submitting code for review, ensure the following requirements are met:
 2. The project is correctly formatted using [gdformat](https://github.com/Scony/godot-gdscript-toolkit/wiki/4.-Formatter):
 
     ```sh
-    gdformat --check .
+    uv run gdformat --check .
     ```
 
 3. All [gdlint](https://github.com/Scony/godot-gdscript-toolkit/wiki/3.-Linter) linter warnings are addressed:
 
     ```sh
-    gdlint .
+    uv run gdlint .
     ```
 
 4. All [Gut](https://github.com/bitwes/Gut) unit tests pass:

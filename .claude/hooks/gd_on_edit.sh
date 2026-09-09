@@ -13,7 +13,7 @@
 
 set -eu
 
-for tool in jq gdformat gdlint godot; do
+for tool in jq uv godot; do
   if ! command -v "$tool" >/dev/null 2>&1; then
     echo "gd_on_edit.sh: '$tool' not found in PATH; skipping checks." >&2
     exit 0
@@ -83,9 +83,10 @@ report() {
 
 case "$rel_path" in
   *.gd)
-    (cd "$project_dir" && gdformat --check "$rel_path") >"$out" 2>&1 ||
+    (cd "$project_dir" && uv run gdformat --check "$rel_path") >"$out" 2>&1 ||
       report "gdformat --check failed"
-    (cd "$project_dir" && gdlint "$rel_path") >"$out" 2>&1 || report "gdlint failed"
+    (cd "$project_dir" && uv run gdlint "$rel_path") >"$out" 2>&1 ||
+      report "gdlint failed"
     ;;
 esac
 

@@ -1,0 +1,30 @@
+# pyproject.toml
+#
+# Python tooling for this repository's scripts, hooks and CI. This is a Godot project,
+# not a Python distribution, so nothing here is packaged or published.
+
+[project]
+name = "tooling"
+version = "0.0.0"
+requires-python = ">=3.13"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+# NOTE: Pin `gdtoolkit` exactly. A minor release reformats the whole codebase, so a
+# bump has to be its own commit.
+dev = [
+    "gdtoolkit==4.5.0",
+    "translate-toolkit>=3.16.0",
+    "ruff>=0.16.0",
+]
+
+[tool.ruff]
+# NOTE: `custom.py` is a SCons build-options file for compiling the editor, not a
+# program.
+exclude = ["custom.py"]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

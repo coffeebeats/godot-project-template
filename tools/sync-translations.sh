@@ -77,7 +77,7 @@ cmd_validate() {
 
 _update_non_english_po() {
 	local f="$1"
-	poswap "$EN_US_PO" -t "$f" "${f}.tmp"
+	uv run poswap "$EN_US_PO" -t "$f" "${f}.tmp"
 	msgmerge --update --backup=none "$f" "${f}.tmp"
 	rm "${f}.tmp"
 
@@ -112,7 +112,7 @@ _compile_non_english_po() {
 	mo="$(get_mo_filepath "$f")"
 
 	# Reverse poswap so msgids match the template for compilation.
-	poswap --reverse "$EN_US_PO" -t "$f" -o "${f}.tmp"
+	uv run poswap --reverse "$EN_US_PO" -t "$f" -o "${f}.tmp"
 
 	# poswap drops the header; merge it back from the original.
 	msgmerge "$f" "${f}.tmp" -o "${f}.tmp"
@@ -166,13 +166,13 @@ case "$COMMAND" in
 		;;
 	update)
 		_require_cmd msgmerge "Install gettext."
-		_require_cmd poswap "Install translate-toolkit."
+		_require_cmd uv "Install uv; it supplies poswap via uv.lock."
 		cmd_update
 		;;
 	compile)
 		_require_cmd msgfmt "Install gettext."
 		_require_cmd msgmerge "Install gettext."
-		_require_cmd poswap "Install translate-toolkit."
+		_require_cmd uv "Install uv; it supplies poswap via uv.lock."
 		cmd_compile
 		;;
 	*)

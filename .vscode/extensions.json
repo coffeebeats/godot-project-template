@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "geequlim.godot-tools",
+    "charliermarsh.ruff",
+    "ms-python.python",
+    "github.vscode-github-actions"
+  ]
+}

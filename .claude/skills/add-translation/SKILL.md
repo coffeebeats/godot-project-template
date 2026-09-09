@@ -9,12 +9,7 @@ Add a translatable string to the project. Only edit two files: `project/locale/m
 
 ## Prerequisites
 
-Steps 4–5 require `poswap` (from Python's `translate-toolkit`) and `msgfmt`/`msgmerge` (from `gettext`). If these are not installed locally, prompt the user to install them:
-
-```sh
-pip install translate-toolkit  # provides poswap
-# gettext: apt-get install gettext (Linux), brew install gettext (macOS), or pacman -S gettext (MSYS2/Windows)
-```
+Steps 4–5 require `poswap` (from Python's `translate-toolkit`) and `msgfmt`/`msgmerge` (from `gettext`). If either is missing, stop and point the user at the README's setup section rather than guessing at an install command.
 
 ## Translation file format
 

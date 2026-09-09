@@ -66,4 +66,4 @@ If a check needs state no handler exposes, add a handler rather than building an
 
 ## The rest
 
-`tools/README.md` carries the gating detail, the engine behavior the bridge is shaped around, and the two Windows-shell traps (`tools/bridge.sh` exists because a `python` on `PATH` need not be a program). Read it when something behaves unexpectedly, not before.
+`tools/README.md` carries the gating detail, the engine behavior the bridge is shaped around, and the Windows-shell trap (MSYS rewrites an argument that looks like an absolute Unix path, so node paths are relative to `/root`). Read it when something behaves unexpectedly, not before.

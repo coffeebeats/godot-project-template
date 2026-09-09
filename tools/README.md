@@ -50,15 +50,12 @@ makes of it. CI runs it without `--fix`, since a check job reports rather than e
 
 ### One Godot boot for every rule
 
-The boot is almost the whole cost:
-
-| Operation | Time |
-| --- | --- |
-| Engine binary alone (`--version`) | 0.1s |
-| This project plus a no-op script | 1.2s |
-| `check.gd`, one file | 1.4s |
-| `check.gd`, all 224 files | 8.0s |
-| `gdformat` then `gdlint`, one file | 1.9s |
+The boot is almost the whole cost. The engine alone starts in 0.1s; booting this project
+and running a no-op script takes 1.17s, and running `check.gd` over one file takes 1.17s
+as well, so every rule applying to that file costs about 10ms between them. A second boot
+would cost more than all of them together, which is why one boot runs every applicable
+rule and why the edit hook must not add another. The full scan is the exception at 8s, a
+CI cost rather than an interactive one.
 
 A rule declares its name, the extensions and roots it covers, and a check function.
 Discovery, dispatch and `--list` all derive from the registry, so adding one touches no
@@ -202,12 +199,11 @@ tools/bridge.sh stop
 ```
 
 `--port` (default 9080) selects the instance, so several games can run at once, and it
-goes before the subcommand. Python 3 and its standard library are the only requirements,
-and none of this ever runs in CI.
+goes before the subcommand. The standard library is the only requirement beyond the
+interpreter, and none of this ever runs in CI.
 
-`tools/bridge.py` holds the client. `tools/bridge.sh` is the entry point because a
-`python` on `PATH` is not always a program; see
-[below](#driving-it-from-a-windows-shell).
+`tools/bridge.py` holds the client; `tools/bridge.sh` runs it through `uv run`, which
+supplies the interpreter.
 
 Node paths for `tree --path` and `screenshot --node` are relative to `/root`, so it is
 `--path Main`, not `--path /root/Main`. The absolute form still works, but an MSYS shell
@@ -331,19 +327,11 @@ of the run.
 
 ### Driving it from a Windows shell
 
-Two things bite in an MSYS or Git Bash shell, neither of them the client's doing:
-
-- **A `python` on `PATH` need not be a program.** A pyenv-win shim is a shell script
-  that re-enters `pyenv`, which is a batch file, so `cmd.exe` re-parses the arguments
-  and any expression containing parentheses dies with
-  `.get_depth( was unexpected at this time` before Python starts. `tools/bridge.sh` asks
-  pyenv for the interpreter itself and falls through to `PATH` everywhere else; `PYTHON`
-  overrides the search.
-- **MSYS rewrites an argument that looks like an absolute Unix path**, so a typed
-  `--path /root/Main` arrives as `C:/Program Files/Git/root/Main` and matches nothing.
-  Node paths are therefore relative to `/root` (`--path Main`). `MSYS_NO_PATHCONV=1` is
-  not the answer: it also stops the conversion of `--out`, which does want it, and the
-  screenshot is then written somewhere like `C:\c\msys64\tmp\...`.
+MSYS rewrites an argument that looks like an absolute Unix path, so a typed
+`--path /root/Main` arrives as `C:/Program Files/Git/root/Main` and matches nothing.
+Node paths are therefore relative to `/root` (`--path Main`). `MSYS_NO_PATHCONV=1` is
+not the answer, since it also stops the conversion of `--out`, which does want it, and
+the screenshot is then written somewhere like `C:\c\msys64\tmp\...`.
 
 ## `tools/aseprite.sh`
 
