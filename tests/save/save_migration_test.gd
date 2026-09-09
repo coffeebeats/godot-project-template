@@ -52,7 +52,7 @@ func test_migrated_data_has_no_orphaned_keys() -> void:
 		# When: Migrations are applied to bring it to the current version.
 		_apply_migrations(config, v)
 
-		# Then: Every category and key in the migrated config has the correct type.
+		# Then: No category or key is orphaned, and every value keeps its type.
 		for category_sn: Variant in config._data.keys():
 			var category := str(category_sn)
 			if category == "__meta__":

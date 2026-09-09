@@ -85,10 +85,8 @@ func _scale_font_sizes(scalar: float) -> void:
 
 	var size := int(_font_size_default * scalar)
 
-	# First, scale the default font size.
 	theme.default_font_size = size
 
-	# Then, update each configured theme type.
 	for theme_type: String in _font_sizes:
 		size = int(_font_sizes[theme_type] * scalar)
 		theme.set_font_size(PROPERTY_FONT_SIZE, theme_type, size)

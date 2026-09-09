@@ -140,8 +140,9 @@ static func load_game(slot: int) -> bool:
 	return await _get_main()._load_game(slot)
 
 
-## show_error displays a modal error dialog and returns the chosen action.
-## Always sets all labels explicitly to prevent stale state between calls.
+## show_error displays a modal error dialog and returns the chosen action. Every label
+## is set on each call, so an omitted `secondary_label` clears the previous one rather
+## than leaving it in place.
 static func show_error(
 	error: ProjectError,
 	primary_label: StringName,
@@ -245,10 +246,8 @@ func _ready() -> void:
 
 	Debug.register(&"app", _get_debug_state)
 
-	# Drain errors enqueued before the UI existed (e.g. Steam init failure).
-	# Warnings are logged; errors and above get a dialog. Critical errors
-	# force shutdown. Push loading as a base screen so the error dialog has
-	# something beneath it when popped (pop asserts stack.size > 1).
+	# Drain errors enqueued before the UI existed (e.g. Steam init failure). `loading`
+	# is pushed beneath the dialog because `pop` asserts a stack depth above one.
 	var errors := ProjectError.drain_pending()
 	errors.sort_custom(
 		func(a: ProjectError, b: ProjectError) -> bool: return a.severity > b.severity
@@ -454,7 +453,7 @@ func _push_splash(index: int) -> void:
 
 	var screen := splash[index]
 
-	# Connect before navigation so both sync and async emission is caught.
+	# Connect before navigation so both sync and async emissions are caught.
 	screen.entering.connect(_on_splash_entering.bind(index), CONNECT_ONE_SHOT)
 
 	if index == 0:

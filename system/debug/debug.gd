@@ -75,9 +75,9 @@ func list_commands() -> PackedStringArray:
 	return out
 
 
-## register adds a command handler under `name`, replacing any handler already there.
-## The handler is called with the command's arguments, or with none if it takes none,
-## and must return a JSON-encodable value.
+## register adds a command handler under `command`, replacing any handler already
+## there. The handler is called with the command's arguments, or with none if it takes
+## none, and must return a JSON-encodable value.
 ##
 ## NOTE: This is safe to call when no bridge is present, so a call site needs no feature
 ## check of its own.
@@ -92,8 +92,8 @@ static func register(command: StringName, handler: Callable) -> void:
 	bridge._handlers[command] = handler
 
 
-## unregister removes the command handler under `name`. When `handler` is provided the
-## entry is only removed if it is still the registered one.
+## unregister removes the command handler under `command`. When `handler` is provided
+## the entry is only removed if it is still the registered one.
 ##
 ## NOTE: Pass the handler when unregistering from `_exit_tree`, where the incoming scene
 ## is already in the tree and an unqualified erase would drop the handler it registered.

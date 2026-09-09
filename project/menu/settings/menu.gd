@@ -32,7 +32,7 @@ func _enter_tree() -> void:
 	if not is_node_ready():
 		return  # First enter; _ready() handles initial state.
 
-	# Re-entry (cached instance pushed again):
+	# A re-entry pushes a cached instance, so reset to the default tab without its sound.
 	_tab_switch_muted = true
 	_tab_group.select(_tab_group.default_tab)
 	(func() -> void: _tab_switch_muted = false).call_deferred()

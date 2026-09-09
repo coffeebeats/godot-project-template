@@ -1,7 +1,8 @@
 ##
 ## project/main/lifecycle.gd
 ##
-## An autoloaded node for coordinating lifecycle events, like application shutdown.
+## Lifecycle is an autoloaded node which coordinates lifecycle events, like application
+## shutdown.
 ##
 
 extends Node
@@ -10,7 +11,7 @@ extends Node
 
 ## shutdown_requested is emitted when the application was requested to be shut down,
 ## either by the game itself or the window manager. Listeners can use this signal to
-## perform shot, *synchronous* clean up actions.
+## perform short, *synchronous* clean up actions.
 signal shutdown_requested(exit_code: int)
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
@@ -83,9 +84,8 @@ func _enter_tree() -> void:
 
 
 func _notification(what: int) -> void:
-	# Prior to quitting, propagate the quit request to all nodes in the scene tree. This
-	# allows for graceful shutdown. See
-	#   https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#handling-the-notification. # gdlint:ignore=max-line-length
+	# The close request reaches this node because `_enter_tree` turned off auto-accept;
+	# `shutdown` is what propagates it to the rest of the tree.
 	match what:
 		NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_WM_GO_BACK_REQUEST:
 			if not _is_shutdown_requested:

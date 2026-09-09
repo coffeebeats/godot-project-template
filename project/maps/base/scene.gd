@@ -1,8 +1,8 @@
 ##
 ## project/maps/base/scene.gd
 ##
-## Base `@tool` script for game map scenes. Renders the game world in a `SubViewport`
-## at a controlled resolution while UI stays at native resolution.
+## ProjectMap is the base `@tool` script for game map scenes. It renders the game world
+## in a `SubViewport` at a controlled resolution while UI stays at native resolution.
 ##
 ## Expected scene tree:
 ##
@@ -18,12 +18,12 @@
 ## (`attachment_scenes`), not a node here. It mounts into the overlay, clear of
 ## `pause_when_covered`, and the scene stays runnable on its own.
 ##
-## NOTE: `StdScreen.pause_when_covered` disables the entire SubViewport subtree.
-## Godot #79665: paused SubViewport descendants won't receive input, even with
+## NOTE: `StdScreen.pause_when_covered` disables the entire SubViewport subtree. Per
+## Godot #79665, a paused SubViewport's descendants receive no input, even with
 ## `process_mode = ALWAYS`.
 ##
-## NOTE: Godot #100755: changing scenes while a SubViewport shares the main viewport's
-## `World2D` can crash. Null `SubViewport.world_2d` in `_exit_tree()` if sharing.
+## NOTE: `_exit_tree` nulls `SubViewport.world_2d` when it is shared with the main
+## viewport, so an override must call `super`. See Godot #100755.
 ##
 
 @tool

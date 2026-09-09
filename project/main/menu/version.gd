@@ -1,4 +1,6 @@
 ##
+## project/main/menu/version.gd
+##
 ## Version populates the title screen's version label based on the build version.
 ##
 
