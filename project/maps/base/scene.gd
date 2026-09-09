@@ -43,6 +43,11 @@ const Debug := preload("res://system/debug/debug.gd")
 ## `HudAnchor` on an entity finds it through `ProjectMap.for_node`.
 @export var hud: HudLayer = null
 
+## feel is the map's `FeelLayer`, which owns camera shake, hit-stop and the screen
+## flash. View code reaches it as `map.feel`, or from a world node through
+## `ProjectMap.for_node`.
+@export var feel: FeelLayer = null
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _save_data: ProjectSaveData = null
@@ -74,6 +79,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 	if not hud:
 		warnings.append("Missing property: 'hud'")
+
+	if not feel:
+		warnings.append("Missing property: 'feel'")
 
 	return warnings
 

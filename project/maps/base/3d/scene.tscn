@@ -9,8 +9,9 @@
 [ext_resource type="Resource" path="res://system/setting/video/render_scale_property.tres" id="9_render_scale"]
 [ext_resource type="Resource" path="res://system/setting/video/msaa_3d_property.tres" id="10_msaa_3d"]
 [ext_resource type="Script" uid="uid://dllaqka540nal" path="res://project/ui/hud/layer_3d.gd" id="11_hud"]
+[ext_resource type="Script" uid="uid://c2qonhhbqw8en" path="res://project/ui/feel/feel_3d.gd" id="12_feel"]
 
-[node name="ProjectMap3D" type="Control" unique_id=1397359715 node_paths=PackedStringArray("sub_viewport", "hud")]
+[node name="ProjectMap3D" type="Control" unique_id=1397359715 node_paths=PackedStringArray("sub_viewport", "hud", "feel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +21,7 @@ grow_vertical = 2
 script = ExtResource("1_script")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
 hud = NodePath("UI/Hud")
+feel = NodePath("Feel")
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=1805366389]
 anchors_preset = 0
@@ -49,6 +51,17 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=212550170]
 handle_input_locally = false
 render_target_update_mode = 4
+
+[node name="Feel" type="Control" parent="." unique_id=1901337724 node_paths=PackedStringArray("map")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("12_feel")
+map = NodePath("..")
 
 [node name="UI" type="Control" parent="." unique_id=369370115]
 layout_mode = 1
