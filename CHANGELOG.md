@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.2.0 (2026-09-09)
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.1.0...v5.2.0
+
 ## 5.1.0 (2026-09-09)
 
 ## What's Changed
