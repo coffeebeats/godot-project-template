@@ -8,8 +8,9 @@
 [ext_resource type="Script" uid="uid://cpj6sfb4r20rj" path="res://project/maps/base/3d/viewport_observer.gd" id="8_observer"]
 [ext_resource type="Resource" path="res://system/setting/video/render_scale_property.tres" id="9_render_scale"]
 [ext_resource type="Resource" path="res://system/setting/video/msaa_3d_property.tres" id="10_msaa_3d"]
+[ext_resource type="Script" uid="uid://dllaqka540nal" path="res://project/ui/hud/layer_3d.gd" id="11_hud"]
 
-[node name="ProjectMap3D" type="Control" unique_id=1397359715 node_paths=PackedStringArray("sub_viewport")]
+[node name="ProjectMap3D" type="Control" unique_id=1397359715 node_paths=PackedStringArray("sub_viewport", "hud")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,6 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
+hud = NodePath("UI/Hud")
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=1805366389]
 anchors_preset = 0
@@ -56,3 +58,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="Hud" type="Control" parent="UI" unique_id=1102554865 node_paths=PackedStringArray("map")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("11_hud")
+map = NodePath("../..")

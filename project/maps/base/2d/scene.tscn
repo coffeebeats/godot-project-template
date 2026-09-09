@@ -5,8 +5,9 @@
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="5_gameplay"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="6_layer"]
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="7_options"]
+[ext_resource type="Script" uid="uid://dnrthqe7p8b3n" path="res://project/ui/hud/layer_2d.gd" id="8_hud"]
 
-[node name="ProjectMap2D" type="Control" unique_id=180080882 node_paths=PackedStringArray("sub_viewport")]
+[node name="ProjectMap2D" type="Control" unique_id=180080882 node_paths=PackedStringArray("sub_viewport", "hud")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
+hud = NodePath("UI/Hud")
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=1853267405]
 anchors_preset = 0
@@ -45,3 +47,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="Hud" type="Control" parent="UI" unique_id=1102554863 node_paths=PackedStringArray("map")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_hud")
+map = NodePath("../..")
