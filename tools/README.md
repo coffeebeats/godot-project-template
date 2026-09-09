@@ -50,15 +50,12 @@ makes of it. CI runs it without `--fix`, since a check job reports rather than e
 
 ### One Godot boot for every rule
 
-The boot is almost the whole cost:
-
-| Operation | Time |
-| --- | --- |
-| Engine binary alone (`--version`) | 0.1s |
-| This project plus a no-op script | 1.2s |
-| `check.gd`, one file | 1.4s |
-| `check.gd`, all 224 files | 8.0s |
-| `gdformat` then `gdlint`, one file | 1.1s |
+The boot is almost the whole cost. The engine alone starts in 0.1s; booting this project
+and running a no-op script takes 1.17s, and running `check.gd` over one file takes 1.17s
+as well, so every rule applying to that file costs about 10ms between them. A second boot
+would cost more than all of them together, which is why one boot runs every applicable
+rule and why the edit hook must not add another. The full scan is the exception at 8s, a
+CI cost rather than an interactive one.
 
 A rule declares its name, the extensions and roots it covers, and a check function.
 Discovery, dispatch and `--list` all derive from the registry, so adding one touches no
