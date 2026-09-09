@@ -39,6 +39,10 @@ const Debug := preload("res://system/debug/debug.gd")
 ## sub_viewport is a `SubViewport` that renders the game world at a specific resolution.
 @export var sub_viewport: SubViewport = null
 
+## hud is the map's `HudLayer`, the plane that mounts world-anchored HUD elements. A
+## `HudAnchor` on an entity finds it through `ProjectMap.for_node`.
+@export var hud: HudLayer = null
+
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
 var _save_data: ProjectSaveData = null
@@ -68,6 +72,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	elif sub_viewport.get_child_count() == 0:
 		warnings.append("SubViewport has no game world content")
 
+	if not hud:
+		warnings.append("Missing property: 'hud'")
+
 	return warnings
 
 
@@ -86,6 +93,34 @@ func _ready():
 
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
+
+
+## for_node returns the `ProjectMap` whose `SubViewport` contains `node`, or `null` when
+## `node` does not live in one. This is how a node in the game world reaches the map's
+## layers without a group, a singleton, or a path baked into a scene that is authored
+## separately from the map it is spawned into.
+##
+## NOTE: A node in the main viewport - a HUD element, for instance - is not in a map's
+## `SubViewport`, so this returns `null` for it. Use `HudLayer.of` from inside the HUD.
+static func for_node(node: Node) -> ProjectMap:
+	assert(node, "invalid argument: missing node")
+
+	if not node or not node.is_inside_tree():
+		return null
+
+	var viewport := node.get_viewport()
+	if not viewport:
+		return null
+
+	var next := viewport.get_parent()
+	while next:
+		var map := next as ProjectMap
+		if map:
+			return map
+
+		next = next.get_parent()
+
+	return null
 
 
 ## get_screen_rect returns the screen-space rect that the `SubViewport`'s contents
