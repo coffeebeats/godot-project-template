@@ -1,0 +1,427 @@
+#!/usr/bin/env python3
+"""bridge.py drives a running game through the bridge in `system/debug/debug.gd`.
+
+The bridge is a debug-only node which listens for line-delimited JSON on loopback. This
+script launches the game with a port, then inspects it: the scene tree, an evaluated
+expression, a screenshot, or a command the running scene registered itself.
+
+    tools/bridge.sh launch
+    tools/bridge.sh wait --for app.booted
+    tools/bridge.sh eval 'Main.screens().get_depth()'
+    tools/bridge.sh screenshot --out shot.png
+    tools/bridge.sh logs
+
+`launch` captures the game's output to a log file, because a detached process writes its
+errors nowhere the caller can see them. `wait` reads that log while it polls, so a game
+that dies during boot reports the error instead of timing out.
+
+Node paths are relative to `/root` (`--path Main`, not `--path /root/Main`), because an
+MSYS shell rewrites an argument that looks like an absolute Unix path.
+
+Requires only the standard library; it never runs in CI. `tools/bridge.sh` is the entry
+point to prefer: it picks an interpreter this can actually be run with.
+"""
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import shutil
+import socket
+import subprocess
+import sys
+import tempfile
+import time
+
+DEFAULT_PORT = 9080
+
+# Boilerplate every run prints, which buries the lines worth reading. This is the filter
+# `.claude/hooks/gd_on_edit.sh` applies; script errors and warnings are never filtered.
+NOISE = re.compile(
+    r"^Godot Engine v"
+    r"|^WARNING: Found older "
+    r"|^   at: register_settings"
+    r"|^WARNING: \d+ ObjectDB instances were leaked"
+    r"|^   at: cleanup "
+    r"|^ERROR: \d+ resources still in use at exit"
+    r"|^   at: clear "
+)
+
+# A line matching this in the game's log means the run is not worth waiting on.
+FAILURE = re.compile(r"^(SCRIPT ERROR|USER SCRIPT ERROR|ERROR):")
+
+
+class BridgeError(Exception):
+    """BridgeError reports a request the bridge refused, or could not be asked."""
+
+
+def project_dir():
+    """project_dir returns the project root, whether invoked by a hook or by hand."""
+    root = os.environ.get("CLAUDE_PROJECT_DIR")
+    if root:
+        return os.path.abspath(root)
+
+    here = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(here, ".."))
+
+
+def state_dir(port):
+    """state_dir returns the per-project, per-port directory holding the log and pid.
+
+    NOTE: It lives in the OS temp directory rather than the repository, since it is
+    per-run scratch and a stale entry costs nothing.
+    """
+    key = hashlib.sha256(project_dir().encode("utf-8")).hexdigest()[:12]
+    path = os.path.join(tempfile.gettempdir(), "godot-bridge-%s-%d" % (key, port))
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def log_path(port):
+    """log_path returns the file the game's captured output is written to."""
+    return os.path.join(state_dir(port), "game.log")
+
+
+def pid_path(port):
+    """pid_path returns the file recording the pid of the game holding the port."""
+    return os.path.join(state_dir(port), "game.pid")
+
+
+def request(port, cmd, args=None, timeout=10.0):
+    """request sends one command and returns its result, or raises `BridgeError`.
+
+    NOTE: One connection per command, so a client that dies mid-request leaves nothing
+    behind for the next one to trip over.
+    """
+    payload = json.dumps({"cmd": cmd, "args": args or {}}) + "\n"
+
+    try:
+        with socket.create_connection(("127.0.0.1", port), timeout=timeout) as conn:
+            conn.settimeout(timeout)
+            conn.sendall(payload.encode("utf-8"))
+
+            buffer = b""
+            while b"\n" not in buffer:
+                chunk = conn.recv(65536)
+                if not chunk:
+                    raise BridgeError("the game closed the connection")
+                buffer += chunk
+    except (ConnectionError, socket.timeout, OSError) as err:
+        raise BridgeError("no game answering on port %d (%s)" % (port, err))
+
+    response = json.loads(buffer.split(b"\n", 1)[0].decode("utf-8"))
+    if not response.get("ok"):
+        raise BridgeError(response.get("error", "unknown error"))
+
+    return response.get("result")
+
+
+def log_size(port):
+    """log_size returns the length of the game's log, or 0 when there is none yet."""
+    try:
+        return os.path.getsize(log_path(port))
+    except OSError:
+        return 0
+
+
+def read_log(port, lines=40, unfiltered=False, offset=0):
+    """read_log returns the tail of the game's log, minus the boilerplate.
+
+    NOTE: `offset` skips everything written before it, which keeps a wait from reporting
+    an error some earlier command left behind.
+    """
+    path = log_path(port)
+    if not os.path.exists(path):
+        return []
+
+    with open(path, "r", encoding="utf-8", errors="replace") as handle:
+        handle.seek(offset)
+        out = [line.rstrip("\n") for line in handle]
+
+    if not unfiltered:
+        out = [line for line in out if line.strip() and not NOISE.search(line)]
+
+    return out[-lines:] if lines > 0 else out
+
+
+def log_failure(port, offset=0):
+    """log_failure returns the first failure the game logged after `offset`, if any."""
+    for line in read_log(port, lines=0, offset=offset):
+        if FAILURE.search(line):
+            return line
+
+    return None
+
+
+def is_game_process(pid):
+    """is_game_process returns whether the pid still names a Godot process.
+
+    NOTE: A pid file outlives the process it names and pids are recycled, so the reaper
+    checks the image name before killing anything.
+    """
+    try:
+        if os.name == "nt":
+            out = subprocess.run(
+                ["tasklist", "/FI", "PID eq %d" % pid, "/FO", "CSV", "/NH"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            ).stdout
+        else:
+            out = subprocess.run(
+                ["ps", "-p", str(pid), "-o", "comm="],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+    return "godot" in out.lower()
+
+
+def reap(port):
+    """reap stops whatever is holding the port, gracefully if it answers.
+
+    NOTE: An aborted client leaves the previous game holding the port, and the next
+    `listen` then fails with `ERR_ALREADY_IN_USE`.
+    """
+    try:
+        request(port, "quit", timeout=2.0)
+        time.sleep(1.0)
+    except BridgeError:
+        pass
+
+    if port_is_free(port):
+        return
+
+    try:
+        with open(pid_path(port), "r", encoding="utf-8") as handle:
+            pid = int(handle.read().strip())
+    except (OSError, ValueError):
+        raise BridgeError(
+            "port %d is held by a process this script did not start; close the game "
+            "started from the editor, or pass a different --port" % port
+        )
+
+    if not is_game_process(pid):
+        raise BridgeError("port %d is held by an unknown process" % port)
+
+    if os.name == "nt":
+        subprocess.run(
+            ["taskkill", "/PID", str(pid), "/F"], capture_output=True, timeout=10
+        )
+    else:
+        try:
+            os.kill(pid, 15)
+        except OSError:
+            pass
+
+    time.sleep(1.0)
+
+
+def port_is_free(port):
+    """port_is_free returns whether nothing is listening on the port."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+        probe.settimeout(0.5)
+        return probe.connect_ex(("127.0.0.1", port)) != 0
+
+
+def field_of(value, path):
+    """field_of returns a dotted field of a result, or `None` when it is not there."""
+    for part in path:
+        if not isinstance(value, dict) or part not in value:
+            return None
+        value = value[part]
+
+    return value
+
+
+def matches(value, expected):
+    """matches returns whether a field's value is what the caller asked to wait for.
+
+    NOTE: `expected` is decoded as JSON when it can be, so `--equals true` matches the
+    boolean the game reported rather than the string "True".
+    """
+    if expected is None:
+        return value is True
+
+    try:
+        return value == json.loads(expected)
+    except ValueError:
+        return value == expected
+
+
+def wait_for(port, target, expected, timeout, offset=None):
+    """wait_for polls a registered command until one of its fields matches, or gives up.
+
+    Polling from here keeps predicate evaluation out of the engine, and lets a failure
+    in the game's log end the wait early.
+
+    NOTE: Only what the game logged from `offset` onward counts as that failure, since
+    the log outlives the command which wrote it.
+    """
+    name, _, field = target.partition(".")
+    if not field:
+        raise BridgeError("--for takes <command>.<field>, e.g. app.booted")
+
+    if offset is None:
+        offset = log_size(port)
+
+    deadline = time.time() + timeout
+    last = "no response yet"
+
+    while time.time() < deadline:
+        failure = log_failure(port, offset)
+        if failure:
+            raise BridgeError("the game reported an error: %s" % failure)
+
+        try:
+            result = request(port, "call", {"name": name}, timeout=5.0)
+            value = field_of(result, field.split("."))
+            if matches(value, expected):
+                return result
+
+            last = "%s.%s is %r" % (name, field, value)
+        except BridgeError as err:
+            last = str(err)
+
+        time.sleep(0.2)
+
+    raise BridgeError("timed out after %.0fs waiting for %s (%s)" % (timeout, target, last))
+
+
+def launch(args):
+    """launch starts the game with the bridge open, then waits until it is usable."""
+    binary = os.environ.get("GODOT") or shutil.which("godot")
+    if not binary:
+        raise BridgeError("no 'godot' on PATH; set GODOT to the binary")
+
+    reap(args.port)
+
+    command = [binary, "--path", project_dir()]
+    if args.scene:
+        command.append(args.scene)
+    command += ["--", "--bridge-port", str(args.port)]
+    command += args.rest
+
+    # NOTE: A detached process writes its errors nowhere the caller can see. Capturing
+    # the stream also catches what an in-engine tap cannot, a crash included.
+    with open(log_path(args.port), "w", encoding="utf-8", errors="replace") as handle:
+        if os.name == "nt":
+            flags = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS
+            process = subprocess.Popen(
+                command, stdout=handle, stderr=subprocess.STDOUT, creationflags=flags
+            )
+        else:
+            process = subprocess.Popen(
+                command, stdout=handle, stderr=subprocess.STDOUT, start_new_session=True
+            )
+
+    with open(pid_path(args.port), "w", encoding="utf-8") as pid_file:
+        pid_file.write(str(process.pid))
+
+    if args.no_wait:
+        return {"pid": process.pid, "log": log_path(args.port)}
+
+    state = wait_for(args.port, args.until, args.equals, args.timeout, offset=0)
+
+    return {"pid": process.pid, "log": log_path(args.port), args.until: state}
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=int(os.environ.get("GODOT_DEBUG_BRIDGE_PORT", DEFAULT_PORT)),
+        help="port the bridge listens on (default: %d)" % DEFAULT_PORT,
+    )
+
+    commands = parser.add_subparsers(dest="command", required=True)
+
+    parser_launch = commands.add_parser("launch", help="start the game and wait for it")
+    parser_launch.add_argument("--scene", help="scene to run instead of the main scene")
+    parser_launch.add_argument("--no-wait", action="store_true", help="do not wait")
+    parser_launch.add_argument("--until", default="app.booted", help="what to wait for")
+    parser_launch.add_argument("--equals", help="value to match (default: true)")
+    parser_launch.add_argument("--timeout", type=float, default=60.0)
+    parser_launch.add_argument("rest", nargs="*", help="extra arguments for the game")
+
+    commands.add_parser("stop", help="shut the game down")
+    commands.add_parser("status", help="print the bridge's summary")
+    commands.add_parser("commands", help="list the handlers the game registered")
+
+    parser_tree = commands.add_parser("tree", help="dump part of the scene tree")
+    parser_tree.add_argument("--path", default="", help="node to dump, relative to /root")
+    parser_tree.add_argument("--depth", type=int, default=3)
+
+    parser_call = commands.add_parser("call", help="invoke a registered handler")
+    parser_call.add_argument("name")
+    parser_call.add_argument("--args", default="{}", help="arguments, as JSON")
+
+    parser_eval = commands.add_parser("eval", help="evaluate an expression")
+    parser_eval.add_argument("expr")
+
+    parser_shot = commands.add_parser("screenshot", help="capture the window")
+    parser_shot.add_argument("--out", help="where to write the PNG")
+    parser_shot.add_argument("--node", help="crop to this Control, relative to /root")
+
+    parser_logs = commands.add_parser("logs", help="tail the game's output")
+    parser_logs.add_argument("--lines", type=int, default=40)
+    parser_logs.add_argument("--all", action="store_true", help="do not filter noise")
+
+    parser_wait = commands.add_parser("wait", help="poll until a handler reports ready")
+    parser_wait.add_argument("--for", dest="target", default="app.booted")
+    parser_wait.add_argument("--equals", help="value to match (default: true)")
+    parser_wait.add_argument("--timeout", type=float, default=60.0)
+
+    args = parser.parse_args(argv)
+
+    if args.command == "launch":
+        return launch(args)
+
+    if args.command == "logs":
+        return read_log(args.port, args.lines, args.all)
+
+    if args.command == "wait":
+        return wait_for(args.port, args.target, args.equals, args.timeout)
+
+    if args.command == "stop":
+        return request(args.port, "quit")
+
+    if args.command == "tree":
+        return request(args.port, "tree", {"path": args.path, "depth": args.depth})
+
+    if args.command == "call":
+        return request(
+            args.port, "call", {"name": args.name, "args": json.loads(args.args)}
+        )
+
+    if args.command == "eval":
+        return request(args.port, "eval", {"expr": args.expr})
+
+    if args.command == "screenshot":
+        out = args.out or os.path.join(state_dir(args.port), "shot-%d.png" % time.time())
+        return request(
+            args.port,
+            "screenshot",
+            {"path": os.path.abspath(out), "node": args.node or ""},
+            timeout=15.0,
+        )
+
+    return request(args.port, args.command)
+
+
+if __name__ == "__main__":
+    try:
+        result = main()
+    except BridgeError as error:
+        print("bridge: %s" % error, file=sys.stderr)
+        sys.exit(1)
+
+    if isinstance(result, list) and all(isinstance(item, str) for item in result):
+        print("\n".join(result))
+    else:
+        print(json.dumps(result, indent=2, sort_keys=True))

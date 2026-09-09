@@ -20,6 +20,7 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
+const Debug := preload("res://system/debug/debug.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
 const ErrorDialog := preload("res://project/ui/menu/alert.tscn")
 const Splash := preload("./splash/splash.gd")
@@ -45,6 +46,7 @@ const Splash := preload("./splash/splash.gd")
 var _logger := StdLogger.create(&"project/main")
 
 var _error_dialog_busy: bool = false
+var _is_settled: bool = false
 var _error_dialog: AlertDialog = null
 var _is_loading: bool = false
 var _manager: StdScreenManager = null
@@ -188,6 +190,10 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	StdGroup.with_id(GROUP_MAIN).remove_member(self)
 
+	# NOTE: The bridge lives under the `System` autoload, which outlives the main scene,
+	# so without this it goes on listing a handler whose object is gone.
+	Debug.unregister(&"app", _get_debug_state)
+
 	if Engine.is_editor_hint():
 		Signals.disconnect_safe(ProjectSettings.settings_changed, _update_color)
 	else:
@@ -216,12 +222,26 @@ func _ready() -> void:
 	var input := Systems.input()
 	Signals.connect_safe(
 		_manager.screen_entered,
-		func(_s: StdScreen, _n: Node) -> void: input.mute_next_focus_sound(),
+		func(_s: StdScreen, _n: Node) -> void:
+			input.mute_next_focus_sound()
+			_is_settled = true,
 	)
 	Signals.connect_safe(
 		_manager.screen_uncovered,
-		func(_s: StdScreen, _n: Node) -> void: input.mute_next_focus_sound(),
+		func(_s: StdScreen, _n: Node) -> void:
+			input.mute_next_focus_sound()
+			_is_settled = true,
 	)
+
+	# NOTE: A pop emits only `screen_uncovered`, so clearing this on `screen_entered`
+	# alone would leave the app "in transition" forever after the first close.
+	for signal_transitioning in [_manager.screen_entering, _manager.screen_exiting]:
+		Signals.connect_safe(
+			signal_transitioning,
+			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
+		)
+
+	Debug.register(&"app", _get_debug_state)
 
 	# Drain errors enqueued before the UI existed (e.g. Steam init failure).
 	# Warnings are logged; errors and above get a dialog. Critical errors
@@ -318,6 +338,35 @@ func _finish_boot(navigate: Callable) -> void:
 		await saves.slots_loaded
 
 	_manager.replace(initial)
+
+
+## _get_debug_state reports app-level state to the debug bridge, which knows nothing
+## about screens and reads none of this for itself.
+func _get_debug_state() -> Dictionary:
+	var screen := _manager.get_current_screen() if _manager else null
+
+	return {
+		&"booted": _is_booted(),
+		&"settled": _is_settled,
+		&"loading": _is_loading,
+		&"screen": screen.resource_path if screen else "",
+		&"depth": _manager.get_depth() if _manager else 0,
+		&"slot": Systems.saves().get_active_save_slot(),
+	}
+
+
+## _is_booted returns whether the app has reached a screen worth acting on.
+func _is_booted() -> bool:
+	if not _is_settled or _is_loading or not _manager:
+		return false
+
+	# NOTE: "Settled" is not "booted". The loading screen and each splash screen are
+	# genuine settled states, and a client that latches onto one drives a dead scene.
+	var screen := _manager.get_current_screen()
+	if not screen or screen == loading:
+		return false
+
+	return screen not in splash
 
 
 func _is_initial_loaded() -> bool:
