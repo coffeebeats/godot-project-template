@@ -7,12 +7,13 @@
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="7_options"]
 [ext_resource type="Shader" uid="uid://bhvhbj1ty1k5k" path="res://project/maps/base/2d_pixel/smooth_pixel.gdshader" id="8_shader"]
 [ext_resource type="Script" uid="uid://dnrthqe7p8b3n" path="res://project/ui/hud/layer_2d.gd" id="9_hud"]
+[ext_resource type="Script" uid="uid://dnbvkthuyvfw2" path="res://project/ui/feel/feel_2d.gd" id="10_feel"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1"]
 shader = ExtResource("8_shader")
 shader_parameter/vertex_offset = Vector2(0, 0)
 
-[node name="ProjectMap2DPixel" type="Control" unique_id=1030227919 node_paths=PackedStringArray("sub_viewport", "hud")]
+[node name="ProjectMap2DPixel" type="Control" unique_id=1030227919 node_paths=PackedStringArray("sub_viewport", "hud", "feel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,6 +23,7 @@ grow_vertical = 2
 script = ExtResource("1_script")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
 hud = NodePath("UI/Hud")
+feel = NodePath("Feel")
 
 [node name="StdInputActionSetLoader" type="Control" parent="." unique_id=315263392]
 anchors_preset = 0
@@ -44,6 +46,17 @@ snap_2d_vertices_to_pixel = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(642, 362)
 render_target_update_mode = 4
+
+[node name="Feel" type="Control" parent="." unique_id=1901337723 node_paths=PackedStringArray("map")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_feel")
+map = NodePath("..")
 
 [node name="UI" type="Control" parent="." unique_id=1285188779]
 layout_mode = 1
