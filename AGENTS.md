@@ -64,6 +64,7 @@ Every entry below fails silently: no error, no crash, no failing test, and the w
 
 - `Systems.*()` accessors only work after autoloads finish `_ready()`.
 - Save schema changes without a version bump will silently drop fields from old saves.
+- Never filter `*.aseprite` in an export preset. A filter matching a source also drops the baked `.res`/`.sample` beside it, and nothing says so until an exported build looks for the asset at runtime.
 - Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it. Both build an `InputEventAction`, which matches by name and never consults the `InputMap`, so a handler fires whether or not the action is bound to anything. Checking a binding takes the real `InputEventKey` or `InputEventJoypadButton`.
 
 The `.tscn` and `.tres` file-format pitfalls are rules in `tools/check.gd` rather than entries here: a missing `uid=` header, a file path held in a string property, an `[ext_resource]` naming a file that does not exist, a property assigned ahead of `script =`, and a `NodePath` export whose type does not match. The checker runs on every `Edit` and `Write`, and `--fix` repairs the first two — follow it with `godot --import --headless` or the new uids do not resolve. Run `--list` for what each rule covers, and read `tools/README.md` for the engine behavior behind them. The hook matches `Edit` and `Write` only, so a file written any other way stays unchecked until a full run.
@@ -96,19 +97,12 @@ godot --headless -s tools/check.gd -- path/to/file.tscn  # one file or directory
 godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re-check
 godot --headless -s tools/check.gd -- --list             # what each rule covers
 
-# Drive a running game to see whether a change actually works. Nothing listens without
-# a port, and a release build carries no bridge at all. Node paths are relative to
-# `/root`. `tools/README.md` has the rest.
-tools/bridge.sh launch                     # start it, wait until past splash and loading
-tools/bridge.sh screenshot --out shot.png  # a real frame; --node crops to one control
-tools/bridge.sh tree --path Main           # names, classes, visibility, control rects
-tools/bridge.sh eval 'Main.screens().get_depth()'
-tools/bridge.sh logs                       # what the game printed, errors included
-
 # Bake `.aseprite` sources to a PNG sheet plus a tag manifest for the stock importer.
-# Never filter `*.aseprite` in an export preset: it drops the baked file beside it too.
 tools/aseprite.sh --out assets/baked assets/src
 ```
+
+To see a change working in the real app rather than in a test, use the `run-game`
+skill, which drives a live game through `tools/bridge.sh`.
 
 CI has no `Steam` singleton, because GodotSteam ships no Linux binary, so a script
 naming an extension API goes in `EXTENSION_SCRIPTS` in the checker; its dependents
@@ -127,8 +121,9 @@ twice.
 `tools/` holds scripts with a consumer other than Claude — CI, a hook, or a human. A
 script only ever run by Claude, as one step of one workflow, ships beside its `SKILL.md`
 in `.claude/skills/<name>/`, so the skill installs as a unit in a repository that does not
-have this one's `tools/`. Hooks live in `.claude/hooks/`, next to the `settings.json` that
-is their only caller.
+have this one's `tools/`. A skill may still front a `tools/` script it did not ship — `run-game`
+does — since the test is who else runs it, not who documents it. Hooks live in `.claude/hooks/`,
+next to the `settings.json` that is their only caller.
 
 A pitfall goes in the first tier below that can hold it. This file is the last resort,
 because it is read in full by every session before the task is known, so a line here is
