@@ -82,10 +82,10 @@ skipping the whole directory would drop most of the input and platform wiring fr
 ### GDScript warnings the `compile` rule gates
 
 A warning set to level 2 in `project.godot` is raised as a parse error, so the script
-does not load and `compile` reports it. Thirty-five are set that way under `[debug]`:
-every warning the engine enables by default apart from three, plus `untyped_declaration`,
-which the engine ships off. That makes a warning fail the editor, the edit hook and CI
-through machinery that already exists; nothing here reads warnings, and nothing needs to.
+does not load and `compile` reports it. Thirty-four are set that way under `[debug]`:
+every warning the engine enables by default apart from three. That makes a warning fail
+the editor, the edit hook and CI through machinery that already exists; nothing here
+reads warnings, and nothing needs to.
 
 ### What it does not cover
 
