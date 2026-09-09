@@ -30,7 +30,7 @@ godot --headless -s tools/check.gd -- --list        # print the rule registry
 
 | Rule | Covers | Reports | Fixable |
 | --- | --- | --- | --- |
-| `compile` | `.gd` | a script that does not compile | |
+| `compile` | `.gd` | a script that does not compile, a promoted warning included | |
 | `uid` | `.tscn` `.tres` | a header carrying no `uid=` | yes |
 | `path-ref` | `.tscn` `.tres` | a reference that does not resolve, and a `res://` string that should be a uid | yes |
 | `load` | `.tscn` `.tres` | a file that does not parse or instantiate | |
@@ -79,6 +79,50 @@ The unit is a script, not a directory. `system/input/steam/observer.gd` never na
 `Steam` and compiles anywhere, and the `.tres` files beside it are plain data, so
 skipping the whole directory would drop most of the input and platform wiring from CI.
 
+### GDScript warnings the `compile` rule gates
+
+A warning set to level 2 in `project.godot` is raised as a parse error, so the script
+does not load and `compile` reports it. Thirty-five are set that way under `[debug]`:
+every warning the engine enables by default apart from three, plus `untyped_declaration`,
+which the engine ships off. That makes a warning fail the editor, the edit hook and CI
+through machinery that already exists; nothing here reads warnings, and nothing needs to.
+
+`unused_variable`, `unused_local_constant` and `unused_parameter` stay at level 1 on
+purpose. Each fires on work in progress — a variable declared a line before it is
+used — and promoting them would leave the game unrunnable mid-edit for something that
+is not a defect. They are still reported in the editor.
+
+`untyped_declaration` is the one addition to the engine's defaults, and it covers more
+than its name suggests: an untyped variable, an untyped parameter, an untyped `for`
+iterator, and a function with no return type all raise it, the last worded as "has no
+static return type" rather than "has no static type". Clearing it took forty sites in
+twenty files, over half of them in the save migration test.
+
+Do not reach for `inferred_declaration` alongside it. The names rhyme and the costs do
+not: `var x = 1` is `untyped_declaration` and `var x := 1` is `inferred_declaration`, and
+since `:=` is what the style guide asks for, the second fires **1743** times across 91
+files against the first's 40. It is a rewrite of the house style, not a cleanup. The rest
+of what the engine ships off — the `unsafe_*` family, `return_value_discarded`,
+`missing_await` — stays off; `unsafe_call_argument` alone would light up most of the
+project.
+
+None of this reaches `addons/`. `directory_rules` maps `res://addons` to `0`, which
+silences every warning in the vendored std submodule and GUT, so a promoted warning
+cannot fail on code that is not ours to fix. That mapping is the engine's own default
+and is written into `project.godot` anyway, because the exemption is load-bearing for
+thirty-five promotions and a default is free to change under a version bump.
+
+Godot 4 has no `treat_warnings_as_errors`; the Godot 3 setting was removed and the
+level is per warning. `directory_rules` cannot stand in for it — its values are a
+decision enum, not warn levels, and only `0` and `1` are in range; `2` trips
+`Condition "decision < 0 || decision >= WarningDirectoryRule::DECISION_MAX" is true`
+and is ignored. A directory can therefore be silenced and never promoted. The set has
+to be maintained by hand, and its one gap is a warning introduced by a future engine
+version, which arrives at level 1 and is promoted when a version bump surfaces it.
+
+Comments do not survive here: the editor rewrites `project.godot` and drops them,
+which is why this is written down in this file.
+
 ### What it does not cover
 
 `project.godot` holds the same kind of fragile path string as a scene does, including
@@ -90,6 +134,16 @@ entries name files that carry no uid at all. Scripts are out of scope too, since
 ## Engine behavior the checker is shaped around
 
 Each of these returns a plausible wrong answer rather than an error.
+
+**A GDScript warning is reported only while a debugger is attached.** The analyzer
+raises it either way, but the engine hands it to `EngineDebugger`, so a plain
+`godot --headless -s` compiles every script in the project and prints not one. That is
+how four `shadowed_variable_base_class` warnings sat in `system/debug/debug.gd` while
+the checker reported the project clean. Adding `-d` attaches the local debugger and
+they all appear, at a cost of 0.2s on the full run, but a runtime error under `-d` puts
+that debugger into an unbounded `debug>` prompt loop that stdin cannot break out of —
+6068 prompts in 25 seconds, and feeding it `c` does not help. Promoting the warning to
+an error instead reports it through the `compile` rule with no debugger involved.
 
 **`--check-only` does not register autoload singletons.** Every script referencing
 `Lifecycle`, `Platform`, `Systems` or `Main` reports a false `Identifier not found`.
