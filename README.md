@@ -15,7 +15,7 @@ The following instructions outline how to get the project set up for local devel
 
 #### **System dependencies**
 
-Installed by hand. Each has to be on the `PATH` of the shell that runs the scripts, which on Windows is Git Bash.
+These need to be manually installed and available on the `PATH` of the shell that runs the scripts.
 
 | Tool | Needed for | Notes |
 | --- | --- | --- |
