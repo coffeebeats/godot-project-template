@@ -67,45 +67,45 @@ static func instance() -> Node:
 ## list_commands returns the names of the registered command handlers, sorted.
 func list_commands() -> PackedStringArray:
 	var out := PackedStringArray()
-	for name in _handlers:
-		out.append(String(name))
+	for command: StringName in _handlers:
+		out.append(String(command))
 
 	out.sort()
 
 	return out
 
 
-## register adds a command handler under `name`, replacing any handler already there.
-## The handler is called with the command's arguments, or with none if it takes none,
-## and must return a JSON-encodable value.
+## register adds a command handler under `command`, replacing any handler already
+## there. The handler is called with the command's arguments, or with none if it takes
+## none, and must return a JSON-encodable value.
 ##
 ## NOTE: This is safe to call when no bridge is present, so a call site needs no feature
 ## check of its own.
-static func register(name: StringName, handler: Callable) -> void:
-	assert(name != &"", "invalid argument: missing name")
+static func register(command: StringName, handler: Callable) -> void:
+	assert(command != &"", "invalid argument: missing command")
 	assert(handler.is_valid(), "invalid argument: missing handler")
 
 	var bridge := instance()
 	if not bridge:
 		return
 
-	bridge._handlers[name] = handler
+	bridge._handlers[command] = handler
 
 
-## unregister removes the command handler under `name`. When `handler` is provided the
-## entry is only removed if it is still the registered one.
+## unregister removes the command handler under `command`. When `handler` is provided
+## the entry is only removed if it is still the registered one.
 ##
 ## NOTE: Pass the handler when unregistering from `_exit_tree`, where the incoming scene
 ## is already in the tree and an unqualified erase would drop the handler it registered.
-static func unregister(name: StringName, handler: Callable = Callable()) -> void:
+static func unregister(command: StringName, handler: Callable = Callable()) -> void:
 	var bridge := instance()
 	if not bridge:
 		return
 
-	if handler.is_valid() and bridge._handlers.get(name) != handler:
+	if handler.is_valid() and bridge._handlers.get(command) != handler:
 		return
 
-	bridge._handlers.erase(name)
+	bridge._handlers.erase(command)
 
 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
@@ -298,16 +298,16 @@ func _node(path: String) -> Node:
 
 ## _on_call invokes a registered command handler.
 func _on_call(args: Dictionary) -> void:
-	var name := StringName(args.get("name", ""))
+	var command := StringName(args.get("name", ""))
 
-	if not _handlers.has(name):
-		_fail("unknown handler: %s (registered: %s)" % [name, list_commands()])
+	if not _handlers.has(command):
+		_fail("unknown handler: %s (registered: %s)" % [command, list_commands()])
 		return
 
-	var handler: Callable = _handlers[name]
+	var handler: Callable = _handlers[command]
 	if not handler.is_valid():
-		_handlers.erase(name)
-		_fail("stale handler: %s" % name)
+		_handlers.erase(command)
+		_fail("stale handler: %s" % command)
 		return
 
 	if handler.get_argument_count() < 1:
@@ -535,12 +535,12 @@ func _to_json(value: Variant) -> Variant:
 			return [value.origin.x, value.origin.y, value.get_rotation()]
 		TYPE_ARRAY, TYPE_PACKED_STRING_ARRAY, TYPE_PACKED_INT32_ARRAY:
 			var out: Array = []
-			for item in value:
+			for item: Variant in value:
 				out.append(_to_json(item))
 			return out
 		TYPE_DICTIONARY:
 			var out := {}
-			for key in value:
+			for key: Variant in value:
 				out[String(key)] = _to_json(value[key])
 			return out
 		TYPE_OBJECT:

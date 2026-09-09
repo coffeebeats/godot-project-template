@@ -140,8 +140,9 @@ static func load_game(slot: int) -> bool:
 	return await _get_main()._load_game(slot)
 
 
-## show_error displays a modal error dialog and returns the chosen action.
-## Always sets all labels explicitly to prevent stale state between calls.
+## show_error displays a modal error dialog and returns the chosen action. Every label
+## is set on each call, so an omitted `secondary_label` clears the previous one rather
+## than leaving it in place.
 static func show_error(
 	error: ProjectError,
 	primary_label: StringName,
@@ -235,7 +236,9 @@ func _ready() -> void:
 
 	# NOTE: A pop emits only `screen_uncovered`, so clearing this on `screen_entered`
 	# alone would leave the app "in transition" forever after the first close.
-	for signal_transitioning in [_manager.screen_entering, _manager.screen_exiting]:
+	for signal_transitioning: Signal in [
+		_manager.screen_entering, _manager.screen_exiting
+	]:
 		Signals.connect_safe(
 			signal_transitioning,
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
@@ -243,10 +246,8 @@ func _ready() -> void:
 
 	Debug.register(&"app", _get_debug_state)
 
-	# Drain errors enqueued before the UI existed (e.g. Steam init failure).
-	# Warnings are logged; errors and above get a dialog. Critical errors
-	# force shutdown. Push loading as a base screen so the error dialog has
-	# something beneath it when popped (pop asserts stack.size > 1).
+	# Drain errors enqueued before the UI existed (e.g. Steam init failure). `loading`
+	# is pushed beneath the dialog because `pop` asserts a stack depth above one.
 	var errors := ProjectError.drain_pending()
 	errors.sort_custom(
 		func(a: ProjectError, b: ProjectError) -> bool: return a.severity > b.severity
@@ -314,7 +315,7 @@ func _accumulate_play_time() -> void:
 
 
 func _await_initial_loaded() -> void:
-	for result in _preload_results.values():
+	for result: Variant in _preload_results.values():
 		if not result.is_done():
 			await result.done
 
@@ -370,7 +371,7 @@ func _is_booted() -> bool:
 
 
 func _is_initial_loaded() -> bool:
-	for result in _preload_results.values():
+	for result: Variant in _preload_results.values():
 		if not result.is_done():
 			return false
 
@@ -452,7 +453,7 @@ func _push_splash(index: int) -> void:
 
 	var screen := splash[index]
 
-	# Connect before navigation so both sync and async emission is caught.
+	# Connect before navigation so both sync and async emissions are caught.
 	screen.entering.connect(_on_splash_entering.bind(index), CONNECT_ONE_SHOT)
 
 	if index == 0:

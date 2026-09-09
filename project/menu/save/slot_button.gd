@@ -30,7 +30,7 @@ var _save_slot: SaveSlot = null
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _ready():
+func _ready() -> void:
 	var saves := Systems.saves()
 
 	_save_slot = saves.get_save_slot(slot)

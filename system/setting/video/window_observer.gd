@@ -54,9 +54,10 @@ func set_fullscreen(value: bool) -> void:
 	var window := get_window()
 	var window_id := window.get_window_id()
 
-	# NOTE: Always save the target window mode in case window-level controls drove the
-	# change in value (instead of the settings UI).
 	var mode: Window.Mode = Window.MODE_FULLSCREEN if value else Window.MODE_WINDOWED
+
+	# NOTE: Always save the window's current mode, in case window-level controls drove
+	# the change instead of the settings UI.
 	_save_window_mode(window.mode)
 
 	# No change required, but some reconciliation is required if this change was driven
@@ -113,7 +114,7 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 	return [fullscreen_property, borderless_property]
 
 
-func _handle_value_change(property: StdSettingsProperty, value) -> void:
+func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void:
 	if property == fullscreen_property:
 		assert(fullscreen_property, "invalid state: missing property")
 		assert(window_mode_property, "invalid state: missing property")

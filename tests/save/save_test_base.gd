@@ -108,14 +108,14 @@ func _get_random_value_for_type(
 
 
 func _populate_item(item: StdConfigItem, rng: RandomNumberGenerator) -> void:
-	for property in _sorted_serde_properties(item):
+	for property: Dictionary in _sorted_serde_properties(item):
 		var value: Variant = _get_random_value_for_type(property[&"type"], rng)
 		if value != null:
 			item.set(property[&"name"], value)
 
 
 func _populate_schema(schema: StdConfigSchema, rng: RandomNumberGenerator) -> void:
-	for property in _sorted_serde_properties(schema):
+	for property: Dictionary in _sorted_serde_properties(schema):
 		var item: Variant = schema.get(property[&"name"])
 		if not item is StdConfigItem:
 			continue

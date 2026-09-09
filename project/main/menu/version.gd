@@ -1,4 +1,6 @@
 ##
+## project/main/menu/version.gd
+##
 ## Version populates the title screen's version label based on the build version.
 ##
 
@@ -11,5 +13,5 @@ const Version := preload("res://version.gd")
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _ready():
+func _ready() -> void:
 	$Label.text = Version.get_semantic_version(false)

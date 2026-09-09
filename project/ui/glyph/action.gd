@@ -128,11 +128,11 @@ func _gui_input(event: InputEvent) -> void:
 				StdInputEvent.trigger_action(action, event.device)
 
 
-func _ready():
+func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
-	# Set these properties on the scen's `Glyph` node.
+	# Set these properties on the scene's `Glyph` node.
 	action_set = action_set
 	action = action
 	binding_index = binding_index

@@ -1,7 +1,7 @@
 ##
 ## project/locale/locales.gd
 ##
-## A shared library for working with translations.
+## Locales is a shared library for working with translations.
 ##
 ## NOTE: This 'Object' should *not* be instanced and/or added to the 'SceneTree'. It
 ## is a "static" library that can be imported at compile-time using 'preload'.
@@ -70,7 +70,7 @@ static func _translate(msg: StringName, ctx: StringName, locale: StringName) -> 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _init():
+func _init() -> void:
 	assert(
 		not OS.is_debug_build(),
 		"Invalid config; this 'Object' should not be instantiated!"

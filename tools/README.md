@@ -30,7 +30,7 @@ godot --headless -s tools/check.gd -- --list        # print the rule registry
 
 | Rule | Covers | Reports | Fixable |
 | --- | --- | --- | --- |
-| `compile` | `.gd` | a script that does not compile | |
+| `compile` | `.gd` | a script that does not compile, a promoted warning included | |
 | `uid` | `.tscn` `.tres` | a header carrying no `uid=` | yes |
 | `path-ref` | `.tscn` `.tres` | a reference that does not resolve, and a `res://` string that should be a uid | yes |
 | `load` | `.tscn` `.tres` | a file that does not parse or instantiate | |
@@ -79,6 +79,14 @@ The unit is a script, not a directory. `system/input/steam/observer.gd` never na
 `Steam` and compiles anywhere, and the `.tres` files beside it are plain data, so
 skipping the whole directory would drop most of the input and platform wiring from CI.
 
+### GDScript warnings the `compile` rule gates
+
+A warning set to level 2 in `project.godot` is raised as a parse error, so the script
+does not load and `compile` reports it. Thirty-five are set that way under `[debug]`:
+every warning the engine enables by default apart from three, plus `untyped_declaration`,
+which the engine ships off. That makes a warning fail the editor, the edit hook and CI
+through machinery that already exists; nothing here reads warnings, and nothing needs to.
+
 ### What it does not cover
 
 `project.godot` holds the same kind of fragile path string as a scene does, including
@@ -90,6 +98,15 @@ entries name files that carry no uid at all. Scripts are out of scope too, since
 ## Engine behavior the checker is shaped around
 
 Each of these returns a plausible wrong answer rather than an error.
+
+**A GDScript warning is reported only while a debugger is attached.** The analyzer
+raises it either way, but the engine hands it to `EngineDebugger`, so a plain
+`godot --headless -s` compiles every script in the project and prints not one — that is
+how four `shadowed_variable_base_class` warnings sat in `system/debug/debug.gd` while
+the checker reported the project clean. Adding `-d` attaches the local debugger and
+surfaces them, but a runtime error under `-d` drops into an unbounded `debug>` prompt
+loop that stdin cannot break out of. Promoting the warning to an error instead reports
+it through the `compile` rule with no debugger involved.
 
 **`--check-only` does not register autoload singletons.** Every script referencing
 `Lifecycle`, `Platform`, `Systems` or `Main` reports a false `Identifier not found`.
@@ -275,12 +292,10 @@ killed.
 `push_warning` the message alone, so anything the reader needs has to be in the message
 string. `info` and below keep their context.
 
-**The viewport image is read after `await RenderingServer.frame_post_draw`.** Two
-attempts to show that the await is required did not succeed: awaiting `process_frame`
-instead still produced a complete frame, and a probe which changed `ColorRect.color` and
-captured on both sides of the draw produced two byte-identical images, because that
-setter queues its redraw for the *next* frame. It is kept as cheap insurance rather than
-a demonstrated requirement.
+**The viewport image is read after `await RenderingServer.frame_post_draw`.** This is
+kept as cheap insurance rather than a demonstrated requirement: awaiting `process_frame`
+instead still produced a complete frame, and toggling `ColorRect.color` across the draw
+produced byte-identical images, since that setter's redraw queues for the next frame.
 
 **A coroutine that never resumes takes its reply with it**, leaving the client waiting
 on a socket nothing will ever write to. Every awaiting command carries a
