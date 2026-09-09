@@ -22,7 +22,7 @@ These need to be manually installed and available on the `PATH` of the shell tha
 | Godot | everything | The [pinned version](./.godot-version), via `gdenv`. |
 | `git` | submodules | |
 | `jq` | [`.claude/hooks/gd_on_edit.sh`](./.claude/hooks/gd_on_edit.sh), [`tools/aseprite.sh`](./tools/aseprite.sh) | |
-| `msgfmt`, `msgmerge` (gettext) | [`tools/sync-translations.sh`](./tools/sync-translations.sh) | On MSYS2, install the ucrt64 build (`mingw-w64-ucrt-x86_64-gettext`). The plain `gettext` package installs to a prefix Git Bash does not carry on `PATH`, so `msgfmt` can be installed and still be invisible. |
+| `msgfmt`, `msgmerge` (gettext) | [`tools/sync-translations.sh`](./tools/sync-translations.sh) | |
 | Aseprite | [`tools/aseprite.sh`](./tools/aseprite.sh) | Optional; only needed to bake `.aseprite` sources. |
 
 ### **Code submission**
