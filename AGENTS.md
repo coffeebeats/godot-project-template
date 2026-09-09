@@ -96,6 +96,15 @@ godot --headless -s tools/check.gd -- path/to/file.tscn  # one file or directory
 godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re-check
 godot --headless -s tools/check.gd -- --list             # what each rule covers
 
+# Drive a running game to see whether a change actually works. Nothing listens without
+# a port, and a release build carries no bridge at all. Node paths are relative to
+# `/root`. `tools/README.md` has the rest.
+tools/bridge.sh launch                     # start it, wait until past splash and loading
+tools/bridge.sh screenshot --out shot.png  # a real frame; --node crops to one control
+tools/bridge.sh tree --path Main           # names, classes, visibility, control rects
+tools/bridge.sh eval 'Main.screens().get_depth()'
+tools/bridge.sh logs                       # what the game printed, errors included
+
 # Bake `.aseprite` sources to a PNG sheet plus a tag manifest for the stock importer.
 # Never filter `*.aseprite` in an export preset: it drops the baked file beside it too.
 tools/aseprite.sh --out assets/baked assets/src
