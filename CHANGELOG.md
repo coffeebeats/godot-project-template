@@ -1,5 +1,20 @@
 # Changelog
 
+## 5.1.0 (2026-09-09)
+
+## What's Changed
+* refactor(screen): declare screen pushers as attachments, not scene nodes by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/462
+* feat(tools): add a uid fixer and reference scenes by uid by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/464
+* feat(tools): consolidate the project checks and gate pull requests on them by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/465
+* chore(docs): trim AGENTS.md to what no checker rule or skill can catch by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/466
+* feat(tools): drive gdformat and gdlint from checked-in config files by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/467
+* feat(tools): bake Aseprite sources to a sheet and tag manifest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/468
+* feat(debug): inspect and drive a running game from the command line by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/469
+* chore(docs): move live-game instructions into a run-game skill by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/471
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.0.1...v5.1.0
+
 ## 5.0.1 (2026-09-02)
 
 ## What's Changed
