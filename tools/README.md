@@ -11,11 +11,8 @@ Development tooling for this template. Verified on Godot **4.7.2.stable.official
 | `.claude/hooks/gd_on_edit.sh` | Runs format, lint and the checker on each file edit. |
 | `.claude/skills/godot-api/dump_api.sh` | Dumps engine, std and project API references. |
 
-`tools/` holds scripts with a consumer other than Claude — CI, a hook, or a human. A
-script only ever run by Claude, as one step of one workflow, ships beside its
-`SKILL.md`; hooks live next to the `settings.json` that calls them. That is why the
-dump script and the hook are not in this directory: both ship elsewhere as a Claude
-plugin, and a plugin cannot carry a file out of `tools/`.
+The last two live outside `tools/` because both ship elsewhere as a Claude plugin, and
+a plugin cannot carry a file out of this directory. AGENTS.md has the placement rule.
 
 ## `tools/check.gd`
 
@@ -49,9 +46,9 @@ The full scan is a step in the `test` job of `check-project.yaml`, ahead of GUT,
 project that will not load reports as one legible line rather than as whatever GUT
 makes of it. CI runs it without `--fix`, since a check job reports rather than edits.
 
-### One binary rather than one script per check
+### One Godot boot for every rule
 
-Rules share a single Godot boot, because the boot is almost the whole cost:
+The boot is almost the whole cost:
 
 | Operation | Time |
 | --- | --- |
@@ -61,9 +58,9 @@ Rules share a single Godot boot, because the boot is almost the whole cost:
 | `check.gd`, all 224 files | 8.0s |
 | `gdformat` then `gdlint`, one file | 1.9s |
 
-A rule declares its name, the extensions and roots it covers, and a check function;
-discovery, dispatch and `--list` all derive from the registry, so adding one touches
-no shared code. Add a rule only after a pitfall has bitten twice.
+A rule declares its name, the extensions and roots it covers, and a check function.
+Discovery, dispatch and `--list` all derive from the registry, so adding one touches no
+shared code.
 
 ### Files a missing GDExtension makes unreadable
 
@@ -77,17 +74,16 @@ build, so a Linux runner has no `Steam` singleton and seven files would otherwis
 report as defects of their own.
 
 The unit is a script, not a directory. `system/input/steam/observer.gd` never names
-`Steam` and compiles anywhere, and the `.tres` files beside it are plain data;
-blocking the directory would take those too, and with them every scene that depends
-on them, which is most of the input and platform wiring.
+`Steam` and compiles anywhere, and the `.tres` files beside it are plain data, so
+skipping the whole directory would drop most of the input and platform wiring from CI.
 
 ### What it does not cover
 
-`project.godot` holds the same kind of fragile path string as a scene does — the main
-scene, the autoloads, the bus layout, the translation list — and is out of scope. It
-is neither a scene nor a resource, the engine reads it before any of this runs, and
-several of its entries name files that carry no uid at all. Scripts are out of scope
-too: `preload` breaks loudly at compile time, which `compile` already catches.
+`project.godot` holds the same kind of fragile path string as a scene does, including
+the main scene, the autoloads, the bus layout and the translation list. It is neither a
+scene nor a resource, the engine reads it before any of this runs, and several of its
+entries name files that carry no uid at all. Scripts are out of scope too, since
+`preload` breaks loudly at compile time and `compile` already catches that.
 
 ## Engine behavior the checker is shaped around
 
@@ -115,8 +111,7 @@ process exits 0 having run nothing. That is why every rule lives in one file; a
 checker split across files would report success while checking nothing.
 
 **`SceneTree.quit(code)` collapses every non-zero code to 1** under `-s`, printing the
-requested code to stderr and discarding it. A tool gets one bit, and the caller reads
-the output for the rest.
+requested code to stderr and discarding it.
 
 **A missing `[ext_resource]` target does not fail a load.** The engine prints a parse
 error, then the scene loads, `instantiate()` succeeds, and the node that needed the
@@ -128,8 +123,8 @@ resolves.
 **A path held in a string property is never rewritten.** The engine's move and rename
 fixup covers `ext_resource` headers and nothing else, so `StdScreen.scene_path`, its
 attachment and dependency lists, and `StdConditionLoader.scene` point at nothing the
-moment their target moves — silently, since nothing reads the string until the screen
-is pushed or the condition allows. A `uid://` reference survives, because the id
+moment their target moves. It fails silently, since nothing reads the string until the
+screen is pushed or the condition allows. A `uid://` reference survives, because the id
 travels in the target's own header.
 
 **Uid resolution reads a cache a script process does not rebuild.** A reference to a
@@ -147,10 +142,10 @@ to reach zero, so use `--quit-after 30`. A boot is therefore not a substitute fo
 ## The edit hook
 
 `.claude/hooks/gd_on_edit.sh` runs gdformat and gdlint on `.gd` edits, then
-`check.gd --fix` on any file the checker covers — one Godot boot for every rule that
-applies. A repair is reported like a failure so the agent learns the file changed
-under it; the engine cannot distinguish the two through an exit code, so the label
-stays neutral and the checker's output says which it was.
+`check.gd --fix` on any file the checker covers. A repair is reported like a failure so
+the agent learns the file changed under it; the engine cannot distinguish the two
+through an exit code, so the label stays neutral and the checker's output says which it
+was.
 
 It fires on `Edit` and `Write` only, so a file written any other way stays unchecked
 until a full run. Three things it must get right:
@@ -165,10 +160,9 @@ until a full run. Three things it must get right:
   actionable and all of it buries the lines that are, so the hook drops those by
   exact match. Script errors and warnings are never filtered.
 
-The `project/core/` branch runs a fast simulation test and is guarded on a `*_test.gd`
-actually being present. Without that guard it is not inert: run against a directory
-holding no test, GUT spends 3.3s to report that nothing ran and exits 0 while doing
-it, so the cost is invisible.
+The `project/core/` branch runs a fast simulation test, guarded on a `*_test.gd`
+actually being present. Run against a directory holding no test, GUT spends 3.3s to
+report that nothing ran and exits 0, so the cost would be invisible.
 
 ## `tools/aseprite.sh`
 
@@ -180,12 +174,7 @@ tools/aseprite.sh assets/src/hero.aseprite       # beside the source
 tools/aseprite.sh --out assets/baked assets/src  # a whole directory
 ```
 
-This is the only content tool the pipeline needs. Sound is sourced from CC0 packs rather
-than synthesized, and neither editor addon survived the test that matters: an editor
-addon's value is its GUI, which is exactly what neither Claude nor CI can drive. The
-human still uses a GUI to draw the sprite; it is just not committed infrastructure.
-
-The export is one confirmed command, and every flag in it earns its place:
+The export command:
 
 ```sh
 aseprite -b src.aseprite --sheet out.png --sheet-type horizontal \
@@ -196,7 +185,7 @@ aseprite -b src.aseprite --sheet out.png --sheet-type horizontal \
 animations at all. There is no `--trim`, because uniform full-canvas frames are what
 `hframes` and `SpriteFrames` expect.
 
-### The manifest is trimmed, not verbatim
+### The manifest
 
 Aseprite's own JSON carries `meta.image` as an absolute path and `meta.version` as the
 installed binary, so committing it verbatim churns the file on every machine and every
@@ -213,12 +202,11 @@ Durations are milliseconds and `direction` is `forward`, `reverse` or `pingpong`
 
 Both halves go through the stock importer with nothing else installed: the PNG imports as
 a `CompressedTexture2D` with a `.import` sidecar, and `load()` on the manifest returns a
-`JSON` whose `.data` is the dictionary above. Read numbers out of it with `int(...)` —
-JSON has one number type, so `from` and `to` arrive as floats.
+`JSON` whose `.data` is the dictionary above. Read numbers out of it with `int(...)`,
+since JSON has one number type and `from` and `to` arrive as floats.
 
-No `SpriteFrames` generator ships with this. The template has no sprite consumer to write
-one against; it belongs to the `sprite` skill, which is written once the job has been
-done by hand twice.
+No `SpriteFrames` generator ships with this. The manifest carries what one needs: the
+frame size, each frame's duration, and every tag's range and direction.
 
 ### The fixture
 
@@ -232,7 +220,7 @@ aseprite -b --script tools/testdata/make_sprite_fixture.lua
 
 `tools/.gdignore` keeps all of this out of the import pipeline.
 
-### Two things that fail silently
+### What fails silently
 
 **Never filter `*.aseprite` in an export preset.** A filter matching a source also drops
 the `.res`/`.sample` baked beside it, and nothing says so until an exported build looks
@@ -244,6 +232,4 @@ refuses the second rather than baking it; give them distinct names or separate `
 directories.
 
 **The binary's path is per-machine.** It is found through `ASEPRITE`, then `PATH`, then
-the usual install locations. The editor addon needed the same path as an `EditorSettings`
-key — shared across projects, seeded with a malformed value on Windows, and uncommittable
-— which is the other half of why it was dropped.
+the usual install locations.
