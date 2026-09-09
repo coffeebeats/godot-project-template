@@ -34,7 +34,7 @@ What `uv` will never supply. Each has to be visible from the shell the scripts r
 | Godot | everything | The [pinned version](./.godot-version), via `gdenv`. |
 | `git` | submodules | |
 | `jq` | [`.claude/hooks/gd_on_edit.sh`](./.claude/hooks/gd_on_edit.sh), [`tools/aseprite.sh`](./tools/aseprite.sh) | |
-| `msgfmt`, `msgmerge` (gettext) | [`tools/sync-translations.sh`](./tools/sync-translations.sh) | On MSYS2, install `mingw-w64-ucrt-x86_64-gettext`. The plain `gettext` package lands in `/c/msys64/usr/bin`, which is **not** on the PATH Git Bash uses, so `msgfmt` can be installed and still be invisible. |
+| `msgfmt`, `msgmerge` (gettext) | [`tools/sync-translations.sh`](./tools/sync-translations.sh) | On MSYS2, install the ucrt64 build (`mingw-w64-ucrt-x86_64-gettext`). The plain `gettext` package installs to a prefix Git Bash does not carry on `PATH`, so `msgfmt` can be installed and still be invisible. |
 | Aseprite | [`tools/aseprite.sh`](./tools/aseprite.sh) | Optional; only needed to bake `.aseprite` sources. |
 
 ### **Code submission**
