@@ -30,6 +30,10 @@
 class_name ProjectMap
 extends Control
 
+# -- DEPENDENCIES -------------------------------------------------------------------- #
+
+const Debug := preload("res://system/debug/debug.gd")
+
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
 ## sub_viewport is a `SubViewport` that renders the game world at a specific resolution.
@@ -45,6 +49,8 @@ var _save_data: ProjectSaveData = null
 func _exit_tree() -> void:
 	if Engine.is_editor_hint():
 		return
+
+	Debug.unregister(&"map", _get_debug_state)
 
 	_save_data = null
 
@@ -68,6 +74,10 @@ func _get_configuration_warnings() -> PackedStringArray:
 func _ready():
 	if Engine.is_editor_hint():
 		return
+
+	# NOTE: Registered before the save data check below, so a map run on its own, with
+	# no save data and no `Main`, is still inspectable.
+	Debug.register(&"map", _get_debug_state)
 
 	_save_data = Main.get_active_save_data()
 	if not _save_data:
@@ -97,6 +107,37 @@ func viewport_to_screen(p: Vector2) -> Vector2:
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+## _get_debug_state reports the map's view state to the debug bridge. Every map
+## inherits this, so an inherited scene answers `call map` with no wiring of its own.
+func _get_debug_state() -> Dictionary:
+	var out := {
+		&"scene": scene_file_path,
+		&"viewport": get_viewport_rect().size,
+		&"screen_rect": get_screen_rect(),
+	}
+
+	if not sub_viewport:
+		return out
+
+	out[&"resolution"] = sub_viewport.size
+
+	var world := PackedStringArray()
+	for child in sub_viewport.get_children():
+		world.append(String(child.name))
+
+	out[&"world"] = world
+
+	var camera_2d := sub_viewport.get_camera_2d()
+	if camera_2d:
+		out[&"camera"] = camera_2d.get_screen_center_position()
+
+	var camera_3d := sub_viewport.get_camera_3d()
+	if camera_3d:
+		out[&"camera"] = camera_3d.global_position
+
+	return out
 
 
 ## _get_visual_scale returns the per-axis scale factor applied between `SubViewport`-
