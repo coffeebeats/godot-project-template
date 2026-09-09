@@ -36,7 +36,7 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 	return properties
 
 
-func _handle_value_change(property: StdSettingsProperty, value) -> void:
+func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void:
 	if not sub_viewport:
 		return
 

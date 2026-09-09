@@ -53,7 +53,7 @@ func test_migrated_data_has_no_orphaned_keys() -> void:
 		_apply_migrations(config, v)
 
 		# Then: Every category and key in the migrated config has the correct type.
-		for category_sn in config._data.keys():
+		for category_sn: Variant in config._data.keys():
 			var category := str(category_sn)
 			if category == "__meta__":
 				continue
@@ -69,7 +69,7 @@ func test_migrated_data_has_no_orphaned_keys() -> void:
 			var expected: Dictionary = _current_properties[category]
 			var cat_data: Dictionary = config._data[category_sn]
 
-			for key_sn in cat_data.keys():
+			for key_sn: Variant in cat_data.keys():
 				var key := str(key_sn)
 
 				assert_true(
@@ -102,11 +102,11 @@ func test_migrated_data_preserves_shared_values() -> void:
 
 		# Given: The pre-migration values of keys shared with the current schema.
 		var shared := {}
-		for category in old_props.keys():
+		for category: Variant in old_props.keys():
 			if category not in _current_properties:
 				continue
 
-			for key in old_props[category].keys():
+			for key: Variant in old_props[category].keys():
 				var cur_keys: Dictionary = _current_properties[category]
 				if key not in cur_keys:
 					continue
@@ -132,8 +132,8 @@ func test_migrated_data_preserves_shared_values() -> void:
 		_apply_migrations(config, v)
 
 		# Then: Every shared key retains its pre-migration value.
-		for category in shared.keys():
-			for key in shared[category].keys():
+		for category: Variant in shared.keys():
+			for key: Variant in shared[category].keys():
 				var expected: Variant = shared[category][key]
 				var actual: Variant = (
 					config
@@ -169,7 +169,7 @@ func before_all() -> void:
 static func _get_schema_properties(schema: StdConfigSchema) -> Dictionary:
 	var unsorted := {}
 
-	for property in _sorted_serde_properties(schema):
+	for property: Dictionary in _sorted_serde_properties(schema):
 		var item: Variant = schema.get(property[&"name"])
 		if not item is StdConfigItem:
 			continue
@@ -177,7 +177,7 @@ static func _get_schema_properties(schema: StdConfigSchema) -> Dictionary:
 		var category := str(item.get_category())
 		var keys := {}
 
-		for item_prop in _sorted_serde_properties(item):
+		for item_prop: Dictionary in _sorted_serde_properties(item):
 			keys[str(item_prop[&"name"])] = int(item_prop[&"type"])
 
 		unsorted[category] = keys
@@ -187,11 +187,11 @@ static func _get_schema_properties(schema: StdConfigSchema) -> Dictionary:
 	var categories := unsorted.keys()
 	categories.sort()
 
-	for category in categories:
+	for category: Variant in categories:
 		result[category] = {}
 		var keys: Array = unsorted[category].keys()
 		keys.sort()
-		for key in keys:
+		for key: Variant in keys:
 			result[category][key] = unsorted[category][key]
 
 	return result
@@ -207,7 +207,7 @@ func _apply_migrations(config: Config, from_version: int) -> void:
 			return a.version_from < b.version_from
 	)
 
-	for migration in sorted:
+	for migration: StdConfigSchemaMigration in sorted:
 		if (
 			migration.version_from >= from_version
 			and migration.version_from < _current_version
@@ -255,11 +255,11 @@ func _generate_config(properties: Dictionary, version: int) -> Config:
 	var categories := properties.keys()
 	categories.sort()
 
-	for category in categories:
+	for category: Variant in categories:
 		var keys: Array = properties[category].keys()
 		keys.sort()
 
-		for key in keys:
+		for key: Variant in keys:
 			var type: int = properties[category][key]
 			var value: Variant = _get_random_value_for_type(type, rng)
 			if value != null:
@@ -302,9 +302,9 @@ func _load_schema_properties(version: int) -> Dictionary:
 
 	# Convert loaded data to match introspected types.
 	var result := {}
-	for category in json.data.keys():
+	for category: Variant in json.data.keys():
 		result[str(category)] = {}
-		for key in json.data[category].keys():
+		for key: Variant in json.data[category].keys():
 			result[str(category)][str(key)] = (int(json.data[category][key]))
 
 	return result

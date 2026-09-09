@@ -67,7 +67,7 @@ static func instance() -> Node:
 ## list_commands returns the names of the registered command handlers, sorted.
 func list_commands() -> PackedStringArray:
 	var out := PackedStringArray()
-	for command in _handlers:
+	for command: StringName in _handlers:
 		out.append(String(command))
 
 	out.sort()
@@ -535,12 +535,12 @@ func _to_json(value: Variant) -> Variant:
 			return [value.origin.x, value.origin.y, value.get_rotation()]
 		TYPE_ARRAY, TYPE_PACKED_STRING_ARRAY, TYPE_PACKED_INT32_ARRAY:
 			var out: Array = []
-			for item in value:
+			for item: Variant in value:
 				out.append(_to_json(item))
 			return out
 		TYPE_DICTIONARY:
 			var out := {}
-			for key in value:
+			for key: Variant in value:
 				out[String(key)] = _to_json(value[key])
 			return out
 		TYPE_OBJECT:

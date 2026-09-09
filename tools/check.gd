@@ -386,10 +386,10 @@ class PathRefRule:
 			var replaced := line
 
 			for found in _reference.search_all(line):
-				var reference := found.get_string(1)
-				var uid := _preferred_uid(reference)
+				var ref := found.get_string(1)
+				var uid := _preferred_uid(ref)
 				if uid != "":
-					replaced = replaced.replace('"%s"' % reference, '"%s"' % uid)
+					replaced = replaced.replace('"%s"' % ref, '"%s"' % uid)
 
 			if replaced != line:
 				lines[i] = replaced
@@ -412,11 +412,11 @@ class PathRefRule:
 		return true
 
 	## _describe returns what is wrong with a reference, or an empty string if it is fine.
-	func _describe(reference: String) -> String:
-		if reference.begins_with("uid://"):
-			return _describe_uid(reference)
+	func _describe(ref: String) -> String:
+		if ref.begins_with("uid://"):
+			return _describe_uid(ref)
 
-		return _describe_path(reference)
+		return _describe_path(ref)
 
 	## _describe_dependency returns what is wrong with an `[ext_resource]` header, or an
 	## empty string. One resolving reference on the line is enough, since the engine falls
@@ -425,11 +425,11 @@ class PathRefRule:
 		var references := PackedStringArray()
 
 		for found in _reference.search_all(line):
-			var reference := found.get_string(1)
-			if _resolves(reference):
+			var ref := found.get_string(1)
+			if _resolves(ref):
 				return ""
 
-			references.append(reference)
+			references.append(ref)
 
 		if references.is_empty():
 			return ""
@@ -438,11 +438,11 @@ class PathRefRule:
 
 	## _describe_path returns what is wrong with a `res://` reference, or an empty string
 	## if there is nothing wrong with it.
-	func _describe_path(reference: String) -> String:
-		if not _resolves(reference):
+	func _describe_path(ref: String) -> String:
+		if not _resolves(ref):
 			return "path does not exist"
 
-		var uid := _preferred_uid(reference)
+		var uid := _preferred_uid(ref)
 		if uid == "":
 			return ""
 
@@ -450,8 +450,8 @@ class PathRefRule:
 
 	## _describe_uid returns what is wrong with a `uid://` reference, or an empty string
 	## if there is nothing wrong with it.
-	func _describe_uid(reference: String) -> String:
-		var id := ResourceUID.text_to_id(reference)
+	func _describe_uid(ref: String) -> String:
+		var id := ResourceUID.text_to_id(ref)
 		if id == ResourceUID.INVALID_ID or not ResourceUID.has_id(id):
 			return "unknown uid; if its target is new, run `godot --import --headless`"
 
@@ -476,25 +476,22 @@ class PathRefRule:
 	## _preferred_uid returns the uid a `res://` reference should use, or an empty string
 	## when there is none to use — an unimported file, a directory, or a kind of file that
 	## carries no uid.
-	func _preferred_uid(reference: String) -> String:
-		if not reference.begins_with("res://"):
+	func _preferred_uid(ref: String) -> String:
+		if not ref.begins_with("res://"):
 			return ""
 
-		var id := ResourceLoader.get_resource_uid(reference)
+		var id := ResourceLoader.get_resource_uid(ref)
 		if id == ResourceUID.INVALID_ID:
 			return ""
 
 		return ResourceUID.id_to_text(id)
 
 	## _resolves reports whether a reference points at something that exists.
-	func _resolves(reference: String) -> bool:
-		if reference.begins_with("uid://"):
-			return _describe_uid(reference) == ""
+	func _resolves(ref: String) -> bool:
+		if ref.begins_with("uid://"):
+			return _describe_uid(ref) == ""
 
-		return (
-			FileAccess.file_exists(reference)
-			or DirAccess.dir_exists_absolute(reference)
-		)
+		return FileAccess.file_exists(ref) or DirAccess.dir_exists_absolute(ref)
 
 
 ## LoadRule reports files that do not parse or instantiate.
@@ -679,7 +676,7 @@ class NodePathRule:
 				continue
 
 			for j in state.get_node_property_count(i):
-				var value = state.get_node_property_value(i, j)
+				var value: Variant = state.get_node_property_value(i, j)
 				if not (value is NodePath) or String(value) == "":
 					continue
 
@@ -816,8 +813,8 @@ func _discover(rules: Array[Rule]) -> Array[String]:
 	var seen := {}
 
 	for rule in rules:
-		for root in rule.roots if not rule.roots.is_empty() else SCAN_ROOT:
-			_scan(root, rule.extensions, seen)
+		for rule_root in rule.roots if not rule.roots.is_empty() else SCAN_ROOT:
+			_scan(rule_root, rule.extensions, seen)
 
 	var found: Array[String] = []
 	found.append_array(seen.keys())
@@ -872,7 +869,7 @@ func _localize(path: String) -> String:
 func _missing_extensions() -> Dictionary:
 	var missing := {}
 
-	for extension in EXTENSION_SCRIPTS:
+	for extension: String in EXTENSION_SCRIPTS:
 		if not GDExtensionManager.is_extension_loaded(extension):
 			missing[extension] = EXTENSION_SCRIPTS[extension]
 
@@ -889,8 +886,8 @@ func _missing_extensions() -> Dictionary:
 func _needs_missing_extension(file: SourceFile, missing: Dictionary) -> bool:
 	var blocked := {}
 
-	for entry in missing.values():
-		for script_path in entry:
+	for entry: Array in missing.values():
+		for script_path: String in entry:
 			blocked[script_path] = true
 
 	if blocked.is_empty():

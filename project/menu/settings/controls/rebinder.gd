@@ -56,7 +56,7 @@ var _scope: StdSettingsScope = null
 
 
 ## find_in_scene returns the `BindingPrompt` node within the scene, if it exists.
-static func find_in_scene():
+static func find_in_scene() -> Variant:
 	return StdGroup.get_sole_member(GROUP_REBINDER)
 
 

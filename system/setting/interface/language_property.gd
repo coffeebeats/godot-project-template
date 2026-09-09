@@ -60,7 +60,7 @@ func _find_matching_locale(locale: String) -> String:
 	var locale_best: StringName = &"en_US"
 	var score_best: int = 0
 
-	for l in language_options_property.get_value():
+	for l: String in language_options_property.get_value():
 		var score := TranslationServer.compare_locales(l, locale)
 		if score > score_best:
 			locale_best = l

@@ -128,7 +128,7 @@ func _gui_input(event: InputEvent) -> void:
 				StdInputEvent.trigger_action(action, event.device)
 
 
-func _ready():
+func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 

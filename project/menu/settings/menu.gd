@@ -35,7 +35,7 @@ func _enter_tree() -> void:
 	# Re-entry (cached instance pushed again):
 	_tab_switch_muted = true
 	_tab_group.select(_tab_group.default_tab)
-	(func(): _tab_switch_muted = false).call_deferred()
+	(func() -> void: _tab_switch_muted = false).call_deferred()
 
 
 func _ready() -> void:

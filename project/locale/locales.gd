@@ -70,7 +70,7 @@ static func _translate(msg: StringName, ctx: StringName, locale: StringName) -> 
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _init():
+func _init() -> void:
 	assert(
 		not OS.is_debug_build(),
 		"Invalid config; this 'Object' should not be instantiated!"

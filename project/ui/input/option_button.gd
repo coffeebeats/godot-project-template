@@ -18,7 +18,7 @@ extends OptionButton
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _ready():
+func _ready() -> void:
 	assert(
 		not (checkable and radio_checkable),
 		"invalid state: cannot set checkable and radio_checkable",

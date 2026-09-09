@@ -29,7 +29,10 @@ extends HudAnchor
 
 func get_world_position() -> Variant:
 	var node := get_target() as Node3D
-	return node.global_position if node else null
+	if not node:
+		return null
+
+	return node.global_position
 
 
 func get_target() -> Node:

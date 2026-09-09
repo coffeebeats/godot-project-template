@@ -11,5 +11,5 @@ const Version := preload("res://version.gd")
 # -- ENGINE METHODS (OVERRIDES) ------------------------------------------------------ #
 
 
-func _ready():
+func _ready() -> void:
 	$Label.text = Version.get_semantic_version(false)

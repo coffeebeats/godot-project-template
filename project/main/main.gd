@@ -235,7 +235,9 @@ func _ready() -> void:
 
 	# NOTE: A pop emits only `screen_uncovered`, so clearing this on `screen_entered`
 	# alone would leave the app "in transition" forever after the first close.
-	for signal_transitioning in [_manager.screen_entering, _manager.screen_exiting]:
+	for signal_transitioning: Signal in [
+		_manager.screen_entering, _manager.screen_exiting
+	]:
 		Signals.connect_safe(
 			signal_transitioning,
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
@@ -314,7 +316,7 @@ func _accumulate_play_time() -> void:
 
 
 func _await_initial_loaded() -> void:
-	for result in _preload_results.values():
+	for result: Variant in _preload_results.values():
 		if not result.is_done():
 			await result.done
 
@@ -370,7 +372,7 @@ func _is_booted() -> bool:
 
 
 func _is_initial_loaded() -> bool:
-	for result in _preload_results.values():
+	for result: Variant in _preload_results.values():
 		if not result.is_done():
 			return false
 

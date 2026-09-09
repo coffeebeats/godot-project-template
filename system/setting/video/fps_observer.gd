@@ -31,7 +31,7 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 	return [vsync_property, frame_limit_property]
 
 
-func _handle_value_change(property: StdSettingsProperty, value) -> void:
+func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void:
 	if property == vsync_property:
 		if Feature.is_web_platform():
 			return  # VSync is not supported on the Web platform.

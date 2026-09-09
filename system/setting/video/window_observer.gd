@@ -113,7 +113,7 @@ func _get_settings_properties() -> Array[StdSettingsProperty]:
 	return [fullscreen_property, borderless_property]
 
 
-func _handle_value_change(property: StdSettingsProperty, value) -> void:
+func _handle_value_change(property: StdSettingsProperty, value: Variant) -> void:
 	if property == fullscreen_property:
 		assert(fullscreen_property, "invalid state: missing property")
 		assert(window_mode_property, "invalid state: missing property")

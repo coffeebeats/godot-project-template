@@ -215,7 +215,7 @@ func _describe_elements(node: Node, depth: int) -> Array:
 func _get_debug_state() -> Dictionary:
 	var groups := []
 
-	for key in _groups:
+	for key: int in _groups:
 		var group: HudGroup = _groups[key]
 		if not is_instance_valid(group):
 			continue

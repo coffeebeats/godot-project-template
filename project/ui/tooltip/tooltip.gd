@@ -323,7 +323,7 @@ func _hide_tooltip(delay: float) -> void:
 
 	_is_waiting_to_hide = true
 	_tween.tween_interval(delay)
-	_tween.tween_callback(func(): _is_waiting_to_hide = false)
+	_tween.tween_callback(func() -> void: _is_waiting_to_hide = false)
 
 	if fade_out:
 		fade_out.apply_tween_property(_tween, self, false)

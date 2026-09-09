@@ -82,7 +82,7 @@ func _enter_tree() -> void:
 	get_tree().set_auto_accept_quit(false)
 
 
-func _notification(what):
+func _notification(what: int) -> void:
 	# Prior to quitting, propagate the quit request to all nodes in the scene tree. This
 	# allows for graceful shutdown. See
 	#   https://docs.godotengine.org/en/stable/tutorials/inputs/handling_quit_requests.html#handling-the-notification. # gdlint:ignore=max-line-length
