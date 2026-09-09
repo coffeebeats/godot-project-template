@@ -87,25 +87,6 @@ every warning the engine enables by default apart from three, plus `untyped_decl
 which the engine ships off. That makes a warning fail the editor, the edit hook and CI
 through machinery that already exists; nothing here reads warnings, and nothing needs to.
 
-`unused_variable`, `unused_local_constant` and `unused_parameter` stay at level 1 on
-purpose. Each fires on work in progress — a variable declared a line before it is
-used — and promoting them would leave the game unrunnable mid-edit for something that
-is not a defect. They are still reported in the editor.
-
-`untyped_declaration` is the one addition to the engine's defaults, and it covers more
-than its name suggests: an untyped variable, an untyped parameter, an untyped `for`
-iterator, and a function with no return type all raise it. Clearing it took forty sites
-in twenty files, over half of them in the save migration test. The rest of what the
-engine ships off — the `unsafe_*` family, `return_value_discarded`, `missing_await` —
-stays off; `unsafe_call_argument` alone would light up most of the project.
-
-Godot 4 has no `treat_warnings_as_errors`; the Godot 3 setting was removed and the
-level is per warning, so the set is maintained by hand and a warning the engine adds
-later arrives at level 1, promoted only once a version bump surfaces it.
-
-Comments do not survive here: the editor rewrites `project.godot` and drops them,
-which is why this is written down in this file.
-
 ### What it does not cover
 
 `project.godot` holds the same kind of fragile path string as a scene does, including
@@ -311,12 +292,10 @@ killed.
 `push_warning` the message alone, so anything the reader needs has to be in the message
 string. `info` and below keep their context.
 
-**The viewport image is read after `await RenderingServer.frame_post_draw`.** Two
-attempts to show that the await is required did not succeed: awaiting `process_frame`
-instead still produced a complete frame, and a probe which changed `ColorRect.color` and
-captured on both sides of the draw produced two byte-identical images, because that
-setter queues its redraw for the *next* frame. It is kept as cheap insurance rather than
-a demonstrated requirement.
+**The viewport image is read after `await RenderingServer.frame_post_draw`.** This is
+kept as cheap insurance rather than a demonstrated requirement: awaiting `process_frame`
+instead still produced a complete frame, and toggling `ColorRect.color` across the draw
+produced byte-identical images, since that setter's redraw queues for the next frame.
 
 **A coroutine that never resumes takes its reply with it**, leaving the client waiting
 on a socket nothing will ever write to. Every awaiting command carries a
