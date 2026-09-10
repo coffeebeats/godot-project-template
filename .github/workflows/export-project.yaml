@@ -9,9 +9,9 @@ on:
         required: false
       component:
         type: string
-        description: "The export preset component to build, matched against the start of each preset name."
+        description: "Build only the presets whose name begins with this component. If empty, every preset matching the target is built and packaged together."
         required: false
-        default: "main"
+        default: ""
       platform:
         type: string
         required: true
@@ -48,6 +48,8 @@ jobs:
 
     outputs:
       presets: ${{ steps.set-presets.outputs.value }}
+      artifact-name: ${{ steps.set-presets.outputs.artifact-name }}
+      artifact-pattern: ${{ steps.set-presets.outputs.artifact-pattern }}
       godot-version: "${{ steps.version.outputs.semantic }}"
 
     steps:
@@ -66,18 +68,50 @@ jobs:
         # interpolated, so a dispatch-supplied 'component' cannot reach the
         # shell as code.
         env:
-          PRESET: "${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
+          COMPONENT: "${{ inputs.component }}"
+          PROFILE: "${{ inputs.profile }}"
+          TARGET: "${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
         run: |-
-          # '-x' and '-F' make this an exact, literal match, so one component
-          # can never select another's presets and a storefront cannot select a
-          # longer one that starts with it.
-          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep -xF "$PRESET" || true))
+          # A preset belongs to this build when its name ends with the target at
+          # a segment boundary and, when a component is named, begins with that
+          # component. Each 'case' pattern quotes its variable, so a component
+          # carrying glob characters is matched as text.
+          #
+          # NOTE: Several presets can match, and they are packaged into a single
+          # artifact, which is how one game ships a main executable alongside a
+          # separate bundle. Naming a component narrows the set to one game's
+          # presets, which is what a repository holding several games needs.
+          PRESETS=()
+
+          while IFS= read -r NAME; do
+            case "$NAME" in
+            "$TARGET" | *-"$TARGET") ;;
+            *) continue ;;
+            esac
+
+            if [ -n "$COMPONENT" ]; then
+              case "$NAME" in
+              "$COMPONENT"-*) ;;
+              *) continue ;;
+              esac
+            fi
+
+            PRESETS+=("$NAME")
+          done < <(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g')
+
           if [ ${#PRESETS[@]} -eq 0 ]; then
-            echo "::error::'export_presets.cfg' defines no preset named '$PRESET'."
+            echo "::error::'export_presets.cfg' defines no preset matching '${COMPONENT:+$COMPONENT-}*$TARGET'."
             exit 1
           fi
 
           echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
+
+          # The 'package' job downloads the artifacts the 'export' job publishes
+          # as 'export-<preset>'. This glob mirrors the rule above and is
+          # anchored at the end, so one storefront cannot select a longer one
+          # that starts with it.
+          echo "artifact-name=game-${COMPONENT:+$COMPONENT-}$TARGET-$PROFILE" >> "$GITHUB_OUTPUT"
+          echo "artifact-pattern=export-${COMPONENT:+$COMPONENT-}*$TARGET" >> "$GITHUB_OUTPUT"
 
   compile:
     needs: ["config"]
@@ -230,38 +264,28 @@ jobs:
     needs: ["config", "export"]
 
     outputs:
-      artifact-name: ${{ env.ARTIFACT_NAME }}
+      artifact-name: ${{ needs.config.outputs.artifact-name }}
 
     env:
-      ARTIFACT_NAME: "game-${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+      ARTIFACT_NAME: ${{ needs.config.outputs.artifact-name }}
 
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - name: Compute export preset artifact pattern
-        id: export-preset-artifacts
-        # NOTE: This needs to match the 'export' job's artifact names because
-        # there's no easy way to reference the names exactly. If we don't do
-        # this then this step can accidentally download artifacts from other
-        # jobs with different inputs.
-        env:
-          PRESET: "${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
-        run: echo "pattern=export-$PRESET" >> "$GITHUB_OUTPUT"
-
       - name: Download export preset artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           path: ${{ runner.temp }}/presets
 
-          pattern: ${{ steps.export-preset-artifacts.outputs.pattern }}
+          pattern: ${{ needs.config.outputs.artifact-pattern }}
           merge-multiple: true
 
       # NOTE: These are intermediate artifacts which don't need to be published.
       - name: Delete export preset artifacts
         uses: geekyeggo/delete-artifact@176a747ab7e287e3ff4787bf8a148716375ca118
         with:
-          name: ${{ steps.export-preset-artifacts.outputs.pattern }}
+          name: ${{ needs.config.outputs.artifact-pattern }}
 
       - name: Inspect game artifacts
         run: tree -lha --dirsfirst ${{ runner.temp }}/presets
