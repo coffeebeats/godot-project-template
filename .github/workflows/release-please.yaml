@@ -108,7 +108,9 @@ jobs:
 
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          pattern: "game-*" # NOTE: This pattern must match the prior workflow.
+          # NOTE: 'export-project.yaml' names the artifact after the component,
+          # and this flow passes none, so every artifact starts with 'game-'.
+          pattern: "game-*"
           path: ${{ runner.temp }}/dist
           merge-multiple: true
 
