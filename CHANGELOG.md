@@ -1,5 +1,16 @@
 # Changelog
 
+## 5.3.0 (2026-09-10)
+
+## What's Changed
+* feat(tools): promote default-on GDScript warnings to compile errors by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/477
+* chore(project): drop redundant warning settings and bump `std` to v5.2.3 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/479
+* chore(tools): manage Python tooling with uv by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/480
+* feat(ci): select export presets with an optional `component` filter by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/481
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.2.0...v5.3.0
+
 ## 5.2.0 (2026-09-09)
 
 **Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.1.0...v5.2.0
