@@ -7,6 +7,11 @@ on:
         type: string
         description: "The branch or tag name to check out. If empty, uses either the triggering event's SHA or the HEAD commit of the default branch."
         required: false
+      component:
+        type: string
+        description: "Build only the presets whose name begins with this component. If empty, every preset for the requested platform, architecture and storefront is built and packaged together."
+        required: false
+        default: ""
       platform:
         type: string
         required: true
@@ -43,6 +48,8 @@ jobs:
 
     outputs:
       presets: ${{ steps.set-presets.outputs.value }}
+      artifact-name: ${{ steps.set-presets.outputs.artifact-name }}
+      artifact-pattern: ${{ steps.set-presets.outputs.artifact-pattern }}
       godot-version: "${{ steps.version.outputs.semantic }}"
 
     steps:
@@ -57,9 +64,53 @@ jobs:
 
       - name: Evaluate presets
         id: set-presets
+        # NOTE: These inputs reach the script through the environment rather
+        # than interpolation, so a dispatch-supplied 'component' cannot arrive
+        # as shell code.
+        env:
+          COMPONENT: "${{ inputs.component }}"
+          PROFILE: "${{ inputs.profile }}"
+          TARGET: "${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
         run: |-
-          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep "${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"))
+          # A preset belongs to this build when its name ends with the target
+          # at a segment boundary and, when a component is named, begins with
+          # that component. Each 'case' pattern quotes its variable, so glob
+          # characters in a component match literally.
+          #
+          # NOTE: Several presets can match; they package into one artifact.
+          PRESETS=()
+
+          while IFS= read -r NAME; do
+            case "$NAME" in
+            "$TARGET" | *-"$TARGET") ;;
+            *) continue ;;
+            esac
+
+            if [ -n "$COMPONENT" ]; then
+              case "$NAME" in
+              "$COMPONENT"-*) ;;
+              *) continue ;;
+              esac
+            fi
+
+            PRESETS+=("$NAME")
+          done < <(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g')
+
+          if [ ${#PRESETS[@]} -eq 0 ]; then
+            echo "::error::'export_presets.cfg' defines no preset matching '${COMPONENT:+$COMPONENT-}*$TARGET'."
+            exit 1
+          fi
+
           echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
+
+          # 'game-' marks a packaged artifact, as 'export-' marks the per-preset
+          # intermediates. It stays fixed so callers can glob for the results.
+          echo "artifact-name=game-${COMPONENT:+$COMPONENT-}$TARGET-$PROFILE" >> "$GITHUB_OUTPUT"
+
+          # The 'package' job downloads what the 'export' job publishes as
+          # 'export-<preset>', so this glob mirrors the rule above. Anchoring
+          # the end stops 'steam' from selecting 'steamdeck'.
+          echo "artifact-pattern=export-${COMPONENT:+$COMPONENT-}*$TARGET" >> "$GITHUB_OUTPUT"
 
   compile:
     needs: ["config"]
@@ -102,8 +153,8 @@ jobs:
 
       # -------------------- Save export template artifact ------------------- #
 
-      # NOTE: Rather than pass the export template between jobs as an artifact,
-      # use the 'actions/cache' action, which is faster for small files.
+      # NOTE: The export template passes between jobs through 'actions/cache'
+      # rather than as an artifact, which is faster for small files.
 
       - name: Move the export template to the cache directory
         id: cache
@@ -119,7 +170,7 @@ jobs:
           tree -lha --dirsfirst ${{ runner.temp }}/build
 
           echo path="$TARGET" >> $GITHUB_OUTPUT
-          echo key='export-project-compile-${{ github.run_id }}-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}' >> $GITHUB_OUTPUT
+          echo key='export-project-compile-${{ github.run_id }}-${{ inputs.component }}-${{ inputs.platform }}-${{ inputs.arch }}-${{ inputs.storefront }}-${{ inputs.profile }}' >> $GITHUB_OUTPUT
 
       - name: Cache the export template to pass between jobs
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -153,7 +204,7 @@ jobs:
 
       - name: Delete 'compile' job cache
         env:
-          GH_TOKEN: ${{ github.token }} # Required in order to use the 'gh' CLI.
+          GH_TOKEN: ${{ github.token }} # Required by the 'gh' CLI.
         run: gh cache delete "${{ needs.compile.outputs.key }}"
 
       - name: Inspect compilation artifacts
@@ -161,8 +212,8 @@ jobs:
 
       # ----------------------- Export required presets ---------------------- #
 
-      # NOTE: The 'compile' job outputs bundle filepaths relative to the cache
-      # directory. This step updates those filepaths to be absolute.
+      # NOTE: The 'compile' job emits bundle filepaths relative to the cache
+      # directory, so this step makes them absolute.
       - name: Compute 'extra-bundled-files'
         id: bundle
         run: |
@@ -176,7 +227,6 @@ jobs:
             echo "EOM"
           } >> "$GITHUB_OUTPUT"
 
-      # Main executable
       - uses: coffeebeats/godot-infra/export-godot-project-preset@v5
         with:
           publish: true
@@ -212,36 +262,28 @@ jobs:
     needs: ["config", "export"]
 
     outputs:
-      artifact-name: ${{ env.ARTIFACT_NAME }}
+      artifact-name: ${{ needs.config.outputs.artifact-name }}
 
     env:
-      ARTIFACT_NAME: "game-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}-${{ inputs.profile }}"
+      ARTIFACT_NAME: ${{ needs.config.outputs.artifact-name }}
 
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - name: Compute export preset artifact pattern
-        id: export-preset-artifacts
-        # NOTE: This needs to match the 'export' job's artifact names because
-        # there's no easy way to reference the names exactly. If we don't do
-        # this then this step can accidentally download artifacts from other
-        # jobs with different inputs.
-        run: echo "pattern=export-*-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}" >> "$GITHUB_OUTPUT"
-
       - name: Download export preset artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           path: ${{ runner.temp }}/presets
 
-          pattern: ${{ steps.export-preset-artifacts.outputs.pattern }}
+          pattern: ${{ needs.config.outputs.artifact-pattern }}
           merge-multiple: true
 
       # NOTE: These are intermediate artifacts which don't need to be published.
       - name: Delete export preset artifacts
         uses: geekyeggo/delete-artifact@176a747ab7e287e3ff4787bf8a148716375ca118
         with:
-          name: ${{ steps.export-preset-artifacts.outputs.pattern }}
+          name: ${{ needs.config.outputs.artifact-pattern }}
 
       - name: Inspect game artifacts
         run: tree -lha --dirsfirst ${{ runner.temp }}/presets
@@ -249,21 +291,19 @@ jobs:
       - name: Assemble the final game artifact
         id: artifact
         run: |-
-          # Set options to enable more extensive globbing.
           shopt -s extglob
           shopt -s globstar
 
           LABEL="${{ env.ARTIFACT_NAME }}"
-
-          # NOTE: Create a permission-preserving archive for the game. This is
-          # critical to ensuring MacOS-targeted application bundles work when
-          # downloaded.
 
           cd ${{ runner.temp }}/presets
 
           ls -ls
 
           ARCHIVE_PATH="${{ runner.temp }}/${LABEL}.tar.gz"
+
+          # NOTE: The archive preserves permissions, without which MacOS
+          # application bundles do not run once downloaded.
           tar \
             --strip-components 1 \
             -czf $ARCHIVE_PATH \
