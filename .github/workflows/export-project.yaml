@@ -62,10 +62,18 @@ jobs:
 
       - name: Evaluate presets
         id: set-presets
+        # NOTE: The inputs are read from the environment rather than
+        # interpolated, so a dispatch-supplied 'component' cannot reach the
+        # shell as code.
+        env:
+          PRESET: "${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
         run: |-
-          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep "^${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}" || true))
+          # '-x' and '-F' make this an exact, literal match, so one component
+          # can never select another's presets and a storefront cannot select a
+          # longer one that starts with it.
+          PRESETS=($(grep '^name=' export_presets.cfg | sed 's/name=//' | sed 's/"//g' | grep -xF "$PRESET" || true))
           if [ ${#PRESETS[@]} -eq 0 ]; then
-            echo "::error::No export preset name starts with '${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}'."
+            echo "::error::'export_presets.cfg' defines no preset named '$PRESET'."
             exit 1
           fi
 
@@ -237,7 +245,9 @@ jobs:
         # there's no easy way to reference the names exactly. If we don't do
         # this then this step can accidentally download artifacts from other
         # jobs with different inputs.
-        run: echo "pattern=export-${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}*" >> "$GITHUB_OUTPUT"
+        env:
+          PRESET: "${{ inputs.component }}-${{ inputs.arch }}-${{ inputs.platform }}-${{ inputs.storefront }}"
+        run: echo "pattern=export-$PRESET" >> "$GITHUB_OUTPUT"
 
       - name: Download export preset artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
