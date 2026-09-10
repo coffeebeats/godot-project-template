@@ -103,9 +103,9 @@ jobs:
 
           echo value=$(jq -c -n '$ARGS.positional' --args "${PRESETS[@]}") >> $GITHUB_OUTPUT
 
-          # With no component to name it after, the artifact takes the project
-          # name, which stays 'game' until a project renames it.
-          echo "artifact-name=${COMPONENT:-game}-$TARGET-$PROFILE" >> "$GITHUB_OUTPUT"
+          # 'game-' marks a packaged artifact, as 'export-' marks the per-preset
+          # intermediates. It stays fixed so callers can glob for the results.
+          echo "artifact-name=game-${COMPONENT:+$COMPONENT-}$TARGET-$PROFILE" >> "$GITHUB_OUTPUT"
 
           # The 'package' job downloads what the 'export' job publishes as
           # 'export-<preset>', so this glob mirrors the rule above. Anchoring
