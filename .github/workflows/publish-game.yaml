@@ -12,7 +12,7 @@ on:
       component:
         type: string
         required: false
-        default: "main"
+        default: ""
       platform:
         type: string
         required: true
@@ -49,9 +49,9 @@ on:
         required: false
       component:
         type: string
-        description: "The export preset component to build."
+        description: "Build only the presets whose name begins with this component. If empty, every preset matching the target is built and published together."
         required: false
-        default: "main"
+        default: ""
 
       platform:
         type: choice
@@ -163,5 +163,5 @@ jobs:
           path: "./"
           version: ${{ inputs.version || inputs.ref }}
           itchio-project: ${{ contains(inputs.itchio-project, '/') && inputs.itchio-project || format('{0}/{1}', github.actor, inputs.itchio-project) }}
-          itchio-channel: "${{ inputs.arch }}-${{ inputs.platform }}${{ inputs.itchio-label != '' && format('-{0}', inputs.itchio-label) || '' }}"
+          itchio-channel: "${{ inputs.component != '' && format('{0}-', inputs.component) || '' }}${{ inputs.arch }}-${{ inputs.platform }}${{ inputs.itchio-label != '' && format('-{0}', inputs.itchio-label) || '' }}"
           api-key: ${{ secrets.BUTLER_API_KEY }}
