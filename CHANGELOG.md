@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.4.0 (2026-09-11)
+
+## What's Changed
+* fix(tools): harden bridge shutdown and ignore Python caches by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/482
+* feat(tools): add Python validation tasks by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/484
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.3.0...v5.4.0
+
 ## 5.3.0 (2026-09-10)
 
 ## What's Changed
