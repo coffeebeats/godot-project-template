@@ -60,6 +60,50 @@
       }
     },
     {
+      "label": "Python: Lint",
+      "detail": "Lints Python tooling with Ruff.",
+      "type": "shell",
+      "command": "uv run ruff check .",
+      "icon": { "id": "eye", "color": "terminal.ansiYellow" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": {
+        "owner": "ruff",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "severity": "error",
+        "pattern": {
+          "regexp": "^(.+):(\\d+):(\\d+): ([A-Z]+\\d+) (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "code": 4,
+          "message": 5
+        }
+      }
+    },
+    {
+      "label": "Python: Check lockfile",
+      "detail": "Checks that uv.lock matches pyproject.toml.",
+      "type": "shell",
+      "command": "uv lock --check",
+      "icon": { "id": "lock", "color": "terminal.ansiYellow" },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: Check",
+      "detail": "Checks Python tooling and its uv lockfile.",
+      "dependsOn": [
+        "Python: Lint",
+        "Python: Check lockfile"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
       "label": "Check: Project files",
       "detail": "Reports problems a normal boot or import does not surface.",
       "type": "shell",
@@ -187,7 +231,7 @@
     },
     {
       "label": "Build: Project",
-      "detail": "Imports resources, formats, lints, and syncs translations.",
+      "detail": "Imports resources, checks Python and GDScript, and syncs translations.",
       "icon": { "id": "check-all", "color": "terminal.ansiGreen" },
       "group": {
         "kind": "build",
@@ -197,6 +241,7 @@
         "Import: Resources",
         "Format: Fix",
         "Lint: Check project",
+        "Python: Check",
         "Check: Project files",
         "Translation: Sync"
       ],

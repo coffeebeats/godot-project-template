@@ -16,6 +16,19 @@ Development tooling for this template. Verified on Godot **4.7.2.stable.official
 The last two live outside `tools/` because both ship elsewhere as a Claude plugin, and
 a plugin cannot carry a file out of this directory. AGENTS.md has the placement rule.
 
+## Python tooling
+
+The bridge client and repository tooling use the dependencies in `pyproject.toml`, locked
+in `uv.lock`. Run the same checks as CI with:
+
+```sh
+uv lock --check
+uv run ruff check .
+```
+
+Ruff checks the Python tooling, including `tools/bridge.py`; `custom.py` is excluded
+because it is a SCons build-options file rather than a Python program.
+
 ## `tools/check.gd`
 
 Reports problems that a normal boot or import does not surface, and repairs the ones
