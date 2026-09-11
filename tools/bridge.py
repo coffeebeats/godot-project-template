@@ -390,7 +390,9 @@ def main(argv=None):
         return wait_for(args.port, args.target, args.equals, args.timeout)
 
     if args.command == "stop":
-        return request(args.port, "quit")
+        # NOTE: A graceful quit can close the socket before the client receives its
+        # reply, so use the reaper to clean up interrupted sessions.
+        return reap(args.port)
 
     if args.command == "tree":
         return request(args.port, "tree", {"path": args.path, "depth": args.depth})
