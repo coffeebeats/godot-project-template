@@ -4,6 +4,7 @@
 # Python tooling
 .venv/
 .ruff_cache/
+__pycache__/
 
 # godot-infra build artifacts
 # NOTE: A runtime-only symlink created by 'coffeebeats/godot-infra' actions so
