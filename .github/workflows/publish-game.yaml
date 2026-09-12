@@ -1,42 +1,6 @@
 name: "🌐 Publish: Godot game"
 
 on:
-  workflow_call:
-    inputs:
-      ref:
-        type: string
-        required: true
-      version:
-        type: string
-        required: false
-      component:
-        type: string
-        required: false
-        default: ""
-      platform:
-        type: string
-        required: true
-      arch:
-        type: string
-        required: true
-      storefront:
-        type: string
-        required: true
-      profile:
-        type: string
-        required: true
-
-      # itch.io inputs
-      publish-to-itchio:
-        type: boolean
-        required: false
-        default: false
-      itchio-project:
-        type: string
-        required: false
-      itchio-label:
-        type: string
-        required: false
   workflow_dispatch:
     inputs:
       ref:
@@ -113,55 +77,23 @@ on:
         default: "release"
 
 permissions:
-  actions: write # Required by the 'export' job.
-  contents: read # Required to check out a private repository.
-
-defaults:
-  run:
-    shell: bash
+  contents: read
 
 jobs:
-  export:
-    uses: ./.github/workflows/export-project.yaml
+  publish:
+    uses: coffeebeats/godot-infra/.github/workflows/publish-game.yaml@v6
+    secrets: inherit
     with:
-      arch: ${{ inputs.arch }}
+      ref: ${{ inputs.ref }}
+      version: ${{ inputs.version }}
       component: ${{ inputs.component }}
       platform: ${{ inputs.platform }}
-      profile: ${{ inputs.profile }}
-      publish-export-template: ${{ inputs.publish-export-template || false }}
-      ref: ${{ inputs.ref }}
+      arch: ${{ inputs.arch }}
       storefront: ${{ inputs.storefront }}
+      profile: ${{ inputs.profile }}
+      publish-export-template: ${{ inputs.publish-export-template }}
 
-  publish:
-    needs: ["export"]
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Download export artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        with:
-          name: ${{ needs.export.outputs.name }}
-
-      - name: Extract game assets
-        run: |-
-          tar \
-            -p \
-            -xzvf \
-            ${{ needs.export.outputs.name }}.tar.gz
-
-          rm ${{ needs.export.outputs.name }}.tar.gz
-
-      - name: Inspect game artifacts
-        run: "tree -lha --dirsfirst -I .git"
-
-      - name: Publish to 'itch.io'
-        if: fromJson(inputs.publish-to-itchio)
-        uses: coffeebeats/godot-infra/publish-project-itchio@v5
-        with:
-          path: "./"
-          version: ${{ inputs.version || inputs.ref }}
-          itchio-project: ${{ contains(inputs.itchio-project, '/') && inputs.itchio-project || format('{0}/{1}', github.actor, inputs.itchio-project) }}
-          itchio-channel: "${{ inputs.component != '' && format('{0}-', inputs.component) || '' }}${{ inputs.arch }}-${{ inputs.platform }}${{ inputs.itchio-label != '' && format('-{0}', inputs.itchio-label) || '' }}"
-          api-key: ${{ secrets.BUTLER_API_KEY }}
+      # itch.io inputs
+      publish-to-itchio: ${{ inputs.publish-to-itchio }}
+      itchio-project: ${{ inputs.itchio-project }}
+      itchio-label: ${{ inputs.itchio-label }}
