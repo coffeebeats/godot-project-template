@@ -36,15 +36,71 @@ permissions:
   contents: read
 
 jobs:
-  # NOTE: Both triggers reach one call because the reusable workflow branches on
-  # 'github.event_name', which inside it is this workflow's event. A 'push' run
-  # builds only when the pin or the engine patches changed.
-  compile:
+  # NOTE: The patch glob below must match the 'patches-path' the compile jobs
+  # pass, or a rebuild is triggered for patches that are never applied.
+  changes:
+    if: github.event_name == 'push'
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    outputs:
+      rebuild: ${{ steps.required.outputs.value }}
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Check for engine changes
+        id: changes
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96
+        with:
+          files: |
+            .godot-version
+            .patches/godotengine/godot/*
+
+      - name: Check if a rebuild is required
+        id: required
+        shell: bash
+        env:
+          CHANGED: ${{ steps.changes.outputs.any_modified }}
+        run: |-
+          # NOTE: The glob skips dotfiles, so a directory holding only
+          # '.gitkeep' correctly reads as having no patches.
+          mapfile -t PATCHES < <(compgen -G '.patches/godotengine/godot/*' || true)
+
+          if [[ "$CHANGED" == "true" && "${#PATCHES[@]}" -gt 0 ]]; then
+            echo "value=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  compile-dispatch:
+    if: github.event_name == 'workflow_dispatch'
+
     uses: coffeebeats/godot-infra/.github/workflows/compile-editor.yaml@v6
-    secrets: inherit
     with:
-      # NOTE: These are dispatch-only, and are unset on a 'push'. The fallbacks
-      # keep an empty value from overriding the reusable workflow's defaults.
-      platform: ${{ inputs.platform || 'windows' }}
-      arch: ${{ inputs.arch || 'x86_64' }}
-      profile: ${{ inputs.profile || 'release' }}
+      platform: ${{ inputs.platform }}
+      arch: ${{ inputs.arch }}
+      profile: ${{ inputs.profile }}
+      patches-path: ".patches/godotengine/godot/*"
+
+  compile-push:
+    needs: ["changes"]
+    if: needs.changes.outputs.rebuild == 'true'
+
+    strategy:
+      fail-fast: true
+
+      matrix:
+        include:
+          - arch: arm64
+            platform: macos
+
+          - arch: x86_64
+            platform: windows
+
+    uses: coffeebeats/godot-infra/.github/workflows/compile-editor.yaml@v6
+    with:
+      platform: ${{ matrix.platform }}
+      arch: ${{ matrix.arch }}
+      patches-path: ".patches/godotengine/godot/*"
