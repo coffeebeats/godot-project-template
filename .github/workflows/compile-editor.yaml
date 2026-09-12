@@ -1,8 +1,5 @@
 name: "🤖 Compile: Godot editor"
 
-permissions:
-  contents: read
-
 on:
   push:
     branches:
@@ -35,61 +32,27 @@ on:
           - release_debug
           - debug
 
-      ref:
-        type: string
-        description: "This repository's branch or tag name to check out. Defaults to the triggering event's SHA or the HEAD commit of the default branch."
-        required: false
-
-      timeout:
-        type: number
-        description: "The workflow's maximum allowed run duration (in minutes)."
-        required: false
-        default: 120
+permissions:
+  contents: read
 
 jobs:
-  compile-dispatch:
-    if: github.event_name == 'workflow_dispatch'
-
-    runs-on: ubuntu-latest
-    timeout-minutes: ${{ fromJson(inputs.timeout) }}
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          ref: ${{ inputs.ref }}
-
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v5
-        id: version
-        with:
-          gdenv-pin-path: .godot-version
-
-      - uses: coffeebeats/godot-infra/compile-godot-export-template@v5
-        with:
-          compile-editor: true
-          publish: true
-
-          godot-src-rev: ${{ steps.version.outputs.semantic }}
-          godot-patches: .patches/godotengine/godot/*
-
-          platform: ${{ inputs.platform }}
-          arch: ${{ inputs.arch }}
-          profile: ${{ inputs.profile }}
-
-  config:
+  # NOTE: The patch glob below must match the 'patches-path' the compile jobs
+  # pass, or a rebuild is triggered for patches that are never applied.
+  changes:
     if: github.event_name == 'push'
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     outputs:
-      build-required: ${{ steps.required.outputs.value }}
+      rebuild: ${{ steps.required.outputs.value }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
 
-      - name: Check for any changes
+      - name: Check for engine changes
         id: changes
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96
         with:
@@ -97,25 +60,33 @@ jobs:
             .godot-version
             .patches/godotengine/godot/*
 
-      - name: Check if build is required
+      - name: Check if a rebuild is required
         id: required
         shell: bash
+        env:
+          CHANGED: ${{ steps.changes.outputs.any_modified }}
         run: |-
-          if [[
-            "${{ steps.changes.outputs.any_modified }}" == "true" && \
-            ! -z "$(ls -A .patches/godotengine/godot | grep -v .gitkeep)" \
-          ]]; then
+          # NOTE: The glob skips dotfiles, so a directory holding only
+          # '.gitkeep' correctly reads as having no patches.
+          mapfile -t PATCHES < <(compgen -G '.patches/godotengine/godot/*' || true)
+
+          if [[ "$CHANGED" == "true" && "${#PATCHES[@]}" -gt 0 ]]; then
             echo "value=true" >> "$GITHUB_OUTPUT"
           fi
 
-  compile-push:
-    needs: ["config"]
-    if: |
-      github.event_name == 'push' &&
-      needs.config.outputs.build-required == 'true'
+  compile-dispatch:
+    if: github.event_name == 'workflow_dispatch'
 
-    runs-on: ubuntu-latest
-    timeout-minutes: 150
+    uses: coffeebeats/godot-infra/.github/workflows/compile-editor.yaml@v6
+    with:
+      platform: ${{ inputs.platform }}
+      arch: ${{ inputs.arch }}
+      profile: ${{ inputs.profile }}
+      patches-path: ".patches/godotengine/godot/*"
+
+  compile-push:
+    needs: ["changes"]
+    if: needs.changes.outputs.rebuild == 'true'
 
     strategy:
       fail-fast: true
@@ -128,24 +99,8 @@ jobs:
           - arch: x86_64
             platform: windows
 
-    steps:
-      - name: Reclaim disk space
-        uses: coffeebeats/godot-infra/.github/actions/setup-runner@v5
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v5
-        id: version
-        with:
-          gdenv-pin-path: .godot-version
-
-      - uses: coffeebeats/godot-infra/compile-godot-export-template@v5
-        with:
-          compile-editor: true
-          publish: true
-
-          godot-src-rev: ${{ steps.version.outputs.semantic }}
-          godot-patches: .patches/godotengine/godot/*
-
-          platform: ${{ matrix.platform }}
-          arch: ${{ matrix.arch }}
+    uses: coffeebeats/godot-infra/.github/workflows/compile-editor.yaml@v6
+    with:
+      platform: ${{ matrix.platform }}
+      arch: ${{ matrix.arch }}
+      patches-path: ".patches/godotengine/godot/*"
