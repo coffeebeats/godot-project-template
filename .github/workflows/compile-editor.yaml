@@ -1,8 +1,5 @@
 name: "🤖 Compile: Godot editor"
 
-permissions:
-  contents: read
-
 on:
   push:
     branches:
@@ -35,117 +32,19 @@ on:
           - release_debug
           - debug
 
-      ref:
-        type: string
-        description: "This repository's branch or tag name to check out. Defaults to the triggering event's SHA or the HEAD commit of the default branch."
-        required: false
-
-      timeout:
-        type: number
-        description: "The workflow's maximum allowed run duration (in minutes)."
-        required: false
-        default: 120
+permissions:
+  contents: read
 
 jobs:
-  compile-dispatch:
-    if: github.event_name == 'workflow_dispatch'
-
-    runs-on: ubuntu-latest
-    timeout-minutes: ${{ fromJson(inputs.timeout) }}
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          ref: ${{ inputs.ref }}
-
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v5
-        id: version
-        with:
-          gdenv-pin-path: .godot-version
-
-      - uses: coffeebeats/godot-infra/compile-godot-export-template@v5
-        with:
-          compile-editor: true
-          publish: true
-
-          godot-src-rev: ${{ steps.version.outputs.semantic }}
-          godot-patches: .patches/godotengine/godot/*
-
-          platform: ${{ inputs.platform }}
-          arch: ${{ inputs.arch }}
-          profile: ${{ inputs.profile }}
-
-  config:
-    if: github.event_name == 'push'
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    outputs:
-      build-required: ${{ steps.required.outputs.value }}
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          fetch-depth: 0
-
-      - name: Check for any changes
-        id: changes
-        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96
-        with:
-          files: |
-            .godot-version
-            .patches/godotengine/godot/*
-
-      - name: Check if build is required
-        id: required
-        shell: bash
-        run: |-
-          if [[
-            "${{ steps.changes.outputs.any_modified }}" == "true" && \
-            ! -z "$(ls -A .patches/godotengine/godot | grep -v .gitkeep)" \
-          ]]; then
-            echo "value=true" >> "$GITHUB_OUTPUT"
-          fi
-
-  compile-push:
-    needs: ["config"]
-    if: |
-      github.event_name == 'push' &&
-      needs.config.outputs.build-required == 'true'
-
-    runs-on: ubuntu-latest
-    timeout-minutes: 150
-
-    strategy:
-      fail-fast: true
-
-      matrix:
-        include:
-          - arch: arm64
-            platform: macos
-
-          - arch: x86_64
-            platform: windows
-
-    steps:
-      - name: Reclaim disk space
-        uses: coffeebeats/godot-infra/.github/actions/setup-runner@v5
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - uses: coffeebeats/godot-infra/.github/actions/parse-godot-version@v5
-        id: version
-        with:
-          gdenv-pin-path: .godot-version
-
-      - uses: coffeebeats/godot-infra/compile-godot-export-template@v5
-        with:
-          compile-editor: true
-          publish: true
-
-          godot-src-rev: ${{ steps.version.outputs.semantic }}
-          godot-patches: .patches/godotengine/godot/*
-
-          platform: ${{ matrix.platform }}
-          arch: ${{ matrix.arch }}
+  # NOTE: Both triggers reach one call because the reusable workflow branches on
+  # 'github.event_name', which inside it is this workflow's event. A 'push' run
+  # builds only when the pin or the engine patches changed.
+  compile:
+    uses: coffeebeats/godot-infra/.github/workflows/compile-editor.yaml@v6
+    secrets: inherit
+    with:
+      # NOTE: These are dispatch-only, and are unset on a 'push'. The fallbacks
+      # keep an empty value from overriding the reusable workflow's defaults.
+      platform: ${{ inputs.platform || 'windows' }}
+      arch: ${{ inputs.arch || 'x86_64' }}
+      profile: ${{ inputs.profile || 'release' }}
