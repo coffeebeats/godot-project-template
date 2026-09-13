@@ -18,9 +18,6 @@ jobs:
 
   # Used to ensure all branch protection requirements are met. This is a workaround until
   # https://github.com/github-community/community/discussions/4324 is addressed.
-  #
-  # NOTE: A job inside a reusable workflow reports as '<caller-job> / <job>',
-  # which a branch ruleset cannot require, so the aggregate has to live here.
   branch_protection:
     needs: ["check"]
     if: ${{ always() }}
