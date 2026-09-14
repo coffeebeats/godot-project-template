@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.4.1 (2026-09-14)
+
+## What's Changed
+* chore(deps): track addon 'dist' branches by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/487
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.4.0...v5.4.1
+
 ## 5.4.0 (2026-09-11)
 
 ## What's Changed
