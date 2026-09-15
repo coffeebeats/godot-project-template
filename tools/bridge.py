@@ -184,7 +184,7 @@ def is_game_process(pid):
 
 
 def reap(port):
-    """reap stops whatever is holding the port, gracefully if it answers.
+    """reap stops the bridge-owned game, even if it never opened the port.
 
     NOTE: An aborted client leaves the previous game holding the port, and the next
     `listen` then fails with `ERR_ALREADY_IN_USE`.
@@ -195,19 +195,20 @@ def reap(port):
     except BridgeError:
         pass
 
-    if port_is_free(port):
-        return
-
     try:
         with open(pid_path(port), encoding="utf-8") as handle:
             pid = int(handle.read().strip())
     except (OSError, ValueError) as err:
+        if port_is_free(port):
+            return
         raise BridgeError(
             f"port {port} is held by a process this script did not start; close the "
             "game started from the editor, or pass a different --port"
         ) from err
 
     if not is_game_process(pid):
+        if port_is_free(port):
+            return
         raise BridgeError(f"port {port} is held by an unknown process")
 
     if os.name == "nt":

@@ -122,10 +122,10 @@ it lives in `project/` and not in `system/`.
 
 **An aborted client leaves the game holding the port.** The next `listen` fails with
 `Already in use` (`ERR_ALREADY_IN_USE`, error 22) and the new instance runs on with no
-bridge. `launch` reaps first with a graceful `quit` over the port, then the pid it
-recorded for that port, after checking the pid still names a Godot process, since pids
-are recycled. A port held by an editor-launched game is reported as that rather than
-killed.
+bridge. `launch` reaps first with a graceful `quit` over the port, then stops the pid it
+recorded for that port once that pid still names a Godot process, since pids are
+recycled; that also stops a recorded game that never opened its port. A port held by an
+editor-launched game is reported as that rather than killed.
 
 **`StdLogSinkGodot` drops the context dictionary for warnings and errors.** It hands
 `push_warning` the message alone, so anything the reader needs has to be in the message
