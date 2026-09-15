@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.4.3 (2026-09-15)
+
+## What's Changed
+* chore(ci): declare GodotSteam's names for the project checker by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/492
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.4.2...v5.4.3
+
 ## 5.4.2 (2026-09-15)
 
 ## What's Changed
