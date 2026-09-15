@@ -138,8 +138,8 @@ paid for by every session that never goes near it:
 1. **Make it unrepresentable** — an assert, or an API that only does the right thing.
    `WorldTracker`'s startup assertion and `StdInputEvent.trigger_action` both exist for
    this reason.
-2. **Catch it** — a rule in the project checker in `godot-infra`. It fires at the moment of the mistake with
-   the file in hand, and costs no context until then.
+2. **Catch it** — a rule in the project checker in `godot-infra`. It fires at the moment
+   of the mistake with the file in hand, and costs no context until then.
 3. **Put it in the task** — the skill whose workflow provokes it, loaded on demand by the
    session doing that work.
 4. **Write it here** — only what none of the above can reach.

@@ -145,8 +145,9 @@ on a socket nothing will ever write to. Every awaiting command carries a
 A detached windowed process writes its errors nowhere the caller can see, so `launch`
 captures the game's output to a log beside the pid file in the OS temp directory. That
 also catches what an in-engine `Logger` tap could not, including an error raised before
-the bridge mounts and a crash. `logs` tails it through the same noise filter the edit
-hook uses, and `wait` scans it as it polls, so a game that dies during boot reports
+the bridge mounts and a crash. `logs` tails it through the same noise filter as the
+`godot` agent plugin's edit hook, and `wait` scans it as it polls, so a game that dies
+during boot reports
 
 ```text
 bridge: the game reported an error: ERROR: Node not found: "NoSuchNode" (relative to "/root/Main").

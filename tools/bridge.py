@@ -1,25 +1,8 @@
 #!/usr/bin/env python3
 """bridge.py drives a running game through the bridge in `system/debug/debug.gd`.
 
-The bridge is a debug-only node which listens for line-delimited JSON on loopback. This
-script launches the game with a port, then inspects it: the scene tree, an evaluated
-expression, a screenshot, or a command the running scene registered itself.
-
-    tools/bridge.sh launch
-    tools/bridge.sh wait --for app.booted
-    tools/bridge.sh eval 'Main.screens().get_depth()'
-    tools/bridge.sh screenshot --out shot.png
-    tools/bridge.sh logs
-
-`launch` captures the game's output to a log file, because a detached process writes its
-errors nowhere the caller can see them. `wait` reads that log while it polls, so a game
-that dies during boot reports the error instead of timing out.
-
-Node paths are relative to `/root` (`--path Main`, not `--path /root/Main`), because an
-MSYS shell rewrites an argument that looks like an absolute Unix path.
-
-Requires only the standard library; it never runs in CI. Prefer the `tools/bridge.sh`
-entry point, which supplies the interpreter.
+Requires only the standard library. Run it through `tools/bridge.sh`, which supplies the
+interpreter; `tools/README.md` documents the commands.
 """
 
 import argparse
@@ -37,9 +20,8 @@ import time
 
 DEFAULT_PORT = 9080
 
-# Boilerplate every run prints, which buries the lines worth reading. This matches the
-# filter the `godot` agent plugin's edit hook applies; script errors and warnings are
-# never filtered.
+# NOISE matches the boilerplate every run prints, as the `godot` agent plugin's edit
+# hook does; script errors and warnings never match.
 NOISE = re.compile(
     r"^Godot Engine v"
     r"|^WARNING: Found older "
@@ -59,7 +41,7 @@ class BridgeError(Exception):
 
 
 def project_dir():
-    """project_dir returns the project root, whether invoked by a hook or by hand."""
+    """project_dir returns the project root, from a Claude Code session or by hand."""
     root = os.environ.get("CLAUDE_PROJECT_DIR")
     if root:
         return os.path.abspath(root)
@@ -69,11 +51,7 @@ def project_dir():
 
 
 def state_dir(port):
-    """state_dir returns the per-project, per-port directory holding the log and pid.
-
-    NOTE: It lives in the OS temp directory rather than the repository, since it is
-    per-run scratch and a stale entry costs nothing.
-    """
+    """state_dir returns the temp directory for one project and port's log and pid."""
     key = hashlib.sha256(project_dir().encode("utf-8")).hexdigest()[:12]
     path = os.path.join(tempfile.gettempdir(), f"godot-bridge-{key}-{port}")
     os.makedirs(path, exist_ok=True)
@@ -257,9 +235,6 @@ def matches(value, expected):
 def wait_for(port, target, expected, timeout, offset=None):
     """wait_for polls a registered command until one of its fields matches, or gives up.
 
-    Polling from here keeps predicate evaluation out of the engine, and lets a failure
-    in the game's log end the wait early.
-
     NOTE: Only what the game logged from `offset` onward counts as that failure, since
     the log outlives the command which wrote it.
     """
@@ -332,6 +307,7 @@ def launch(args):
 
 
 def main(argv=None):
+    """main runs the command line and returns the result to print."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument(
         "--port",
