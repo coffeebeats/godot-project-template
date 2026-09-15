@@ -13,7 +13,7 @@ The checker and GUT are faster and need no window, so reach for the bridge only 
 
 | Question | Use |
 | --- | --- |
-| Does this file parse, is a `uid` missing, does a `NodePath` export resolve | `godot --headless -s tools/check.gd` |
+| Does this file parse, is a `uid` missing, does a `NodePath` export resolve | `godot-check` |
 | Does this logic hold | GUT — see the test command in AGENTS.md |
 | Does the app boot at all | `godot --headless --quit-after 30` |
 | What is on screen, what is in the tree right now, what did it just log | this skill |

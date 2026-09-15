@@ -70,7 +70,7 @@ Every entry below fails silently: no error, no crash, no failing test, and the w
 - Never filter `*.aseprite` in an export preset. A filter matching a source also drops the baked `.res`/`.sample` beside it, and nothing says so until an exported build looks for the asset at runtime.
 - Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it. Both build an `InputEventAction`, which matches by name and never consults the `InputMap`, so a handler fires whether or not the action is bound to anything. Checking a binding takes the real `InputEventKey` or `InputEventJoypadButton`.
 
-The `.tscn` and `.tres` file-format pitfalls are rules in `tools/check.gd` rather than entries here: a missing `uid=` header, a file path held in a string property, an `[ext_resource]` naming a file that does not exist, a property assigned ahead of `script =`, and a `NodePath` export whose type does not match. The checker runs on every `Edit` and `Write`, and `--fix` repairs the first two — follow it with `godot --import --headless` or the new uids do not resolve. Run `--list` for what each rule covers, and read `tools/README.md` for the engine behavior behind them. The hook matches `Edit` and `Write` only, so a file written any other way stays unchecked until a full run.
+The `.tscn` and `.tres` file-format pitfalls are rules in the `godot` agent plugin's project checker rather than entries here: a missing `uid=` header, a file path held in a string property, an `[ext_resource]` naming a file that does not exist, a property assigned ahead of `script =`, and a `NodePath` export whose type does not match. The plugin's edit hook runs the checker on every `Edit` and `Write`, and `--fix` repairs the first two — follow it with `godot --import --headless` or the new uids do not resolve. Run `godot-check --list` for what each rule covers. A file changed any other way, such as by a move, stays unchecked until `godot-check` or CI runs.
 
 ## Commands
 
@@ -98,11 +98,12 @@ godot --headless --quit-after 30
 
 # Check project files for problems a normal load does not surface (compile errors,
 # missing uid headers, properties dropped before `script =`, unresolvable NodePath
-# exports). Exits non-zero when there is something to read.
-godot --headless -s tools/check.gd                      # every rule, every file
-godot --headless -s tools/check.gd -- path/to/file.tscn  # one file or directory
-godot --headless -s tools/check.gd -- --fix path/to/file.tscn  # repair, then re-check
-godot --headless -s tools/check.gd -- --list             # what each rule covers
+# exports). Exits non-zero when there is something to read. From the `godot` agent
+# plugin, so on Claude's PATH only.
+godot-check                          # every rule, every file
+godot-check path/to/file.tscn        # one file or directory
+godot-check --fix path/to/file.tscn  # repair, then re-check
+godot-check --list                   # what each rule covers
 
 # Bake `.aseprite` sources to a PNG sheet plus a tag manifest for the stock importer.
 tools/aseprite.sh --out assets/baked assets/src
@@ -111,17 +112,14 @@ tools/aseprite.sh --out assets/baked assets/src
 To see a change working in the real app rather than in a test, use the `run-game`
 skill, which drives a live game through `tools/bridge.sh`.
 
-CI has no `Steam` singleton, because GodotSteam ships no Linux binary, so a script
-naming an extension API goes in `EXTENSION_SCRIPTS` in the checker; its dependents
-are found from there. The checker says so when it happens, so this is a shortcut
-past one CI round trip rather than something to remember.
+CI has no `Steam` singleton, because GodotSteam ships no Linux binary. The checker
+skips the scripts naming its API there on its own.
 
-The same checker runs on every `Edit`/`Write` via `.claude/hooks/gd_on_edit.sh`, so
-most problems surface before they are committed, and as a full-project step in the
-`test` job of `check-project.yaml`, which is the backstop for what the hook never saw —
-an editor save, or a move that breaks a file nobody touched. Adding a check means adding a `Rule` subclass
-in `tools/check.gd` and one entry in its registry; add one only after a pitfall has bitten
-twice.
+The same checker runs on every `Edit`/`Write` through the plugin's hook, so most
+problems surface before they are committed, and over the whole project in the `test`
+job of `check-project.yaml`, which is the backstop for what the hook never saw — an
+editor save, or a move that breaks a file nobody touched. Checker rules live in
+`godot-infra`; add one only after a pitfall has bitten twice.
 
 ## Tooling placement
 
@@ -129,8 +127,9 @@ twice.
 script only ever run by Claude, as one step of one workflow, ships beside its `SKILL.md`
 in `.claude/skills/<name>/`, so the skill installs as a unit in a repository that does not
 have this one's `tools/`. A skill may still front a `tools/` script it did not ship — `run-game`
-does — since the test is who else runs it, not who documents it. Hooks live in `.claude/hooks/`,
-next to the `settings.json` that is their only caller.
+does — since the test is who else runs it, not who documents it. Tooling that is the same in every
+Godot repository, such as the edit hook, the project checker and the `godot-api` skill, lives
+in the `godot` agent plugin in `godot-infra`, enabled in `.claude/settings.json`.
 
 A pitfall goes in the first tier below that can hold it. This file is the last resort,
 because it is read in full by every session before the task is known, so a line here is
@@ -139,8 +138,8 @@ paid for by every session that never goes near it:
 1. **Make it unrepresentable** — an assert, or an API that only does the right thing.
    `WorldTracker`'s startup assertion and `StdInputEvent.trigger_action` both exist for
    this reason.
-2. **Catch it** — a rule in `tools/check.gd`. It fires at the moment of the mistake with
-   the file in hand, and costs no context until then.
+2. **Catch it** — a rule in the project checker in `godot-infra`. It fires at the moment
+   of the mistake with the file in hand, and costs no context until then.
 3. **Put it in the task** — the skill whose workflow provokes it, loaded on demand by the
    session doing that work.
 4. **Write it here** — only what none of the above can reach.
