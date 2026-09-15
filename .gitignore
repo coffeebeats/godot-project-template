@@ -42,7 +42,6 @@ settings.dat.bak
 
 # Coding agent-related files
 .claude/*
-!.claude/hooks
 !.claude/settings.json
 !.claude/skills
 

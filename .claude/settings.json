@@ -1,15 +1,15 @@
 {
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/gd_on_edit.sh\""
-          }
-        ]
-      }
-    ]
+  "extraKnownMarketplaces": {
+    "godot-infra": {
+      "source": {
+        "source": "github",
+        "repo": "coffeebeats/godot-infra",
+        "ref": "v6"
+      },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "godot@godot-infra": true
   }
 }

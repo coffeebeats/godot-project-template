@@ -37,8 +37,9 @@ import time
 
 DEFAULT_PORT = 9080
 
-# Boilerplate every run prints, which buries the lines worth reading. This is the filter
-# `.claude/hooks/gd_on_edit.sh` applies; script errors and warnings are never filtered.
+# Boilerplate every run prints, which buries the lines worth reading. This matches the
+# filter the `godot` agent plugin's edit hook applies; script errors and warnings are
+# never filtered.
 NOISE = re.compile(
     r"^Godot Engine v"
     r"|^WARNING: Found older "

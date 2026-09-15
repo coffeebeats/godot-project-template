@@ -21,7 +21,7 @@ These need to be manually installed and available on the `PATH` of the shell tha
 | --- | --- | --- |
 | Godot | everything | The [pinned version](./.godot-version), via `gdenv`. |
 | `git` | submodules | |
-| `jq` | [`.claude/hooks/gd_on_edit.sh`](./.claude/hooks/gd_on_edit.sh), [`tools/aseprite.sh`](./tools/aseprite.sh) | |
+| `jq` | the `godot` agent plugin's edit hook, [`tools/aseprite.sh`](./tools/aseprite.sh) | |
 | `msgfmt`, `msgmerge` (gettext) | [`tools/sync-translations.sh`](./tools/sync-translations.sh) | |
 | Aseprite | [`tools/aseprite.sh`](./tools/aseprite.sh) | Optional; only needed to bake `.aseprite` sources. |
 
