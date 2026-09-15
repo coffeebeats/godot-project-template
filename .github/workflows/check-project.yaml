@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   check:
-    uses: coffeebeats/godot-infra/.github/workflows/check-project.yaml@v6
+    uses: coffeebeats/godot-infra/.github/workflows/check-project.yaml@main
     secrets: inherit
 
   # Used to ensure all branch protection requirements are met. This is a workaround until
