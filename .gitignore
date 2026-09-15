@@ -45,3 +45,6 @@ settings.dat.bak
 !.claude/settings.json
 !.claude/skills
 
+# A 'godot-api' dump from before the plugin, which now writes under '.godot/'.
+.claude/skills/godot-api/
+
