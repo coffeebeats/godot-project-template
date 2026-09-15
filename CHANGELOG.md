@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.4.2 (2026-09-15)
+
+## What's Changed
+* chore(claude): use godot-infra's 'godot' agent plugin by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/490
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.4.1...v5.4.2
+
 ## 5.4.1 (2026-09-14)
 
 ## What's Changed
