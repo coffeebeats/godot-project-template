@@ -60,7 +60,7 @@ Debug.register(&"map", _get_debug_state)      # in _ready
 Debug.unregister(&"map", _get_debug_state)    # in _exit_tree, with the same handler
 ```
 
-Both are safe with no bridge present. The template registers `app` (from `project/main/main.gd`) and `map` (from `ProjectMap`, so every inherited map gets it free). `tools/bridge.sh commands` lists what the running game has.
+Both are safe with no bridge present. The template registers `app` (from `project/main/main.gd`) and `map` (from `KitMap`, so every inherited map gets it free). `tools/bridge.sh commands` lists what the running game has.
 
 If a check needs state no handler exposes, add a handler rather than building an elaborate `eval`.
 

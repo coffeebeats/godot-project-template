@@ -126,9 +126,9 @@ Kit's settings under `addons/kit/system/setting/` are the reference to copy from
 - `project/menu/settings/controls/controls.tscn` — controls tab UI
 - `project/menu/settings/setting.tscn` — setting container scene
 - `project/menu/settings/group.tscn` — group container scene
-- `project/ui/input/slider.tscn` — slider input control
-- `project/ui/input/checkbox.tscn` — checkbox input control
-- `project/ui/input/option_button.tscn` — option button input control
+- `addons/kit/ui/input/slider.tscn` — slider input control
+- `addons/kit/ui/input/checkbox.tscn` — checkbox input control
+- `addons/kit/ui/input/option_button.tscn` — option button input control
 - `addons/std/setting/controller_range.gd` — range controller
 - `addons/std/setting/controller_toggle_button.gd` — toggle controller
 - `addons/std/setting/controller_option_button_string.gd` — string option controller

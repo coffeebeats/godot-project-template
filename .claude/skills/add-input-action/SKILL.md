@@ -10,7 +10,8 @@ Add an input action to the project. The action is registered in an action set, g
 ## Steps
 
 1. **Read reference files** to understand existing actions:
-   - `project/input/actions/` — all existing action set `.tres` files
+   - `project/input/actions/` — the game's action set `.tres` files
+   - `addons/kit/system/input/actions/` — kit's menu action sets, for reference only; the submodule never gains an action
    - `project.godot` — `[input]` section for existing default bindings
    - `project/locale/messages.pot` — existing `msgctxt "actions_*"` entries
    - `project/menu/settings/controls/controls.tscn` — controls tab wiring
@@ -46,11 +47,12 @@ Add an input action to the project. The action is registered in an action set, g
 
    Reference `project/menu/settings/controls/action_set.tscn` for the instance and `addons/kit/system/input/unknown/bindings_scope.tres` for the scope. Add the corresponding `ext_resource` entries at the top of the file.
 
-   d. Add a translation for the action set name using the `add-translation` skill. Action set display names use a **different convention** than action names — they have **no `msgctxt`** and use a prefixed `msgid`:
-   - `msgid "options_controls_<SetName>"` — e.g., `options_controls_Gameplay`
+   d. Add a translation for the action set name using the `add-translation` skill. Action set display names use the set's `name` as the `msgid`, under one shared context:
+   - `msgctxt "action_sets"`
+   - `msgid "<SetName>"` — e.g., `Gameplay`
    - `msgstr "<Display Name>"` — the English display name shown as the group header
 
-   This is because `locales.gd:tr_action_set()` translates via `tr("options_controls_" + action_set)`.
+   This is because `Locales.tr_action_set()` looks the name up under the `action_sets` context.
 
 4. **Add the action to the action set** `.tres` file. Actions are `StringName` values in one of three arrays:
 
@@ -104,5 +106,5 @@ After adding a binding, check every action set that layers over the same origin,
 - `project.godot` — `[input]` section for default bindings
 - `project/locale/messages.pot` — `msgctxt "actions_*"` translation entries
 - `project/locale/en_US.po` — corresponding English translations
-- `project/locale/locales.gd` — `tr_action()` and `tr_action_set()` resolution
+- `addons/kit/locale/locales.gd` — `tr_action()` and `tr_action_set()` resolution
 - `addons/std/input/action_set.gd` — `StdInputActionSet` class

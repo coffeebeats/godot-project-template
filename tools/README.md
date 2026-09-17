@@ -86,7 +86,7 @@ the handler its replacement had just registered.
 
 The template registers two: `app` from `project/main/main.gd` (current screen, stack
 depth, save slot, and whether the app is settled and booted) and `map` from
-`ProjectMap`, which every inherited map gets for free.
+`KitMap`, which every inherited map gets for free.
 
 `wait` polls one of these handlers from the client rather than evaluating a predicate in
 the engine, which keeps the bridge simple and lets a failure in the game's log end the

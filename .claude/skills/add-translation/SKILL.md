@@ -7,6 +7,12 @@ argument-hint: "<msgid_key> <English text>"
 
 Add a translatable string to the project. Only edit two files: `project/locale/messages.pot` and `project/locale/en_US.po`. Other locale files are updated automatically by a propagation command, and editing one by hand corrupts it: every other `.po` keys off the **English text** as its `msgid`, not the key-based one these two use, and `poswap` performs that swap during propagation. Binary `.mo` files are compiled by CI — do not edit them.
 
+## Kit's strings
+
+Strings kit's own scenes emit take a `kit_` prefix and live in `addons/kit/locale/`, a submodule: never edit it. To reword a kit string, or to translate it into a language kit does not ship, add the same key and `msgctxt` to the game's catalogue. `locale/translations` lists the game's `.mo` files before kit's, so the game's entry wins.
+
+When a kit update adds a language, append its `addons/kit/locale/<lang>.mo` to `locale/translations`, after every `project/locale/` entry. `tests/locale/translations_test.gd` fails until it is listed.
+
 ## Prerequisites
 
 Steps 4–5 require `poswap` (from Python's `translate-toolkit`) and `msgfmt`/`msgmerge` (from `gettext`). If either is missing, stop and point the user at the README's setup section rather than guessing at an install command.
