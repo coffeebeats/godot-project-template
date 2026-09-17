@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://e65imwf654xt" path="res://project/menu/save/menu.gd" id="1_sihek"]
 [ext_resource type="PackedScene" uid="uid://ig0aeexy2dcl" path="res://project/menu/save/slot_button.tscn" id="3_842n5"]
-[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://project/ui/input/focus_handler.tscn" id="4_dj346"]
-[ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://project/ui/menu/scrim.tscn" id="5_scrim"]
-[ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://project/ui/menu/button_close.tscn" id="6_close"]
+[ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://addons/kit/ui/input/focus_handler.tscn" id="4_dj346"]
+[ext_resource type="PackedScene" uid="uid://bbsvnrhcyccl5" path="res://addons/kit/ui/menu/scrim.tscn" id="5_scrim"]
+[ext_resource type="PackedScene" uid="uid://dm7k3close1bt" path="res://addons/kit/ui/menu/button_close.tscn" id="6_close"]
 [ext_resource type="PackedScene" uid="uid://dkw2li5unhvv7" path="res://project/menu/save/delete.tscn" id="7_delete"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="8_loader"]
-[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://project/input/actions/menu.tres" id="9_menu"]
+[ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://addons/kit/system/input/actions/menu.tres" id="9_menu"]
 
 [node name="SaveMenu" type="Control" unique_id=938619952]
 layout_mode = 3

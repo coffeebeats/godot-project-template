@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dwru2ai0oafg" path="res://project/menu/settings/controls/rebinder.gd" id="1_lre2j"]
 [ext_resource type="Script" uid="uid://b7ynn70doalds" path="res://addons/std/screen/screen.gd" id="2_bowq3"]
-[ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://project/input/actions/menu_binding.tres" id="3_nyt6g"]
+[ext_resource type="Resource" uid="uid://bhsjw6b4deo8i" path="res://addons/kit/system/input/actions/menu_binding.tres" id="3_nyt6g"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="3_rp1ye"]
-[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://project/ui/glyph/glyph.tscn" id="4_cin5u"]
+[ext_resource type="PackedScene" uid="uid://dg8wa8rp672rb" path="res://addons/kit/ui/glyph/glyph.tscn" id="4_cin5u"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="5_layer"]
 
 [sub_resource type="Resource" id="Resource_2wtn0"]

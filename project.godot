@@ -29,7 +29,7 @@ general/default_playback_type.web=0
 
 [autoload]
 
-Lifecycle="*res://project/main/lifecycle.gd"
+Lifecycle="*res://addons/kit/system/lifecycle.gd"
 Platform="*res://project/main/platform.tscn"
 System="*res://project/main/system.tscn"
 
@@ -179,7 +179,7 @@ ui_toggle_menu={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://project/locale/de.mo", "res://project/locale/en_US.mo", "res://project/locale/es_ES.mo", "res://project/locale/fr.mo", "res://project/locale/ja.mo", "res://project/locale/ko.mo", "res://project/locale/pl.mo", "res://project/locale/pt_BR.mo", "res://project/locale/ru.mo", "res://project/locale/tr.mo", "res://project/locale/uk.mo", "res://project/locale/zh_CN.mo", "res://project/locale/zh_TW.mo")
+locale/translations=PackedStringArray("res://project/locale/de.mo", "res://project/locale/en_US.mo", "res://project/locale/es_ES.mo", "res://project/locale/fr.mo", "res://project/locale/ja.mo", "res://project/locale/ko.mo", "res://project/locale/pl.mo", "res://project/locale/pt_BR.mo", "res://project/locale/ru.mo", "res://project/locale/tr.mo", "res://project/locale/uk.mo", "res://project/locale/zh_CN.mo", "res://project/locale/zh_TW.mo", "res://addons/kit/locale/de.mo", "res://addons/kit/locale/en_US.mo", "res://addons/kit/locale/es_ES.mo", "res://addons/kit/locale/fr.mo", "res://addons/kit/locale/ja.mo", "res://addons/kit/locale/ko.mo", "res://addons/kit/locale/pl.mo", "res://addons/kit/locale/pt_BR.mo", "res://addons/kit/locale/ru.mo", "res://addons/kit/locale/tr.mo", "res://addons/kit/locale/uk.mo", "res://addons/kit/locale/zh_CN.mo", "res://addons/kit/locale/zh_TW.mo")
 
 [rendering]
 

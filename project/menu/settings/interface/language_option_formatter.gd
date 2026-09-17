@@ -9,7 +9,7 @@ extends StdSettingsControllerOptionButtonFormatter
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Locales := preload("res://project/locale/locales.gd")
+const Locales := preload("res://addons/kit/locale/locales.gd")
 
 # -- PRIVATE METHODS (OVERRIDES) ----------------------------------------------------- #
 

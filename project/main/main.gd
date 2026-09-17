@@ -22,7 +22,7 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 
 const Debug := preload("res://addons/kit/system/debug/debug.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
-const ErrorDialog := preload("res://project/ui/menu/alert.tscn")
+const ErrorDialog := preload("res://addons/kit/ui/menu/alert.tscn")
 const Splash := preload("./splash/splash.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -47,7 +47,7 @@ var _logger := StdLogger.create(&"project/main")
 
 var _error_dialog_busy: bool = false
 var _is_settled: bool = false
-var _error_dialog: AlertDialog = null
+var _error_dialog: KitAlertDialog = null
 var _is_loading: bool = false
 var _manager: StdScreenManager = null
 var _play_start_ticks: int = -1
@@ -147,13 +147,13 @@ static func show_error(
 	error: KitError,
 	primary_label: StringName,
 	secondary_label: StringName = &"",
-) -> AlertDialog.Action:
+) -> KitAlertDialog.Action:
 	if Lifecycle.is_shutting_down():
-		return AlertDialog.Action.DISMISS
+		return KitAlertDialog.Action.DISMISS
 
 	var main := _get_main()
 	assert(
-		main._error_dialog is AlertDialog,
+		main._error_dialog is KitAlertDialog,
 		"invalid state; missing error dialog",
 	)
 
@@ -168,8 +168,8 @@ static func show_error(
 	main._error_dialog.secondary_label = secondary_label
 	main._error_dialog.dismissable = false
 
-	main._error_dialog.open()
-	var action: AlertDialog.Action = await main._error_dialog.closed
+	main._error_dialog.open(main._manager)
+	var action: KitAlertDialog.Action = await main._error_dialog.closed
 	main._error_dialog_busy = false
 	return action
 
@@ -484,7 +484,7 @@ func _save_with_retry() -> bool:
 		)
 		var action := await show_error(error, &"alert_retry", &"alert_continue")
 
-		if action != AlertDialog.Action.PRIMARY:
+		if action != KitAlertDialog.Action.PRIMARY:
 			return false
 
 	return false  # gdlint:ignore=max-returns,unreachable-code

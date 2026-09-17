@@ -19,8 +19,8 @@ const Rebinder := preload("rebinder.gd")
 
 @export_subgroup("Components")
 
-## glyph is the `InputGlyph` node which displays the current origin binding.
-@export var glyph: InputGlyph = null
+## glyph is the `KitInputGlyph` node which displays the current origin binding.
+@export var glyph: KitInputGlyph = null
 
 ## button is the `Button` node which, when pressed, will open the `Rebinder` panel.
 @export var button: Button = null
@@ -69,7 +69,7 @@ func reset() -> void:
 
 
 func _ready() -> void:
-	assert(glyph is InputGlyph, "invalid state; missing node")
+	assert(glyph is KitInputGlyph, "invalid state; missing node")
 	assert(button is Button, "invalid state; missing node")
 	assert(scope is StdSettingsScope, "invalid config; missing scope")
 

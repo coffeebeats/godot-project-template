@@ -25,8 +25,8 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-var _confirm_quit: AlertDialog
-var _confirm_return: AlertDialog
+var _confirm_quit: KitAlertDialog
+var _confirm_return: KitAlertDialog
 @onready var _options: Button = %Options
 @onready var _quit: Button = %Quit
 @onready var _resume: Button = %Resume
@@ -63,9 +63,9 @@ func _on_options_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
-	_confirm_quit.open()
-	var action: AlertDialog.Action = await _confirm_quit.closed
-	if action != AlertDialog.Action.PRIMARY:
+	_confirm_quit.open(Main.screens())
+	var action: KitAlertDialog.Action = await _confirm_quit.closed
+	if action != KitAlertDialog.Action.PRIMARY:
 		return
 
 	# NOTE: Save data is flushed synchronously by `Main._on_shutdown_requested`; defer
@@ -82,9 +82,9 @@ func _on_resume_pressed() -> void:
 
 
 func _on_return_pressed() -> void:
-	_confirm_return.open()
-	var action: AlertDialog.Action = await _confirm_return.closed
-	if action != AlertDialog.Action.PRIMARY:
+	_confirm_return.open(Main.screens())
+	var action: KitAlertDialog.Action = await _confirm_return.closed
+	if action != KitAlertDialog.Action.PRIMARY:
 		return
 
 	Main.go_to_main_menu()

@@ -19,7 +19,7 @@ const SlotButton := preload("slot_button.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-var _confirm_delete: AlertDialog
+var _confirm_delete: KitAlertDialog
 
 @onready var _delete_buttons: Control = %DeleteButtons
 @onready var _slot_buttons: Control = %SlotButtons
@@ -73,9 +73,9 @@ func _on_delete_button_pressed(
 	if saves.get_save_slot(slot).status == KitSaveSlot.STATUS_EMPTY:
 		return
 
-	_confirm_delete.open()
-	var action: AlertDialog.Action = await _confirm_delete.closed
-	if action == AlertDialog.Action.PRIMARY:
+	_confirm_delete.open(Main.screens())
+	var action: KitAlertDialog.Action = await _confirm_delete.closed
+	if action == KitAlertDialog.Action.PRIMARY:
 		button.disabled = true
 		if not saves.erase_slot(slot):
 			var error := (
