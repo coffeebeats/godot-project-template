@@ -13,3 +13,7 @@ shallow = true
 path = addons/std
 url = https://github.com/coffeebeats/godot-plugin-std
 branch = dist
+[submodule "addons/kit"]
+path = addons/kit
+url = https://github.com/coffeebeats/godot-plugin-kit
+branch = dist

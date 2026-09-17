@@ -74,7 +74,7 @@ func _assert_schemas_equal(a: StdConfigSchema, b: StdConfigSchema) -> void:
 
 
 func _create_save_data() -> ProjectSaveData:
-	return Systems.saves().create_new_save_data()
+	return KitSystems.saves().create_new_save_data()
 
 
 func _get_random_value_for_type(

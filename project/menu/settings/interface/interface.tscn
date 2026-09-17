@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://jqrnk34kfw5u" path="res://project/ui/input/option_button.tscn" id="3_hhi86"]
 [ext_resource type="Script" uid="uid://bvaa5ha0vagj3" path="res://addons/std/setting/controller_range.gd" id="4_be8bq"]
 [ext_resource type="Script" uid="uid://byvxmchr3un0u" path="res://addons/std/setting/controller_option_button_string.gd" id="4_c64ob"]
-[ext_resource type="Resource" uid="uid://723bxnvy4ipw" path="res://system/setting/interface/language_property.tres" id="5_6gc1x"]
-[ext_resource type="Resource" uid="uid://l6p88qy4dcsh" path="res://system/setting/interface/font_scaling_property.tres" id="5_217en"]
-[ext_resource type="Resource" uid="uid://ci5jo2fctxlbt" path="res://system/setting/interface/language_options_property.tres" id="6_gtfy5"]
+[ext_resource type="Resource" uid="uid://723bxnvy4ipw" path="res://addons/kit/system/setting/interface/language_property.tres" id="5_6gc1x"]
+[ext_resource type="Resource" uid="uid://l6p88qy4dcsh" path="res://addons/kit/system/setting/interface/font_scaling_property.tres" id="5_217en"]
+[ext_resource type="Resource" uid="uid://ci5jo2fctxlbt" path="res://addons/kit/system/setting/interface/language_options_property.tres" id="6_gtfy5"]
 [ext_resource type="Resource" uid="uid://bwddtdeqspk25" path="res://project/menu/settings/interface/language_options_formatter.tres" id="7_2xg5l"]
 
 [node name="Interface" type="VBoxContainer" unique_id=12019047]

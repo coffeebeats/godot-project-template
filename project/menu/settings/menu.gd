@@ -57,8 +57,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_tab_changed(_index: int) -> void:
-	if not Systems.input().is_cursor_visible():
-		Systems.input().mute_next_focus_sound()
+	if not KitSystems.input().is_cursor_visible():
+		KitSystems.input().mute_next_focus_sound()
 
 	if not _tab_switch_muted and tab_switch_sound_event:
-		Systems.audio().play(tab_switch_sound_event)
+		KitSystems.audio().play(tab_switch_sound_event)

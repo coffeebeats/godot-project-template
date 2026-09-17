@@ -20,7 +20,7 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Debug := preload("res://system/debug/debug.gd")
+const Debug := preload("res://addons/kit/system/debug/debug.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
 const ErrorDialog := preload("res://project/ui/menu/alert.tscn")
 const Splash := preload("./splash/splash.gd")
@@ -76,7 +76,7 @@ static func get_active_save_data() -> ProjectSaveData:
 ## save_game asynchronously stores the current (or provided) save data to the active
 ## slot and returns whether the save succeeded.
 static func save_game(data: ProjectSaveData = null) -> bool:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	if saves.get_active_save_slot() < 0:
 		return false
 
@@ -104,7 +104,7 @@ static func save_game(data: ProjectSaveData = null) -> bool:
 ## already in-flight or data is not dirty. Game scenes should call this at meaningful
 ## state transitions.
 static func request_save() -> void:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	if saves.get_active_save_slot() < 0:
 		return
 
@@ -144,7 +144,7 @@ static func load_game(slot: int) -> bool:
 ## is set on each call, so an omitted `secondary_label` clears the previous one rather
 ## than leaving it in place.
 static func show_error(
-	error: ProjectError,
+	error: KitError,
 	primary_label: StringName,
 	secondary_label: StringName = &"",
 ) -> AlertDialog.Action:
@@ -220,7 +220,11 @@ func _ready() -> void:
 
 	_error_dialog = ErrorDialog.instantiate()
 
-	var input := Systems.input()
+	# NOTE: The audio system lives in the `System` autoload, where no `NodePath` can
+	# reach this scene's screen manager, so it is handed over here.
+	KitSystems.audio().screens = _manager
+
+	var input := KitSystems.input()
 	Signals.connect_safe(
 		_manager.screen_entered,
 		func(_s: StdScreen, _n: Node) -> void:
@@ -248,14 +252,14 @@ func _ready() -> void:
 
 	# Drain errors enqueued before the UI existed (e.g. Steam init failure). `loading`
 	# is pushed beneath the dialog because `pop` asserts a stack depth above one.
-	var errors := ProjectError.drain_pending()
+	var errors := KitError.drain_pending()
 	errors.sort_custom(
-		func(a: ProjectError, b: ProjectError) -> bool: return a.severity > b.severity
+		func(a: KitError, b: KitError) -> bool: return a.severity > b.severity
 	)
 
 	var had_pending := false
 	for error in errors:
-		if error.severity == ProjectError.Severity.WARNING:
+		if error.severity == KitError.Severity.WARNING:
 			_logger.warn(error.title, {&"message": error.message})
 			continue
 
@@ -263,7 +267,7 @@ func _ready() -> void:
 			had_pending = true
 			_manager.push(loading)
 
-		if error.severity == ProjectError.Severity.CRITICAL:
+		if error.severity == KitError.Severity.CRITICAL:
 			await show_error(error, &"alert_quit")
 			if not Lifecycle.is_shutting_down():
 				Lifecycle.shutdown.call_deferred(1)
@@ -321,9 +325,9 @@ func _await_initial_loaded() -> void:
 
 
 func _finish_boot(navigate: Callable) -> void:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 
-	if _is_initial_loaded() and Systems.saves().are_slots_loaded():
+	if _is_initial_loaded() and KitSystems.saves().are_slots_loaded():
 		navigate.call(initial)
 		return
 
@@ -352,7 +356,7 @@ func _get_debug_state() -> Dictionary:
 		&"loading": _is_loading,
 		&"screen": screen.resource_path if screen else "",
 		&"depth": _manager.get_depth() if _manager else 0,
-		&"slot": Systems.saves().get_active_save_slot(),
+		&"slot": KitSystems.saves().get_active_save_slot(),
 	}
 
 
@@ -379,7 +383,7 @@ func _is_initial_loaded() -> bool:
 
 
 func _load_game(slot: int) -> bool:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 
 	assert(not _is_loading, "invalid state; load/unload in progress")
 	assert(not saves.is_saving(), "invalid state; save in progress")
@@ -397,11 +401,11 @@ func _load_game(slot: int) -> bool:
 
 	if not await saves.load_save_data(_save_data):
 		var error := (
-			ProjectError
+			KitError
 			. new(
 				"error_load_failed_title",
 				"error_load_failed_message",
-				ProjectError.Severity.ERROR,
+				KitError.Severity.ERROR,
 			)
 		)
 		await show_error(error, &"alert_return_to_menu")
@@ -471,11 +475,11 @@ func _save_with_retry() -> bool:
 			return true
 
 		var error := (
-			ProjectError
+			KitError
 			. new(
 				"error_save_failed_title",
 				"error_save_failed_message",
-				ProjectError.Severity.ERROR,
+				KitError.Severity.ERROR,
 			)
 		)
 		var action := await show_error(error, &"alert_retry", &"alert_continue")
@@ -502,7 +506,7 @@ func _on_shutdown_requested(_exit_code: int) -> void:
 		return
 
 	_accumulate_play_time()
-	Systems.saves().flush_save_data(_save_data)
+	KitSystems.saves().flush_save_data(_save_data)
 
 
 func _on_splash_complete() -> void:
