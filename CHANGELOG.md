@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.0 (2026-09-17)
+
+## What's Changed
+* refactor(addons)!: consume 'ui', 'map', 'locale' and 'lifecycle' from 'godot-plugin-kit' by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/497
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v6.0.0...v7.0.0
+
 ## 6.0.0 (2026-09-17)
 
 ## What's Changed
