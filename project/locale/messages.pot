@@ -84,20 +84,12 @@ msgstr ""
 msgid "error_save_failed_message"
 msgstr ""
 
-#. The message shown when a save operation fails due to insufficient storage.
-msgid "error_save_failed_storage_message"
-msgstr ""
-
 #. The title of the error dialog shown when loading a save file fails.
 msgid "error_load_failed_title"
 msgstr ""
 
 #. The generic message shown when loading a save file fails.
 msgid "error_load_failed_message"
-msgstr ""
-
-#. The message shown when loading a save file fails due to possible data corruption.
-msgid "error_load_failed_corrupted_message"
 msgstr ""
 
 #. A tab within the game's options menu containing gameplay-related settings.
@@ -119,7 +111,7 @@ msgstr ""
 
 #. An input action that opens the pause menu during gameplay.
 msgctxt "actions_GameplayOptions"
-msgid "ui_toggle_menu_pause"
+msgid "ui_toggle_menu"
 msgstr ""
 
 
