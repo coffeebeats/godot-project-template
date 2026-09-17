@@ -10,7 +10,7 @@ extends Button
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
-const Saves := preload("res://system/save/saves.gd")
+const Saves := preload("res://addons/kit/system/save/saves.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -19,7 +19,7 @@ const Saves := preload("res://system/save/saves.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
-var _save_slot: SaveSlot = null
+var _save_slot: KitSaveSlot = null
 
 @onready var _label_active: Label = %Active
 @onready var _label_empty: Label = %Empty
@@ -31,10 +31,10 @@ var _save_slot: SaveSlot = null
 
 
 func _ready() -> void:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 
 	_save_slot = saves.get_save_slot(slot)
-	assert(_save_slot is SaveSlot, "invalid state; missing save summary")
+	assert(_save_slot is KitSaveSlot, "invalid state; missing save summary")
 
 	Signals.connect_safe(saves.slot_activated, _on_save_slot_updated)
 	Signals.connect_safe(saves.slot_deactivated, _on_save_slot_updated)
@@ -48,16 +48,16 @@ func _ready() -> void:
 
 
 func _update_contents() -> void:
-	assert(_save_slot is SaveSlot, "invalid state; missing save summary")
+	assert(_save_slot is KitSaveSlot, "invalid state; missing save summary")
 
-	var is_empty := _save_slot.status == SaveSlot.STATUS_EMPTY
+	var is_empty := _save_slot.status == KitSaveSlot.STATUS_EMPTY
 	var is_broken := (
-		_save_slot.status == SaveSlot.STATUS_BROKEN
-		or _save_slot.status == SaveSlot.STATUS_UNKNOWN
+		_save_slot.status == KitSaveSlot.STATUS_BROKEN
+		or _save_slot.status == KitSaveSlot.STATUS_UNKNOWN
 	)
 
-	_container_contents.visible = _save_slot.status == SaveSlot.STATUS_OK
-	_label_active.visible = slot == Systems.saves().get_active_save_slot()
+	_container_contents.visible = _save_slot.status == KitSaveSlot.STATUS_OK
+	_label_active.visible = slot == KitSystems.saves().get_active_save_slot()
 	_label_empty.visible = is_empty
 	_label_broken.visible = is_broken
 

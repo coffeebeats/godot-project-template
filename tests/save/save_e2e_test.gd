@@ -8,7 +8,7 @@ extends "save_test_base.gd"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const SaveFileWriter := preload("res://system/save/writer.gd")
+const SaveFileWriter := preload("res://addons/kit/system/save/writer.gd")
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -19,7 +19,7 @@ var _temp_dir: String = ""
 
 func test_store_and_load_round_trip_slot_0() -> void:
 	# Given: A schema populated with non-default data.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	var data := _create_save_data()
 	data.example.count = 1
 	saves.activate_slot(0)
@@ -42,7 +42,7 @@ func test_store_and_load_round_trip_slot_0() -> void:
 
 func test_store_and_load_round_trip_slot_max() -> void:
 	# Given: A schema populated with non-default data.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	var max_slot := saves.slot_count - 1
 	var data := _create_save_data()
 	data.example.count = 2
@@ -66,7 +66,7 @@ func test_store_and_load_round_trip_slot_max() -> void:
 
 func test_load_empty_slot_returns_empty() -> void:
 	# Given: An unused save slot.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	saves.activate_slot(2)
 
 	# When: Data is loaded from the empty slot.
@@ -76,12 +76,12 @@ func test_load_empty_slot_returns_empty() -> void:
 	# Then: The load succeeds and the slot status is empty.
 	assert_true(did_load)
 	var slot := saves.get_save_slot(2)
-	assert_eq(slot.status, SaveSlot.STATUS_EMPTY)
+	assert_eq(slot.status, KitSaveSlot.STATUS_EMPTY)
 
 
 func test_slot_isolation() -> void:
 	# Given: A schema populated with non-default data.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	var data := _create_save_data()
 	data.example.count = 10
 	saves.activate_slot(0)
@@ -100,12 +100,12 @@ func test_slot_isolation() -> void:
 	# Then: The other slot is empty.
 	assert_true(did_load)
 	var slot := saves.get_save_slot(1)
-	assert_eq(slot.status, SaveSlot.STATUS_EMPTY)
+	assert_eq(slot.status, KitSaveSlot.STATUS_EMPTY)
 
 
 func test_overwrite_returns_latest_data() -> void:
 	# Given: A schema populated with non-default data.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	saves.activate_slot(0)
 	var data := _create_save_data()
 	data.example.count = 1
@@ -131,7 +131,7 @@ func test_overwrite_returns_latest_data() -> void:
 
 func test_erase_slot_then_load_returns_empty() -> void:
 	# Given: A schema populated with non-default data.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	saves.activate_slot(0)
 	var data := _create_save_data()
 	data.example.count = 99
@@ -153,12 +153,12 @@ func test_erase_slot_then_load_returns_empty() -> void:
 	# Then: The slot is empty.
 	assert_true(did_load)
 	var slot := saves.get_save_slot(0)
-	assert_eq(slot.status, SaveSlot.STATUS_EMPTY)
+	assert_eq(slot.status, KitSaveSlot.STATUS_EMPTY)
 
 
 func test_non_default_values_persisted() -> void:
 	# Given: A schema with all fields set to non-default values.
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	saves.activate_slot(0)
 	var data := _create_save_data()
 	var rng := _create_rng()
@@ -185,7 +185,7 @@ func test_non_default_values_persisted() -> void:
 
 func test_negative_slot_asserts() -> void:
 	# Given/When: activate_slot is called with a negative index.
-	Systems.saves().activate_slot(-1)
+	KitSystems.saves().activate_slot(-1)
 
 	# Then: An engine error about the invalid argument is generated.
 	assert_engine_error("invalid argument")
@@ -201,7 +201,7 @@ func after_all() -> void:
 
 
 func after_each() -> void:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	saves.clear_active_slot()
 
 	for i in saves.slot_count:
@@ -209,7 +209,7 @@ func after_each() -> void:
 
 
 func before_all() -> void:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	if not saves.are_slots_loaded():
 		await saves.slots_loaded
 

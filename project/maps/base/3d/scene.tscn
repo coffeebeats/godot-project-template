@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="6_layer"]
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="7_options"]
 [ext_resource type="Script" uid="uid://cpj6sfb4r20rj" path="res://project/maps/base/3d/viewport_observer.gd" id="8_observer"]
-[ext_resource type="Resource" path="res://system/setting/video/render_scale_property.tres" id="9_render_scale"]
-[ext_resource type="Resource" path="res://system/setting/video/msaa_3d_property.tres" id="10_msaa_3d"]
+[ext_resource type="Resource" uid="uid://cmr3sqdjir1ko" path="res://addons/kit/system/setting/video/render_scale_property.tres" id="9_render_scale"]
+[ext_resource type="Resource" uid="uid://isxidm2jgp8m" path="res://addons/kit/system/setting/video/msaa_3d_property.tres" id="10_msaa_3d"]
 [ext_resource type="Script" uid="uid://dllaqka540nal" path="res://project/ui/hud/layer_3d.gd" id="11_hud"]
 [ext_resource type="Script" uid="uid://c2qonhhbqw8en" path="res://project/ui/feel/feel_3d.gd" id="12_feel"]
 

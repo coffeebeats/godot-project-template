@@ -44,7 +44,7 @@ func _ready() -> void:
 
 		Signals.connect_safe(button.pressed, _on_slot_button_pressed.bind(button.slot))
 
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 
 	for slot in _delete_buttons.get_child_count():
 		var button: Button = _delete_buttons.get_child(slot)
@@ -52,7 +52,7 @@ func _ready() -> void:
 			continue
 
 		var status := saves.get_save_slot(slot).status
-		button.disabled = status == SaveSlot.STATUS_EMPTY
+		button.disabled = status == KitSaveSlot.STATUS_EMPTY
 		(
 			Signals
 			. connect_safe(
@@ -69,8 +69,8 @@ func _on_delete_button_pressed(
 	button: Button,
 	slot: int,
 ) -> void:
-	var saves := Systems.saves()
-	if saves.get_save_slot(slot).status == SaveSlot.STATUS_EMPTY:
+	var saves := KitSystems.saves()
+	if saves.get_save_slot(slot).status == KitSaveSlot.STATUS_EMPTY:
 		return
 
 	_confirm_delete.open()
@@ -79,11 +79,11 @@ func _on_delete_button_pressed(
 		button.disabled = true
 		if not saves.erase_slot(slot):
 			var error := (
-				ProjectError
+				KitError
 				. new(
 					"error_delete_failed_title",
 					"error_delete_failed_message",
-					ProjectError.Severity.ERROR,
+					KitError.Severity.ERROR,
 				)
 			)
 			await Main.show_error(error, &"alert_continue")

@@ -168,7 +168,7 @@ func _on_pressed() -> void:
 
 	# A new focus target is required if using focus-based navigation. If the
 	# reset button was clicked, then this doesn't matter.
-	if not next_focus is Control and not Systems.input().is_cursor_visible():
+	if not next_focus is Control and not KitSystems.input().is_cursor_visible():
 		assert(false, "invalid state; missing target focus")
 		return
 

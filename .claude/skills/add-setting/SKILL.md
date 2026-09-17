@@ -18,18 +18,20 @@ Add a user-configurable setting to the project. This involves creating a setting
 
 ## Steps
 
+Kit's settings under `addons/kit/system/setting/` are the reference to copy from, never a place to add to: `addons/kit` is a submodule. A game's setting lives under `project/setting/`, and its observer is placed in the game's own `project/main/system.tscn`.
+
 1. **Read reference files** to understand the existing patterns:
-   - `system/setting/audio/volume/master_property.tres` — property resource pattern
-   - `system/setting/audio/volume/observer.gd` — observer pattern
-   - `system/setting/settings.tscn` — observer wiring
+   - `addons/kit/system/setting/audio/volume/master_property.tres` — property resource pattern
+   - `addons/kit/system/setting/audio/volume/observer.gd` — observer pattern
+   - `project/main/system.tscn` — where the game's observers are placed
    - The settings tab `.tscn` for the target category (e.g., `project/menu/settings/sound/sound.tscn`)
 
-2. **Create the property resource** at `system/setting/<category>/<name>_property.tres`:
+2. **Create the property resource** at `project/setting/<category>/<name>_property.tres`:
 
    ```
    [gd_resource type="Resource" script_class="<PropertyClass>" format=3 uid="uid://..."]
 
-   [ext_resource type="Resource" uid="uid://..." path="res://system/setting/<scope>.tres" id="1_xxxxx"]
+   [ext_resource type="Resource" uid="uid://..." path="res://addons/kit/system/setting/<scope>.tres" id="1_xxxxx"]
    [ext_resource type="Script" uid="uid://..." path="res://addons/std/setting/<property_script>.gd" id="2_xxxxx"]
 
    [resource]
@@ -43,14 +45,14 @@ Add a user-configurable setting to the project. This involves creating a setting
    For `float_range`, also include `minimum`, `maximum`, and `step` fields.
 
    Choose the correct scope resource:
-   - `system/setting/user_settings_scope.tres` — per-user settings (most common: audio, controls, interface)
-   - `system/setting/project_settings_scope.tres` — project-wide settings
+   - `addons/kit/system/setting/user_settings_scope.tres` — per-user settings (most common: audio, controls, interface)
+   - `addons/kit/system/setting/project_settings_scope.tres` — project-wide settings
 
-3. **Create the observer** at `system/setting/<category>/<subcategory>/observer.gd`. Observers are grouped by subcategory (e.g., `audio/volume/observer.gd` handles all volume settings, `audio/mute/observer.gd` handles mute settings). If an observer already exists for the subcategory, add the new property to it instead of creating a new file:
+3. **Create the observer** at `project/setting/<category>/<subcategory>/observer.gd`. Observers are grouped by subcategory (e.g., kit's `audio/volume/observer.gd` handles all volume settings). If the game already has an observer for the subcategory, add the new property to it instead of creating a new file:
 
    ```gdscript
    ##
-   ## system/setting/<category>/<name>/observer.gd
+   ## project/setting/<category>/<name>/observer.gd
    ##
    ## <ObserverName> is a `StdSettingsObserver` that applies <description>.
    ##
@@ -76,9 +78,9 @@ Add a user-configurable setting to the project. This involves creating a setting
    	pass
    ```
 
-4. **Wire the observer into `system/setting/settings.tscn`** under `Observers/<Category>`:
+4. **Place the observer in `project/main/system.tscn`**:
 
-   Add a new node entry for the observer under the appropriate category node. Reference the observer script and the property resource via `ext_resource`.
+   Add a node for the observer as a child of the `System` root, after `Settings`. Reference the observer script and the property resource via `ext_resource`. An observer binds through its property's scope rather than its parent, so it works outside kit's `Settings` node.
 
 5. **Add UI to the settings tab** `.tscn` file at `project/menu/settings/<tab>/<tab>.tscn`:
 
@@ -113,13 +115,13 @@ Add a user-configurable setting to the project. This involves creating a setting
 
 ## Key reference files
 
-- `system/setting/audio/volume/master_property.tres` — property resource (FloatRange)
-- `system/setting/audio/mute/background_property.tres` — property resource (Bool)
-- `system/setting/audio/volume/observer.gd` — observer pattern
-- `system/setting/audio/device/observer.gd` — observer with multiple properties
-- `system/setting/settings.tscn` — observer wiring under `Observers/<Category>`
-- `system/setting/user_settings_scope.tres` — per-user scope
-- `system/setting/project_settings_scope.tres` — project-wide scope
+- `addons/kit/system/setting/audio/volume/master_property.tres` — property resource (FloatRange)
+- `addons/kit/system/setting/audio/mute/background_property.tres` — property resource (Bool)
+- `addons/kit/system/setting/audio/volume/observer.gd` — observer pattern
+- `addons/kit/system/setting/audio/device/observer.gd` — observer with multiple properties
+- `project/main/system.tscn` — the game's observers, beside kit's `FontScalingObserver`
+- `addons/kit/system/setting/user_settings_scope.tres` — per-user scope
+- `addons/kit/system/setting/project_settings_scope.tres` — project-wide scope
 - `project/menu/settings/sound/sound.tscn` — full settings tab UI (slider, option button, checkbox examples)
 - `project/menu/settings/controls/controls.tscn` — controls tab UI
 - `project/menu/settings/setting.tscn` — setting container scene

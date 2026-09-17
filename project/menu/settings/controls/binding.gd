@@ -31,7 +31,7 @@ const Rebinder := preload("rebinder.gd")
 ## has_user_override returns whether the input binding has a user-specified value (i.e.
 ## a non-default origin).
 func has_user_override() -> bool:
-	var active_device := Systems.input().get_active_device(glyph.player_id)
+	var active_device := KitSystems.input().get_active_device(glyph.player_id)
 	if not active_device:
 		return false
 
@@ -49,7 +49,7 @@ func has_user_override() -> bool:
 
 ## reset returns the input binding back to its default value.
 func reset() -> void:
-	var active_device := Systems.input().get_active_device(glyph.player_id)
+	var active_device := KitSystems.input().get_active_device(glyph.player_id)
 	if not active_device:
 		return
 
@@ -81,7 +81,7 @@ func _ready() -> void:
 
 
 func _on_bindings_changed(category: StringName, key: StringName) -> void:
-	var active_device := Systems.input().get_active_device(glyph.player_id)
+	var active_device := KitSystems.input().get_active_device(glyph.player_id)
 	if not active_device:
 		return
 

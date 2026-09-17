@@ -83,7 +83,7 @@ static func start_rebinding(
 	if not _instance:
 		_instance = RebinderScene.instantiate()
 
-	_instance._cursor_was_visible = Systems.input().is_cursor_visible()
+	_instance._cursor_was_visible = KitSystems.input().is_cursor_visible()
 
 	_instance._scope = scope
 	_instance._action_set = action_set
@@ -107,7 +107,7 @@ func stop(bound: bool = false) -> void:
 	# hide actions). Restoring here prevents focus mode from activating during the
 	# screen close sequence.
 	if _cursor_was_visible:
-		Systems.input().show_cursor()
+		KitSystems.input().show_cursor()
 
 	set_process_input(false)
 

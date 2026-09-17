@@ -28,7 +28,7 @@ extends Control
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Debug := preload("res://system/debug/debug.gd")
+const Debug := preload("res://addons/kit/system/debug/debug.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 

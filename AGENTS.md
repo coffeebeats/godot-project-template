@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Godot 4+ project template for 2D games. Game logic goes in `project/`; reusable infrastructure lives in `system/` (autoloads) and `addons/std/` (standard library, a git submodule).
+Godot 4+ project template for 2D games. Game logic goes in `project/`; reusable infrastructure lives in `addons/kit/` (game infrastructure) and `addons/std/` (standard library), both git submodules.
 
 ## Project Structure
 
@@ -8,19 +8,22 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
 
 - **`project/`** — Game-specific code and assets.
   - **`core/`** — Game logic (empty by default; extend here).
-  - **`main/`** — Main scene and app orchestration via `StdScreenManager`. Contains `menu/` and `splash/`.
+  - **`main/`** — Main scene and app orchestration via `StdScreenManager`. Contains `menu/` and `splash/`, and the `Platform` and `System` autoload scenes (`platform.tscn`, `system.tscn`), which place kit's bricks and set the game's values on them.
+  - **`audio/`** — The audio bus layout and the `master`, `music`, `sound_effects` and `voice` bus handles.
   - **`maps/`** — Game maps (scenes/levels). `base/` contains style-specific inheritance templates: `2d/`, `2d_pixel/`, and `3d/`. Each has a standalone scene (`.tscn`) and script (`.gd`) with the full apparatus (SubViewport, PausePusher, InputActionSetLoader, UI). `2d_pixel/` extends `2d/` at the script level so it inherits the 2D world-to-screen bridge; the `.tscn` files remain standalone siblings (don't chain scene inheritance). The 3D template includes settings observers for render quality. Create new maps via `Scene > New Inherited Scene` from a template in `base/`.
   - **`menu/`** — Infrastructure menus: pause (`pause/`), save slot selection (`save/`), settings (`settings/`).
   - **`save/`** — Save data schemas (save slot data, summaries).
   - **`input/`** — Input action definitions, including Steam Input actions.
   - **`locale/`** — i18n with 13 pre-configured languages (`.pot` template, `.po`/`.mo` per language).
   - **`ui/`** — Shared UI: screen transitions (fade, slide), input glyphs, modals, tooltips, world-space trackers, theme, font. `hud/` is the HUD layer, its anchor and group, and the stock elements; `feel/` is camera shake, hit-stop and flash.
-- **`system/`** — Game-agnostic autoloaded subsystems (the `System` autoload). Accessed via `Systems.audio()`, `Systems.input()`, `Systems.saves()`.
-  - **`audio/`** — Sound event player, music player, mix snapshots, audio bus layout (`game`/`ui` split).
-  - **`input/`** — UI navigation, cursor management, gamepad/Steam Input support.
-  - **`save/`** — Multi-slot save system (4 slots). Async save/load via background worker. Slot status tracking (OK/EMPTY/BROKEN).
-  - **`setting/`** — Setting observers that sync `ProjectSettings` with UI (audio, video, interface).
-- **`platform/`** — Platform abstraction (the `Platform` autoload). User profiles and storefront integration with Steam and fallback backends.
+- **`addons/kit/`** — Game infrastructure (git submodule; do not edit directly). Classes use the `Kit` prefix. Every value the game owns is set on a kit instance in `project/main/system.tscn` or `platform.tscn`, never by editing kit; read those two scenes for the current set. The one exception is the screen manager, which `main.gd` hands to `KitSystems.audio()` at runtime.
+  - **`system/`** — Subsystems the `System` autoload places. Accessed via `KitSystems.audio()`, `KitSystems.input()`, `KitSystems.saves()`.
+    - **`audio/`** — Sound event player, music player, mix snapshots, the `game` and `ui` bus handles.
+    - **`input/`** — UI navigation, cursor management, gamepad/Steam Input support.
+    - **`save/`** — Multi-slot save system (5 slots). Async save/load via background worker. Slot status tracking (OK/EMPTY/BROKEN).
+    - **`setting/`** — Setting observers that sync `ProjectSettings` with UI (audio, video, interface).
+    - **`debug/`** — The bridge `tools/bridge.sh` drives.
+  - **`platform/`** — Platform abstraction (the `Platform` autoload places it). User profiles, storefront integration with Steam and fallback backends, and logging.
 - **`addons/std/`** — Standard library (git submodule; do not edit directly). Classes use the `Std` prefix. Key modules: `config/`, `input/`, `save/`, `screen/`, `setting/`, `sound/`, and more.
 - **`addons/gut/`** — GUT testing framework.
 - **`script_templates/`** — GDScript file templates enforcing project structure (Node, Object, Resource, test, library).
@@ -53,19 +56,19 @@ Game scenes access save data via `Main` statics in `project/main/main.gd`:
 - `Main.request_save()` — fire-and-forget; skips if in-flight or clean.
 - `Main.load_game(slot)` / `Main.go_to_main_menu()` — game flow transitions.
 
-Dirty tracking is automatic (`StdConfigItem` snapshots); use `mark_critical()` to force a save without field changes. Shutdown uses synchronous `flush_save_data()` as a last-resort path (`system/save/saves.gd`).
+Dirty tracking is automatic (`StdConfigItem` snapshots); use `mark_critical()` to force a save without field changes. Shutdown uses synchronous `flush_save_data()` as a last-resort path (`addons/kit/system/save/saves.gd`).
 
 ## Logging
 
 `StdLogger` instances are named by hierarchical path (e.g. `system/save`, `std/config/writer/binary`). Levels are `DEBUG=0, INFO=1, WARN=2, ERROR=3`; the global default is `WARN`, so `debug`/`info` are opt-in (`debug` is compiled out of non-debug builds).
 
-Levels are set declaratively by `StdLogProfile` resources, applied at startup in `platform/logging/logging.gd`: `profile_editor.tres` (editor) and `profile_default.tres` (exported builds). Each profile has a global `level` plus `level_overrides` (`{prefix: level}`); a logger's effective level is the longest matching prefix override, else the global. To trace a subsystem while developing, lower its prefix in `profile_editor.tres` rather than calling `StdLogger.set_level_override(...)` in code (`apply()` clears code-set overrides at startup).
+Levels are set declaratively by `StdLogProfile` resources, applied at startup by kit's `Logging` brick: `profile_editor` (editor) and `profile_default` (exported builds), which default to kit's profiles in `addons/kit/platform/logging/`. Each profile has a global `level` plus `level_overrides` (`{prefix: level}`); a logger's effective level is the longest matching prefix override, else the global. To trace a subsystem while developing, copy kit's `profile_editor.tres` under `project/`, lower its prefix, and set it as `profile_editor` on the `Logging` instance in `project/main/platform.tscn`, rather than calling `StdLogger.set_level_override(...)` in code (`apply()` clears code-set overrides at startup).
 
 ## Pitfalls
 
 Every entry below fails silently: no error, no crash, no failing test, and the wrong behavior surfaces somewhere else. Only the ones nothing else can catch are listed here — see [Tooling placement](#tooling-placement) for where the rest live.
 
-- `Systems.*()` accessors only work after autoloads finish `_ready()`.
+- `KitSystems.*()` accessors only work after autoloads finish `_ready()`.
 - Save schema changes without a version bump will silently drop fields from old saves.
 - Never filter `*.aseprite` in an export preset. A filter matching a source also drops the baked `.res`/`.sample` beside it, and nothing says so until an exported build looks for the asset at runtime.
 - Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it. Both build an `InputEventAction`, which matches by name and never consults the `InputMap`, so a handler fires whether or not the action is bound to anything. Checking a binding takes the real `InputEventKey` or `InputEventJoypadButton`.
@@ -163,7 +166,7 @@ Follows GDScript style guide. Key project-specific conventions:
   ##
   ```
 
-- Class names: `Std` prefix for `addons/std/` only. Project classes have no prefix.
+- Class names: `Std` prefix for `addons/std/` and `Kit` for `addons/kit/`. Project classes have no prefix.
 - Private members: underscore prefix (`_data`, `_mutex`).
 - StringNames: use `&` prefix for literals (`&"category"`, `&"key"`).
 - Use `##` for public API docs, `# NOTE:` for implementation details.

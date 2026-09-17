@@ -155,7 +155,7 @@ func test_migrated_data_preserves_shared_values() -> void:
 
 
 func before_all() -> void:
-	_schema = Systems.saves().create_new_save_data()
+	_schema = KitSystems.saves().create_new_save_data()
 	assert_not_null(_schema, "loaded save data schema")
 
 	_current_version = _schema.version

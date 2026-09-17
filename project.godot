@@ -24,14 +24,14 @@ config/project_settings_override.editor="res://settings.cfg"
 
 [audio]
 
-buses/default_bus_layout="res://system/audio/default_audio_bus_layout.tres"
+buses/default_bus_layout="res://project/audio/default_audio_bus_layout.tres"
 general/default_playback_type.web=0
 
 [autoload]
 
 Lifecycle="*res://project/main/lifecycle.gd"
-Platform="*res://platform/platform.tscn"
-System="*res://system/system.tscn"
+Platform="*res://project/main/platform.tscn"
+System="*res://project/main/system.tscn"
 
 [debug]
 

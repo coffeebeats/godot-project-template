@@ -29,7 +29,7 @@ const Signals := preload("res://addons/std/event/signal.gd")
 
 
 func _exit_tree() -> void:
-	Systems.audio().music().stop()
+	KitSystems.audio().music().stop()
 
 
 func _ready() -> void:
@@ -38,24 +38,24 @@ func _ready() -> void:
 	Signals.connect_safe(_play.pressed, _on_play_pressed)
 	Signals.connect_safe(_quit.pressed, _on_quit_pressed)
 
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	Signals.connect_safe(saves.slot_activated, _on_slot_activated)
 	Signals.connect_safe(saves.slot_deactivated, _on_slot_deactivated)
 
 	_setup_continue_button()
 
 	if music_event:
-		Systems.audio().music().play(music_event)
+		KitSystems.audio().music().play(music_event)
 
 
 # -- PRIVATE METHODS ----------------------------------------------------------------- #
 
 
 func _setup_continue_button() -> void:
-	var saves := Systems.saves()
+	var saves := KitSystems.saves()
 	var slot := saves.get_active_save_slot()
 
-	if slot > -1 and saves.get_save_slot(slot).status == SaveSlot.STATUS_OK:
+	if slot > -1 and saves.get_save_slot(slot).status == KitSaveSlot.STATUS_OK:
 		_continue.visible = true
 		_continue.focus_neighbor_top = _continue.get_path_to(_quit)
 		_quit.focus_neighbor_bottom = _quit.get_path_to(_continue)
@@ -70,7 +70,7 @@ func _setup_continue_button() -> void:
 
 
 func _on_continue_pressed() -> void:
-	Main.load_game(Systems.saves().get_active_save_slot())
+	Main.load_game(KitSystems.saves().get_active_save_slot())
 
 
 func _on_options_pressed() -> void:

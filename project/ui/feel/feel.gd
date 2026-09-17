@@ -48,7 +48,7 @@ signal flash_finished
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Debug := preload("res://system/debug/debug.gd")
+const Debug := preload("res://addons/kit/system/debug/debug.gd")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
