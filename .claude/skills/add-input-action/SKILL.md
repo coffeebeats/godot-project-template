@@ -44,7 +44,7 @@ Add an input action to the project. The action is registered in an action set, g
    scope = ExtResource("id_for_bindings_scope")
    ```
 
-   Reference `project/menu/settings/controls/action_set.tscn` for the instance and `system/input/unknown/bindings_scope.tres` for the scope. Add the corresponding `ext_resource` entries at the top of the file.
+   Reference `project/menu/settings/controls/action_set.tscn` for the instance and `addons/kit/system/input/unknown/bindings_scope.tres` for the scope. Add the corresponding `ext_resource` entries at the top of the file.
 
    d. Add a translation for the action set name using the `add-translation` skill. Action set display names use a **different convention** than action names — they have **no `msgctxt`** and use a prefixed `msgid`:
    - `msgid "options_controls_<SetName>"` — e.g., `options_controls_Gameplay`
@@ -100,7 +100,7 @@ After adding a binding, check every action set that layers over the same origin,
 - `project/input/actions/gameplay_options.tres` — action set layer pattern (StdInputActionSetLayer)
 - `project/menu/settings/controls/controls.tscn` — controls tab wiring (instances `action_set.tscn` per set)
 - `project/menu/settings/controls/action_set.tscn` — action set UI instance
-- `system/input/unknown/bindings_scope.tres` — bindings scope used in controls tab
+- `addons/kit/system/input/unknown/bindings_scope.tres` — bindings scope used in controls tab
 - `project.godot` — `[input]` section for default bindings
 - `project/locale/messages.pot` — `msgctxt "actions_*"` translation entries
 - `project/locale/en_US.po` — corresponding English translations

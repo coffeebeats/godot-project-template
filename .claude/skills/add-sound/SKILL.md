@@ -16,12 +16,12 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
 
 2. **Determine the sound configuration.** If the user doesn't specify a `use`, infer from context (UI elements → `ui`, gameplay → `sfx`, background music → `music`). Ask if ambiguous.
 
-   | Use     | Event type                                | Bus resource                          | Notes                                               |
-   | ------- | ----------------------------------------- | ------------------------------------- | --------------------------------------------------- |
-   | `ui`    | `StdSoundEvent1D`                         | `system/audio/bus/ui.tres`            | Independent bus; not affected by covered-screen mix |
-   | `sfx`   | `StdSoundEvent1D` (or `2D` if positional) | `system/audio/bus/sound_effects.tres` | Routes through `game` parent bus                    |
-   | `music` | `StdSoundEvent1D`                         | `system/audio/bus/music.tres`         | Routes through `game` parent bus                    |
-   | `voice` | `StdSoundEvent1D`                         | `system/audio/bus/voice.tres`         | Routes through `game` parent bus                    |
+   | Use     | Event type                                | Bus resource                           | Notes                                               |
+   | ------- | ----------------------------------------- | -------------------------------------- | --------------------------------------------------- |
+   | `ui`    | `StdSoundEvent1D`                         | `addons/kit/system/audio/bus/ui.tres`  | Independent bus; not affected by covered-screen mix |
+   | `sfx`   | `StdSoundEvent1D` (or `2D` if positional) | `project/audio/bus/sound_effects.tres` | Routes through `game` parent bus                    |
+   | `music` | `StdSoundEvent1D`                         | `project/audio/bus/music.tres`         | Routes through `game` parent bus                    |
+   | `voice` | `StdSoundEvent1D`                         | `project/audio/bus/voice.tres`         | Routes through `game` parent bus                    |
 
    File format hints: WAV for short effects, OGG/MP3 for longer loops or music. The `ui` bus is independent; `sfx`/`music`/`voice` route through the `game` parent bus (targeted by the covered-screen mix snapshot).
 
@@ -43,8 +43,8 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
    - Add the group reference to the sound event `.tres` as an ext_resource and set `group = ExtResource(...)` in `[resource]`.
 
 5. **Wire playback into the scene.** Three patterns depending on use case:
-   - **One-shot SFX/UI:** Add `@export var <name>_event: StdSoundEvent = null` to the script. Play via `Systems.audio().play(<name>_event)`. Set the export in the `.tscn` file.
-   - **Music:** Add `@export var music_event: StdSoundEvent = null`. Play via `Systems.audio().music().play(music_event)`. Music handles crossfade automatically.
+   - **One-shot SFX/UI:** Add `@export var <name>_event: StdSoundEvent = null` to the script. Play via `KitSystems.audio().play(<name>_event)`. Set the export in the `.tscn` file.
+   - **Music:** Add `@export var music_event: StdSoundEvent = null`. Play via `KitSystems.audio().music().play(music_event)`. Music handles crossfade automatically.
    - **Lifecycle-bound:** Add a `StdSoundEmitter` child node in `.tscn` with `event` set to the sound event resource. Set `autoplay = true` if the sound should play when the node enters the tree.
 
 6. **(Optional) Add a global mix state** if the sound needs the whole mix to change rather than one event — a low-pass while a screen is covered, a duck under dialogue. Those are `StdMixSnapshot` resources carrying `StdSoundBusEffect` overrides, applied to a bus rather than to an event; the covered-screen snapshot is the worked example to copy.
@@ -57,12 +57,12 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
 - `project/ui/input/focus_handler_sound_event.tres` — UI sound with group + volume
 - `project/main/menu/music_sound_event.tres` — music (1D, music bus)
 - `project/ui/input/focus_handler_sound_group.tres` — sound group
-- `system/audio/bus/ui.tres` — UI bus resource
-- `system/audio/bus/sound_effects.tres` — game SFX bus resource
-- `system/audio/bus/music.tres` — music bus resource
-- `system/audio/bus/voice.tres` — voice bus resource
+- `addons/kit/system/audio/bus/ui.tres` — UI bus resource
+- `project/audio/bus/sound_effects.tres` — game SFX bus resource
+- `project/audio/bus/music.tres` — music bus resource
+- `project/audio/bus/voice.tres` — voice bus resource
 - `addons/std/sound/event_1d.gd` — `StdSoundEvent1D` (all configurable properties)
 - `addons/std/sound/event_2d.gd` — `StdSoundEvent2D` (positional properties)
 - `addons/std/sound/group.gd` — `StdSoundGroup` (concurrency control)
 - `addons/std/sound/emitter.gd` — `StdSoundEmitter` (lifecycle-bound playback)
-- `system/audio/audio.gd` — `SystemAudio` (play, music accessors)
+- `addons/kit/system/audio/audio.gd` — `SystemAudio` (play, music accessors)

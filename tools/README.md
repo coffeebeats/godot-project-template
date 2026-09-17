@@ -56,10 +56,10 @@ mangles it before the tool sees it.
 
 Two independent gates, because the bridge evaluates arbitrary expressions on request:
 
-1. `system/system.tscn` mounts it through an `StdConditionLoader` whose expression is
-   `debug_build_expression.tres` (`OS.has_feature("debug")`), so a release export never
-   places the node. The same mechanism gates the Steam storefront in
-   `platform/storefront/storefront.tscn`.
+1. `project/main/system.tscn` mounts it through an `StdConditionLoader` whose expression
+   is `debug_build_expression.tres` (`OS.has_feature("debug")`), so a release export
+   never places the node. The same mechanism gates the Steam storefront in
+   `addons/kit/platform/storefront/storefront.tscn`.
 2. The node listens only when handed a port, either `--bridge-port <N>` after `--` or
    `GODOT_DEBUG_BRIDGE_PORT` for editor runs, where run arguments are a per-machine
    editor setting that cannot be committed. An ordinary F5, a GUT run and a headless CI
@@ -73,7 +73,7 @@ The bridge knows sockets, JSON, `Expression`, the scene tree and the viewport. I
 nothing about screens, maps or a simulation; those register handlers on it:
 
 ```gdscript
-const Debug := preload("res://system/debug/debug.gd")
+const Debug := preload("res://addons/kit/system/debug/debug.gd")
 
 Debug.register(&"map", _get_debug_state)              # in _ready
 Debug.unregister(&"map", _get_debug_state)            # in _exit_tree
@@ -118,7 +118,7 @@ settled=True  booted=True  screen=res://project/main/menu/screen.tres
 
 A client that waits for "settled" acts on the splash, and reports on a scene that is
 ignoring it. `Main._is_booted()` excludes the loading and splash screens, which is why
-it lives in `project/` and not in `system/`.
+it lives in `project/` and not in kit.
 
 **An aborted client leaves the game holding the port.** The next `listen` fails with
 `Already in use` (`ERR_ALREADY_IN_USE`, error 22) and the new instance runs on with no

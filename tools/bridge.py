@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bridge.py drives a running game through the bridge in `system/debug/debug.gd`.
+"""bridge.py drives a running game through kit's bridge, `system/debug/debug.gd`.
 
 Requires only the standard library. Run it through `tools/bridge.sh`, which supplies the
 interpreter; `tools/README.md` documents the commands.

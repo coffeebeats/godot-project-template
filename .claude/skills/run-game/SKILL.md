@@ -5,7 +5,7 @@ user-invocable: true
 argument-hint: "[what to check]"
 ---
 
-Drive a live game through `tools/bridge.sh`. Every subcommand talks to a debug-only autoload (`system/debug/debug.gd`) over loopback TCP.
+Drive a live game through `tools/bridge.sh`. Every subcommand talks to a debug-only autoload (`addons/kit/system/debug/debug.gd`) over loopback TCP.
 
 ## When to use something else
 
@@ -54,7 +54,7 @@ Each of these returns a plausible wrong answer rather than an error.
 The bridge knows sockets, `Expression`, the tree and the viewport, and nothing about screens, maps or a simulation. Those register handlers:
 
 ```gdscript
-const Debug := preload("res://system/debug/debug.gd")
+const Debug := preload("res://addons/kit/system/debug/debug.gd")
 
 Debug.register(&"map", _get_debug_state)      # in _ready
 Debug.unregister(&"map", _get_debug_state)    # in _exit_tree, with the same handler
