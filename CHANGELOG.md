@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.0.0 (2026-09-17)
+
+## What's Changed
+* refactor(addons)!: consume 'platform' and 'system' from 'godot-plugin-kit' by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/495
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v5.4.3...v6.0.0
+
 ## 5.4.3 (2026-09-15)
 
 ## What's Changed
