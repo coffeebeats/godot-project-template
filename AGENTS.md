@@ -16,7 +16,7 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
   - **`input/`** — Input action definitions, including Steam Input actions.
   - **`locale/`** — i18n with 13 pre-configured languages (`.pot` template, `.po`/`.mo` per language).
   - **`ui/`** — Shared UI: screen transitions (fade, slide), input glyphs, modals, tooltips, world-space trackers, theme, font. `hud/` is the HUD layer, its anchor and group, and the stock elements; `feel/` is camera shake, hit-stop and flash.
-- **`addons/kit/`** — Game infrastructure (git submodule; do not edit directly). Classes use the `Kit` prefix. A value the game owns — the save schema, the Steam Input manifest, the font theme, log profiles — is set on the kit instance in `project/main/system.tscn` or `platform.tscn`, never by editing kit.
+- **`addons/kit/`** — Game infrastructure (git submodule; do not edit directly). Classes use the `Kit` prefix. Every value the game owns is set on a kit instance in `project/main/system.tscn` or `platform.tscn`, never by editing kit; read those two scenes for the current set. The one exception is the screen manager, which `main.gd` hands to `KitSystems.audio()` at runtime.
   - **`system/`** — Subsystems the `System` autoload places. Accessed via `KitSystems.audio()`, `KitSystems.input()`, `KitSystems.saves()`.
     - **`audio/`** — Sound event player, music player, mix snapshots, the `game` and `ui` bus handles.
     - **`input/`** — UI navigation, cursor management, gamepad/Steam Input support.
