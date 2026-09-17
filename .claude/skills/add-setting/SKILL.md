@@ -24,7 +24,8 @@ Kit's settings under `addons/kit/system/setting/` are the reference to copy from
    - `addons/kit/system/setting/audio/volume/master_property.tres` — property resource pattern
    - `addons/kit/system/setting/audio/volume/observer.gd` — observer pattern
    - `project/main/system.tscn` — where the game's observers are placed
-   - The settings tab `.tscn` for the target category (e.g., `project/menu/settings/sound/sound.tscn`)
+   - `addons/kit/menu/settings/sound/sound.tscn` — one of kit's settings tabs, the UI pattern to copy
+   - `project/menu/settings/gameplay/gameplay.tscn` — the game's own settings tab
 
 2. **Create the property resource** at `project/setting/<category>/<name>_property.tres`:
 
@@ -82,12 +83,12 @@ Kit's settings under `addons/kit/system/setting/` are the reference to copy from
 
    Add a node for the observer as a child of the `System` root, after `Settings`. Reference the observer script and the property resource via `ext_resource`. An observer binds through its property's scope rather than its parent, so it works outside kit's `Settings` node.
 
-5. **Add UI to the settings tab** `.tscn` file at `project/menu/settings/<tab>/<tab>.tscn`:
+5. **Add UI to the game's own settings tab.** Kit's tabs under `addons/kit/menu/settings/` are read-only, so the control goes in a tab the game owns: `project/menu/settings/gameplay/gameplay.tscn`, or a new `project/menu/settings/<tab>/<tab>.tscn`. A new tab is registered in `menu_tabs` on the `Settings` instance in `project/main/system.tscn`, keyed by its label's msgid (`options_<tab>`); the settings menu shows it after kit's own tabs.
 
    The UI structure follows this hierarchy:
    ```
-   GroupNode (instance of group.tscn)       — label = "options_<category>_<group>"
-     └─ SettingNode (instance of setting.tscn) — label = "options_<category>_<setting>"
+   GroupNode (instance of addons/kit/menu/settings/group.tscn)       — label = "options_<category>_<group>"
+     └─ SettingNode (instance of addons/kit/menu/settings/setting.tscn) — label = "options_<category>_<setting>"
           ├─ InputControl (slider/checkbox/option_button .tscn)
           └─ ControllerNode (StdSettingsController*)
                 property = <property .tres>
@@ -110,6 +111,7 @@ Kit's settings under `addons/kit/system/setting/` are the reference to copy from
 6. **Add translations** using the `add-translation` skill:
    - Group label: `options_<category>_<group>` (if creating a new group)
    - Setting label: `options_<category>_<setting_name>`
+   - Tab label: `options_<tab>` (if creating a new tab)
 
 7. **Run `godot --import --headless`** and verify the setting appears correctly in the settings menu.
 
@@ -122,10 +124,11 @@ Kit's settings under `addons/kit/system/setting/` are the reference to copy from
 - `project/main/system.tscn` — the game's observers, beside kit's `FontScalingObserver`
 - `addons/kit/system/setting/user_settings_scope.tres` — per-user scope
 - `addons/kit/system/setting/project_settings_scope.tres` — project-wide scope
-- `project/menu/settings/sound/sound.tscn` — full settings tab UI (slider, option button, checkbox examples)
-- `project/menu/settings/controls/controls.tscn` — controls tab UI
-- `project/menu/settings/setting.tscn` — setting container scene
-- `project/menu/settings/group.tscn` — group container scene
+- `addons/kit/menu/settings/sound/sound.tscn` — full settings tab UI (slider, option button, checkbox examples)
+- `addons/kit/menu/settings/controls/controls.tscn` — controls tab UI
+- `addons/kit/menu/settings/setting.tscn` — setting container scene
+- `addons/kit/menu/settings/group.tscn` — group container scene
+- `project/menu/settings/gameplay/gameplay.tscn` — the game's own settings tab
 - `addons/kit/ui/input/slider.tscn` — slider input control
 - `addons/kit/ui/input/checkbox.tscn` — checkbox input control
 - `addons/kit/ui/input/option_button.tscn` — option button input control
