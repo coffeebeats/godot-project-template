@@ -105,16 +105,6 @@ msgstr "Delete Save"
 msgid "save_slots_delete_message"
 msgstr "Are you sure? This cannot be undone."
 
-#. The default primary button label used in alert dialogs.
-msgctxt "alert"
-msgid "alert_okay"
-msgstr "Okay"
-
-#. The default secondary/cancel button label used in alert dialogs.
-msgctxt "alert"
-msgid "alert_cancel"
-msgstr "Cancel"
-
 #. A button label to delete something (e.g. a save slot).
 msgctxt "alert"
 msgid "alert_delete"
@@ -171,18 +161,6 @@ msgstr "Delete Failed"
 #. The message shown when deleting a save slot fails.
 msgid "error_delete_failed_message"
 msgstr "The save slot could not be deleted."
-
-#. The title of the error dialog shown when platform initialization fails (e.g. Steam).
-msgid "error_platform_init_title"
-msgstr "Startup Error"
-
-#. The generic message shown when platform initialization fails, advising the player to restart.
-msgid "error_platform_init_message"
-msgstr "The game could not start properly. Please restart."
-
-#. The message shown when Steam fails to initialize, advising the player to check that Steam is running.
-msgid "error_platform_init_steam_message"
-msgstr "Steam could not be initialized. Please make sure Steam is running and restart the game."
 
 #. A tab within the game's options menu containing gameplay-related settings.
 msgid "options_gameplay"
@@ -327,11 +305,13 @@ msgid "options_controls_steam_configurator"
 msgstr "Controller layout"
 
 #. Used as a category name for a group of input actions related to gameplay input.
-msgid "options_controls_Gameplay"
+msgctxt "action_sets"
+msgid "Gameplay"
 msgstr "In-game actions"
 
 #. Used as a category name for a group of input actions related to gameplay options.
-msgid "options_controls_GameplayOptions"
+msgctxt "action_sets"
+msgid "GameplayOptions"
 msgstr "In-game options"
 
 #. An input action that opens the pause menu during gameplay.
@@ -339,81 +319,10 @@ msgctxt "actions_GameplayOptions"
 msgid "ui_toggle_menu_pause"
 msgstr "Pause"
 
-#. Used as a category name for a group of input actions related to menu navigation.
-msgid "options_controls_Menu"
-msgstr "Menus"
-
-#. An input action that confirms the current selection.
-msgctxt "actions_Menu"
-msgid "ui_accept"
-msgstr "Accept"
-
-#. An input action used to navigate left within a game menu.
-msgctxt "actions_Menu"
-msgid "ui_left"
-msgstr "Left"
-
-#. An input action used to navigate right within a game menu.
-msgctxt "actions_Menu"
-msgid "ui_right"
-msgstr "Right"
-
-#. An input action used to navigate up within a game menu.
-msgctxt "actions_Menu"
-msgid "ui_up"
-msgstr "Up"
-
-#. An input action used to navigate down within a game menu.
-msgctxt "actions_Menu"
-msgid "ui_down"
-msgstr "Down"
-
-#. An input action used to navigate to the next item within a game menu.
-msgctxt "actions_Menu"
-msgid "ui_focus_next"
-msgstr "Next"
-
-#. An input action used to navigate to the previous item within a game menu.
-msgctxt "actions_Menu"
-msgid "ui_focus_prev"
-msgstr "Previous"
-
-#. An input action used to cancel the current selection/leave the current menu page.
-msgctxt "actions_Menu"
-msgid "ui_cancel"
-msgstr "Cancel"
-
-#. Used as a category name for a group of input actions related to the options menu.
-msgid "options_controls_MenuOptions"
-msgstr "Menu options"
-
 #. An input action that opens the settings menu when the player is on a menu screen.
 msgctxt "actions_MenuOptions"
 msgid "ui_toggle_menu_settings"
 msgstr "Options"
-
-#. Used as a category name for a group of input actions related to changing tabs in a tabbed menu.
-msgid "options_controls_MenuTabbed"
-msgstr "Menu tabs"
-
-#. An input action that moves to the next tab/page within a game menu.
-msgctxt "actions_MenuTabbed"
-msgid "ui_tab_next"
-msgstr "Next tab"
-
-#. An input action that moves to the previous tab/page within a game menu.
-msgctxt "actions_MenuTabbed"
-msgid "ui_tab_prev"
-msgstr "Previous tab"
-
-#. Used as a category name for a group of input actions related to changing which game actions are bound to a controller input button.
-msgid "options_controls_MenuBinding"
-msgstr "Input binding"
-
-#. An input action that cancels the "rebinding" operation.
-msgctxt "actions_MenuBinding"
-msgid "ui_binding_stop"
-msgstr "Cancel binding"
 
 #. Instructs the user that they will be updating the controller binding for the specified action. Here, the '%s' placeholder will be replaced with the translated name of the game action.
 msgid "options_controls_rebinder_title"

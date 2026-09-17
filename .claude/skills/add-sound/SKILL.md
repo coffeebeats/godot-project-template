@@ -10,8 +10,8 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
 ## Steps
 
 1. **Read reference files** to understand existing patterns:
-   - `project/ui/menu/menu_toggle_sound_event.tres` — simple UI sound (1D, ui bus)
-   - `project/ui/input/focus_handler_sound_event.tres` — UI sound with group + volume
+   - `addons/kit/ui/menu/menu_toggle_sound_event.tres` — simple UI sound (1D, ui bus)
+   - `addons/kit/ui/input/focus_handler_sound_event.tres` — UI sound with group + volume
    - `project/main/menu/music_sound_event.tres` — music (1D, music bus)
 
 2. **Determine the sound configuration.** If the user doesn't specify a `use`, infer from context (UI elements → `ui`, gameplay → `sfx`, background music → `music`). Ask if ambiguous.
@@ -35,7 +35,7 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
    - **Multi-sample variation:** For sounds that need randomization (e.g., footsteps, impacts), use `AudioStreamRandomizer` as the `stream`. Create an inline `sub_resource` with `random_pitch` and/or `random_volume_offset_db`, and add each audio file as a stream entry. This avoids repetitive-sounding effects.
    - Optional properties to set in `[resource]` when specified by the user: `volume_db` (range -8.0 to 6.0), `pitch_scale`, `priority` (voice stealing order), `group` (add ext_resource ref to a `StdSoundGroup`).
 
-4. **(Optional) Create a sound group** at `<dir>/<name>_sound_group.tres` if the user requests concurrency control or the sound type warrants it (rapid-fire UI or SFX). Copy structure from `project/ui/input/focus_handler_sound_group.tres`. Guidelines:
+4. **(Optional) Create a sound group** at `<dir>/<name>_sound_group.tres` if the user requests concurrency control or the sound type warrants it (rapid-fire UI or SFX). Copy structure from `addons/kit/ui/input/focus_handler_sound_group.tres`. Guidelines:
    - Rapid UI effects (focus, hover): `max_audible` 2-4
    - Rapid SFX (footsteps, gunfire): `max_audible` 3-6
    - Music: not needed (managed by `StdMusicPlayer`)
@@ -53,10 +53,10 @@ Create a `StdSoundEvent` resource for an audio file, wire bus routing, and optio
 
 ## Key reference files
 
-- `project/ui/menu/menu_toggle_sound_event.tres` — simple UI sound (1D, ui bus)
-- `project/ui/input/focus_handler_sound_event.tres` — UI sound with group + volume
+- `addons/kit/ui/menu/menu_toggle_sound_event.tres` — simple UI sound (1D, ui bus)
+- `addons/kit/ui/input/focus_handler_sound_event.tres` — UI sound with group + volume
 - `project/main/menu/music_sound_event.tres` — music (1D, music bus)
-- `project/ui/input/focus_handler_sound_group.tres` — sound group
+- `addons/kit/ui/input/focus_handler_sound_group.tres` — sound group
 - `addons/kit/system/audio/bus/ui.tres` — UI bus resource
 - `project/audio/bus/sound_effects.tres` — game SFX bus resource
 - `project/audio/bus/music.tres` — music bus resource

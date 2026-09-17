@@ -11,7 +11,7 @@ extends "../group.gd"
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Bindings := preload("res://addons/std/input/godot/binding.gd")
-const Locales := preload("res://project/locale/locales.gd")
+const Locales := preload("res://addons/kit/locale/locales.gd")
 const BindingScene := preload("binding.tscn")
 const Reset := preload("reset.gd")
 const ResetScene := preload("reset.tscn")

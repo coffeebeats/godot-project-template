@@ -10,7 +10,7 @@ extends Control
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
-const TabGroup := preload("res://project/ui/menu/tab_group.gd")
+const TabGroup := preload("res://addons/kit/ui/menu/tab_group.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 

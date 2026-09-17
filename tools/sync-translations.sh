@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 ##
-## tools/sync-translations.sh
-##
 ## Manages translation file synchronization. Supports updating .po files from
 ## the message template, compiling .po to .mo, and validating file integrity.
 ##
 ## Usage: ./tools/sync-translations.sh <validate|update|compile> [--verify]
+##
+## Set LOCALE_DIR to the catalogue's directory; defaults to 'project/locale'.
 ##
 ## Dependencies: msgfmt, msgmerge (gettext), poswap (translate-toolkit)
 ##
 
 set -euo pipefail
 
-LOCALE_DIR="project/locale"
+LOCALE_DIR="${LOCALE_DIR:-project/locale}"
 
 cleanup() {
 	rm -f "$LOCALE_DIR"/*.po.tmp
