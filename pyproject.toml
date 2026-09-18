@@ -16,7 +16,6 @@ package = false
 # bump has to be its own commit.
 dev = [
     "gdtoolkit==4.5.0",
-    "translate-toolkit>=3.16.0",
     "ruff>=0.16.0",
 ]
 
