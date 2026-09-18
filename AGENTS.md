@@ -21,7 +21,7 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
     - **`input/`** — UI navigation, cursor management, gamepad/Steam Input support. `actions/` holds the menu action sets and the splash screen's.
     - **`save/`** — Multi-slot save system (`slot_count` slots; the template sets 4). Async save/load via background worker. Slot status tracking (OK/EMPTY/BROKEN).
     - **`setting/`** — Setting observers that sync `ProjectSettings` with UI (audio, video, interface).
-    - **`debug/`** — The bridge `tools/bridge.sh` drives.
+    - **`debug/`** — The bridge `godot-bridge` drives.
     - **`lifecycle.gd`** — The `Lifecycle` autoload's script.
   - **`platform/`** — Platform abstraction (the `Platform` autoload places it). User profiles, storefront integration with Steam and fallback backends, and logging.
   - **`ui/`** — Shared UI: screen transitions (fade, slide), input glyphs, modals, tooltips, world-space trackers. `hud/` is the HUD layer, its anchor and group, and the stock elements; `feel/` is camera shake, hit-stop and flash; `splash/` is the splash screen script and the Godot splash.
@@ -37,17 +37,17 @@ Most changes involve both `.gd` scripts and `.tscn` scene files. Editing UI or w
 
 ## Common Workflows
 
-Seven of these have a skill that owns the details — invoke it rather than working from memory or from a summary here. The four without one are written out below, and move into skills if those skills are ever written.
+Seven of these have a skill in kit's agent plugin that owns the details — invoke it rather than working from memory or from a summary here. The four without one are written out below, and move into skills if those skills are ever written.
 
-- **Adding a setting** — the `add-setting` skill. Property resource, observer, settings-tab UI, translations.
-- **Adding a save data field** — the `add-save-field` skill. Config item, schema wiring, version bump and migration.
-- **Adding a translatable string** — the `add-translation` skill. Only `messages.pot` and `en_US.po` are ever hand-edited.
-- **Adding an input action** — the `add-input-action` skill. Action set, default bindings, translations, and the binding-collision check.
-- **Adding a sound** — the `add-sound` skill. Event resource, bus routing, concurrency groups, mix snapshots.
+- **Adding a setting** — the `kit:add-setting` skill. Property resource, observer, settings-tab UI, translations.
+- **Adding a save data field** — the `kit:add-save-field` skill. Config item, schema wiring, version bump and migration.
+- **Adding a translatable string** — the `kit:add-translation` skill. Only `messages.pot` and `en_US.po` are ever hand-edited.
+- **Adding an input action** — the `kit:add-input-action` skill. Action set, default bindings, translations, and the binding-collision check.
+- **Adding a sound** — the `kit:add-sound` skill. Event resource, bus routing, concurrency groups, mix snapshots.
 - **Adding a screen** — Create a `.tscn` scene and `.gd` script. Create a `StdScreen` resource (`.tres`) pointing to the scene with transition config. Export or preload the resource in `main.gd`. Navigate via `Main.screens().push()`, `.replace()`, `.pop()`, or `.reset()`. Keys that close a screen go in the `StdScreen`'s `close_actions`, beside `overlay_click_to_close`; a closer needs no pusher and no placement. This works with `pause_when_covered` (it disables the covered scene, not the overlay) but not under `get_tree().paused`, which the template never sets. To open a screen with an input action, list a `StdScreenPusher` scene in the `StdScreen`'s `attachment_scenes` instead of placing it in the scene. Write `scene_path`, `attachment_scenes` and `dependency_scenes` as `uid://` strings (the target's header uid), since Godot's move/rename fixup rewrites `ext_resource` references but never a path held in a string; the checker's `path-ref` rule enforces this and `--fix` converts them. Attachments mount into the screen's overlay, so `pause_when_covered` does not touch them and the scene stays runnable on its own. An opener goes on the screen it opens **from**, since it must outlive its target (`addons/kit/menu/settings/pusher.tscn` on `project/main/menu/screen.tres`). Both mechanisms only fire if the topmost screen's action set binds the action, since loading an action set rebinds the whole `InputMap`. Pick an action bound by the screen that should respond and unbound by the screens that should stay quiet.
 - **Adding a map** — Pick a style template from `addons/kit/map/` (`2d/`, `2d_pixel/`, or `3d/`). Right-click the template's `scene.tscn` → `New Inherited Scene`. Save in `project/maps/<your_map>/scene.tscn`. On the root, set `action_set` to `project/input/actions/gameplay.tres` and `action_set_layers` to `gameplay_options.tres`; a map without an action set reports an error when it enters the tree. Add a `World` node (Node2D or Node3D) as a child of the SubViewport and place game content under it. Create a `StdScreen` resource (`.tres`) pointing to the new scene with a transition, `pause_when_covered = true` (so the map subtree's `process_mode` flips to `DISABLED` when the pause menu is on top — pause is achieved via `process_mode`, NOT `get_tree().paused`), `dependency_screens` listing pause + settings, and `attachment_scenes` listing `addons/kit/menu/pause/pusher.tscn` by its `uid://`, which opens the pause menu on `ui_toggle_menu` (closing is handled by the pause screen's `close_actions`; the templates carry no pusher node). If the map needs custom logic, attach a script extending the template's `.gd`. To wire as the default game scene, assign the screen to `Main.game` in `main.tscn`. Gotchas: don't rename the root node of an inherited scene; don't chain more than one level of scene inheritance. If scene inheritance causes issues, copy the template and extend the script directly.
-- **Giving an entity a HUD** — the `add-entity-hud` skill. Group scene, anchor, off-screen behavior, and the two ordering traps that fail silently.
-- **Adding a HUD element** — the `add-hud-element` skill. A new element kind: its own API, style resource and theme variation. No shared base class to change.
+- **Giving an entity a HUD** — the `kit:add-entity-hud` skill. Group scene, anchor, off-screen behavior, and the two ordering traps that fail silently.
+- **Adding a HUD element** — the `kit:add-hud-element` skill. A new element kind: its own API, style resource and theme variation. No shared base class to change.
 - **Adding feel** — `map.feel.impulse(config, direction)` shakes and kicks the camera, `map.feel.hit_stop(config)` freezes the world, `map.feel.flash(config)` washes the screen, and a `KitFeelHitFlash2D`/`3D` child of a sprite or mesh flashes just that one. Each takes a `Resource` (`KitFeelImpulse`, `KitFeelHitStop`, `KitFeelFlash`) with presets in `addons/kit/ui/feel/`, so tuning how a hit feels is a `.tres` edit. **The feel layer owns the camera's offset**; a camera controller must follow through `position`/`global_transform` and leave the offset alone. `hit_stop` is global to the game, not to the map, so only the active map calls it. A world node reaches the layer with `KitMap.for_node(self).feel`.
 - **Adding a world-tracked widget outside a HUD group** — Attach a `KitWorldTracker2D` (or `KitWorldTracker3D`) as a child of the screen-space `Control` that should follow a world entity. Set `map` to the `KitMap` and `target` to the tracked `Node2D`/`Node3D`. The tracker must live in a subtree later than the map's `SubViewport` (typically the `UI` layer) or it reads a stale camera transform — a startup assertion enforces this. Use `offset` to shift the widget, `clamped` with `viewport_margin` to pin it to the viewport edge while off-screen, and the `target_entered_view`/`target_exited_view`/`started`/`stopped` signals to react to visibility and lifecycle changes. Prefer a HUD group; this is the escape hatch when one entity needs a widget with its own tracking policy.
 
@@ -116,8 +116,8 @@ godot-check --list                   # what each rule covers
 tools/aseprite.sh --out assets/baked assets/src
 ```
 
-To see a change working in the real app rather than in a test, use the `run-game`
-skill, which drives a live game through `tools/bridge.sh`.
+To see a change working in the real app rather than in a test, use the `kit:run-game`
+skill, which drives a live game through `godot-bridge`.
 
 CI has no `Steam` singleton, because GodotSteam ships no Linux binary. The checker
 skips the scripts naming its API there on its own.
@@ -132,11 +132,14 @@ editor save, or a move that breaks a file nobody touched. Checker rules live in
 
 `tools/` holds scripts with a consumer other than Claude — CI, a hook, or a human. A
 script only ever run by Claude, as one step of one workflow, ships beside its `SKILL.md`
-in `.claude/skills/<name>/`, so the skill installs as a unit in a repository that does not
-have this one's `tools/`. A skill may still front a `tools/` script it did not ship — `run-game`
-does — since the test is who else runs it, not who documents it. Tooling that is the same in every
-Godot repository, such as the edit hook, the project checker and the `godot-api` skill, lives
-in the `godot` agent plugin in `godot-infra`, enabled in `.claude/settings.json`.
+in `.claude/skills/<name>/`, so the skill installs as a unit. A skill may still front a
+`tools/` script it did not ship, since the test is who else runs it, not who documents it.
+
+The rest lives in the two agent plugins `.claude/settings.json` enables. Tooling written
+against `addons/kit/`, such as the game skills and `godot-bridge`, ships in the `kit` plugin
+in `godot-plugin-kit` and is released with the addon. Tooling that is the same in every
+Godot repository, such as the edit hook, the project checker, `godot-locale` and the
+`godot-api` skill, lives in the `godot` plugin in `godot-infra`.
 
 A pitfall goes in the first tier below that can hold it. This file is the last resort,
 because it is read in full by every session before the task is known, so a line here is
