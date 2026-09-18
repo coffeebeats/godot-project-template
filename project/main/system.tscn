@@ -12,15 +12,23 @@
 [ext_resource type="PackedScene" uid="uid://cj4555ox05li8" path="res://addons/kit/system/setting/interface/font_scaling_observer.tscn" id="9_f0nts"]
 [ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="10_th3me"]
 [ext_resource type="Resource" uid="uid://bksg4w3cw6183" path="res://project/save/data.tres" id="11_sch3m"]
+[ext_resource type="Script" uid="uid://cljg7byxqnq7d" path="res://addons/std/input/action_set.gd" id="12_actset"]
+[ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="13_gmply"]
+[ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="14_gmopt"]
+[ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/menu/settings/gameplay/gameplay.tscn" id="15_gmtab"]
 
 [node name="System" type="Node" unique_id=754977886]
 process_mode = 3
 
 [node name="Input" parent="." unique_id=1658786168 instance=ExtResource("2_u77o4")]
+action_sets = Array[ExtResource("12_actset")]([ExtResource("13_gmply"), ExtResource("14_gmopt")])
 focused_sound_group = ExtResource("7_f0cus")
 steam_in_game_actions = ExtResource("8_st3am")
 
 [node name="Settings" parent="." unique_id=1575309999 instance=ExtResource("1_8d1ab")]
+menu_tabs = Dictionary[String, PackedScene]({
+"options_gameplay": ExtResource("15_gmtab")
+})
 
 [node name="FontScalingObserver" parent="." unique_id=25826901 instance=ExtResource("9_f0nts")]
 theme = ExtResource("10_th3me")
@@ -29,6 +37,7 @@ theme = ExtResource("10_th3me")
 
 [node name="Saves" parent="." unique_id=2094713141 instance=ExtResource("3_j3l3i")]
 schema = ExtResource("11_sch3m")
+slot_count = 4
 
 [node name="Debug" type="Node" parent="." unique_id=1904557320]
 script = ExtResource("4_ld0ne")

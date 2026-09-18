@@ -14,7 +14,7 @@ Add an input action to the project. The action is registered in an action set, g
    - `addons/kit/system/input/actions/` — kit's menu action sets, for reference only; the submodule never gains an action
    - `project.godot` — `[input]` section for existing default bindings
    - `project/locale/messages.pot` — existing `msgctxt "actions_*"` entries
-   - `project/menu/settings/controls/controls.tscn` — controls tab wiring
+   - `project/main/system.tscn` — the `Input` instance's `action_sets`, which kit's controls tab lists for rebinding
 
 2. **Check if the action set exists** in `project/input/actions/`. Action set files are `StdInputActionSet` resources (`.tres`). If the specified action set does not exist, create it (see step 3). If it does exist, skip to step 4.
 
@@ -36,16 +36,13 @@ Add an input action to the project. The action is registered in an action set, g
 
    b. Run `godot --import --headless` to generate the UID.
 
-   c. Wire the action set into `project/menu/settings/controls/controls.tscn` by adding a new node that instances `action_set.tscn` with the `action_set` and `scope` properties:
+   c. Append the action set to `action_sets` on the `Input` instance in `project/main/system.tscn`, so kit's controls tab lists it for rebinding, after the game's existing sets:
 
    ```
-   [node name="<SetName>" parent="." instance=ExtResource("id_for_action_set_tscn")]
-   layout_mode = 2
-   action_set = ExtResource("id_for_new_action_set_tres")
-   scope = ExtResource("id_for_bindings_scope")
+   action_sets = Array[ExtResource("id_for_action_set_gd")]([ExtResource("id_for_gameplay_tres"), ExtResource("id_for_gameplay_options_tres"), ExtResource("id_for_new_action_set_tres")])
    ```
 
-   Reference `project/menu/settings/controls/action_set.tscn` for the instance and `addons/kit/system/input/unknown/bindings_scope.tres` for the scope. Add the corresponding `ext_resource` entries at the top of the file.
+   Add the new set's `ext_resource` entry at the top of the file. Kit's controls tab under `addons/kit/menu/settings/controls/` is read-only.
 
    d. Add a translation for the action set name using the `add-translation` skill. Action set display names use the set's `name` as the `msgid`, under one shared context:
    - `msgctxt "action_sets"`
@@ -100,9 +97,8 @@ After adding a binding, check every action set that layers over the same origin,
 
 - `project/input/actions/gameplay.tres` — action set resource pattern
 - `project/input/actions/gameplay_options.tres` — action set layer pattern (StdInputActionSetLayer)
-- `project/menu/settings/controls/controls.tscn` — controls tab wiring (instances `action_set.tscn` per set)
-- `project/menu/settings/controls/action_set.tscn` — action set UI instance
-- `addons/kit/system/input/unknown/bindings_scope.tres` — bindings scope used in controls tab
+- `project/main/system.tscn` — `Input.action_sets`, the game's sets the controls tab lists
+- `addons/kit/menu/settings/controls/controls.gd` — how the controls tab lists them, above kit's menu sets
 - `project.godot` — `[input]` section for default bindings
 - `project/locale/messages.pot` — `msgctxt "actions_*"` translation entries
 - `project/locale/en_US.po` — corresponding English translations

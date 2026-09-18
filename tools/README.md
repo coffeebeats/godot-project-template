@@ -110,8 +110,8 @@ alone leaves the app reporting `settled=false` forever after one push and pop, a
 through a real boot, before the menu appears:
 
 ```text
-settled=False booted=False screen=res://project/main/splash/godot_screen.tres
-settled=True  booted=False screen=res://project/main/splash/godot_screen.tres
+settled=False booted=False screen=res://addons/kit/ui/splash/godot_screen.tres
+settled=True  booted=False screen=res://addons/kit/ui/splash/godot_screen.tres
 settled=True  booted=False screen=res://project/main/splash/studio_screen.tres
 settled=True  booted=True  screen=res://project/main/menu/screen.tres
 ```

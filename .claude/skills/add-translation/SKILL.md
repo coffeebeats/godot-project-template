@@ -19,7 +19,7 @@ Steps 4–5 require `poswap` (from Python's `translate-toolkit`) and `msgfmt`/`m
 
 ## Translation file format
 
-Both files use **key-based `msgid`** values (e.g., `main_play`, `options_sound_volume`). Keys follow a hierarchical `snake_case` convention matching the UI location (e.g., `main_` for main menu, `save_slots_` for save UI, `options_sound_` for sound settings).
+Both files use **key-based `msgid`** values (e.g., `main_play`, `options_gameplay`). Keys follow a hierarchical `snake_case` convention matching the UI location (e.g., `main_` for main menu, `options_` for the game's settings tabs, `error_` for error dialogs).
 
 Each entry has a `#.` translator comment explaining what the string is and where it appears. If the string needs disambiguation, add a `msgctxt` line (see existing `button_prompt` and `actions_*` entries for examples).
 

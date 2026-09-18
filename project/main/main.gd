@@ -23,7 +23,7 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 const Debug := preload("res://addons/kit/system/debug/debug.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
 const ErrorDialog := preload("res://addons/kit/ui/menu/alert.tscn")
-const Splash := preload("./splash/splash.gd")
+const Splash := preload("res://addons/kit/ui/splash/splash.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
 
@@ -195,6 +195,8 @@ func _exit_tree() -> void:
 	# so without this it goes on listing a handler whose object is gone.
 	Debug.unregister(&"app", _get_debug_state)
 
+	KitPauseMenu.return_to_main_menu = Callable()
+
 	if Engine.is_editor_hint():
 		Signals.disconnect_safe(ProjectSettings.settings_changed, _update_color)
 	else:
@@ -223,6 +225,8 @@ func _ready() -> void:
 	# NOTE: The audio system lives in the `System` autoload, where no `NodePath` can
 	# reach this scene's screen manager, so it is handed over here.
 	KitSystems.audio().screens = _manager
+
+	KitPauseMenu.return_to_main_menu = go_to_main_menu
 
 	var input := KitSystems.input()
 	Signals.connect_safe(

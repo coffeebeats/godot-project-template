@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://addons/kit/ui/glyph/action.tscn" id="4_4ki2s"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_sdqe3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://addons/kit/system/input/actions/menu.tres" id="5_5fewj"]
-[ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://project/menu/save/screen.tres" id="8_saves"]
+[ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://addons/kit/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://addons/kit/system/input/actions/menu_options.tres" id="10_y5hy5"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="15_layer"]
 

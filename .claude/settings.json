@@ -1,4 +1,7 @@
 {
+  "enabledPlugins": {
+    "godot@godot-infra": true
+  },
   "extraKnownMarketplaces": {
     "godot-infra": {
       "source": {
@@ -8,8 +11,5 @@
       },
       "autoUpdate": true
     }
-  },
-  "enabledPlugins": {
-    "godot@godot-infra": true
   }
 }
