@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.1 (2026-09-17)
+
+## What's Changed
+* fix(steam): use GodotSteam's current project setting names by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/500
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.0.0...v7.0.1
+
 ## 7.0.0 (2026-09-17)
 
 ## What's Changed
