@@ -189,7 +189,7 @@ environment/defaults/default_clear_color.editor=Color(0.301961, 0.301961, 0.3019
 
 [steam]
 
-initialization/app_id=0
-initialization/initialize_on_startup=false
-initialization/embed_callbacks=false
+initialization/app_data/app_id=0
+initialization/processes/initialize_on_startup=false
+initialization/processes/embed_callbacks=false
 multiplayer_peer/max_channels=4
