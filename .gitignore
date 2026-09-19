@@ -45,6 +45,5 @@ settings.dat.bak
 !.claude/settings.json
 !.claude/skills
 
-
 # Steam Input manifest, written at export
 game_actions_*.vdf
