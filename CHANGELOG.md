@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.1.0 (2026-09-19)
+
+## What's Changed
+* feat(addons): use kit's settings, save and pause menus and Godot splash by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/499
+* feat(claude): use kit's agent plugin for the game skills and the bridge by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/503
+* chore(tools): run the translation tasks through the plugin's 'godot-locale' by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/504
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.0.1...v7.1.0
+
 ## 7.0.1 (2026-09-17)
 
 ## What's Changed
