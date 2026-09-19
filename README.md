@@ -12,6 +12,7 @@ The following instructions outline how to get the project set up for local devel
 2. [Follow the instructions](https://github.com/coffeebeats/gdenv/blob/main/docs/installation.md) to install `gdenv`. Then, install the [pinned version of Godot](./.godot-version) with `gdenv i`.
 3. [Install `uv`](https://docs.astral.sh/uv/getting-started/installation/), then run `uv sync`. That installs the Python tooling from [`uv.lock`](./uv.lock), and downloads the interpreter named by [`.python-version`](./.python-version) if the machine has none. Invoke each tool as `uv run <tool>`.
 4. Install the [system dependencies](#system-dependencies).
+5. Claude Code's checks, `godot-bridge` and the `/kit:*` skills come from the plugins declared in [`.claude/settings.json`](./.claude/settings.json). Install them once per machine with `claude plugin install godot@godot-infra --scope project` and `claude plugin install kit@godot-plugin-kit --scope project`. If `godot-check` is missing from Claude's `PATH`, see the "Agent plugin" section of [godot-infra's README](https://github.com/coffeebeats/godot-infra#agent-plugin).
 
 #### **System dependencies**
 
