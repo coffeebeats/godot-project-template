@@ -16,7 +16,7 @@
       "source": {
         "source": "github",
         "repo": "coffeebeats/godot-plugin-kit",
-        "ref": "v0"
+        "ref": "v1"
       },
       "autoUpdate": true
     }
