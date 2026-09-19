@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.2.0 (2026-09-19)
+
+## What's Changed
+* fix(addons): bump `kit` to v0.1.8 and regenerate the Steam Input manifest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/505
+* feat(addons): bump kit to v1.0.0 and follow the plugin's v1 line by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/507
+* feat(input): ship the Steam Input manifest with steam builds instead of committing it by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/508
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.1.0...v7.2.0
+
 ## 7.1.0 (2026-09-19)
 
 ## What's Changed
