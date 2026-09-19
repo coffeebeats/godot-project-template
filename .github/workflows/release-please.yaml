@@ -87,6 +87,8 @@ jobs:
       profile: "release"
       ref: ${{ needs.release-please.outputs.release-tag }}
       storefront: ${{ matrix.storefront }}
+      post-export-command: ${{ matrix.storefront == 'steam' && 'godot --headless -s addons/std/input/steam/write_in_game_actions.gd' || '' }}
+      extra-bundled-files: ${{ matrix.storefront == 'steam' && 'game_actions_*.vdf' || '' }}
 
       # itch.io inputs
       publish-to-itchio: ${{ matrix.publish-to-itchio || false }}
