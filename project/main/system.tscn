@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://be11f4pqliry0" path="res://addons/std/condition/expression.gd" id="5_x3prs"]
 [ext_resource type="Resource" uid="uid://cpq2onm572rax" path="res://addons/kit/system/debug/debug_build_expression.tres" id="6_dbg1f"]
 [ext_resource type="Resource" uid="uid://qhsnu8axd0er" path="res://addons/kit/ui/input/focus_handler_sound_group.tres" id="7_f0cus"]
-[ext_resource type="Resource" uid="uid://7d4i7q2cv413" path="res://project/input/steam_in_game_actions.tres" id="8_st3am"]
 [ext_resource type="PackedScene" uid="uid://cj4555ox05li8" path="res://addons/kit/system/setting/interface/font_scaling_observer.tscn" id="9_f0nts"]
 [ext_resource type="Theme" uid="uid://dsa7sh7d8717b" path="res://project/ui/font.tres" id="10_th3me"]
 [ext_resource type="Resource" uid="uid://bksg4w3cw6183" path="res://project/save/data.tres" id="11_sch3m"]
@@ -23,7 +22,6 @@ process_mode = 3
 [node name="Input" parent="." unique_id=1658786168 instance=ExtResource("2_u77o4")]
 action_sets = Array[ExtResource("12_actset")]([ExtResource("13_gmply"), ExtResource("14_gmopt")])
 focused_sound_group = ExtResource("7_f0cus")
-steam_in_game_actions = ExtResource("8_st3am")
 
 [node name="Settings" parent="." unique_id=1575309999 instance=ExtResource("1_8d1ab")]
 menu_tabs = Dictionary[String, PackedScene]({
