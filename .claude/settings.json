@@ -1,6 +1,7 @@
 {
   "enabledPlugins": {
-    "godot@godot-infra": true
+    "godot@godot-infra": true,
+    "kit@godot-plugin-kit": true
   },
   "extraKnownMarketplaces": {
     "godot-infra": {
@@ -8,6 +9,14 @@
         "source": "github",
         "repo": "coffeebeats/godot-infra",
         "ref": "v6"
+      },
+      "autoUpdate": true
+    },
+    "godot-plugin-kit": {
+      "source": {
+        "source": "github",
+        "repo": "coffeebeats/godot-plugin-kit",
+        "ref": "v0"
       },
       "autoUpdate": true
     }

@@ -104,88 +104,8 @@
       "problemMatcher": []
     },
     {
-      "label": "Translation: Update",
-      "detail": "Updates en_US.po from .pot, then syncs non-English .po files via poswap.",
-      "type": "shell",
-      "command": "./tools/sync-translations.sh update",
-      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
-      "presentation": {
-        "reveal": "silent"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Translation: Compile",
-      "detail": "Compiles .po files to .mo, reversing poswap for non-English files.",
-      "type": "shell",
-      "command": "./tools/sync-translations.sh compile",
-      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
-      "presentation": {
-        "reveal": "silent"
-      },
-      "problemMatcher": [
-        {
-          "owner": "gettext-error",
-          "fileLocation": ["relative", "${workspaceFolder}"],
-          "severity": "error",
-          "pattern": {
-            "regexp": "^(.+):(\\d+):\\s+(?!warning:)(.+)$",
-            "file": 1,
-            "line": 2,
-            "message": 3
-          }
-        }
-      ]
-    },
-    {
-      "label": "Translation: Validate",
-      "detail": "Validates all .po files with msgfmt --check.",
-      "type": "shell",
-      "command": "./tools/sync-translations.sh validate",
-      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
-      "presentation": {
-        "reveal": "silent"
-      },
-      "problemMatcher": [
-        {
-          "owner": "gettext-error",
-          "fileLocation": ["relative", "${workspaceFolder}"],
-          "severity": "error",
-          "pattern": {
-            "regexp": "^(.+):(\\d+):\\s+(?!warning:)(.+)$",
-            "file": 1,
-            "line": 2,
-            "message": 3
-          }
-        },
-        {
-          "owner": "gettext-warning",
-          "fileLocation": ["relative", "${workspaceFolder}"],
-          "severity": "warning",
-          "pattern": {
-            "regexp": "^(.+):(\\d+):\\s+warning:\\s+(.+)$",
-            "file": 1,
-            "line": 2,
-            "message": 3
-          }
-        }
-      ]
-    },
-    {
-      "label": "Translation: Sync",
-      "detail": "Updates .po files from .pot, compiles to .mo, and validates.",
-      "icon": { "id": "globe", "color": "terminal.ansiCyan" },
-      "dependsOn": [
-        "Translation: Update",
-        "Translation: Compile",
-        "Translation: Validate"
-      ],
-      "dependsOrder": "sequence",
-      "problemMatcher": []
-    },
-    {
       "label": "Build: Project",
-      "detail": "Imports resources, checks Python and GDScript, and syncs translations.",
+      "detail": "Imports resources and checks Python and GDScript.",
       "icon": { "id": "check-all", "color": "terminal.ansiGreen" },
       "group": {
         "kind": "build",
@@ -195,8 +115,7 @@
         "Import: Resources",
         "Format: Fix",
         "Lint: Check project",
-        "Python: Check",
-        "Translation: Sync"
+        "Python: Check"
       ],
       "dependsOrder": "sequence",
       "problemMatcher": []
