@@ -90,6 +90,8 @@ jobs:
       platform: ${{ inputs.platform }}
       arch: ${{ inputs.arch }}
       storefront: ${{ inputs.storefront }}
+      post-export-command: ${{ inputs.storefront == 'steam' && 'godot --headless -s addons/std/input/steam/write_in_game_actions.gd' || '' }}
+      extra-bundled-files: ${{ inputs.storefront == 'steam' && 'game_actions_*.vdf' || '' }}
       profile: ${{ inputs.profile }}
       publish-export-template: ${{ inputs.publish-export-template }}
 
