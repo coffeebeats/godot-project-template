@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.2.2 (2026-09-20)
+
+## What's Changed
+* fix(export): stop shipping GodotSteam's editor half in Steam packs by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/513
+* fix(export): drop translation sources and editor-only files from every pack by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/515
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.2.1...v7.2.2
+
 ## 7.2.1 (2026-09-20)
 
 ## What's Changed
