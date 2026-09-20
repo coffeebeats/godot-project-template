@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.2.3 (2026-09-20)
+
+## What's Changed
+* refactor(addons): report app state by method and drop Steam from non-Steam packs by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/516
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.2.2...v7.2.3
+
 ## 7.2.2 (2026-09-20)
 
 ## What's Changed
