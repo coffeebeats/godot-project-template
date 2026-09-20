@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.2.1 (2026-09-20)
+
+## What's Changed
+* docs(readme): add the agent plugin install step to setup by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/509
+* fix(export): declare preset file selection once in `export_overrides.cfg` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/510
+* fix(export): exclude std's editor directory instead of one icon in it by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/512
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.2.0...v7.2.1
+
 ## 7.2.0 (2026-09-19)
 
 ## What's Changed
