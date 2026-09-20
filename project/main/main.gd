@@ -20,7 +20,6 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
-const Debug := preload("res://addons/kit/system/debug/debug.gd")
 const Signals := preload("res://addons/std/event/signal.gd")
 const ErrorDialog := preload("res://addons/kit/ui/menu/alert.tscn")
 const Splash := preload("res://addons/kit/ui/splash/splash.gd")
@@ -191,10 +190,6 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	StdGroup.with_id(GROUP_MAIN).remove_member(self)
 
-	# NOTE: The bridge lives under the `System` autoload, which outlives the main scene,
-	# so without this it goes on listing a handler whose object is gone.
-	Debug.unregister(&"app", _get_debug_state)
-
 	KitPauseMenu.return_to_main_menu = Callable()
 
 	if Engine.is_editor_hint():
@@ -251,8 +246,6 @@ func _ready() -> void:
 			signal_transitioning,
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
 		)
-
-	Debug.register(&"app", _get_debug_state)
 
 	# Drain errors enqueued before the UI existed (e.g. Steam init failure). `loading`
 	# is pushed beneath the dialog because `pop` asserts a stack depth above one.
@@ -350,7 +343,10 @@ func _finish_boot(navigate: Callable) -> void:
 
 
 ## _get_debug_state reports app-level state to the debug bridge, which knows nothing
-## about screens and reads none of this for itself.
+## about screens and reads none of this for itself. `booted` is the field every
+## other command waits on.
+##
+## NOTE: Nothing in a shipped build calls this; the bridge finds it by method name.
 func _get_debug_state() -> Dictionary:
 	var screen := _manager.get_current_screen() if _manager else null
 
