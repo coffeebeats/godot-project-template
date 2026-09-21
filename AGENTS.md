@@ -180,6 +180,10 @@ Follows GDScript style guide. Key project-specific conventions:
 - Use `##` for public API docs, `# NOTE:` for implementation details.
 - Assertions for preconditions: `assert(category != "", "invalid argument: missing category")`
 - Don't wrap comment lines prematurely; use the full line width before breaking.
+- Only top-level code awaits, meaning `Main` and GUT test methods. An `await` makes its
+  function a coroutine, and every caller that wants the result must then await it too.
+  Elsewhere, pair a status getter with a signal, as `is_node_ready()` pairs with `ready`,
+  and let `Main` await the signal.
 - Suppress lint warnings inline: `# gdlint:ignore=max-public-methods`; a directive
   covers its own line and the one after it. `gdformat` leaves some long lines alone and
   collapses manual wrapping back, so a line it accepts can still fail `max-line-length`
