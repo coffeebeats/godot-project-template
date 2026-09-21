@@ -249,7 +249,7 @@ func _ready() -> void:
 
 	# NOTE: A kit module still loading reports later, so waiting first puts its failure
 	# in the queue drained below, which carries the details the returned code lacks.
-	await KitModules.wait()
+	await KitModule.wait()
 
 	# Drain errors enqueued before the UI existed (e.g. a failed kit module). `loading`
 	# is pushed beneath the dialog because `pop` asserts a stack depth above one.

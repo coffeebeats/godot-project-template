@@ -93,12 +93,12 @@ jobs:
         ${{ matrix.storefront == 'steam' && '^ERROR: .+ Steam may not be initialized' || '' }}
         ${{ matrix.storefront == 'steam' && '^ERROR: .+ platform/storefront/steam ERROR Failed to start Steam' || '' }}
       boot-expected-logs: |
-        system/modules INFO Loaded kit module\. module=storefront
-        system/modules INFO Loaded kit module\. module=profile
-        system/modules INFO Loaded kit module\. module=input
-        system/modules INFO Loaded kit module\. module=settings
-        system/modules INFO Loaded kit module\. module=audio
-        system/modules INFO Loaded kit module\. module=saves
+        platform/module INFO Loaded kit module\. module=storefront
+        platform/module INFO Loaded kit module\. module=profile
+        platform/module INFO Loaded kit module\. module=input
+        platform/module INFO Loaded kit module\. module=settings
+        platform/module INFO Loaded kit module\. module=audio
+        platform/module INFO Loaded kit module\. module=saves
 
       # itch.io inputs
       publish-to-itchio: ${{ matrix.publish-to-itchio || false }}

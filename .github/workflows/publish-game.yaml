@@ -96,12 +96,12 @@ jobs:
         ${{ inputs.storefront == 'steam' && '^ERROR: .+ Steam may not be initialized' || '' }}
         ${{ inputs.storefront == 'steam' && '^ERROR: .+ platform/storefront/steam ERROR Failed to start Steam' || '' }}
       boot-expected-logs: |
-        system/modules INFO Loaded kit module\. module=storefront
-        system/modules INFO Loaded kit module\. module=profile
-        system/modules INFO Loaded kit module\. module=input
-        system/modules INFO Loaded kit module\. module=settings
-        system/modules INFO Loaded kit module\. module=audio
-        system/modules INFO Loaded kit module\. module=saves
+        platform/module INFO Loaded kit module\. module=storefront
+        platform/module INFO Loaded kit module\. module=profile
+        platform/module INFO Loaded kit module\. module=input
+        platform/module INFO Loaded kit module\. module=settings
+        platform/module INFO Loaded kit module\. module=audio
+        platform/module INFO Loaded kit module\. module=saves
       profile: ${{ inputs.profile }}
       publish-export-template: ${{ inputs.publish-export-template }}
 
