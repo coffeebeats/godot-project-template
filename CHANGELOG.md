@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.2.4 (2026-09-21)
+
+## What's Changed
+* chore: turn on the checker's `logging` rule by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/518
+* fix(build): keep deprecated engine APIs so GDExtensions load by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/520
+* ci: pass the Steam boot log patterns to the publish workflow by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/521
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.2.3...v7.2.4
+
 ## 7.2.3 (2026-09-20)
 
 ## What's Changed
