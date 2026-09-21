@@ -92,6 +92,8 @@ jobs:
       storefront: ${{ inputs.storefront }}
       post-export-command: ${{ inputs.storefront == 'steam' && 'godot --headless -s addons/std/input/steam/write_in_game_actions.gd' || '' }}
       extra-bundled-files: ${{ inputs.storefront == 'steam' && 'game_actions_*.vdf' || '' }}
+      boot-ignored-logs: "${{ inputs.storefront == 'steam' && '^ERROR: .+ Steam may not be initialized' || '' }}"
+      boot-expected-logs: "${{ inputs.storefront == 'steam' && '^platform/storefront/steam/steam.gd.*: (successfully initialized|failed to start) Steam' || '' }}"
       profile: ${{ inputs.profile }}
       publish-export-template: ${{ inputs.publish-export-template }}
 
