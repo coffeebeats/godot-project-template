@@ -85,6 +85,14 @@ msgstr "Load Failed"
 msgid "error_load_failed_message"
 msgstr "This save file could not be loaded."
 
+#. The title of the error dialog shown when the game fails to start.
+msgid "error_startup_failed_title"
+msgstr "Startup Error"
+
+#. The message shown when one of the game's required components failed to load, advising the player to reinstall the game.
+msgid "error_startup_failed_message"
+msgstr "The game is missing a required component and could not start. Please reinstall the game."
+
 #. A tab within the game's options menu containing gameplay-related settings.
 msgid "options_gameplay"
 msgstr "Gameplay"
