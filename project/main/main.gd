@@ -247,11 +247,22 @@ func _ready() -> void:
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
 		)
 
-	# NOTE: A kit module still loading reports later, so waiting first puts its failure
-	# in the queue drained below, which carries the details the returned code lacks.
-	await KitModule.wait()
+	# NOTE: A kit module only logs its own failure. The game needs every one of them, so
+	# the first that failed ends the boot through the drain below.
+	for id in KitModule.get_module_ids():
+		if KitModule.get_status(id) == KitModule.Status.FAILED:
+			var error := (
+				KitError
+				. new(
+					"kit_error_platform_init_title",
+					"kit_error_module_failed_message",
+					KitError.Severity.CRITICAL,
+				)
+			)
+			KitError.enqueue(error)
+			break
 
-	# Drain errors enqueued before the UI existed (e.g. a failed kit module). `loading`
+	# Drain errors enqueued before the UI existed (e.g. Steam init failure). `loading`
 	# is pushed beneath the dialog because `pop` asserts a stack depth above one.
 	var errors := KitError.drain_pending()
 	errors.sort_custom(
@@ -326,7 +337,9 @@ func _await_initial_loaded() -> void:
 
 
 func _finish_boot(navigate: Callable) -> void:
-	if _is_initial_loaded():
+	var saves := KitSystems.saves()
+
+	if _is_initial_loaded() and KitSystems.saves().are_slots_loaded():
 		navigate.call(initial)
 		return
 
@@ -337,6 +350,9 @@ func _finish_boot(navigate: Callable) -> void:
 
 	if not _is_initial_loaded():
 		await _await_initial_loaded()
+
+	if not saves.are_slots_loaded():
+		await saves.slots_loaded
 
 	_manager.replace(initial)
 
