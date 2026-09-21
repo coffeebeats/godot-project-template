@@ -247,8 +247,8 @@ func _ready() -> void:
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
 		)
 
-	# NOTE: A kit module only logs its own failure. The game needs every one of them, so
-	# the first that failed ends the boot through the drain below.
+	# NOTE: A kit module only logs its own failure. The game needs every module that
+	# registered, so the first that failed ends the boot through the drain below.
 	for id in KitModule.get_module_ids():
 		if KitModule.get_status(id) == KitModule.Status.FAILED:
 			var error := (
