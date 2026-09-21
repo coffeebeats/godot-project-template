@@ -180,14 +180,31 @@ Follows GDScript style guide. Key project-specific conventions:
 - Use `##` for public API docs, `# NOTE:` for implementation details.
 - Assertions for preconditions: `assert(category != "", "invalid argument: missing category")`
 - Don't wrap comment lines prematurely; use the full line width before breaking.
-- Only top-level code awaits, meaning `Main` and GUT test methods. An `await` makes its
-  function a coroutine, and every caller that wants the result must then await it too.
-  Elsewhere, pair a status getter with a signal, as `is_node_ready()` pairs with `ready`,
-  and let `Main` await the signal.
 - Suppress lint warnings inline: `# gdlint:ignore=max-public-methods`; a directive
   covers its own line and the one after it. `gdformat` leaves some long lines alone and
   collapses manual wrapping back, so a line it accepts can still fail `max-line-length`
   — suppress those rather than reformatting.
+
+### Coroutines
+
+Only the top level of the game awaits, meaning `Main` and GUT test methods, where
+nothing calls in that would be surprised by an `await`. Anywhere else, an `await` splits
+a function across frames, which makes its logic hard to follow, and every caller that
+wants the result has to await it in turn. Using it correctly is subtle even at the top:
+
+- The engine never awaits a callback such as `_ready`. The node's `ready` signal fires,
+  and the frame moves on, before the rest of the callback runs, so keep `await` out of
+  engine callbacks.
+- Code after an `await` runs in a changed world. Its node may have left the tree or been
+  freed while it waited, so check it again before using it.
+- A coroutine called without `await` returns at once without waiting. The
+  `missing_await` warning catches only a direct, typed call, never one through a
+  `Callable`.
+
+Code below the top level reports progress with a status getter paired with a signal, as
+`is_node_ready()` pairs with `ready` and `KitSystems.saves()`'s `are_slots_loaded()`
+with `slots_loaded`. The top level checks the getter before awaiting the signal, since a
+signal that already fired won't fire again.
 
 ## Testing
 
