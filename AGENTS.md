@@ -8,7 +8,7 @@ Three autoloads bootstrap the app (in order): `Lifecycle`, `Platform`, `System`.
 
 - **`project/`** — Game-specific code and assets.
   - **`core/`** — Game logic (empty by default; extend here).
-  - **`main/`** — Main scene and app orchestration via `StdScreenManager`. Contains `menu/` and `splash/`, and the `Platform` and `System` autoload scenes (`platform.tscn`, `system.tscn`), which place kit's bricks and set the game's values on them.
+  - **`main/`** — Main scene and app orchestration via `StdScreenManager`. Contains `menu/` and `splash/`, and the `Platform` and `System` autoload scenes (`platform.tscn`, `system.tscn`), which place kit's scenes and set the game's values on them.
   - **`audio/`** — The audio bus layout and the `master`, `music`, `sound_effects` and `voice` bus handles.
   - **`menu/`** — The game's own settings tab (`settings/gameplay/`), which `system.tscn` registers in `menu_tabs` on the `Settings` instance.
   - **`save/`** — Save data schemas (save slot data, summaries).
@@ -66,7 +66,7 @@ Dirty tracking is automatic (`StdConfigItem` snapshots); use `mark_critical()` t
 
 `StdLogger` instances are named by hierarchical path (e.g. `system/save`, `std/config/writer/binary`). Levels are `DEBUG=0, INFO=1, WARN=2, ERROR=3`; the global default is `WARN`, so `debug`/`info` are opt-in (`debug` is compiled out of non-debug builds).
 
-Levels are set declaratively by `StdLogProfile` resources, applied at startup by kit's `Logging` brick: `profile_editor` (editor) and `profile_default` (exported builds), which default to kit's profiles in `addons/kit/platform/logging/`. Each profile has a global `level` plus `level_overrides` (`{prefix: level}`); a logger's effective level is the longest matching prefix override, else the global. To trace a subsystem while developing, copy kit's `profile_editor.tres` under `project/`, lower its prefix, and set it as `profile_editor` on the `Logging` instance in `project/main/platform.tscn`, rather than calling `StdLogger.set_level_override(...)` in code (`apply()` clears code-set overrides at startup).
+Levels are set declaratively by `StdLogProfile` resources, applied at startup by kit's `Logging` scene: `profile_editor` (editor) and `profile_default` (exported builds), which default to kit's profiles in `addons/kit/platform/logging/`. Each profile has a global `level` plus `level_overrides` (`{prefix: level}`); a logger's effective level is the longest matching prefix override, else the global. To trace a subsystem while developing, copy kit's `profile_editor.tres` under `project/`, lower its prefix, and set it as `profile_editor` on the `Logging` instance in `project/main/platform.tscn`, rather than calling `StdLogger.set_level_override(...)` in code (`apply()` clears code-set overrides at startup).
 
 ## Pitfalls
 
