@@ -3,7 +3,6 @@
 # Generated using https://godot-build-options-generator.github.io
 
 disable_3d = "yes"
-deprecated = "no"
 minizip = "no"
 module_camera_enabled = "no"
 module_csg_enabled = "no"
