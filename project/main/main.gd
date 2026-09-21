@@ -254,8 +254,8 @@ func _ready() -> void:
 			var error := (
 				KitError
 				. new(
-					"kit_error_platform_init_title",
-					"kit_error_module_failed_message",
+					"error_startup_failed_title",
+					"error_startup_failed_message",
 					KitError.Severity.CRITICAL,
 				)
 			)
