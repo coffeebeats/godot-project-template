@@ -247,8 +247,6 @@ func _ready() -> void:
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
 		)
 
-	# NOTE: The boot waits on dialogs, and the engine never awaits `_ready`, so the
-	# boot runs as its own coroutine.
 	_boot()
 
 
@@ -284,8 +282,7 @@ func _await_initial_loaded() -> void:
 			await result.done
 
 
-## _boot shows the errors enqueued before the UI existed, then the splash screens and
-## the initial screen.
+## _boot shows any startup errors, then the splash screens and the initial screen.
 func _boot() -> void:
 	# NOTE: A kit module only logs its own failure. The game needs every module that
 	# registered, so the first that failed ends the boot through the drain below.
