@@ -99,17 +99,7 @@ bake() {
     --format json-array \
     --list-tags
 
-  jq --arg source "$(basename "$src")" '{
-    source: $source,
-    size: [.meta.size.w, .meta.size.h],
-    frame_size: [.frames[0].sourceSize.w, .frames[0].sourceSize.h],
-    frames: [.frames[] | {duration}],
-    tags: [
-      .meta.frameTags[]? | . as $tag
-      | {name: $tag.name, from: $tag.from, to: $tag.to, direction: $tag.direction}
-        + (if ($tag | has("repeat")) then {repeat: $tag.repeat} else {} end)
-    ],
-  }' "$raw" >"$manifest"
+  python3 "$(dirname "$0")/aseprite_manifest.py" "$raw" "$(basename "$src")" >"$manifest"
 
   echo "$png"
   echo "$manifest"
@@ -135,7 +125,7 @@ done
 
 [ $# -gt 0 ] || usage
 
-for tool in jq mktemp; do
+for tool in python3 mktemp; do
   if ! command -v "$tool" >/dev/null 2>&1; then
     echo "aseprite.sh: '$tool' not found in PATH." >&2
     exit 1

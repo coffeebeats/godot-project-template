@@ -22,8 +22,7 @@ These need to be manually installed and available on the `PATH` of the shell tha
 | --- | --- | --- |
 | Godot | everything | The [pinned version](./.godot-version), via `gdenv`. |
 | `git` | submodules | |
-| `python3` | the `godot` agent plugin's edit hook and its `godot-api` skill, kit's `godot-bridge` | Any Python 3; `uv` covers the hook where there is none, but Codex's Windows sandbox blocks `uv`. |
-| `jq` | [`tools/aseprite.sh`](./tools/aseprite.sh) | |
+| `python3` | the `godot` agent plugin's edit hook and its `godot-api` skill, kit's `godot-bridge`, [`tools/aseprite.sh`](./tools/aseprite.sh) | Any Python 3; `uv` covers the hook where there is none, but Codex's Windows sandbox blocks `uv`. |
 | `msgfmt`, `msgmerge` (gettext) | the `godot` agent plugin's `godot-locale` | It is a shell script, so Windows needs MSYS2 or Git Bash, and Codex needs a run outside its sandbox. |
 | Aseprite | [`tools/aseprite.sh`](./tools/aseprite.sh) | Optional; only needed to bake `.aseprite` sources. |
 
