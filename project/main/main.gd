@@ -386,7 +386,7 @@ func _get_debug_state() -> Dictionary:
 
 ## _is_booted returns whether the app has reached a screen worth acting on.
 func _is_booted() -> bool:
-	if not _is_settled or _is_loading or not _manager:
+	if not _is_settled or _is_loading or _error_dialog_busy or not _manager:
 		return false
 
 	# NOTE: "Settled" is not "booted". The loading screen and each splash screen are
