@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.3.2 (2026-09-22)
+
+## What's Changed
+* refactor(boot): move the awaiting boot drain out of `Main._ready` by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/527
+* fix(addons): bump `kit` to v1.3.4 and `std` to v6.1.4 so a Steam-tagged editor run boots by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/529
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.3.1...v7.3.2
+
 ## 7.3.1 (2026-09-22)
 
 ## What's Changed
