@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.4.0 (2026-09-22)
+
+## What's Changed
+* feat: enable the agent plugins under Codex by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/532
+* refactor(tools): build the aseprite manifest with Python, not jq by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/533
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.3.3...v7.4.0
+
 ## 7.3.3 (2026-09-22)
 
 ## What's Changed
