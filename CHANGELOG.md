@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.3.1 (2026-09-22)
+
+## What's Changed
+* chore(claude): keep `await` to the game's top level by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/524
+* fix(addons): bump `kit` to v1.3.3 and `std` to v6.1.3 so Steam builds start Steam by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/526
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.3.0...v7.3.1
+
 ## 7.3.0 (2026-09-21)
 
 ## What's Changed
