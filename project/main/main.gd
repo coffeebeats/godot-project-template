@@ -247,6 +247,21 @@ func _ready() -> void:
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
 		)
 
+	# NOTE: A kit module only logs its own failure. The game needs every module that
+	# registered, so the first that failed ends the boot through the drain below.
+	for id in KitModule.get_module_ids():
+		if KitModule.get_status(id) == KitModule.Status.FAILED:
+			var error := (
+				KitError
+				. new(
+					"error_startup_failed_title",
+					"error_startup_failed_message",
+					KitError.Severity.CRITICAL,
+				)
+			)
+			KitError.enqueue(error)
+			break
+
 	# Drain errors enqueued before the UI existed (e.g. Steam init failure). `loading`
 	# is pushed beneath the dialog because `pop` asserts a stack depth above one.
 	var errors := KitError.drain_pending()

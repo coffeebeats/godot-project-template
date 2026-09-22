@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.3.0 (2026-09-21)
+
+## What's Changed
+* feat(boot): show a startup error for a failed kit module and require each to load in the boot gate by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/522
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.2.4...v7.3.0
+
 ## 7.2.4 (2026-09-21)
 
 ## What's Changed
