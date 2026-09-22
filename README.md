@@ -12,7 +12,7 @@ The following instructions outline how to get the project set up for local devel
 2. [Follow the instructions](https://github.com/coffeebeats/gdenv/blob/main/docs/installation.md) to install `gdenv`. Then, install the [pinned version of Godot](./.godot-version) with `gdenv i`.
 3. [Install `uv`](https://docs.astral.sh/uv/getting-started/installation/), then run `uv sync`. That installs the Python tooling from [`uv.lock`](./uv.lock), and downloads the interpreter named by [`.python-version`](./.python-version) if the machine has none. Invoke each tool as `uv run <tool>`.
 4. Install the [system dependencies](#system-dependencies).
-5. Claude Code's checks, `godot-bridge` and the `/kit:*` skills come from the plugins declared in [`.claude/settings.json`](./.claude/settings.json). Install them once per machine with `claude plugin install godot@godot-infra --scope project` and `claude plugin install kit@godot-plugin-kit --scope project`. If the edit hook or `godot-check` goes missing, see the "Agent plugin" section of [godot-infra's README](https://github.com/coffeebeats/godot-infra#agent-plugin).
+5. The edit checks, `godot-bridge` and the `kit:*` skills come from two agent plugins, declared in [`.claude/settings.json`](./.claude/settings.json) for Claude Code and [`.codex/config.toml`](./.codex/config.toml) for Codex. Claude Code installs them once per machine with `claude plugin install godot@godot-infra --scope project` and `claude plugin install kit@godot-plugin-kit --scope project`. Codex installs them itself once the folder is trusted, then asks you to trust the edit hook in `/hooks`, and asks again whenever that hook changes — until you do, it silently does nothing. If the hook or `godot-check` goes missing, see the "Agent plugin" section of [godot-infra's README](https://github.com/coffeebeats/godot-infra#agent-plugin).
 
 #### **System dependencies**
 
@@ -22,8 +22,9 @@ These need to be manually installed and available on the `PATH` of the shell tha
 | --- | --- | --- |
 | Godot | everything | The [pinned version](./.godot-version), via `gdenv`. |
 | `git` | submodules | |
-| `jq` | the `godot` agent plugin's edit hook, [`tools/aseprite.sh`](./tools/aseprite.sh) | |
-| `msgfmt`, `msgmerge` (gettext) | the `godot` agent plugin's `godot-locale` | |
+| `python3` | the `godot` agent plugin's edit hook and its `godot-api` skill, kit's `godot-bridge` | Any Python 3; `uv` covers the hook where there is none, but Codex's Windows sandbox blocks `uv`. |
+| `jq` | [`tools/aseprite.sh`](./tools/aseprite.sh) | |
+| `msgfmt`, `msgmerge` (gettext) | the `godot` agent plugin's `godot-locale` | It is a shell script, so Windows needs MSYS2 or Git Bash, and Codex needs a run outside its sandbox. |
 | Aseprite | [`tools/aseprite.sh`](./tools/aseprite.sh) | Optional; only needed to bake `.aseprite` sources. |
 
 ### **Code submission**

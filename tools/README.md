@@ -8,7 +8,8 @@ Development tooling for this template.
 
 The bridge that drives a running game and the translation catalogue tooling ship in agent
 plugins instead, as `godot-bridge` in kit's and `godot-locale` in `godot-infra`'s. Both are
-on Claude's `PATH` while `.claude/settings.json` enables those plugins.
+on Claude Code's `PATH` while `.claude/settings.json` enables those plugins. Codex puts
+neither there, so each is reached through the plugin skill of the same name.
 
 ## Python tooling
 
