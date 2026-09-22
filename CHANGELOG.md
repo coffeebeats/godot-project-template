@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.3.3 (2026-09-22)
+
+## What's Changed
+* fix(main): report `booted` as false while an error dialog is open by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/530
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.3.2...v7.3.3
+
 ## 7.3.2 (2026-09-22)
 
 ## What's Changed
