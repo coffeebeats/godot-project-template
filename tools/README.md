@@ -5,6 +5,7 @@ Development tooling for this template.
 | Path | Purpose |
 | --- | --- |
 | `tools/aseprite.sh` | Bakes `.aseprite` to a PNG sheet plus a tag manifest. |
+| `tools/aseprite_manifest.py` | Reduces Aseprite's JSON export to that manifest. |
 
 The bridge that drives a running game and the translation catalogue tooling ship in agent
 plugins instead, as `godot-bridge` in kit's and `godot-locale` in `godot-infra`'s. Both are
