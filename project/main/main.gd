@@ -247,6 +247,46 @@ func _ready() -> void:
 			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
 		)
 
+	# NOTE: The boot waits on dialogs, and the engine never awaits `_ready`, so the
+	# boot runs as its own coroutine.
+	_boot()
+
+
+# -- PRIVATE METHODS ----------------------------------------------------------------- #
+
+
+static func _get_main() -> Main:
+	# NOTE: A map scene run on its own has no `Main`; checking first keeps that
+	# case quiet instead of tripping the assert in `get_sole_member`.
+	if StdGroup.is_empty(GROUP_MAIN):
+		return null
+
+	return StdGroup.get_sole_member(GROUP_MAIN)
+
+
+func _accumulate_play_time() -> void:
+	if _play_start_ticks < 0 or not _save_data is ProjectSaveData:
+		return
+
+	var now := Time.get_ticks_msec()
+	var elapsed_sec := (now - _play_start_ticks) / 1000.0
+
+	var summary := _save_data.summary
+	if summary is ProjectSaveSummary:
+		summary.play_time_seconds += elapsed_sec
+
+	_play_start_ticks = now
+
+
+func _await_initial_loaded() -> void:
+	for result: Variant in _preload_results.values():
+		if not result.is_done():
+			await result.done
+
+
+## _boot shows the errors enqueued before the UI existed, then the splash screens and
+## the initial screen.
+func _boot() -> void:
 	# NOTE: A kit module only logs its own failure. The game needs every module that
 	# registered, so the first that failed ends the boot through the drain below.
 	for id in KitModule.get_module_ids():
@@ -287,6 +327,10 @@ func _ready() -> void:
 
 		await show_error(error, &"alert_continue")
 
+		# NOTE: The player can close the game while a dialog is open.
+		if Lifecycle.is_shutting_down():
+			return
+
 	_preload_results = _manager.load_screen(initial)
 
 	if not splash.is_empty():
@@ -302,38 +346,6 @@ func _ready() -> void:
 		_finish_boot(_manager.replace)
 	else:
 		_finish_boot(_manager.push)
-
-
-# -- PRIVATE METHODS ----------------------------------------------------------------- #
-
-
-static func _get_main() -> Main:
-	# NOTE: A map scene run on its own has no `Main`; checking first keeps that
-	# case quiet instead of tripping the assert in `get_sole_member`.
-	if StdGroup.is_empty(GROUP_MAIN):
-		return null
-
-	return StdGroup.get_sole_member(GROUP_MAIN)
-
-
-func _accumulate_play_time() -> void:
-	if _play_start_ticks < 0 or not _save_data is ProjectSaveData:
-		return
-
-	var now := Time.get_ticks_msec()
-	var elapsed_sec := (now - _play_start_ticks) / 1000.0
-
-	var summary := _save_data.summary
-	if summary is ProjectSaveSummary:
-		summary.play_time_seconds += elapsed_sec
-
-	_play_start_ticks = now
-
-
-func _await_initial_loaded() -> void:
-	for result: Variant in _preload_results.values():
-		if not result.is_done():
-			await result.done
 
 
 func _finish_boot(navigate: Callable) -> void:
