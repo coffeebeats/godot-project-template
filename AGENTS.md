@@ -185,6 +185,27 @@ Follows GDScript style guide. Key project-specific conventions:
   collapses manual wrapping back, so a line it accepts can still fail `max-line-length`
   — suppress those rather than reformatting.
 
+### Coroutines
+
+Only the top level of the game awaits, meaning `Main` and GUT test methods, where
+nothing calls in that would be surprised by an `await`. Anywhere else, an `await` splits
+a function across frames, which makes its logic hard to follow, and every caller that
+wants the result has to await it in turn. Using it correctly is subtle even at the top:
+
+- The engine never awaits a callback such as `_ready`. The node's `ready` signal fires,
+  and the frame moves on, before the rest of the callback runs, so keep `await` out of
+  engine callbacks.
+- Code after an `await` runs in a changed world. Its node may have left the tree or been
+  freed while it waited, so check it again before using it.
+- A coroutine called without `await` returns at once without waiting. The
+  `missing_await` warning catches only a direct, typed call, never one through a
+  `Callable`.
+
+Code below the top level reports progress with a status getter paired with a signal, as
+`is_node_ready()` pairs with `ready` and `KitSystems.saves()`'s `are_slots_loaded()`
+with `slots_loaded`. The top level checks the getter before awaiting the signal, since a
+signal that already fired won't fire again.
+
 ## Testing
 
 Tests use GUT framework. Test files end in `_test.gd` and live alongside the code they test. Test cases are named `test_<subject>_<scenario>_<expectation>`. Use BDD-style comments:
