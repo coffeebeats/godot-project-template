@@ -78,7 +78,7 @@ Every entry below fails silently: no error, no crash, no failing test, and the w
 - Never pick files to ship by ticking them in the export dialog. That list is a snapshot of paths, so an addon that grows a file ships it in every build from then on. Exclusions belong in `export_overrides.cfg` as directories and patterns, and `godot-check --fix export_presets.cfg` writes them into all five presets. Run it with the editor closed, or the editor writes the presets back over the fix.
 - Fire an input action from code with `StdInputEvent.trigger_action`, or GUT's `InputSender` in tests. `Input.action_press` sets only the polled state `Input.is_action_pressed` reads; it raises no event, so `_input`, `_unhandled_input`, and everything built on them — screen pushers, overlay close actions — never see it. Both build an `InputEventAction`, which matches by name and never consults the `InputMap`, so a handler fires whether or not the action is bound to anything. Checking a binding takes the real `InputEventKey` or `InputEventJoypadButton`.
 
-The `.tscn` and `.tres` file-format pitfalls are rules in the `godot` agent plugin's project checker rather than entries here: a missing `uid=` header, a file path held in a string property, an `[ext_resource]` naming a file that does not exist, a property assigned ahead of `script =`, and a `NodePath` export whose type does not match. The plugin's edit hook runs the checker on every `Edit` and `Write`, and `--fix` repairs the first two — follow it with `godot --import --headless` or the new uids do not resolve. Run `godot-check --list` for what each rule covers. A file changed any other way, such as by a move, stays unchecked until `godot-check` or CI runs.
+The `.tscn` and `.tres` file-format pitfalls are rules in the `godot` agent plugin's project checker rather than entries here: a missing `uid=` header, a file path held in a string property, an `[ext_resource]` naming a file that does not exist, a property assigned ahead of `script =`, and a `NodePath` export whose type does not match. The plugin's edit hook runs the checker on every edit, and `--fix` repairs the first two — follow it with `godot --import --headless` or the new uids do not resolve. Run `godot-check --list` for what each rule covers. A file changed any other way, such as by a move, stays unchecked until `godot-check` or CI runs.
 
 ## Commands
 
@@ -107,7 +107,7 @@ godot --headless --quit-after 30
 # Check project files for problems a normal load does not surface (compile errors,
 # missing uid headers, properties dropped before `script =`, unresolvable NodePath
 # exports). Exits non-zero when there is something to read. From the `godot` agent
-# plugin, so on Claude's PATH only.
+# plugin: on Claude's PATH, and elsewhere through that plugin's `godot-check` skill.
 godot-check                          # every rule, every file
 godot-check path/to/file.tscn        # one file or directory
 godot-check --fix path/to/file.tscn  # repair, then re-check
@@ -123,7 +123,7 @@ skill, which drives a live game through `godot-bridge`.
 CI has no `Steam` singleton, because GodotSteam ships no Linux binary. The checker
 skips the scripts naming its API there on its own.
 
-The same checker runs on every `Edit`/`Write` through the plugin's hook, so most
+The same checker runs on every edit through the plugin's hook, so most
 problems surface before they are committed, and over the whole project in the `test`
 job of `check-project.yaml`, which is the backstop for what the hook never saw — an
 editor save, or a move that breaks a file nobody touched. Checker rules live in
@@ -136,7 +136,8 @@ script only ever run by Claude, as one step of one workflow, ships beside its `S
 in `.claude/skills/<name>/`, so the skill installs as a unit. A skill may still front a
 `tools/` script it did not ship, since the test is who else runs it, not who documents it.
 
-The rest lives in the two agent plugins `.claude/settings.json` enables. Tooling written
+The rest lives in the two agent plugins `.claude/settings.json` enables for Claude Code and
+`.codex/config.toml` enables for Codex. Tooling written
 against `addons/kit/`, such as the game skills and `godot-bridge`, ships in the `kit` plugin
 in `godot-plugin-kit` and is released with the addon. Tooling that is the same in every
 Godot repository, such as the edit hook, the project checker, `godot-locale` and the
