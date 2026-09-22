@@ -206,6 +206,9 @@ Code below the top level reports progress with a status getter paired with a sig
 with `slots_loaded`. The top level checks the getter before awaiting the signal, since a
 signal that already fired won't fire again.
 
+`Main._ready`'s boot drain still awaits the error dialog. It predates this rule, so don't
+copy it.
+
 ## Testing
 
 Tests use GUT framework. Test files end in `_test.gd` and live alongside the code they test. Test cases are named `test_<subject>_<scenario>_<expectation>`. Use BDD-style comments:
