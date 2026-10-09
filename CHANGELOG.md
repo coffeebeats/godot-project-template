@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.4.1 (2026-10-09)
+
+## What's Changed
+* chore(addons): bump `kit` to v1.4.1 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/535
+* chore(deps): bump addons/std from `11986a6` to `e4edf19` by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/537
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.4.0...v7.4.1
+
 ## 7.4.0 (2026-09-22)
 
 ## What's Changed
