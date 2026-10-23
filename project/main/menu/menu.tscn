@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://addons/kit/system/input/actions/menu.tres" id="5_5fewj"]
 [ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://addons/kit/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://addons/kit/system/input/actions/menu_options.tres" id="10_y5hy5"]
+[ext_resource type="Resource" uid="uid://bksqrhgb3nen6" path="res://addons/kit/system/input/actions/menu_navigation.tres" id="10_nav"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="15_layer"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfwj"]
@@ -41,7 +42,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
-action_set_layers = Array[ExtResource("15_layer")]([ExtResource("10_y5hy5")])
+action_set_layers = Array[ExtResource("15_layer")]([ExtResource("10_nav"), ExtResource("10_y5hy5")])
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1697184297]
 layout_mode = 1
