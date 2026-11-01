@@ -120,9 +120,6 @@ tools/aseprite.sh --out assets/baked assets/src
 To see a change working in the real app rather than in a test, use the `kit:run-game`
 skill, which drives a live game through `godot-bridge`.
 
-CI has no `Steam` singleton, because GodotSteam ships no Linux binary. The checker
-skips the scripts naming its API there on its own.
-
 The same checker runs on every edit through the plugin's hook, so most
 problems surface before they are committed, and over the whole project in the `test`
 job of `check-project.yaml`, which is the backstop for what the hook never saw — an
