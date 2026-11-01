@@ -2,9 +2,7 @@
 ## tests/input/steam_action_sets_test.gd
 ##
 ## Tests that the input system lists every action set the game's Steam Input manifest
-## does. The manifest scans the project for sets while the Steam joypad monitor reads
-## 'action_sets', so a set left out of the list still reaches Steam, and a controller
-## binding only that set's actions looks opted out of Steam Input with no error.
+## does, since the manifest scans the project while 'action_sets' is kept by hand.
 ##
 
 extends GutTest
@@ -16,7 +14,7 @@ const SystemScene := preload("res://project/main/system.tscn")
 
 # -- DEFINITIONS --------------------------------------------------------------------- #
 
-## ADDONS_DIR holds the addons' own sets, which kit's tests cover.
+## ADDONS_DIR holds the addons' own sets, which kit's Steam input scene lists itself.
 const ADDONS_DIR := "res://addons/"
 
 # -- TEST METHODS -------------------------------------------------------------------- #
@@ -29,12 +27,14 @@ func test_action_sets_with_game_sets_in_manifest_list_every_one() -> void:
 		if not action_set.resource_path.begins_with(ADDONS_DIR):
 			game_sets.append(action_set)
 
+	# Then: The game defines at least one set.
 	assert_gt(game_sets.size(), 0, "the game defines action sets")
 
 	# When: The input system is read from the 'System' autoload's scene.
 	var system: Node = autofree(SystemScene.instantiate())
 	var input := system.get_node_or_null(^"Input") as InputSystem
 
+	# Then: The scene places the input system at 'Input'.
 	assert_not_null(input, "'system.tscn' places the input system at 'Input'")
 	if not input:
 		return
