@@ -1,5 +1,24 @@
 # Changelog
 
+## 7.4.1 (2026-11-01)
+
+## What's Changed
+* chore(addons): bump `kit` to v1.4.1 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/535
+* chore(deps): bump addons/std from `11986a6` to `e4edf19` by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/537
+* chore(addons): bump `std` to v7.1.0 and `kit` to v2.0.0 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/538
+* chore(ci): update Python tooling with Dependabot by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/539
+* chore(ci): group Dependabot updates by ecosystem by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/541
+* chore(deps-dev): bump ruff from 0.16.6 to 0.16.9 by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/540
+* chore(addons): bump `std` to v7.1.1 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/543
+* chore(addons): bump `std` to v7.1.2 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/545
+* chore(addons): bump `kit` to v3.0.0 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/546
+* chore(deps-dev): bump ruff from 0.16.9 to 0.16.10 in the python group by @dependabot[bot] in https://github.com/coffeebeats/godot-project-template/pull/547
+* test(input): check the game's Steam action sets are registered by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/550
+* chore(addons): bump `kit` to v3.0.1, `std` to v7.2.0 and `GodotSteam` to latest by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/551
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.4.0...v7.4.1
+
 ## 7.4.0 (2026-09-22)
 
 ## What's Changed
