@@ -18,11 +18,15 @@ func test_action_sets_in_project_name_only_declared_actions() -> void:
 	# Then: The project has sets to check.
 	assert_gt(action_sets.size(), 0, "the project defines action sets")
 
-	# Then: The input map declares every digital and 1D analog action they name.
+	# Then: The input map declares every digital, 1D analog and cursor hide action.
+	#
 	# NOTE: A 2D analog action names a stick rather than an input map action, and its
 	# four directions are listed in 'actions_digital'.
 	for action_set: StdInputActionSet in action_sets:
-		for action in action_set.actions_digital + action_set.actions_analog_1d:
+		var named := action_set.actions_digital + action_set.actions_analog_1d
+		named += action_set.cursor_hide_actions
+		named += action_set.cursor_hide_actions_if_hovered
+		for action in named:
 			assert_true(
 				InputMap.has_action(action),
 				(
