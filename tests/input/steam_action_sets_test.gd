@@ -2,7 +2,8 @@
 ## tests/input/steam_action_sets_test.gd
 ##
 ## Tests that the input system lists every action set the game's Steam Input manifest
-## does, since the manifest scans the project while 'action_sets' is kept by hand.
+## does, since the manifest scans the project while 'action_sets' and
+## 'menu_options_layers' are kept by hand.
 ##
 
 extends GutTest
@@ -39,12 +40,9 @@ func test_action_sets_with_game_sets_in_manifest_list_every_one() -> void:
 	if not input:
 		return
 
-	# Then: Its 'action_sets' list every one of them.
+	# Then: Its 'action_sets' and 'menu_options_layers' list every one of them.
 	for action_set in game_sets:
 		assert_true(
-			action_set in input.action_sets,
-			(
-				"'action_sets' on 'Input' in 'system.tscn' lists '%s'"
-				% action_set.resource_path
-			)
+			action_set in input.action_sets or action_set in input.menu_options_layers,
+			"'Input' in 'system.tscn' lists '%s'" % action_set.resource_path,
 		)
