@@ -93,6 +93,14 @@ msgstr "Startup Error"
 msgid "error_startup_failed_message"
 msgstr "The game is missing a required component and could not start. Please reinstall the game."
 
+#. The title of the error dialog shown when part of the game, such as a screen, fails to load.
+msgid "error_screen_load_failed_title"
+msgstr "Loading Error"
+
+#. The message shown when part of the game, such as a screen, failed to load, advising the player to reinstall the game.
+msgid "error_screen_load_failed_message"
+msgstr "Part of the game could not be loaded. Please reinstall the game."
+
 #. A tab within the game's options menu containing gameplay-related settings.
 msgid "options_gameplay"
 msgstr "Gameplay"

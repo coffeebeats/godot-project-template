@@ -45,12 +45,11 @@ const Splash := preload("res://addons/kit/ui/splash/splash.gd")
 var _logger := StdLogger.create(&"project/main")
 
 var _error_dialog_busy: bool = false
-var _is_settled: bool = false
 var _error_dialog: KitAlertDialog = null
+var _initial_preparation: StdScreenManager.Preparation = null
 var _is_loading: bool = false
 var _manager: StdScreenManager = null
 var _play_start_ticks: int = -1
-var _preload_results: Dictionary = {}
 var _save_data: ProjectSaveData = null
 
 # -- PUBLIC METHODS ------------------------------------------------------------------ #
@@ -224,28 +223,13 @@ func _ready() -> void:
 	KitPauseMenu.return_to_main_menu = go_to_main_menu
 
 	var input := KitSystems.input()
-	Signals.connect_safe(
-		_manager.screen_entered,
-		func(_s: StdScreen, _n: Node) -> void:
-			input.mute_next_focus_sound()
-			_is_settled = true,
-	)
-	Signals.connect_safe(
-		_manager.screen_uncovered,
-		func(_s: StdScreen, _n: Node) -> void:
-			input.mute_next_focus_sound()
-			_is_settled = true,
-	)
-
-	# NOTE: A pop emits only `screen_uncovered`, so clearing this on `screen_entered`
-	# alone would leave the app "in transition" forever after the first close.
-	for signal_transitioning: Signal in [
-		_manager.screen_entering, _manager.screen_exiting
-	]:
+	for signal_shown: Signal in [_manager.screen_entered, _manager.screen_uncovered]:
 		Signals.connect_safe(
-			signal_transitioning,
-			func(_s: StdScreen, _n: Node) -> void: _is_settled = false,
+			signal_shown,
+			func(_s: StdScreen, _n: Node) -> void: input.mute_next_focus_sound(),
 		)
+
+	Signals.connect_safe(_manager.screen_load_failed, _on_screen_load_failed)
 
 	_boot()
 
@@ -276,10 +260,11 @@ func _accumulate_play_time() -> void:
 	_play_start_ticks = now
 
 
-func _await_initial_loaded() -> void:
-	for result: Variant in _preload_results.values():
-		if not result.is_done():
-			await result.done
+## _await_settled waits until the screen manager has run every call made so far, which
+## includes waiting for the loads each one needs.
+func _await_settled() -> void:
+	if not _manager.is_settled():
+		await _manager.settled
 
 
 ## _boot shows any startup errors, then the splash screens and the initial screen.
@@ -328,42 +313,30 @@ func _boot() -> void:
 		if Lifecycle.is_shutting_down():
 			return
 
-	_preload_results = _manager.load_screen(initial)
+	_initial_preparation = _manager.load_screen(initial)
 
-	if not splash.is_empty():
-		if had_pending:
-			var entering := splash[0].entering
-			entering.connect(_on_splash_entering.bind(0), CONNECT_ONE_SHOT)
-			_manager.replace(splash[0])
-		else:
-			_push_splash(0)
-		return
-
-	if had_pending:
-		_finish_boot(_manager.replace)
-	else:
-		_finish_boot(_manager.push)
+	_push_splash(0)
 
 
-func _finish_boot(navigate: Callable) -> void:
+## _finish_boot opens the initial screen, behind the loading screen unless it and the
+## save slots are already loaded.
+func _finish_boot() -> void:
 	var saves := KitSystems.saves()
 
-	if _is_initial_loaded() and KitSystems.saves().are_slots_loaded():
-		navigate.call(initial)
+	if _initial_preparation.is_done() and saves.are_slots_loaded():
+		await _open_initial()
 		return
 
-	navigate.call(loading)
+	_open_in_place(loading)
 
-	if not _manager.is_current(loading):
-		await _manager.screen_entered
-
-	if not _is_initial_loaded():
-		await _await_initial_loaded()
+	# NOTE: A call made during the loading screen's transition would cut it short, so
+	# wait for it first. Opening the initial screen then waits for its own loads.
+	await _await_settled()
 
 	if not saves.are_slots_loaded():
 		await saves.slots_loaded
 
-	_manager.replace(initial)
+	await _open_initial()
 
 
 ## _get_debug_state reports app-level state to the debug bridge, which knows nothing
@@ -376,7 +349,7 @@ func _get_debug_state() -> Dictionary:
 
 	return {
 		&"booted": _is_booted(),
-		&"settled": _is_settled,
+		&"settled": _manager.is_settled() if _manager else false,
 		&"loading": _is_loading,
 		&"screen": screen.resource_path if screen else "",
 		&"depth": _manager.get_depth() if _manager else 0,
@@ -386,7 +359,7 @@ func _get_debug_state() -> Dictionary:
 
 ## _is_booted returns whether the app has reached a screen worth acting on.
 func _is_booted() -> bool:
-	if not _is_settled or _is_loading or _error_dialog_busy or not _manager:
+	if not _manager or not _manager.is_settled() or _is_loading or _error_dialog_busy:
 		return false
 
 	# NOTE: "Settled" is not "booted". The loading screen and each splash screen are
@@ -396,14 +369,6 @@ func _is_booted() -> bool:
 		return false
 
 	return screen not in splash
-
-
-func _is_initial_loaded() -> bool:
-	for result: Variant in _preload_results.values():
-		if not result.is_done():
-			return false
-
-	return true
 
 
 func _load_game(slot: int) -> bool:
@@ -418,8 +383,7 @@ func _load_game(slot: int) -> bool:
 	_is_loading = true
 
 	_manager.reset(loading)
-	if not _manager.is_current(loading):
-		await _manager.screen_entered
+	await _await_settled()
 
 	_save_data = saves.create_new_save_data()
 
@@ -440,10 +404,61 @@ func _load_game(slot: int) -> bool:
 		return false
 
 	_play_start_ticks = Time.get_ticks_msec()
-	_is_loading = false
 
 	_manager.replace(game)
+	await _await_settled()
+
+	# NOTE: A game whose scene fails to load leaves the loading screen on top.
+	if not _manager.is_current(game):
+		var error := (
+			KitError
+			. new(
+				"error_screen_load_failed_title",
+				"error_screen_load_failed_message",
+				KitError.Severity.ERROR,
+			)
+		)
+		await show_error(error, &"alert_return_to_menu")
+
+		_play_start_ticks = -1
+		_save_data = null
+		_is_loading = false
+		_manager.reset(initial)
+		return false
+
+	_is_loading = false
 	return true
+
+
+## _open_in_place opens `screen` in place of the topmost screen, or as the first screen
+## on an empty stack, such as after the first screen of the boot failed to load.
+func _open_in_place(screen: StdScreen) -> void:
+	if _manager.get_depth() == 0:
+		_manager.push(screen)
+	else:
+		_manager.replace(screen)
+
+
+## _open_initial opens the initial screen at the end of the boot. The game has nowhere
+## to go without it, so if its scene fails to load, the game shows an error and quits.
+func _open_initial() -> void:
+	_open_in_place(initial)
+	await _await_settled()
+
+	if _manager.is_current(initial) or Lifecycle.is_shutting_down():
+		return
+
+	var error := (
+		KitError
+		. new(
+			"error_screen_load_failed_title",
+			"error_screen_load_failed_message",
+			KitError.Severity.CRITICAL,
+		)
+	)
+	await show_error(error, &"alert_quit")
+	if not Lifecycle.is_shutting_down():
+		Lifecycle.shutdown.call_deferred(1)
 
 
 func _unload_game() -> void:
@@ -460,8 +475,7 @@ func _unload_game() -> void:
 		_is_loading = true
 
 		_manager.reset(loading)
-		if not _manager.is_current(loading):
-			await _manager.screen_entered
+		await _await_settled()
 
 		await _save_with_retry()
 
@@ -475,8 +489,10 @@ func _unload_game() -> void:
 		_manager.reset(initial)
 
 
+## _push_splash opens the splash screen at `index`, or finishes the boot after the last.
 func _push_splash(index: int) -> void:
 	if index >= len(splash):
+		_finish_boot()
 		return
 
 	var screen := splash[index]
@@ -484,10 +500,7 @@ func _push_splash(index: int) -> void:
 	# Connect before navigation so both sync and async emissions are caught.
 	screen.entering.connect(_on_splash_entering.bind(index), CONNECT_ONE_SHOT)
 
-	if index == 0:
-		_manager.push(screen)
-	else:
-		_manager.replace(screen)
+	_open_in_place(screen)
 
 
 func _save_with_retry() -> bool:
@@ -521,6 +534,32 @@ func _update_color() -> void:
 # -- SIGNAL HANDLERS ----------------------------------------------------------------- #
 
 
+func _on_screen_load_failed(screen: StdScreen) -> void:
+	# NOTE: Main handles a failure of the screens it opens where it waits for them, and
+	# goes on without a loading or splash screen that failed.
+	if screen in [initial, loading, game]:
+		return
+
+	var index := splash.find(screen)
+	if index != -1:
+		Signals.disconnect_safe(screen.entering, _on_splash_entering.bind(index))
+		_push_splash(index + 1)
+		return
+
+	if Lifecycle.is_shutting_down():
+		return
+
+	var error := (
+		KitError
+		. new(
+			"error_screen_load_failed_title",
+			"error_screen_load_failed_message",
+			KitError.Severity.ERROR,
+		)
+	)
+	show_error(error, &"alert_continue")
+
+
 func _on_shutdown_requested(_exit_code: int) -> void:
 	if is_instance_valid(_error_dialog) and not _error_dialog.is_inside_tree():
 		_error_dialog.free()
@@ -533,14 +572,7 @@ func _on_shutdown_requested(_exit_code: int) -> void:
 	KitSystems.saves().flush_save_data(_save_data)
 
 
-func _on_splash_complete() -> void:
-	_finish_boot(_manager.replace)
-
-
 func _on_splash_entering(scene: Node, idx: int) -> void:
 	assert(scene is Splash, "invalid state; expected Splash scene")
 
-	if idx < splash.size() - 1:
-		scene.advanced.connect(_push_splash.bind(idx + 1), CONNECT_ONE_SHOT)
-	else:
-		scene.advanced.connect(_on_splash_complete, CONNECT_ONE_SHOT)
+	scene.advanced.connect(_push_splash.bind(idx + 1), CONNECT_ONE_SHOT)
