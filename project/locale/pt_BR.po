@@ -113,8 +113,3 @@ msgstr ""
 msgctxt "actions_GameplayOptions"
 msgid "Pause"
 msgstr ""
-
-#. An input action that opens the settings menu when the player is on a menu screen.
-msgctxt "actions_MenuOptions"
-msgid "Options"
-msgstr ""

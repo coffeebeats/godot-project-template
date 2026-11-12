@@ -123,9 +123,3 @@ msgid "ui_toggle_menu"
 msgstr ""
 
 
-#. An input action that opens the settings menu when the player is on a menu screen.
-msgctxt "actions_MenuOptions"
-msgid "ui_toggle_menu_settings"
-msgstr ""
-
-
