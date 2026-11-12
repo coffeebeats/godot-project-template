@@ -22,10 +22,7 @@ script = ExtResource("1_8stub")
 music_event = ExtResource("2_8n3sl")
 saves_screen = ExtResource("8_saves")
 
-[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=212087449]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="StdInputActionSetLoader" type="Node" parent="." unique_id=212087449]
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
 action_set_layers = Array[ExtResource("15_layer")]([ExtResource("10_y5hy5")])
@@ -93,7 +90,6 @@ text = "main_continue"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Continue" unique_id=78783749 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 use_as_anchor = true
 priority = 1
 
@@ -106,7 +102,6 @@ text = "main_play"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" unique_id=1080005762 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 use_as_anchor = true
 
 [node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1505883165]
@@ -117,7 +112,6 @@ text = "main_options"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" unique_id=55259504 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 
 [node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=2064075112]
 layout_mode = 2
@@ -126,7 +120,6 @@ text = "main_patch_notes"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" unique_id=1170607322 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=442740360]
 layout_mode = 2
@@ -135,7 +128,6 @@ text = "main_credits"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" unique_id=955033863 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 
 [node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=396052207]
 unique_name_in_owner = true
@@ -146,10 +138,6 @@ text = "main_quit"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" unique_id=639703717 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
-offset_top = -4.0
-offset_right = 496.0
-offset_bottom = -4.0
 
 [node name="Version" parent="." unique_id=1754390057 instance=ExtResource("3_b6tfj")]
 layout_mode = 1
