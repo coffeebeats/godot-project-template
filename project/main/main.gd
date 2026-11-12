@@ -21,7 +21,6 @@ const PROJECT_SETTING_BG_COLOR := &"application/boot_splash/bg_color"
 # -- DEPENDENCIES -------------------------------------------------------------------- #
 
 const Signals := preload("res://addons/std/event/signal.gd")
-const ErrorDialog := preload("res://addons/kit/ui/menu/alert.tscn")
 const Splash := preload("res://addons/kit/ui/splash/splash.gd")
 
 # -- CONFIGURATION ------------------------------------------------------------------- #
@@ -39,6 +38,11 @@ const Splash := preload("res://addons/kit/ui/splash/splash.gd")
 
 ## game is the gameplay screen navigated to after save data loads.
 @export var game: StdScreen
+
+@export_group("Dialogs")
+
+## error_dialog_scene is the alert scene `show_error` opens, kit's `alert.tscn`.
+@export var error_dialog_scene: PackedScene = null
 
 # -- INITIALIZATION ------------------------------------------------------------------ #
 
@@ -214,7 +218,8 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
-	_error_dialog = ErrorDialog.instantiate()
+	assert(error_dialog_scene is PackedScene, "invalid state; missing error dialog")
+	_error_dialog = error_dialog_scene.instantiate()
 
 	# NOTE: The audio system lives in the `System` autoload, where no `NodePath` can
 	# reach this scene's screen manager, so it is handed over here.
