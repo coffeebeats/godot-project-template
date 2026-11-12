@@ -15,9 +15,12 @@
 [ext_resource type="Resource" uid="uid://c6ihq60tiqoap" path="res://project/input/actions/gameplay.tres" id="13_gmply"]
 [ext_resource type="Resource" uid="uid://cochnwdj5p8h5" path="res://project/input/actions/gameplay_options.tres" id="14_gmopt"]
 [ext_resource type="PackedScene" uid="uid://cqxx8oike3x75" path="res://project/menu/settings/gameplay/gameplay.tscn" id="15_gmtab"]
+[ext_resource type="PackedScene" uid="uid://bb53maji3qq05" path="res://addons/kit/system/theme/theme.tscn" id="16_theme"]
 
 [node name="System" type="Node" unique_id=754977886]
 process_mode = 3
+
+[node name="Theme" parent="." unique_id=1907146683 instance=ExtResource("16_theme")]
 
 [node name="Input" parent="." unique_id=1658786168 instance=ExtResource("2_u77o4")]
 action_sets = Array[ExtResource("12_actset")]([ExtResource("13_gmply"), ExtResource("14_gmopt")])

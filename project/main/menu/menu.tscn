@@ -102,7 +102,7 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_continue"
 alignment = 0
 
@@ -115,7 +115,7 @@ priority = 1
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Quit")
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_play"
 alignment = 0
 
@@ -126,7 +126,7 @@ use_as_anchor = true
 [node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1505883165]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_options"
 alignment = 0
 
@@ -135,7 +135,7 @@ layout_mode = 0
 
 [node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=2064075112]
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_patch_notes"
 alignment = 0
 
@@ -144,7 +144,7 @@ layout_mode = 0
 
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=442740360]
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_credits"
 alignment = 0
 
@@ -155,7 +155,7 @@ layout_mode = 0
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../Play")
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_quit"
 alignment = 0
 
