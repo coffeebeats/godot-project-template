@@ -52,6 +52,7 @@ var _error_dialog_busy: bool = false
 var _error_dialog: KitAlertDialog = null
 var _initial_preparation: StdScreenManager.Preparation = null
 var _is_loading: bool = false
+var _load_failed: StdScreen = null
 var _manager: StdScreenManager = null
 var _play_start_ticks: int = -1
 var _save_data: ProjectSaveData = null
@@ -440,11 +441,13 @@ func _load_game(slot: int) -> bool:
 
 	_play_start_ticks = Time.get_ticks_msec()
 
+	_load_failed = null
 	_manager.replace(game)
 	await _await_settled()
 
-	# NOTE: A game whose scene fails to load leaves the loading screen on top.
-	if not _manager.is_current(game):
+	# NOTE: This reads the failure std reports rather than `is_current`, since a game
+	# can push a screen of its own as it enters.
+	if _load_failed == game:
 		var error := (
 			KitError
 			. new(
@@ -477,10 +480,11 @@ func _open_in_place(screen: StdScreen) -> void:
 ## _open_initial opens the initial screen at the end of the boot. The game has nowhere
 ## to go without it, so if its scene fails to load, the game shows an error and quits.
 func _open_initial() -> void:
+	_load_failed = null
 	_open_in_place(initial)
 	await _await_settled()
 
-	if _manager.is_current(initial) or Lifecycle.is_shutting_down():
+	if _load_failed != initial or Lifecycle.is_shutting_down():
 		return
 
 	var error := (
@@ -583,6 +587,7 @@ func _update_color() -> void:
 func _on_screen_load_failed(screen: StdScreen) -> void:
 	# NOTE: Main handles a failure of the screens it opens where it waits for them, and
 	# goes on without a loading or splash screen that failed.
+	_load_failed = screen
 	if screen in [initial, loading, game]:
 		return
 
