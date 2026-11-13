@@ -133,7 +133,7 @@ static func go_to_main_menu() -> void:
 	await main._unload_game()
 
 
-## load_game activates the given save slot, loads its data, and navigates to the map.
+## load_game activates the given save slot, loads its data, and opens the game screen.
 ## Returns whether the load succeeded. This method is awaitable.
 static func load_game(slot: int) -> bool:
 	return await _get_main()._load_game(slot)
@@ -240,7 +240,7 @@ func _ready() -> void:
 
 
 static func _get_main() -> Main:
-	# NOTE: A map scene run on its own has no `Main`; checking first keeps that
+	# NOTE: A game scene run on its own has no `Main`; checking first keeps that
 	# case quiet instead of tripping the assert in `get_sole_member`.
 	if StdGroup.is_empty(GROUP_MAIN):
 		return null
@@ -385,8 +385,8 @@ func _is_booted() -> bool:
 	if not _manager or not _manager.is_settled() or _is_loading or _error_dialog_busy:
 		return false
 
-	# NOTE: "Settled" is not "booted". The loading screen and each splash screen are
-	# genuine settled states, and a client that latches onto one drives a dead scene.
+	# NOTE: The loading screen and each splash screen settle too, and a client that
+	# latches onto one drives a dead scene.
 	var screen := _manager.get_current_screen()
 	if not screen or screen == loading:
 		return false
