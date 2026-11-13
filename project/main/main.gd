@@ -437,8 +437,7 @@ func _load_game(slot: int) -> bool:
 		)
 		await show_error(error, &"alert_return_to_menu")
 
-		_is_loading = false
-		_manager.reset(initial)
+		_return_to_menu()
 		return false
 
 	_play_start_ticks = Time.get_ticks_msec()
@@ -464,12 +463,23 @@ func _load_game(slot: int) -> bool:
 		)
 		await show_error(error, &"alert_return_to_menu")
 
-		_is_loading = false
-		_manager.reset(initial)
+		_return_to_menu()
 		return false
 
 	_is_loading = false
 	return true
+
+
+## _return_to_menu ends a failed load on the initial screen, unless the player closed
+## the game while its error dialog was open.
+func _return_to_menu() -> void:
+	_is_loading = false
+
+	# NOTE: The player can close the game while a dialog is open.
+	if Lifecycle.is_shutting_down():
+		return
+
+	_manager.reset(initial)
 
 
 ## _open_in_place opens `screen` in place of the topmost screen, or as the first screen
