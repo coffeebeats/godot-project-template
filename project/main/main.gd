@@ -95,11 +95,7 @@ static func save_game(data: ProjectSaveData = null) -> bool:
 
 	main._accumulate_play_time()
 
-	var ok := await saves.store_save_data(main._save_data)
-	if ok:
-		main._save_data.clear_dirty()
-
-	return ok
+	return await saves.store_save_data(main._save_data)
 
 
 ## request_save triggers an event-driven save (fire-and-forget). Skips if a save is
