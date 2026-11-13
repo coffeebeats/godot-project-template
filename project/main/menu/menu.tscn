@@ -49,6 +49,7 @@ theme_override_constants/margin_right = 32
 
 [node name="SettingsActionPrompt" parent="MarginContainer" unique_id=81283462 instance=ExtResource("4_4ki2s")]
 layout_mode = 2
+focus_mode = 0
 text = "main_options"
 action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_menu"
