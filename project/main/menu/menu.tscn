@@ -4,25 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://11thq3wp16vi" path="res://addons/kit/ui/input/focus_handler.tscn" id="2_1yx6u"]
 [ext_resource type="Resource" uid="uid://kyseye3m4vnh" path="res://project/main/menu/music_sound_event.tres" id="2_8n3sl"]
 [ext_resource type="PackedScene" uid="uid://c7tg585pnpptu" path="res://project/main/menu/version.tscn" id="3_b6tfj"]
-[ext_resource type="PackedScene" uid="uid://dyiec01n3bxgf" path="res://addons/kit/ui/glyph/action.tscn" id="4_4ki2s"]
+[ext_resource type="PackedScene" uid="uid://bx0km0f1utuen" path="res://addons/kit/ui/input/action_button.tscn" id="4_4ki2s"]
 [ext_resource type="Script" uid="uid://dlrw0lhorb5uc" path="res://addons/std/input/loader.gd" id="4_sdqe3"]
 [ext_resource type="Resource" uid="uid://ldk7k2w5uvks" path="res://addons/kit/system/input/actions/menu.tres" id="5_5fewj"]
 [ext_resource type="Resource" uid="uid://dl40i36qtbq4i" path="res://addons/kit/menu/save/screen.tres" id="8_saves"]
 [ext_resource type="Resource" uid="uid://bcsts082smqrp" path="res://addons/kit/system/input/actions/menu_options.tres" id="10_y5hy5"]
 [ext_resource type="Script" uid="uid://dmvb2tblavngm" path="res://addons/std/input/action_set_layer.gd" id="15_layer"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfwj"]
-resource_local_to_scene = true
-bg_color = Color(0, 0, 0, 0)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0, 0, 0)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [node name="MainMenu" type="Control" unique_id=1796959560]
 layout_mode = 3
@@ -35,10 +22,7 @@ script = ExtResource("1_8stub")
 music_event = ExtResource("2_8n3sl")
 saves_screen = ExtResource("8_saves")
 
-[node name="StdInputActionSetLoader" type="Control" parent="." unique_id=212087449]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="StdInputActionSetLoader" type="Node" parent="." unique_id=212087449]
 script = ExtResource("4_sdqe3")
 action_set = ExtResource("5_5fewj")
 action_set_layers = Array[ExtResource("15_layer")]([ExtResource("10_y5hy5")])
@@ -65,11 +49,11 @@ theme_override_constants/margin_right = 32
 
 [node name="SettingsActionPrompt" parent="MarginContainer" unique_id=81283462 instance=ExtResource("4_4ki2s")]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_cyfwj")
+focus_mode = 0
+text = "main_options"
 action_set = ExtResource("10_y5hy5")
 action = &"ui_toggle_menu"
-action_text = &"ui_toggle_menu_settings"
-trigger_action_on_press = true
+use_action_text = false
 
 [node name="Buttons" type="MarginContainer" parent="." unique_id=1704132263]
 layout_mode = 1
@@ -102,12 +86,11 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_continue"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Continue" unique_id=78783749 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 use_as_anchor = true
 priority = 1
 
@@ -115,55 +98,47 @@ priority = 1
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Quit")
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_play"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Play" unique_id=1080005762 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 use_as_anchor = true
 
 [node name="Options" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=1505883165]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_options"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Options" unique_id=55259504 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 
 [node name="PatchNotes" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=2064075112]
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_patch_notes"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/PatchNotes" unique_id=1170607322 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 
 [node name="Credits" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=442740360]
 layout_mode = 2
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_credits"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Credits" unique_id=955033863 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
 
 [node name="Quit" type="Button" parent="Buttons/VBoxContainer/VBoxContainer" unique_id=396052207]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../Play")
-theme_type_variation = &"button_menu"
+theme_type_variation = &"ButtonMenu"
 text = "main_quit"
 alignment = 0
 
 [node name="FocusHandler" parent="Buttons/VBoxContainer/VBoxContainer/Quit" unique_id=639703717 instance=ExtResource("2_1yx6u")]
-layout_mode = 0
-offset_top = -4.0
-offset_right = 496.0
-offset_bottom = -4.0
 
 [node name="Version" parent="." unique_id=1754390057 instance=ExtResource("3_b6tfj")]
 layout_mode = 1
