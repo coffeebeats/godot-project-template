@@ -619,7 +619,11 @@ func _on_shutdown_requested(_exit_code: int) -> void:
 	if not _save_data is ProjectSaveData:
 		return
 
+	# NOTE: A shutdown can't be cancelled, so the clock stops here and a later save adds
+	# no play time to what the flush stores.
 	_accumulate_play_time()
+	_play_start_ticks = -1
+
 	KitSystems.saves().flush_save_data(_save_data)
 
 
