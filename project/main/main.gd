@@ -301,6 +301,18 @@ func _boot() -> void:
 		if not had_pending:
 			had_pending = true
 			_manager.push(loading)
+			await _await_settled()
+
+			# NOTE: A dialog closes onto `loading`, so without it the game logs the errors
+			# it cannot show and quits.
+			if not _manager.is_current(loading):
+				for pending in errors:
+					if pending.severity != KitError.Severity.WARNING:
+						_logger.error(pending.title, {&"message": pending.message})
+
+				if not Lifecycle.is_shutting_down():
+					Lifecycle.shutdown.call_deferred(1)
+				return
 
 		if error.severity == KitError.Severity.CRITICAL:
 			await show_error(error, &"alert_quit")
@@ -516,7 +528,8 @@ func _unload_game() -> void:
 	if Lifecycle.is_shutting_down():
 		return
 
-	if needs_save:
+	# NOTE: `loading` covers the game while it saves, unless its scene failed to load.
+	if _manager.is_current(loading):
 		_manager.replace(initial)
 	else:
 		_manager.reset(initial)
