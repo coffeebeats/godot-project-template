@@ -334,8 +334,17 @@ func _finish_boot() -> void:
 	# wait for it first. Opening the initial screen then waits for its own loads.
 	await _await_settled()
 
+	# NOTE: A shutdown's teardown emits `settled` too, so the boot stops here.
+	if Lifecycle.is_shutting_down():
+		return
+
 	if not saves.are_slots_loaded():
 		await saves.slots_loaded
+
+	# NOTE: A shutdown can begin while the slots load, so the boot stops here rather
+	# than open the initial screen in the frame left before the quit.
+	if Lifecycle.is_shutting_down():
+		return
 
 	await _open_initial()
 
@@ -386,9 +395,22 @@ func _load_game(slot: int) -> bool:
 	_manager.reset(loading)
 	await _await_settled()
 
+	# NOTE: A shutdown's teardown emits `settled` too, so the load stops here rather
+	# than read the save data during the quit.
+	if Lifecycle.is_shutting_down():
+		_is_loading = false
+		return false
+
 	_save_data = saves.create_new_save_data()
 
-	if not await saves.load_save_data(_save_data):
+	var loaded := await saves.load_save_data(_save_data)
+
+	# NOTE: A shutdown can begin while the save data loads, so the load stops here
+	# rather than navigate in the frame left before the quit.
+	if Lifecycle.is_shutting_down():
+		return false
+
+	if not loaded:
 		var error := (
 			KitError
 			. new(
@@ -478,11 +500,21 @@ func _unload_game() -> void:
 		_manager.reset(loading)
 		await _await_settled()
 
+		# NOTE: A shutdown's teardown emits `settled` too, and `_on_shutdown_requested`
+		# has already flushed the save data, so the unload stops here.
+		if Lifecycle.is_shutting_down():
+			return
+
 		await _save_with_retry()
 
 	_play_start_ticks = -1
 	_save_data = null
 	_is_loading = false
+
+	# NOTE: A shutdown can begin while the game saves, so the unload stops here rather
+	# than navigate in the frame left before the quit.
+	if Lifecycle.is_shutting_down():
+		return
 
 	if needs_save:
 		_manager.replace(initial)
