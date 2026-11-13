@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.4.3 (2026-11-13)
+
+## What's Changed
+* fix(addons): bump `std` to v10.1.3 so web builds never confine the mouse by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/558
+* chore(addons): bump `kit` to v4.1.4 by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/560
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.4.2...v7.4.3
+
 ## 7.4.2 (2026-11-13)
 
 ## What's Changed
