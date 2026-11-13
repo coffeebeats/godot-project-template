@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.4.2 (2026-11-13)
+
+## What's Changed
+* fix(addons): bump `std` to v10.1.2 so exports built without 3D boot by @coffeebeats in https://github.com/coffeebeats/godot-project-template/pull/556
+
+
+**Full Changelog**: https://github.com/coffeebeats/godot-project-template/compare/v7.4.1...v7.4.2
+
 ## 7.4.1 (2026-11-13)
 
 ## What's Changed
