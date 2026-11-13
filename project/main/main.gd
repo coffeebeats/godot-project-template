@@ -424,6 +424,9 @@ func _load_game(slot: int) -> bool:
 		return false
 
 	if not loaded:
+		# NOTE: The data is dropped before the dialog, so a quit from it saves nothing.
+		_save_data = null
+
 		var error := (
 			KitError
 			. new(
@@ -434,7 +437,6 @@ func _load_game(slot: int) -> bool:
 		)
 		await show_error(error, &"alert_return_to_menu")
 
-		_save_data = null
 		_is_loading = false
 		_manager.reset(initial)
 		return false
@@ -448,6 +450,10 @@ func _load_game(slot: int) -> bool:
 	# NOTE: This reads the failure std reports rather than `is_current`, since a game
 	# can push a screen of its own as it enters.
 	if _load_failed == game:
+		# NOTE: The game is dropped before the dialog, so a quit from it saves nothing.
+		_play_start_ticks = -1
+		_save_data = null
+
 		var error := (
 			KitError
 			. new(
@@ -458,8 +464,6 @@ func _load_game(slot: int) -> bool:
 		)
 		await show_error(error, &"alert_return_to_menu")
 
-		_play_start_ticks = -1
-		_save_data = null
 		_is_loading = false
 		_manager.reset(initial)
 		return false
